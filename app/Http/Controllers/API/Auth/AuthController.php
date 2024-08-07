@@ -4,17 +4,41 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest\API\LoginRequest;
-use Illuminate\Http\Request;
+use App\Services\Auth\AuthService;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
+    /**
+     * @var AuthService
+     */
+    protected AuthService $authService;
 
+    /**
+     * @param AuthService $authService
+     */
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
     }
 
-    public function login(LoginRequest $request)
+    /**
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
+        $user = $this->authService->login($request->all());
 
+        return $user ? $this->responseSuccess($user) : $this->responseUnauthorized();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(): \Illuminate\Http\JsonResponse
+    {
+        $result = $this->authService->logout(auth()->user());
+
+        return $this->responseSuccess($result, __('messages.user_is_logged_out'));
     }
 }
