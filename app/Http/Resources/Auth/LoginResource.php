@@ -18,7 +18,8 @@ class LoginResource extends JsonResource
             'user' => [
                 'id' => $this['user']->id,
                 'full_name' => $this['user']->full_name,
-                'username' => $this['user']->username
+                'username' => $this['user']->username,
+                'email' => $this['user']->email,
             ],
             'token_type' => 'Bearer',
             'token' => $this['token'],

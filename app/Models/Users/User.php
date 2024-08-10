@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Models\Users\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -15,17 +16,23 @@ class User extends Authenticatable
         Notifiable,
         HasRoles,
         HasApiTokens,
-        UserScope;
+        UserScope,
+        SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
+
     protected $fillable = [
+        'username',
         'full_name',
         'email',
         'password',
+        'status'
     ];
 
     /**

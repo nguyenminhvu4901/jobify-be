@@ -6,7 +6,6 @@ use App\Http\Resources\Auth\LoginResource;
 use App\Repositories\Users\UserRepository;
 use App\Services\BaseService;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService extends BaseService
@@ -24,6 +23,10 @@ class AuthService extends BaseService
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
     public function login($data)
     {
         $user = $this->userRepository->searchByUsername($data['username']);
@@ -40,7 +43,7 @@ class AuthService extends BaseService
             ];
 
             $dataLogin = [
-                'status_code' => Response::HTTP_UNAUTHORIZED,
+                'status_code' => Response::HTTP_OK,
                 'message' => __('messages.post.login.success'),
                 'data' => new LoginResource($data)
             ];
@@ -75,8 +78,16 @@ class AuthService extends BaseService
         return $dataLogin;
     }
 
-    public function logout($user)
+    /**
+     * @return bool
+     */
+    public function logout(): bool
     {
-        return $user->tokens()->delete();
+        if ($user = auth()->user()) {
+            $user->tokens()->delete();
+            return true;
+        }
+
+        return false;
     }
 }

@@ -32,13 +32,18 @@ class AuthController extends Controller
         return $user ? $this->responseSuccess($user) : $this->responseUnauthorized();
     }
 
+
     /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout(): \Illuminate\Http\JsonResponse
     {
-        $result = $this->authService->logout(auth()->user());
+        $result = $this->authService->logout();
 
-        return $this->responseSuccess($result, __('messages.user_is_logged_out'));
+        if ($result) {
+            return $this->responseSuccess(true, __('messages.user_is_logged_out'));
+        }
+
+        return $this->responseSuccess(false, __('messages.no_user_to_logout'));
     }
 }
