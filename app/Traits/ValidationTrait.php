@@ -21,7 +21,7 @@ trait ValidationTrait
         $response = new Response([
             'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY,
             'message' => $errors
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        ], Response::HTTP_OK);
 
         throw new ValidationException($validator, $response);
     }

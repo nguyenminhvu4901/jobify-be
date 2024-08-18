@@ -44,7 +44,7 @@ class AuthService extends BaseService
 
             $dataLogin = [
                 'status_code' => Response::HTTP_OK,
-                'message' => __('messages.post.login.success'),
+                'message' => __('auth.login.success'),
                 'data' => new LoginResource($data)
             ];
 
@@ -54,24 +54,24 @@ class AuthService extends BaseService
         {
             $dataLogin = [
                 'status_code' => Response::HTTP_UNAUTHORIZED,
-                'message' => ['password' => [__('messages.post.login.deactive')]],
+                'message' => ['username' => [__('auth.login.deactivate')]],
             ];
         }elseif(!empty($user) && $user->isActive())
         {
             $dataLogin = [
                 'status_code' => Response::HTTP_UNAUTHORIZED,
-                'message' => ['password' => [__('messages.post.login.wrong_password')]],
+                'message' => ['password' => [__('auth.login.wrong_password')]],
             ];
         }elseif(empty($user))
         {
             $dataLogin = [
                 'status_code' => Response::HTTP_UNAUTHORIZED,
-                'message' => ['password' => [__('messages.post.login.wrong_username')]],
+                'message' => ['username' => [__('auth.login.wrong_username')]],
             ];
         }else{
             $dataLogin = [
                 'statusCode' => Response::HTTP_INTERNAL_SERVER_ERROR,
-                'message' => __('messages.post.login.error')
+                'message' => __('auth.login.error')
             ];
         }
 

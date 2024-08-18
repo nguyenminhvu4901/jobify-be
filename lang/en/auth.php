@@ -16,5 +16,11 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'login' => [
+        'success' => 'Login successfully.',
+        'deactivate' => 'Account is not activated.',
+        'wrong_password' => 'Incorrect password, please try again.',
+        'wrong_username' => 'Incorrect username or account does not exist.',
+        'error' => 'Login error, please try again.'
+    ],
 ];

@@ -29,7 +29,7 @@ class AuthController extends Controller
     {
         $user = $this->authService->login($request->all());
 
-        return $user ? $this->responseSuccess($user) : $this->responseUnauthorized();
+        return $user ? response()->json($user) : $this->responseUnauthorized();
     }
 
 
