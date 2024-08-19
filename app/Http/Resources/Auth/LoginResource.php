@@ -23,7 +23,7 @@ class LoginResource extends JsonResource
             ],
             'token_type' => 'Bearer',
             'token' => $this['token'],
-            'expires_in_token' => config('sanctum.expiration'),
+            'expires_in_token' => $this['expires_at'] ?? config('sanctum.expiration'),
         ];
     }
 }

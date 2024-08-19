@@ -36,10 +36,12 @@ class AuthService extends BaseService
             $user->isActive()
         ) {
             $token = $user->createToken('authToken')->plainTextToken;
+            $expiresAt = !empty($data['remember']) ? config('sanctum.expiration_remember') : config('sanctum.expiration');
 
             $data = [
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
+                'expires_at' => $expiresAt,
             ];
 
             $dataLogin = [

@@ -46,7 +46,8 @@ return [
     |
     */
 
-    'expiration' => env('EXPIRATION', 10080),
+    'expiration' => env('EXPIRATION', 1024),
+    'expiration_remember' => env('EXPIRATION', 43200),
 
     /*
     |--------------------------------------------------------------------------
