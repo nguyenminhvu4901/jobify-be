@@ -11,6 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('default_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->string('status')->comment('1: active, 2:deactivate');
+            $table->timestamps();
+        });
+
+        Schema::create('default_gender', function (Blueprint $table) {
+            $table->id();
+            $table->string('gender')->comment('1: male, 2:female, 3:other');
+            $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username');
@@ -19,9 +31,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone');
-            $table->enum('status', [0, 1])->comment('0: deactivate, 1: active');
+            $table->unsignedBigInteger('status_id')->default(1)->comment('default active');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('status_id')->references('id')->on('default_statuses')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -45,6 +59,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('default_statuses');
+        Schema::dropIfExists('default_gender');
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
