@@ -23,6 +23,18 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('default_content_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('content_type')->comment('1:image, 2:file, 3:url, 4:video');
+            $table->timestamps();
+        });
+
+        Schema::create('default_rates', function (Blueprint $table) {
+            $table->id();
+            $table->string('rate')->comment('1:1 sao.... 5: 5 sao')->default('1 sao');
+            $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username');
@@ -61,6 +73,8 @@ return new class extends Migration
     {
         Schema::dropIfExists('default_statuses');
         Schema::dropIfExists('default_gender');
+        Schema::dropIfExists('default_content_types');
+        Schema::dropIfExists('default_rates');
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
