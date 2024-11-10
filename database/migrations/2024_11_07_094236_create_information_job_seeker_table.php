@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('gender_id')->references('id')->on('default_gender');
+            $table->foreign('gender_id')->references('id')->on('default_genders');
         });
 
         Schema::create('user_educations', function (Blueprint $table) {
