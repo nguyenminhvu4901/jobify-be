@@ -43,11 +43,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone');
+
             $table->unsignedBigInteger('status_id')->default(1)->comment('default active');
+
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('status_id')->references('id')->on('default_statuses')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('default_statuses')
+                ->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
