@@ -5,13 +5,17 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.2|^8.3",
+        "cviebrock/eloquent-sluggable": "^11.0",
+        "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "prettus/l5-repository": "^2.9",
         "spatie/laravel-data": "^4.7",
-        "spatie/laravel-permission": "^6.9"
+        "spatie/laravel-permission": "^6.9",
+        "spatie/laravel-query-builder": "^6.2",
+        "staudenmeir/eloquent-has-many-deep": "^1.20"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
