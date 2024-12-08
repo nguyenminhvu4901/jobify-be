@@ -21,7 +21,7 @@ abstract class Controller
         ], JsonResponse::HTTP_OK);
     }
 
-    public function responseError($error, string $statusCode = JsonResponse::HTTP_NOT_FOUND): JsonResponse
+    public function responseError($error = "", string $statusCode = JsonResponse::HTTP_NOT_FOUND): JsonResponse
     {
         if ($error instanceof ModelNotFoundException) {
             return response()->json([
