@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use app\Models\Users\User;
+use Database\Seeders\DefaultStatuses\DefaultStatusSeeder;
 use Database\Seeders\Users\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            DefaultStatusSeeder::class,
             UserSeeder::class
         ]);
     }
