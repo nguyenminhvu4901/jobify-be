@@ -3,14 +3,10 @@
 use App\Http\Controllers\API\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 
-Route::get('/user', function (Request $request) {
-    session()->flush();
-    dd(auth()->user());
-})->middleware('auth:sanctum');
+$routeFiles = File::glob(__DIR__ . '/apiRoutes/*.php');
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
+foreach ($routeFiles as $routeFile) {
+    require_once $routeFile;
+}

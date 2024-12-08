@@ -37,17 +37,18 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
             $table->string('full_name');
+            $table->string('slug')->unique()->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone');
+            $table->string('phone_number');
 
             $table->unsignedBigInteger('status_id')->default(1)->comment('default active');
 
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('status_id')->references('id')->on('default_statuses')
                 ->onDelete('cascade')->onUpdate('cascade');

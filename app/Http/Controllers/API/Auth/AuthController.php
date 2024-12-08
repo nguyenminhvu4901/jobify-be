@@ -2,43 +2,30 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use App\Commands\Auth\LoginStandard\LoginStandardCommand;
+use App\Commands\Auth\LoginStandard\LoginStandardHandler;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthRequest\API\LoginRequest;
-use App\Services\Auth\AuthService;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\Auth\LoginResource;
+use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class AuthController extends Controller
 {
-    /**
-     * @var AuthService
-     */
-    protected AuthService $authService;
-
-    /**
-     * @param AuthService $authService
-     */
-    public function __construct(AuthService $authService)
+    public function __construct(
+        protected CommandBusInterface $bus)
     {
-        $this->authService = $authService;
     }
 
-    /**
-     * @param LoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
+    public function login(LoginRequest $request)
     {
-        $user = $this->authService->login($request->all());
+        $this->bus->addHandler(LoginStandardCommand::class, LoginStandardHandler::class);
 
-        return $user ? $this->responseSuccess($user) : $this->responseUnauthorized();
+        $user = $this->bus->dispatch(LoginStandardCommand::withForm($request));
+
+        return $user ?
+            $this->responseSuccess(LoginResource::make($user), __('messages.user_login_success')) :
+            $this->responseUnauthorized();
+
     }
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout(): \Illuminate\Http\JsonResponse
-    {
-        $result = $this->authService->logout(auth()->user());
-
-        return $this->responseSuccess($result, __('messages.user_is_logged_out'));
-    }
 }

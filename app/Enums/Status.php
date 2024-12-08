@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum Status: int
 {
-    case DEACTIVATE = 0;
+    case DEACTIVATE = 2;
     case ACTIVE = 1;
 
     public static function get(): array {
