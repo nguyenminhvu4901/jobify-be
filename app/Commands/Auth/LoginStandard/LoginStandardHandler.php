@@ -20,6 +20,9 @@ class LoginStandardHandler
             'password' => $command->password
         ];
 
+        $expiry = $command->remember ? config('constants.expiry_week') : config('jwt.ttl');
+        auth('api')->factory()->setTTL($expiry);
+
         $token = auth('api')->attempt($credentials);
 
         if(auth('api')->attempt($credentials))
@@ -27,11 +30,13 @@ class LoginStandardHandler
             $user = $this->userRepository->whereEmail($command->email)->first();
 
             if($user->isActive()) {
+
                 $user->token = [
                     'access_token' => $token,
                     'token_type' => 'Bearer',
-                    'expires_in' => config('jwt.ttl')
+                    'expires_in' => $expiry,
                 ];
+
                 return $user;
             }
 

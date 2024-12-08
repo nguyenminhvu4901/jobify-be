@@ -10,5 +10,7 @@ return [
             'id' => 2,
             'status' => 'deactivate'
         ]
-    ]
+    ],
+
+    'expiry_week' => 10080
 ];
