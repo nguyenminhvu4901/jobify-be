@@ -8,6 +8,10 @@ class LogoutHandler
 {
     public function handle(LogoutCommand $command)
     {
-        return JWTAuth::setToken($command->token)->invalidate(true);
+        if(!empty($command->token)){
+            return JWTAuth::setToken($command->token)->invalidate(true);
+        }
+
+        return null;
     }
 }

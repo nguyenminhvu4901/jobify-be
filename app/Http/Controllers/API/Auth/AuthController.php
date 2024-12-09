@@ -41,7 +41,7 @@ class AuthController extends Controller
         $result = $this->bus->dispatch(new LogoutCommand(request()->bearerToken()));
 
         return $result ?
-            $this->responseSuccess($result,  __('messages.user_is_logged_out')) :
-            $this->responseError();
+            $this->responseSuccessWithNoData(__('messages.user_is_logged_out')) :
+            $this->responseInternalServerError();
     }
 }
