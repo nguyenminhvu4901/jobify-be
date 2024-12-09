@@ -15,23 +15,23 @@ return [
     'rates' => [
         [
             'id' => 1,
-            'name' => '1 star'
+            'rate' => '1 star'
         ],
         [
             'id' => 2,
-            'name' => '2 star'
+            'rate' => '2 star'
         ],
         [
             'id' => 3,
-            'name' => '3 star'
+            'rate' => '3 star'
         ],
         [
             'id' => 4,
-            'name' => '4 star'
+            'rate' => '4 star'
         ],
         [
             'id' => 5,
-            'name' => '5 star'
+            'rate' => '5 star'
         ],
     ],
 
