@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('default_gender', function (Blueprint $table) {
+        Schema::create('default_genders', function (Blueprint $table) {
             $table->id();
             $table->string('gender')->comment('1: male, 2:female, 3:other');
             $table->timestamps();
@@ -76,7 +76,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('default_statuses');
-        Schema::dropIfExists('default_gender');
+        Schema::dropIfExists('default_genders');
         Schema::dropIfExists('default_content_types');
         Schema::dropIfExists('default_rates');
         Schema::dropIfExists('users');

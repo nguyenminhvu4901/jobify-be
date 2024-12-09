@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\DefaultStatuses\DefaultStatusSeeder;
+use Database\Seeders\DefaultData\DefaultContentTypeSeeder;
+use Database\Seeders\DefaultData\DefaultGenderSeeder;
+use Database\Seeders\DefaultData\DefaultRateSeeder;
+use Database\Seeders\DefaultData\DefaultStatusSeeder;
 use Database\Seeders\Roles\RoleSeeder;
 use Database\Seeders\Users\UserSeeder;
 use Illuminate\Database\Seeder;
@@ -18,6 +21,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             DefaultStatusSeeder::class,
+            DefaultGenderSeeder::class,
+            DefaultRateSeeder::class,
+            DefaultContentTypeSeeder::class,
             RoleSeeder::class,
             UserSeeder::class
         ]);

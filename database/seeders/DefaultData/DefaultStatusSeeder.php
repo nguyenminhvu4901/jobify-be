@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\DefaultStatuses;
+namespace Database\Seeders\DefaultData;
 
 use App\Entities\DefaultStatus\DefaultStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,7 +18,7 @@ class DefaultStatusSeeder extends Seeder
         DB::table('default_statuses')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $statuses = config('jobify_data.default_statuses.statuses');
+        $statuses = config('jobify_data.default_data.statuses');
 
         foreach ($statuses as $status)
         {
