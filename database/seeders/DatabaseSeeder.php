@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeders\DefaultStatuses\DefaultStatusSeeder;
+use Database\Seeders\Roles\RoleSeeder;
 use Database\Seeders\Users\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             DefaultStatusSeeder::class,
+            RoleSeeder::class,
             UserSeeder::class
         ]);
     }
