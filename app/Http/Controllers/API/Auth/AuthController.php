@@ -12,8 +12,14 @@ use App\Http\Resources\Auth\LoginResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
+/**
+ *
+ */
 class AuthController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus)
     {
@@ -34,6 +40,9 @@ class AuthController extends Controller
             $this->responseError();
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse
     {
         $this->bus->addHandler(LogoutCommand::class, LogoutHandler::class);
