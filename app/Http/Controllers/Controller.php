@@ -8,10 +8,18 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 
+/**
+ *
+ */
 abstract class Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * @param mixed $data
+     * @param string $message
+     * @return JsonResponse
+     */
     public function responseSuccess(mixed $data, string $message = 'OK'): JsonResponse
     {
         return response()->json([
@@ -21,7 +29,12 @@ abstract class Controller
         ], JsonResponse::HTTP_OK);
     }
 
-    public function responseError($error, string $statusCode = JsonResponse::HTTP_NOT_FOUND): JsonResponse
+    /**
+     * @param $error
+     * @param string $statusCode
+     * @return JsonResponse
+     */
+    public function responseError($error = "", string $statusCode = JsonResponse::HTTP_NOT_FOUND): JsonResponse
     {
         if ($error instanceof ModelNotFoundException) {
             return response()->json([
@@ -44,6 +57,10 @@ abstract class Controller
         }
     }
 
+    /**
+     * @param string $message
+     * @return JsonResponse
+     */
     public function responseUnauthorized(string $message = 'Unauthorized'): JsonResponse
     {
         return response()->json([
@@ -52,12 +69,39 @@ abstract class Controller
         ], JsonResponse::HTTP_UNAUTHORIZED);
     }
 
+    /**
+     * @param string $message
+     * @return JsonResponse
+     */
     public function responseNotFound(string $message = 'Not Found'): JsonResponse
     {
         return response()->json([
-            'data' => [],
             'message' => $message,
             'status_code' => JsonResponse::HTTP_NOT_FOUND
         ], JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @param string $message
+     * @return JsonResponse
+     */
+    public function responseSuccessWithNoData(string $message = 'OK'): JsonResponse
+    {
+        return response()->json([
+            'message' => $message,
+            'status_code' => JsonResponse::HTTP_OK
+        ], JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @param string $message
+     * @return JsonResponse
+     */
+    public function responseInternalServerError(string $message = 'Server Error'): JsonResponse
+    {
+        return response()->json([
+            'message' => $message,
+            'status_code' => JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+        ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
