@@ -8,7 +8,7 @@ use Prettus\Repository\Traits\TransformableTrait;
 
 class User extends \App\Models\User implements Transformable
 {
-    use TransformableTrait, UserRelationship;
+    use TransformableTrait;
 
     protected $guard_name = 'api';
 }

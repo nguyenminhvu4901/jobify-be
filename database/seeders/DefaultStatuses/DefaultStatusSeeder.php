@@ -18,7 +18,7 @@ class DefaultStatusSeeder extends Seeder
         DB::table('default_statuses')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $statuses = config('constants.default_statuses');
+        $statuses = config('jobify_data.default_statuses.statuses');
 
         foreach ($statuses as $status)
         {
