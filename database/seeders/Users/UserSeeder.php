@@ -2,7 +2,8 @@
 
 namespace Database\Seeders\Users;
 
-use App\Entities\User\User;
+use App\Enums\DefaultRole;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,11 +18,13 @@ class UserSeeder extends Seeder
         DB::table('users')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        User::create([
-            'full_name' => 'User One',
+        $userAdmin = User::create([
+            'full_name' => 'User Admin',
             'email' => 'admin@example.com',
-            'password' => bcrypt('secret'),
+            'password' => bcrypt('Admin@12'),
             'phone_number' => '0912345678'
         ]);
+
+        $userAdmin->syncRoles(DefaultRole::ADMIN);
     }
 }

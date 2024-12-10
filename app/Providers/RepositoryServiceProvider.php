@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Company\CompanyRepository;
+use App\Repositories\Company\CompanyRepositoryEloquent;
+use App\Repositories\CompanyAddress\CompanyAddressRepository;
+use App\Repositories\CompanyAddress\CompanyAddressRepositoryEloquent;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
@@ -9,6 +13,8 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     public $singletons = [
-        UserRepository::class => UserRepositoryEloquent::class
+        UserRepository::class => UserRepositoryEloquent::class,
+        CompanyRepository::class => CompanyRepositoryEloquent::class,
+        CompanyAddressRepository::class => CompanyAddressRepositoryEloquent::class,
     ];
 }

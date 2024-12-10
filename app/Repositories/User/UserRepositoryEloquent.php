@@ -5,6 +5,7 @@ namespace App\Repositories\User;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -37,8 +38,28 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
     }
 
+    /**
+     * @param array $data
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection|mixed|null
+     */
     public function create(array $data)
     {
+        DB::beginTransaction();
+
+        try {
+            $user = $this->model->create($data);
+
+            $user->syncRoles($data['role'] ?? null);
+            $user->syncPermissions($data['permissions'] ?? []);
+
+            DB::commit();
+
+            return $user->refresh();
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
+        }
     }
 
     public function find($id, $columns = ['*'])

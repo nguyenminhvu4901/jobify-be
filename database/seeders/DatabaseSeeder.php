@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\CompanyScales\CompanyScaleSeeder;
 use Database\Seeders\DefaultData\DefaultContentTypeSeeder;
 use Database\Seeders\DefaultData\DefaultGenderSeeder;
 use Database\Seeders\DefaultData\DefaultRateSeeder;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             DefaultGenderSeeder::class,
             DefaultRateSeeder::class,
             DefaultContentTypeSeeder::class,
+            CompanyScaleSeeder::class,
             RoleSeeder::class,
             UserSeeder::class
         ]);
