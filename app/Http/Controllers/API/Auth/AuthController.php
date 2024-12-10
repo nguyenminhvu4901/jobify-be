@@ -8,12 +8,15 @@ use App\Commands\Auth\LoginStandard\LoginStandardCommand;
 use App\Commands\Auth\LoginStandard\LoginStandardHandler;
 use App\Commands\Auth\Logout\LogoutCommand;
 use App\Commands\Auth\Logout\LogoutHandler;
+use App\Commands\Auth\RecruiterRegister\RecruiterCommand;
+use App\Commands\Auth\RecruiterRegister\RecruiterHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\JobSeekerRegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RecruiterRegisterRequest;
 use App\Http\Resources\Auth\JobSeekerRegisterResource;
 use App\Http\Resources\Auth\LoginResource;
+use App\Http\Resources\Auth\RecruiterRegisterResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -59,7 +62,11 @@ class AuthController extends Controller
             $this->responseInternalServerError();
     }
 
-    public function jobSeekerRegister(JobSeekerRegisterRequest $request)
+    /**
+     * @param JobSeekerRegisterRequest $request
+     * @return JsonResponse
+     */
+    public function jobSeekerRegister(JobSeekerRegisterRequest $request): JsonResponse
     {
         $this->bus->addHandler(JobSeekerRegisterCommand::class, JobSeekerRegisterHandler::class);
 
@@ -70,12 +77,24 @@ class AuthController extends Controller
             $this->responseError();
     }
 
-    public function recruiterRegister(RecruiterRegisterRequest $request)
+    /**
+     * @param RecruiterRegisterRequest $request
+     * @return JsonResponse
+     */
+    public function recruiterRegister(RecruiterRegisterRequest $request): JsonResponse
     {
-        dd($request->all());
-//        $this->bus->addHandler();
+        $this->bus->addHandler(RecruiterCommand::class, RecruiterHandler::class);
+
+        $recruiter = $this->bus->dispatch(RecruiterCommand::withForm($request));
+
+        return $recruiter ?
+            $this->responseSuccess(RecruiterRegisterResource::make($recruiter), __('messages.user_login_success')) :
+            $this->responseError();
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function unauthorized(): JsonResponse
     {
         return $this->responseUnauthorized();

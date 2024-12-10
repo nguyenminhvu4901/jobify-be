@@ -38,6 +38,10 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
     }
 
+    /**
+     * @param array $data
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection|mixed|null
+     */
     public function create(array $data)
     {
         DB::beginTransaction();

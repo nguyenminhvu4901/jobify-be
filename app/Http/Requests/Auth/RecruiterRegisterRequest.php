@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use App\Rules\PasswordRule;
+use App\Rules\PhoneNumberRule;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -37,11 +38,11 @@ class RecruiterRegisterRequest extends FormRequest
                 new PasswordRule(),
             ],
             'password_confirmation' => ['required', 'same:password'],
-            'gender' => ['required', 'integer', 'exists:default_genders,id'],
-            'phone_number' => ['required'],
-            'company_name' => ['required'],
-            'province' => ['required', 'exists:provinces,id'],
-            'district' => ['required', 'exists:districts,id']
+            'phone_number' => ['required', 'string', new PhoneNumberRule()],
+            'gender_id' => ['required', 'integer', 'exists:default_genders,id'],
+            'company_name' => ['required', 'string', 'max:255'],
+            'province' => ['required', 'integer','exists:provinces,id'],
+            'district' => ['required', 'integer','exists:districts,id']
         ];
     }
 }
