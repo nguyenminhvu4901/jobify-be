@@ -79,7 +79,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function status(): BelongsTo
     {
-        return $this->belongsTo(DefaultStatus::class);
+        return $this->belongsTo(DefaultStatus::class, 'status_id', 'id');
     }
 
     /**
