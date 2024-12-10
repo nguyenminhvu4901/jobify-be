@@ -2,27 +2,20 @@
 
 namespace App\Commands\Auth\JobSeekerRegister;
 
-use App\Commands\CommandInterface;
+use App\Commands\Base\BaseRegister\BaseRegisterCommand;
 use Illuminate\Foundation\Http\FormRequest;
 
-class JobSeekerRegisterCommand implements CommandInterface
+class JobSeekerRegisterCommand extends BaseRegisterCommand
 {
-    public function __construct(
-        public readonly string $fullName,
-        public readonly string $email,
-        public readonly string $password,
-        public readonly string $phoneNumber,
-    )
+    public static function withForm(FormRequest $request): JobSeekerRegisterCommand
     {
-    }
+        $data = parent::fromBaseRequest($request);
 
-    public static function withForm(FormRequest $request): CommandInterface
-    {
         return new self(
-            fullName: $request->get('full_name'),
-            email: $request->get('email'),
-            password: $request->get('password'),
-            phoneNumber: $request->get('phone_number')
+            fullName: $data['fullName'],
+            email: $data['email'],
+            password: $data['password'],
+            phoneNumber: $data['phoneNumber']
         );
     }
 }

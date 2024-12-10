@@ -6,6 +6,7 @@ use App\Enums\DefaultRole;
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\CompanyAddress\CompanyAddressRepository;
 use App\Repositories\User\UserRepository;
+use Illuminate\Support\Facades\DB;
 
 class RecruiterHandler
 {
@@ -19,28 +20,46 @@ class RecruiterHandler
 
     public function handle(RecruiterCommand $command)
     {
-        $recruiter = $this->userRepository->create([
+        return DB::transaction(function () use ($command) {
+            $recruiter = $this->createRecruiter($command);
+
+            $company = $this->createCompany($command, $recruiter->id);
+
+            $this->createCompanyAddress($command, $company->id);
+
+            return $recruiter;
+        });
+    }
+
+    private function createRecruiter(RecruiterCommand $command)
+    {
+        return $this->userRepository->create([
             'full_name' => $command->fullName,
             'email' => $command->email,
             'password' => $command->password,
             'phone_number' => $command->phoneNumber,
             'role' => DefaultRole::RECRUITER
         ]);
+    }
 
-        $company = $this->companyRepository->create([
-            'user_id' => $recruiter->id,
+    private function createCompany(RecruiterCommand $command, int $userId)
+    {
+        return $this->companyRepository->create([
+            'user_id' => $userId,
             'name' => $command->companyName,
             'company_scale_id' => $command->companyScaleId,
             'gender_id' => $command->genderId,
-            'tax_code' => $command->taxCode
+            'tax_code' => $command->taxCode,
         ]);
+    }
 
+    private function createCompanyAddress(RecruiterCommand $command, int $companyId)
+    {
         $this->companyAddressRepository->create([
-            'company_id' => $company->id,
+            'company_id' => $companyId,
             'province_id' => $command->province,
             'district_id' => $command->district,
         ]);
-
-        return $recruiter;
     }
+
 }

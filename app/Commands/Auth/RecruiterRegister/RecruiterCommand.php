@@ -2,39 +2,43 @@
 
 namespace App\Commands\Auth\RecruiterRegister;
 
-use App\Commands\CommandInterface;
+use App\Commands\Base\BaseRegister\BaseRegisterCommand;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RecruiterCommand implements CommandInterface
+class RecruiterCommand extends BaseRegisterCommand
 {
     public function __construct(
-        public readonly string $fullName,
-        public readonly string $email,
-        public readonly string $password,
-        public readonly string $phoneNumber,
-        public readonly int $genderId,
+        string $fullName,
+        string $email,
+        string $password,
+        string $phoneNumber,
         public readonly string $companyName,
         public readonly int $companyScaleId,
         public readonly string $taxCode,
+        public readonly int $genderId,
         public readonly int $province,
         public readonly int $district
-    )
-    {
+    ) {
+        parent::__construct($fullName, $email, $password, $phoneNumber);
     }
 
-    public static function withForm(FormRequest $request): CommandInterface
+    /**
+     * Tạo RecruiterCommand từ FormRequest
+     */
+    public static function withForm(FormRequest $request): RecruiterCommand
     {
-        return new self(
-            fullName: $request->get('full_name'),
-            email: $request->get('email'),
-            password: $request->get('password'),
-            phoneNumber: $request->get('phone_number'),
-            genderId: $request->get('gender_id'),
-            companyName: $request->get('company_name'),
-            companyScaleId: $request->get('company_scale_id'),
-            taxCode: $request->get('tax_code'),
-            province: $request->get('province'),
-            district: $request->get('district')
+        $data = array_merge(
+            parent::fromBaseRequest($request),
+            [
+                'companyName' => $request->get('company_name'),
+                'companyScaleId' => $request->get('company_scale_id'),
+                'taxCode' => $request->get('tax_code'),
+                'genderId' => $request->get('gender_id'),
+                'province' => $request->get('province'),
+                'district' => $request->get('district'),
+            ]
         );
+
+        return new self(...$data);
     }
 }
