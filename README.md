@@ -63,6 +63,7 @@ Build vendor
 ```sh
 composer install
 php artisan key:generate
+php artisan jwt:secret
 php artisan migrate --seed
 phpunit
 php artisan storage:link
