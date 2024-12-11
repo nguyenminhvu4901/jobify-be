@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        //Quy mô công ty
         Schema::create('company_scales', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -20,9 +21,9 @@ return new class extends Migration
 
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('company_scale_id');
-            $table->unsignedBigInteger('gender_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('company_scale_id')->nullable();
+            $table->unsignedBigInteger('gender_id')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->string('tax_code');
@@ -33,22 +34,67 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
             $table->foreign('company_scale_id')->references('id')->on('company_scales')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
             $table->foreign('gender_id')->references('id')->on('default_genders')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('company_address', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('province_id');
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('province_id')->nullable();
             $table->unsignedBigInteger('district_id')->nullable();
             $table->unsignedBigInteger('ward_id')->nullable();
             $table->text('address')->nullable();
 
             $table->timestamps();
+        });
+
+        //Loại hình hoạt động
+        Schema::create('operation_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+
+            $table->timestamps();
+        });
+
+        //Lĩnh vực hoạt động
+        Schema::create('business_sectors', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
+
+            $table->timestamps();
+        });
+
+        Schema::create('company_operation_type', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('operation_type_id')->nullable();
+
+            $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies')
+                ->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('operation_type_id')->references('id')->on('operation_types')
+                ->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('company_business_sector', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('business_sector_id')->nullable();
+
+            $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies')
+                ->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('business_sector_id')->references('id')->on('business_sectors')
+                ->onDelete('set null')->onUpdate('cascade');
         });
     }
 
@@ -60,5 +106,9 @@ return new class extends Migration
         Schema::dropIfExists('company_scales');
         Schema::dropIfExists('companies');
         Schema::dropIfExists('company_address');
+        Schema::dropIfExists('operation_types');
+        Schema::dropIfExists('business_sectors');
+        Schema::dropIfExists('company_operation_type');
+        Schema::dropIfExists('company_business_sector');
     }
 };
