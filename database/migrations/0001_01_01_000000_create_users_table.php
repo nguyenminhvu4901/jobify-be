@@ -44,14 +44,15 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone_number');
 
-            $table->unsignedBigInteger('status_id')->default(1)->comment('default active');
+            $table->unsignedBigInteger('status_id')->nullable()
+                ->default(1)->comment('default active');
 
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('status_id')->references('id')->on('default_statuses')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
