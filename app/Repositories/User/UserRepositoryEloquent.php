@@ -50,7 +50,6 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             $user = $this->model->create($data);
 
             $user->syncRoles($data['role'] ?? null);
-            $user->syncPermissions($data['permissions'] ?? []);
 
             DB::commit();
 

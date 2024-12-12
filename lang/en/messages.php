@@ -19,5 +19,7 @@ return [
     'the_order_cannot_be_he_same' => 'The order cannot be the same',
     'contact_not_yet_applied' => 'Contact not yet applied!',
     'phone_number_invalid' => 'The phone number is invalid',
-    'file_size_invalid' => 'Exceeds the maximum allowed total size of 10MB.'
+    'file_size_invalid' => 'Exceeds the maximum allowed total size of 10MB.',
+    'user_register_success' => 'Registration successfully',
+    'user_register_error' => 'Registration error',
 ];

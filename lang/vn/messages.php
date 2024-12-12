@@ -19,5 +19,7 @@ return [
     'the_order_cannot_be_he_same' => 'Thứ tự không được trùng',
     'contact_not_yet_applied' => 'Liên hệ chưa áp dụng!',
     'phone_number_invalid' => 'Số điện thoại không hợp lệ',
-    'file_size_invalid' => 'Vượt quá tối đa tổng kích thước cho phép là 10MB'
+    'file_size_invalid' => 'Vượt quá tối đa tổng kích thước cho phép là 10MB',
+    'user_register_success' => 'Đăng ký thành công',
+    'user_register_error' => 'Đăng ký thất bại'
 ];

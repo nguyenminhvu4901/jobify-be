@@ -30,15 +30,4 @@ class LoginRequest extends FormRequest
             'password' => ['bail', 'required', new PasswordRule()]
         ];
     }
-
-    /**
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'email.required' => __('validation.required', ['name' => 'email']),
-            'password.required' => __('validation.required', ['name' => 'password']),
-        ];
-    }
 }
