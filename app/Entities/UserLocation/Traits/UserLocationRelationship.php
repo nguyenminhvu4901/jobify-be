@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Entities\CompanyAddress\Traits;
+namespace App\Entities\UserLocation\Traits;
 
-use App\Entities\Company\Company;
 use App\Entities\District\District;
 use App\Entities\Province\Province;
 use App\Entities\Ward\Ward;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-trait CompanyAddressRelationship
+trait UserLocationRelationship
 {
     /**
      * @return BelongsTo
      */
-    public function company(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(Company::class, 'company_id', 'id')->withDefault();
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**
