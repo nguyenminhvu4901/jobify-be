@@ -5,16 +5,17 @@ namespace App\Entities\UserCertification\Traits;
 use App\Entities\UserCertificationResource\UserCertificationResource;
 use App\Entities\UserCertificationType\UserCertificationType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait UserCertificationRelationship
 {
     /**
-     * @return HasOne
+     * @return HasMany
      */
-    public function userCertificationResource(): HasOne
+    public function userCertificationResource(): HasMany
     {
-        return $this->hasOne(UserCertificationResource::class);
+        return $this->hasMany(UserCertificationResource::class);
     }
 
     /**
