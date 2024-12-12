@@ -34,8 +34,7 @@ class JobSeekerRegisterRequest extends FormRequest
                 Rule::unique('users', 'email')->whereNull('deleted_at')
             ],
             'password' => [
-                'required', 'string', 'min:6', 'max:25',
-                new PasswordRule(),
+                'required', 'string', new PasswordRule(),
             ],
             'password_confirmation' => ['required', 'same:password'],
             'phone_number' => ['required', 'string', new PhoneNumberRule()],

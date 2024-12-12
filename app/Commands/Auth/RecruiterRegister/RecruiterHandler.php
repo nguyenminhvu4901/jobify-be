@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class RecruiterHandler
 {
+    /**
+     * @param UserRepository $userRepository
+     * @param CompanyRepository $companyRepository
+     * @param CompanyAddressRepository $companyAddressRepository
+     */
     public function __construct(
         protected readonly UserRepository $userRepository,
         protected readonly CompanyRepository $companyRepository,
@@ -18,7 +23,11 @@ class RecruiterHandler
     {
     }
 
-    public function handle(RecruiterCommand $command)
+    /**
+     * @param RecruiterCommand $command
+     * @return mixed
+     */
+    public function handle(RecruiterCommand $command): mixed
     {
         return DB::transaction(function () use ($command) {
             $recruiter = $this->createRecruiter($command);
@@ -31,7 +40,11 @@ class RecruiterHandler
         });
     }
 
-    private function createRecruiter(RecruiterCommand $command)
+    /**
+     * @param RecruiterCommand $command
+     * @return mixed
+     */
+    private function createRecruiter(RecruiterCommand $command): mixed
     {
         return $this->userRepository->create([
             'full_name' => $command->fullName,
@@ -42,7 +55,12 @@ class RecruiterHandler
         ]);
     }
 
-    private function createCompany(RecruiterCommand $command, int $userId)
+    /**
+     * @param RecruiterCommand $command
+     * @param int $userId
+     * @return mixed
+     */
+    private function createCompany(RecruiterCommand $command, int $userId): mixed
     {
         return $this->companyRepository->create([
             'user_id' => $userId,
@@ -53,7 +71,12 @@ class RecruiterHandler
         ]);
     }
 
-    private function createCompanyAddress(RecruiterCommand $command, int $companyId)
+    /**
+     * @param RecruiterCommand $command
+     * @param int $companyId
+     * @return void
+     */
+    private function createCompanyAddress(RecruiterCommand $command, int $companyId): void
     {
         $this->companyAddressRepository->create([
             'company_id' => $companyId,

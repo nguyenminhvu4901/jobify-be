@@ -73,8 +73,9 @@ class AuthController extends Controller
         $jobSeeker = $this->bus->dispatch(JobSeekerRegisterCommand::withForm($request));
 
         return $jobSeeker ?
-            $this->responseSuccess(JobSeekerRegisterResource::make($jobSeeker), __('messages.user_login_success')) :
-            $this->responseError();
+            $this->responseSuccess(JobSeekerRegisterResource::make($jobSeeker),
+                __('messages.user_register_success')) :
+            $this->responseError(__('messages.user_register_error'));
     }
 
     /**
@@ -88,8 +89,8 @@ class AuthController extends Controller
         $recruiter = $this->bus->dispatch(RecruiterCommand::withForm($request));
 
         return $recruiter ?
-            $this->responseSuccess(RecruiterRegisterResource::make($recruiter), __('messages.user_login_success')) :
-            $this->responseError();
+            $this->responseSuccess(RecruiterRegisterResource::make($recruiter), __('messages.user_register_success')) :
+            $this->responseError(__('messages.user_register_error'));
     }
 
     /**

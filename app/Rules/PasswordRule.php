@@ -17,7 +17,7 @@ class PasswordRule implements ValidationRule
         $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,25}$/';
 
         if (!preg_match($regex, $value)) {
-            $fail('Mật khẩu phải từ 6-25 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.');
+            $fail(__('validation.password_rule'));
         }
     }
 }

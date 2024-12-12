@@ -17,7 +17,7 @@ class PhoneNumberRule implements ValidationRule
         $regex = '/^\+?[0-9]{10,15}$/';
 
         if (!preg_match($regex, $value)) {
-            $fail('Số điện thoại không hợp lệ. Phải từ 10-15 chữ số và có thể bắt đầu bằng dấu "+".');
+            $fail(__('validation.phone_rule', ['name' => 'phone_number']));
         }
     }
 }
