@@ -5,6 +5,7 @@ namespace App\Entities\CompanyAddress\Traits;
 use App\Entities\Company\Company;
 use App\Entities\District\District;
 use App\Entities\Province\Province;
+use App\Entities\Ward\Ward;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait CompanyAddressRelationship
@@ -31,5 +32,13 @@ trait CompanyAddressRelationship
     public function district(): BelongsTo
     {
         return $this->belongsTo(District::class, 'district_id', 'id')->withDefault();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function ward(): BelongsTo
+    {
+        return $this->belongsTo(Ward::class, 'ward_id', 'id')->withDefault();
     }
 }

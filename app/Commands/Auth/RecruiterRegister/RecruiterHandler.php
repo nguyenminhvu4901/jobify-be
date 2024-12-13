@@ -51,6 +51,7 @@ class RecruiterHandler
             'email' => $command->email,
             'password' => $command->password,
             'phone_number' => $command->phoneNumber,
+            'current_role' => DefaultRole::RECRUITER,
             'role' => DefaultRole::RECRUITER
         ]);
     }

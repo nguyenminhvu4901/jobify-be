@@ -12,7 +12,8 @@ use Prettus\Repository\Traits\TransformableTrait;
 
 class Company extends Model implements Transformable
 {
-    use TransformableTrait, HasFactory, Sluggable, SoftDeletes, CompanyRelationship;
+    use TransformableTrait, HasFactory, Sluggable, SoftDeletes,
+        CompanyRelationship;
 
     protected $table = 'companies';
 

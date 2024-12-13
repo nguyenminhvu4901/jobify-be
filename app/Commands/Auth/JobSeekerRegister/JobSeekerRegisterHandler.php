@@ -20,6 +20,7 @@ class JobSeekerRegisterHandler
             'email' => $command->email,
             'password' => $command->password,
             'phone_number' => $command->phoneNumber,
+            'current_role' => DefaultRole::JOBSEEKER,
             'role' => DefaultRole::JOBSEEKER
         ]);
     }
