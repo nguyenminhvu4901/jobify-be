@@ -20,7 +20,7 @@ abstract class Controller
      * @param string $message
      * @return JsonResponse
      */
-    public function responseSuccess(mixed $data, string $message = 'OK'): JsonResponse
+    public function responseSuccess(mixed $data = [], string $message = 'OK'): JsonResponse
     {
         return response()->json([
             'data' => $data,

@@ -4,7 +4,10 @@ namespace App\Repositories\User;
 
 use App\Models\User;
 use App\Repositories\BaseRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 /**
@@ -34,7 +37,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
 
     /**
      * @param array $data
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection|mixed|null
+     * @return LengthAwarePaginator|Collection|mixed|null
      */
     public function create(array $data): mixed
     {
@@ -56,7 +59,11 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         }
     }
 
-    public function changePassword($data)
+    /**
+     * @param $data
+     * @return User|null
+     */
+    public function changePassword($data): ?User
     {
         DB::beginTransaction();
 

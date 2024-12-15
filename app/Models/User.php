@@ -6,6 +6,7 @@ use App\Entities\DefaultStatus\DefaultStatus;
 use App\Enums\Status;
 use App\Models\Traits\UserRelationship;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +17,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, HasRoles, Sluggable, SoftDeletes, UserRelationship;
+    use HasFactory, Notifiable, HasRoles, Sluggable, SoftDeletes, UserRelationship, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.

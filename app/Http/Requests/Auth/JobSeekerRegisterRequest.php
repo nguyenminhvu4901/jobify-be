@@ -28,16 +28,16 @@ class JobSeekerRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => ['required', 'string', 'max:255'],
+            'full_name' => ['bail', 'required', 'string', 'max:255'],
             'email' => [
-                'required', 'string', 'email',
+                'bail', 'required', 'string', 'email',
                 Rule::unique('users', 'email')->whereNull('deleted_at')
             ],
             'password' => [
-                'required', 'string', new PasswordRule(),
+                'bail', 'required', 'string', new PasswordRule(),
             ],
-            'password_confirmation' => ['required', 'same:password'],
-            'phone_number' => ['required', 'string', new PhoneNumberRule()],
+            'password_confirmation' => ['bail', 'required', 'same:password'],
+            'phone_number' => ['bail', 'required', 'string', new PhoneNumberRule()],
         ];
     }
 }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Rules\PasswordRule;
 use App\Traits\FailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UserChangePassword extends FormRequest
+class ForgotPasswordRequest extends FormRequest
 {
     use FailedValidation;
     /**
@@ -26,20 +25,10 @@ class UserChangePassword extends FormRequest
     public function rules(): array
     {
         return [
-            'slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             'email' => [
                 'bail', 'required', 'string', 'email',
-                Rule::unique('users', 'email')
-                    ->ignore($this->input('slug'), 'slug')
-                    ->whereNull('deleted_at')
+                Rule::exists('users', 'email')->whereNull('deleted_at')
             ],
-            'current_password' => [
-                'bail', 'required', 'string', new PasswordRule()
-            ],
-            'new_password' => [
-                'bail', 'required', 'string', 'different:current_password', new PasswordRule()
-            ],
-            'new_password_confirmation' => ['bail', 'required', 'same:new_password', new PasswordRule()],
         ];
     }
 }

@@ -28,21 +28,21 @@ class RecruiterRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => ['required', 'string', 'max:255'],
+            'full_name' => ['bail', 'required', 'string', 'max:255'],
             'email' => [
-                'required', 'string', 'email',
+                'bail', 'required', 'string', 'email',
                 Rule::unique('users', 'email')->whereNull('deleted_at')
             ],
             'password' => [
-                'required', 'string',
+                'bail', 'required', 'string',
                 new PasswordRule(),
             ],
-            'password_confirmation' => ['required', 'same:password'],
-            'phone_number' => ['required', 'string', new PhoneNumberRule()],
-            'gender_id' => ['required', 'integer', 'exists:default_genders,id'],
-            'company_name' => ['required', 'string', 'max:255'],
-            'province' => ['required', 'integer','exists:provinces,id'],
-            'district' => ['required', 'integer','exists:districts,id']
+            'password_confirmation' => ['bail', 'required', 'same:password'],
+            'phone_number' => ['bail', 'required', 'string', new PhoneNumberRule()],
+            'gender_id' => ['bail', 'required', 'integer', 'exists:default_genders,id'],
+            'company_name' => ['bail', 'required', 'string', 'max:255'],
+            'province' => ['bail', 'required', 'integer','exists:provinces,id'],
+            'district' => ['bail', 'required', 'integer','exists:districts,id']
         ];
     }
 }

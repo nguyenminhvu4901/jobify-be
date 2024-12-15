@@ -18,3 +18,11 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth', 'as' => 'auth.'], funct
         ->name('changePassword')->middleware('auth');
 });
 
+Route::group(['middleware' => 'api'], function () {
+    Route::post('/forgot-password', [AuthController::class, 'sendForgotPassword'])
+        ->name('forgotPassword')->middleware('guest');
+
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+        ->name('password.reset');
+});
+
