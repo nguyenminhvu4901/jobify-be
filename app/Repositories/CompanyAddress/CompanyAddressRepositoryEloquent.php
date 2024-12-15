@@ -2,12 +2,11 @@
 
 namespace App\Repositories\CompanyAddress;
 
-use App\Entities\Company\Company;
 use App\Entities\CompanyAddress\CompanyAddress;
+use App\Repositories\BaseRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Prettus\Repository\Eloquent\BaseRepository;
 
 class CompanyAddressRepositoryEloquent extends BaseRepository implements CompanyAddressRepository
 {

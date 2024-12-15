@@ -34,7 +34,7 @@ class RecruiterRegisterRequest extends FormRequest
                 Rule::unique('users', 'email')->whereNull('deleted_at')
             ],
             'password' => [
-                'required', 'string', 'min:6', 'max:25',
+                'required', 'string',
                 new PasswordRule(),
             ],
             'password_confirmation' => ['required', 'same:password'],

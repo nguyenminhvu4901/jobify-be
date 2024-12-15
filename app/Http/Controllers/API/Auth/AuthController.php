@@ -10,13 +10,17 @@ use App\Commands\Auth\Logout\LogoutCommand;
 use App\Commands\Auth\Logout\LogoutHandler;
 use App\Commands\Auth\RecruiterRegister\RecruiterCommand;
 use App\Commands\Auth\RecruiterRegister\RecruiterHandler;
+use App\Commands\Auth\UserChangePassword\UserChangePasswordCommand;
+use App\Commands\Auth\UserChangePassword\UserChangePasswordHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\JobSeekerRegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RecruiterRegisterRequest;
+use App\Http\Requests\Auth\UserChangePassword;
 use App\Http\Resources\Auth\JobSeekerRegisterResource;
 use App\Http\Resources\Auth\LoginResource;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
+use App\Http\Resources\Auth\UserChangePasswordResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -91,6 +95,17 @@ class AuthController extends Controller
         return $recruiter ?
             $this->responseSuccess(RecruiterRegisterResource::make($recruiter), __('messages.user_register_success')) :
             $this->responseError(__('messages.user_register_error'));
+    }
+
+    public function changePassword(UserChangePassword $request): JsonResponse
+    {
+        $this->bus->addHandler(UserChangePasswordCommand::class, UserChangePasswordHandler::class);
+
+        $user = $this->bus->dispatch(UserChangePasswordCommand::withForm($request));
+
+        return $user ?
+            $this->responseSuccess(UserChangePasswordResource::make($user), __('messages.user_change_password_success')) :
+            $this->responseError(__('messages.user_change_password_error'));
     }
 
     /**

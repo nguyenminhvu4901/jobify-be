@@ -12,5 +12,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth', 'as' => 'auth.'], funct
     Route::post('/recruiter-register', [AuthController::class, 'recruiterRegister'])
         ->name('recruiter-register');
     Route::get('/unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
+
+    Route::patch('/change-password', [AuthController::class, 'changePassword'])->name('changePassword');
 });
 

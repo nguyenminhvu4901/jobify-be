@@ -187,6 +187,9 @@ return [
         'gender_id' => 'Giới tính',
         'company_name' => 'Tên công ty',
         'province' => 'Tỉnh/Thành phố',
-        'district' => 'Quận/Huyện'
+        'district' => 'Quận/Huyện',
+        'current_password' => 'Mật khẩu hiện tại',
+        'new_password' => 'Mật khẩu mới',
+        'new_password_confirmation' => 'Xác nhận mật khẩu mới',
     ]
 ];

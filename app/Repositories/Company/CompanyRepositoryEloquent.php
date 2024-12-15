@@ -3,10 +3,10 @@
 namespace App\Repositories\Company;
 
 use App\Entities\Company\Company;
+use App\Repositories\BaseRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Prettus\Repository\Eloquent\BaseRepository;
 
 class CompanyRepositoryEloquent extends BaseRepository implements CompanyRepository
 {

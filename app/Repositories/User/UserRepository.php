@@ -9,11 +9,7 @@ namespace App\Repositories\User;
  */
 interface UserRepository
 {
-    public function search(array $params);
-
     public function create(array $data);
 
-    public function find(int $id);
-
-    public function update(array $data, int $id);
+    public function changePassword(array $data);
 }
