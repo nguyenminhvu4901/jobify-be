@@ -21,5 +21,10 @@ return [
     'phone_number_invalid' => 'Số điện thoại không hợp lệ',
     'file_size_invalid' => 'Vượt quá tối đa tổng kích thước cho phép là 10MB',
     'user_register_success' => 'Đăng ký thành công',
-    'user_register_error' => 'Đăng ký thất bại'
+    'user_register_error' => 'Đăng ký thất bại',
+    'user_change_password_success' => 'Thay đổi mật khẩu thành công',
+    'user_change_password_error' => 'Thay đổi mật khẩu thất bại',
+    'user_logged_in' => 'Tài khoản đã được đăng nhập',
+    'Unauthorized' => 'Không được phép',
+    'unauthorized' => 'Không được phép'
 ];

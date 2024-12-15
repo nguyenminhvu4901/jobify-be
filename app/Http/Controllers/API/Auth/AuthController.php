@@ -10,14 +10,25 @@ use App\Commands\Auth\Logout\LogoutCommand;
 use App\Commands\Auth\Logout\LogoutHandler;
 use App\Commands\Auth\RecruiterRegister\RecruiterCommand;
 use App\Commands\Auth\RecruiterRegister\RecruiterHandler;
+use App\Commands\Auth\ResetPassword\ResetPasswordCommand;
+use App\Commands\Auth\ResetPassword\ResetPasswordHandler;
+use App\Commands\Auth\SendForgotPassword\SendForgotPasswordCommand;
+use App\Commands\Auth\SendForgotPassword\SendForgotPasswordHandler;
+use App\Commands\Auth\UserChangePassword\UserChangePasswordCommand;
+use App\Commands\Auth\UserChangePassword\UserChangePasswordHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\JobSeekerRegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RecruiterRegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Requests\Auth\UserChangePassword;
 use App\Http\Resources\Auth\JobSeekerRegisterResource;
 use App\Http\Resources\Auth\LoginResource;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
+use App\Http\Resources\Auth\UserChangePasswordResource;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 /**
@@ -45,7 +56,7 @@ class AuthController extends Controller
 
         return $user ?
             $this->responseSuccess(LoginResource::make($user), __('messages.user_login_success')) :
-            $this->responseError();
+            $this->responseUnauthorized(__('messages.user_login_error'));
     }
 
     /**
@@ -91,6 +102,39 @@ class AuthController extends Controller
         return $recruiter ?
             $this->responseSuccess(RecruiterRegisterResource::make($recruiter), __('messages.user_register_success')) :
             $this->responseError(__('messages.user_register_error'));
+    }
+
+    public function changePassword(UserChangePassword $request): JsonResponse
+    {
+        $this->bus->addHandler(UserChangePasswordCommand::class, UserChangePasswordHandler::class);
+
+        $user = $this->bus->dispatch(UserChangePasswordCommand::withForm($request));
+
+        return $user ?
+            $this->responseSuccess(UserChangePasswordResource::make($user), __('messages.user_change_password_success')) :
+            $this->responseError(__('messages.user_change_password_error'));
+    }
+
+    public function sendForgotPassword(ForgotPasswordRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(SendForgotPasswordCommand::class, SendForgotPasswordHandler::class);
+
+        $data = $this->bus->dispatch(SendForgotPasswordCommand::withForm($request));
+
+        return $data ?
+            $this->responseSuccess("", $data) :
+            $this->responseError();
+    }
+
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(ResetPasswordCommand::class, ResetPasswordHandler::class);
+
+        $data = $this->bus->dispatch(ResetPasswordCommand::withForm($request));
+
+        return $data ?
+            $this->responseSuccess("", $data) :
+            $this->responseError();
     }
 
     /**

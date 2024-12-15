@@ -198,6 +198,9 @@ return [
         'gender_id' => 'Gender',
         'company_name' => 'Company Name',
         'province' => 'Province/City',
-        'district' => 'District'
+        'district' => 'District',
+        'current_password' => 'Current Password',
+        'new_password' => 'New Password',
+        'new_password_confirmation' => 'New Password Confirmation',
     ]
 ];

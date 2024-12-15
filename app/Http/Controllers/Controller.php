@@ -20,7 +20,7 @@ abstract class Controller
      * @param string $message
      * @return JsonResponse
      */
-    public function responseSuccess(mixed $data, string $message = 'OK'): JsonResponse
+    public function responseSuccess(mixed $data = [], string $message = 'OK'): JsonResponse
     {
         return response()->json([
             'data' => $data,
@@ -64,7 +64,7 @@ abstract class Controller
     public function responseUnauthorized(string $message = 'Unauthorized'): JsonResponse
     {
         return response()->json([
-            'message' => $message,
+            'message' => __($message),
             'status_code' => JsonResponse::HTTP_UNAUTHORIZED
         ], JsonResponse::HTTP_UNAUTHORIZED);
     }

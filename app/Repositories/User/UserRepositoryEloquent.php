@@ -3,11 +3,12 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Repositories\BaseRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Prettus\Repository\Eloquent\BaseRepository;
 
 /**
  * Class UserRepositoryEloquent.
@@ -34,19 +35,16 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
-    public function search(array $params): Collection|LengthAwarePaginator
-    {
-    }
-
     /**
      * @param array $data
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection|mixed|null
+     * @return LengthAwarePaginator|Collection|mixed|null
      */
-    public function create(array $data)
+    public function create(array $data): mixed
     {
         DB::beginTransaction();
 
         try {
+
             $user = $this->model->create($data);
 
             $user->syncRoles($data['role'] ?? null);
@@ -61,11 +59,28 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         }
     }
 
-    public function find($id, $columns = ['*'])
+    /**
+     * @param $data
+     * @return User|null
+     */
+    public function changePassword($data): ?User
     {
-    }
+        DB::beginTransaction();
 
-    public function update(array $data, $id)
-    {
+        try {
+            $user = $this->findBySlug($data['slug'] ?? null);
+
+            $user->update([
+                'password' => $data['new_password']
+            ]);
+
+            DB::commit();
+
+            return $user;
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
+        }
     }
 }
