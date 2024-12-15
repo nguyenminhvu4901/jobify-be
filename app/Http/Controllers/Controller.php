@@ -64,7 +64,7 @@ abstract class Controller
     public function responseUnauthorized(string $message = 'Unauthorized'): JsonResponse
     {
         return response()->json([
-            'message' => $message,
+            'message' => __($message),
             'status_code' => JsonResponse::HTTP_UNAUTHORIZED
         ], JsonResponse::HTTP_UNAUTHORIZED);
     }

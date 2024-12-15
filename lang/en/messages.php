@@ -22,4 +22,7 @@ return [
     'file_size_invalid' => 'Exceeds the maximum allowed total size of 10MB.',
     'user_register_success' => 'Registration successfully',
     'user_register_error' => 'Registration error',
+    'user_logged_in' => 'You are already logged in.',
+    'Unauthorized' => 'Unauthorized',
+    'unauthorized' => 'Unauthorized'
 ];
