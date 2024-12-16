@@ -18,7 +18,8 @@ class UserExperience extends Model implements Transformable
         'user_id',
         'name',
         'position',
-        'from_date',
-        'to_date'
+        'is_working',
+        'start_date',
+        'end_date'
     ];
 }

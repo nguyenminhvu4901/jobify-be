@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Entities\UserCertification\Traits;
+namespace App\Entities\UserCourse\Traits;
 
-use App\Entities\UserCertificationResource\UserCertificationResource;
+use App\Entities\UserCourseResource\UserCourseResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-trait UserCertificationRelationship
+trait UserCourseRelationship
 {
     /**
      * @return HasMany
      */
-    public function userCertificationResource(): HasMany
+    public function userCourseRelationship(): HasMany
     {
-        return $this->hasMany(UserCertificationResource::class);
+        return $this->hasMany(UserCourseResource::class);
     }
 
     /**

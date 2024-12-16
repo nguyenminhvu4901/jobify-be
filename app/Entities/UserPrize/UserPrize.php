@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Entities\UserCertification;
+namespace App\Entities\UserPrize;
 
-use App\Entities\UserCertification\Traits\UserCertificationRelationship;
+use App\Entities\UserPrize\Traits\UserPrizeRelationship;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class UserCertification extends Model implements Transformable
+class UserPrize extends Model implements Transformable
 {
-    use TransformableTrait, HasFactory, UserCertificationRelationship;
+    use TransformableTrait, HasFactory, UserPrizeRelationship;
 
-    protected $table = 'user_certifications';
+    protected $table = 'UserPrize';
 
     protected $fillable = [
         'user_id',
         'name',
         'organization',
-        'is_no_expiration',
         'start_date',
         'end_date'
     ];

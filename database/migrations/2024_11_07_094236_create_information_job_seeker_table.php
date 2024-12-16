@@ -32,8 +32,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name', 512)->comment('Tên trường');
             $table->string('major', 512)->comment('Ngành học');
-            $table->date('from_date')->comment('Ngày bắt đầu');
-            $table->date('to_date')->nullable()->comment('Ngày kết thúc');
+            $table->tinyInteger('is_studying')->comment('Đang học ở đây (0:false, 1:true)')
+                ->default(0);
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')
@@ -89,10 +92,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name', 512)->comment('Tên chứng chỉ');
             $table->string('organization', 512)->nullable()->comment('Tổ chức');
-            $table->date('from_date');
-            $table->date('to_date')->nullable();
-            $table->unsignedTinyInteger('type')
-                ->comment('1: Chứng chỉ, 2:Giải thưởng, 3:Khóa học');
+            $table->tinyInteger('is_no_expiration')->comment('Không có ngày hết hạn (0:false, 1:true)')
+                ->default(0);
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('set null')->onUpdate('cascade');
@@ -121,8 +124,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name', 512)->comment('Tên công ty');
             $table->string('position', 512)->comment('Tên chức vụ');
-            $table->date('from_date')->comment('Ngày bắt đầu');
-            $table->date('to_date')->nullable()->comment('Ngày kết thúc');
+            $table->tinyInteger('is_working')->comment('Đang làm việc tại đây (0:false, 1:true)')
+                ->default(0);
+            $table->date('start_date')->comment('Ngày bắt đầu');
+            $table->date('end_date')->nullable()->comment('Ngày kết thúc');
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('set null')->onUpdate('cascade');
@@ -150,8 +155,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name', 512)->comment('Tên sản phẩm');
             $table->string('position', 512)->comment('Vị trí tham gia');
-            $table->date('from_date');
-            $table->date('to_date')->nullable();
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
             $table->text('description')->nullable()->comment('Mô tả chi tiết');
 
             $table->foreign('user_id')->references('id')->on('users')
@@ -185,8 +190,10 @@ return new class extends Migration
             $table->string('position', 512)->comment('Vị trí');
             $table->string('mission', 512)->comment('Nhiệm vụ trong dự án');
             $table->string('technology', 512)->nullable()->comment('Công nghệ sử dụng');
-            $table->date('from_date');
-            $table->date('to_date')->nullable();
+            $table->tinyInteger('is_working')->comment('Đang làm (0:false, 1:true)')
+                ->default(0);
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
             $table->text('description')->nullable()->comment('Mô tả chi tiết');
 
             $table->foreign('user_id')->references('id')->on('users')
@@ -204,6 +211,67 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id')->nullable();
 
             $table->foreign('user_project_id')->references('id')->on('user_projects')
+                ->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('content_type_id')->references('id')->on('default_content_types')
+                ->onDelete('set null')->onUpdate('cascade');
+
+            $table->timestamps();
+        });
+
+        Schema::create('user_courses', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('name', 512)->comment('Tên Khóa học');
+            $table->string('organization', 512)->comment('Tổ chức')->nullable();
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
+            $table->text('description')->nullable()->comment('Mô tả chi tiết');
+
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
+
+            $table->timestamps();
+        });
+
+        Schema::create('user_course_resources', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_course_id')->nullable();
+            $table->string('title', 512)->comment('Tiêu đề');
+            $table->text('path');
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('content_type_id')->nullable();
+
+            $table->foreign('user_course_id')->references('id')->on('user_courses')
+                ->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('content_type_id')->references('id')->on('default_content_types')
+                ->onDelete('set null')->onUpdate('cascade');
+
+            $table->timestamps();
+        });
+
+        Schema::create('user_prizes', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('name', 512)->comment('Tên giải thưởng');
+            $table->string('organization', 512)->comment('Tổ chức')->nullable();
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
+
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
+
+            $table->timestamps();
+        });
+
+        Schema::create('user_prize_resources', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_prize_id')->nullable();
+            $table->string('title', 512)->comment('Tiêu đề');
+            $table->text('path');
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('content_type_id')->nullable();
+
+            $table->foreign('user_prize_id')->references('id')->on('user_prizes')
                 ->onDelete('set null')->onUpdate('cascade');
             $table->foreign('content_type_id')->references('id')->on('default_content_types')
                 ->onDelete('set null')->onUpdate('cascade');
@@ -244,6 +312,10 @@ return new class extends Migration
         Schema::dropIfExists('user_activity_resources');
         Schema::dropIfExists('user_projects');
         Schema::dropIfExists('user_project_resources');
+        Schema::dropIfExists('user_courses');
+        Schema::dropIfExists('user_course_resources');
+        Schema::dropIfExists('user_prizes');
+        Schema::dropIfExists('user_prize_resources');
         Schema::dropIfExists('user_locations');
     }
 };

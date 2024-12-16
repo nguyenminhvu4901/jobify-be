@@ -18,8 +18,8 @@ class UserActivity extends Model implements Transformable
         'user_id',
         'name',
         'position',
-        'from_date',
-        'to_date',
+        'start_date',
+        'end_date',
         'description'
     ];
 }
