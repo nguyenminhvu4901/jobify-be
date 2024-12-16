@@ -22,8 +22,9 @@ class UserProject extends Model implements Transformable
         'position',
         'mission',
         'technology',
-        'from_date',
-        'to_date',
+        'is_working',
+        'start_date',
+        'end_date',
         'description'
     ];
 }
