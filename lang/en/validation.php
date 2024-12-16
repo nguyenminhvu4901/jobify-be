@@ -202,5 +202,10 @@ return [
         'current_password' => 'Current Password',
         'new_password' => 'New Password',
         'new_password_confirmation' => 'New Password Confirmation',
+        'user_profile_id' => 'User Profile Id',
+        'position' => 'Position',
+        'birth_date' => 'Birth Date',
+        'description' => 'Description',
+        'profile_description' => 'Profile Description'
     ]
 ];

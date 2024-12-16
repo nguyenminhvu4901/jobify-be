@@ -28,7 +28,6 @@ use App\Http\Resources\Auth\LoginResource;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
 use App\Http\Resources\Auth\UserChangePasswordResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 /**

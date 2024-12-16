@@ -191,5 +191,10 @@ return [
         'current_password' => 'Mật khẩu hiện tại',
         'new_password' => 'Mật khẩu mới',
         'new_password_confirmation' => 'Xác nhận mật khẩu mới',
+        'user_profile_id' => 'Mã hồ sơ',
+        'position' => 'Vị trí',
+        'birth_date' => 'Ngày sinh',
+        'description' => 'Mô tả',
+        'profile_description' => 'Giới thiệu bản thân'
     ]
 ];

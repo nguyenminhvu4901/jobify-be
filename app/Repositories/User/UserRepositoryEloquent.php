@@ -7,7 +7,6 @@ use App\Repositories\BaseRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 /**
@@ -77,6 +76,30 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             DB::commit();
 
             return $user;
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
+    /**
+     * @param array $data
+     * @param $userId
+     * @return LengthAwarePaginator|Collection|mixed|null
+     */
+    public function update(array $data, $userId): mixed
+    {
+        DB::beginTransaction();
+
+        try {
+            $user = $this->find($userId);
+
+            $user->update($data);
+
+            DB::commit();
+
+            return $user->refresh();
         }catch (\Exception $e){
             DB::rollBack();
 

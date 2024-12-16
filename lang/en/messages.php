@@ -24,5 +24,7 @@ return [
     'user_register_error' => 'Registration error',
     'user_logged_in' => 'You are already logged in.',
     'Unauthorized' => 'Unauthorized',
-    'unauthorized' => 'Unauthorized'
+    'unauthorized' => 'Unauthorized',
+    'user_update_profile_success' => 'Saved',
+    'user_update_profile_error' => 'Save failed'
 ];

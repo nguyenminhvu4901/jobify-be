@@ -26,5 +26,7 @@ return [
     'user_change_password_error' => 'Thay đổi mật khẩu thất bại',
     'user_logged_in' => 'Tài khoản đã được đăng nhập',
     'Unauthorized' => 'Không được phép',
-    'unauthorized' => 'Không được phép'
+    'unauthorized' => 'Không được phép',
+    'user_update_profile_success' => 'Đã lưu',
+    'user_update_profile_error' => 'Lưu thất bại'
 ];
