@@ -3,11 +3,12 @@
 namespace App\Commands\PersonalInfo\UploadAvatar;
 
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use App\Traits\ImageHandler;
 
 class UploadAvatarHandler
 {
+    use ImageHandler;
+
     public function __construct(
         protected UserRepository $userRepository
     ){}
@@ -18,23 +19,21 @@ class UploadAvatarHandler
         $path = config('constants.path_avatar');
 
         if(!empty($command->avatar)){
-            $prefixEmail = extractEmailPrefix($user->email);
-
-            $fileName = $prefixEmail . Str::random().'.'.$command->avatar->extension();
-
-            $command->avatar->storeAs('public/'.$path.'/'.$fileName);
-            $pathStorage = asset('storage/'.$path.'/'.$fileName);
+            $pathStorage = $this->storeImage($command->avatar, $path, $user);
 
             return $this->userRepository->update([
                 'avatar' => $pathStorage
             ], $user->id);
         }else{
-            $fileName = basename(parse_url($user->avatar, PHP_URL_PATH));
-            Storage::disk('public')->delete($path.'/'.$fileName);
+            $status = $this->deleteImage($path, $user);
 
-            return $this->userRepository->update([
-                'avatar' => config('constants.default_avatar')
-            ], $user->id);
+            if($status){
+                return $this->userRepository->update([
+                    'avatar' => config('constants.default_avatar')
+                ], $user->id);
+            }
+
+            return null;
         }
     }
 }
