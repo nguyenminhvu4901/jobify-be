@@ -47,6 +47,8 @@ return new class extends Migration
             $table->unsignedBigInteger('status_id')->nullable()
                 ->default(1)->comment('default active');
             $table->string('current_user')->nullable();
+            $table->string('avatar')
+                ->default(config('constants.default_avatar'));
 
             $table->rememberToken();
             $table->timestamps();

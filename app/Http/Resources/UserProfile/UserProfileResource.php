@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Auth;
+namespace App\Http\Resources\UserProfile;
 
 use App\Http\Resources\DefaultStatus\DefaultStatusResource;
 use App\Http\Resources\Role\RoleResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class JobSeekerRegisterResource extends JsonResource
+class UserProfileResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,10 +21,12 @@ class JobSeekerRegisterResource extends JsonResource
             'full_name' => $this->full_name,
             'slug' => $this->slug,
             'email' => $this->email,
-            'current_role' => $this->current_role,
+            'phone_number' => $this->phone_number,
+            'current_user' => $this->current_user,
             'status' => new DefaultStatusResource($this->status),
             'avatar' => $this->avatar,
-            'role' => RoleResource::collection($this->roles)
+            'role' => RoleResource::collection($this->roles),
+            'profile' => new ProfileResource($this->userProfile)
         ];
     }
 }

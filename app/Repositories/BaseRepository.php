@@ -15,4 +15,13 @@ abstract class BaseRepository extends Repository
     {
         return $this->model->where('slug', $slug)->firstOrFail();
     }
+
+    /**
+     * @param $userId
+     * @return mixed
+     */
+    public function findByUserId($userId): mixed
+    {
+        return $this->model->where('id', $userId)->first();
+    }
 }

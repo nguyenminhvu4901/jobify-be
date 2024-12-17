@@ -35,6 +35,4 @@ class CompanyAddressRepositoryEloquent extends BaseRepository implements Company
             return null;
         }
     }
-
-
 }
