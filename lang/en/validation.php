@@ -206,6 +206,7 @@ return [
         'position' => 'Position',
         'birth_date' => 'Birth Date',
         'description' => 'Description',
-        'profile_description' => 'Profile Description'
+        'profile_description' => 'Profile Description',
+        'avatar' => 'Avatar'
     ]
 ];

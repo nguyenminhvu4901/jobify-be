@@ -195,6 +195,7 @@ return [
         'position' => 'Vị trí',
         'birth_date' => 'Ngày sinh',
         'description' => 'Mô tả',
-        'profile_description' => 'Giới thiệu bản thân'
+        'profile_description' => 'Giới thiệu bản thân',
+        'avatar' => 'Ảnh đại diện'
     ]
 ];

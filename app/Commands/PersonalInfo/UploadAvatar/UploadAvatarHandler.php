@@ -29,7 +29,7 @@ class UploadAvatarHandler
 
             if($status){
                 return $this->userRepository->update([
-                    'avatar' => config('constants.default_avatar')
+                    'avatar' => asset(config('constants.default_avatar'))
                 ], $user->id);
             }
 

@@ -35,7 +35,10 @@ trait UserRelationship
         return $this->hasOne(Company::class);
     }
 
-    public function userProfile()
+    /**
+     * @return HasOne
+     */
+    public function userProfile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }
