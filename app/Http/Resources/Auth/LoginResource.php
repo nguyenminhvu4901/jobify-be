@@ -22,8 +22,9 @@ class LoginResource extends JsonResource
                 'full_name' => $this->full_name,
                 'email' => $this->email,
                 'status' => new DefaultStatusResource($this->status),
-                'current_role' => $this->current_role
-//                'roles' => RoleResource::collection($this->roles),
+                'current_role' => $this->current_role,
+                'avatar' => $this->avatar,
+                'roles' => RoleResource::collection($this->roles),
 //                'permissions' => PermissionResource::collection($this->permissions),
             ],
         ];

@@ -23,6 +23,7 @@ class JobSeekerRegisterResource extends JsonResource
             'email' => $this->email,
             'current_role' => $this->current_role,
             'status' => new DefaultStatusResource($this->status),
+            'avatar' => $this->avatar,
             'role' => RoleResource::collection($this->roles)
         ];
     }

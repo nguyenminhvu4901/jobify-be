@@ -24,6 +24,7 @@ class UserProfileResource extends JsonResource
             'phone_number' => $this->phone_number,
             'current_user' => $this->current_user,
             'status' => new DefaultStatusResource($this->status),
+            'avatar' => $this->avatar,
             'role' => RoleResource::collection($this->roles),
             'profile' => new ProfileResource($this->userProfile)
         ];

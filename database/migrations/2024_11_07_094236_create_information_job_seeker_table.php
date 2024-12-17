@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('gender_id')->nullable();
             $table->date('birth_date');
             $table->text('description')->nullable();
-            $table->text('avatar')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

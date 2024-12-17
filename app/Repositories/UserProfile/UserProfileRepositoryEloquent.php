@@ -12,5 +12,26 @@ class UserProfileRepositoryEloquent extends BaseRepository implements UserProfil
     {
         return UserProfile::class;
     }
+
+    public function updateAvatar($pathAvatar, $userId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $user = $this->find($userId);
+
+            $user->update([
+                'avatar' => $pathAvatar
+            ]);
+
+            DB::commit();
+
+            return $user->refresh();
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
+        }
+    }
 }
 

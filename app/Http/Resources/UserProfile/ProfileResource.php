@@ -21,7 +21,6 @@ class ProfileResource extends JsonResource
             'gender' => new DefaultGenderResource($this->gender),
             'birth_date' => $this->birth_date,
             'description' => $this->description,
-            'avatar' => $this->avatar
         ];
     }
 }

@@ -10,6 +10,9 @@ Route::group(
         'as' => 'profile.'
     ], function () {
 
-        Route::post('update-personal-info', [PersonalInfoController::class, 'updateProfile']);
+        Route::post('update-personal-info', [PersonalInfoController::class, 'updateProfile'])
+            ->name('updateProfile');
+        Route::post('upload-avatar', [PersonalInfoController::class, 'uploadAvatar'])
+            ->name('uploadAvatar');
 
 });

@@ -19,7 +19,6 @@ class UserProfile extends Model implements Transformable
         'position',
         'gender_id',
         'birth_date',
-        'description',
-        'avatar'
+        'description'
     ];
 }
