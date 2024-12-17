@@ -6,13 +6,13 @@ use App\Commands\UserExperience\GetListExperienceCurrentUser\GetListExperienceCu
 use App\Commands\UserExperience\GetListExperienceCurrentUser\GetListExperienceCurrentUserHandler;
 use App\Commands\UserExperience\StoreUserExperience\StoreUserExperienceCommand;
 use App\Commands\UserExperience\StoreUserExperience\StoreUserExperienceHandler;
+use App\Commands\UserExperience\UpdateUserExperience\UpdateUserExperienceCommand;
+use App\Commands\UserExperience\UpdateUserExperience\UpdateUserExperienceHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserExperience\UserExperienceRequest;
-use App\Http\Resources\Auth\CurrentUserInfoResource;
 use App\Http\Resources\UserExperience\CurrentUserExperienceResource;
 use App\Http\Resources\UserExperience\UserExperienceResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserExperienceController extends Controller
@@ -54,8 +54,14 @@ class UserExperienceController extends Controller
 
     public function update(UserExperienceRequest $request, $userSlug, $experienceUserId)
     {
-        $this->bus->addHandler();
-        dd($request, $userSlug, $experienceUserId);
+        $this->bus->addHandler(UpdateUserExperienceCommand::class, UpdateUserExperienceHandler::class);
+
+        $userExperience = $this->bus->dispatch(UpdateUserExperienceCommand::withForm($request, $userSlug, $experienceUserId));
+
+        return $userExperience ?
+            $this->responseSuccess(UserExperienceResource::make($userExperience),
+                __('messages.user_update_profile_success')) :
+            $this->responseError(__('messages.user_update_profile_error'));
     }
 
 }

@@ -26,16 +26,15 @@ abstract class BaseRepository extends Repository
     }
 
     /**
-     * @param $slug
-     * @param $columnKey
-     * @param $columnValue
+     * @param $userSlug
+     * @param $idColumn
      * @return mixed
      */
-    public function findByUserSlugAndColumnDetail($slug, $columnKey, $columnValue): mixed
+    public function findByRelationshipUserSlugAndColumnDetailId($userSlug, $idColumn): mixed
     {
-        return $this->model->where($columnKey, $columnValue)
-            ->whereHas('user', function ($query) use($slug) {
-                return $query->where('slug', $slug);
-            })->get();
+        return $this->model->where('id', $idColumn)
+            ->whereHas('user', function ($query) use($userSlug) {
+                return $query->where('slug', $userSlug);
+            })->firstOrFail();
     }
 }
