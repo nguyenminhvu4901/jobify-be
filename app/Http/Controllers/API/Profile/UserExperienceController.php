@@ -17,6 +17,9 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserExperienceController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
     )
@@ -39,7 +42,10 @@ class UserExperienceController extends Controller
             $this->responseError(__('messages.user_update_profile_error'));
     }
 
-    public function getListExperienceCurrentUser()
+    /**
+     * @return JsonResponse
+     */
+    public function getListExperienceCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(GetListExperienceCurrentUserCommand::class,
             GetListExperienceCurrentUserHandler::class);
@@ -52,11 +58,15 @@ class UserExperienceController extends Controller
             $this->responseError(__('messages.user_get_profile_error'));
     }
 
-    public function update(UserExperienceRequest $request, $userSlug, $experienceUserId)
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+     */
+    public function update(UserExperienceRequest $request): JsonResponse
     {
         $this->bus->addHandler(UpdateUserExperienceCommand::class, UpdateUserExperienceHandler::class);
 
-        $userExperience = $this->bus->dispatch(UpdateUserExperienceCommand::withForm($request, $userSlug, $experienceUserId));
+        $userExperience = $this->bus->dispatch(UpdateUserExperienceCommand::withForm($request));
 
         return $userExperience ?
             $this->responseSuccess(UserExperienceResource::make($userExperience),

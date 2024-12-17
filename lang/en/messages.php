@@ -26,5 +26,7 @@ return [
     'Unauthorized' => 'Unauthorized',
     'unauthorized' => 'Unauthorized',
     'user_update_profile_success' => 'Saved',
-    'user_update_profile_error' => 'Save failed'
+    'user_update_profile_error' => 'Save failed',
+    'user_get_profile_success' => 'Get user info successfully',
+    'user_get_profile_error' => 'Get user info failed!'
 ];

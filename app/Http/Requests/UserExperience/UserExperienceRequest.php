@@ -25,8 +25,32 @@ class UserExperienceRequest extends FormRequest
     {
         $method = $this->method();
 
-        return [
+        $commonRules = $this->getCommonRules();
 
+        switch ($method){
+            case 'POST':
+                return $commonRules;
+            case 'PUT':
+            case 'PATCH':
+                $updateRule = [
+                    'user_slug' => ['required', 'string', 'exists:users,slug'],
+                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+                ];
+
+                return array_merge($commonRules, $updateRule);
+            default:
+                return [];
+        }
+    }
+
+    public function getCommonRules(): array
+    {
+        return [
+            'name' => ['bail', 'required', 'string', 'max:255'],
+            'position' => ['bail', 'required', 'string', 'max:255'],
+            'is_working' => ['bail', 'required', 'boolean'],
+            'start_date' => ['bail', 'required', 'date_format:Y-m-d'],
+            'end_date' => ['bail', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
         ];
     }
 }

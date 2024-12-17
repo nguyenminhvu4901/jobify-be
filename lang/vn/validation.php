@@ -196,6 +196,12 @@ return [
         'birth_date' => 'Ngày sinh',
         'description' => 'Mô tả',
         'profile_description' => 'Giới thiệu bản thân',
-        'avatar' => 'Ảnh đại diện'
+        'avatar' => 'Ảnh đại diện',
+        'user_slug' => 'Mã người dùng',
+        'user_experience_id' => 'Mã kinh nghiệm',
+        'name' => 'Tên',
+        'is_working' => 'Đang làm việc tại đây',
+        'start_date' => 'Ngày bắt đầu',
+        'end_date' => 'Ngày kết thúc'
     ]
 ];

@@ -24,6 +24,6 @@ Route::group(
             Route::get('/list-experience-current-user', [UserExperienceController::class,
                 'getListExperienceCurrentUser']);
 
-            Route::put('/{user_slug}/{user_experience}', [UserExperienceController::class, 'update']);
+            Route::put('/', [UserExperienceController::class, 'update']);
         });
 });

@@ -19,11 +19,11 @@ class UpdateUserExperienceCommand implements CommandInterface
     {
     }
 
-    public static function withForm(FormRequest $request, string $userSlug = '', int $userExperienceId = null): CommandInterface
+    public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(
-            userSlug: $userSlug,
-            userExperienceId: $userExperienceId,
+            userSlug: $request->get('user_slug'),
+            userExperienceId: $request->get('user_experience_id'),
             name: $request->get('name'),
             position: $request->get('position'),
             isWorking: $request->get('is_working'),

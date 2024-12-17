@@ -207,6 +207,12 @@ return [
         'birth_date' => 'Birth Date',
         'description' => 'Description',
         'profile_description' => 'Profile Description',
-        'avatar' => 'Avatar'
+        'avatar' => 'Avatar',
+        'user_slug' => 'User slug',
+        'user_experience_id' => 'User experience id',
+        'name' => 'Name',
+        'is_working' => 'Is working at here',
+        'start_date' => 'Start Date',
+        'end_date' => 'End Date'
     ]
 ];
