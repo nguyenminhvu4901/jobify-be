@@ -11,10 +11,8 @@ use App\Commands\PersonalInfo\UploadAvatar\UploadAvatarHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateUserProfileAvatarRequest;
 use App\Http\Requests\Profile\UpdateUserProfileRequest;
-use App\Http\Resources\Auth\JobSeekerRegisterResource;
 use App\Http\Resources\Auth\CurrentUserInfoResource;
 use App\Http\Resources\UserProfile\UserProfileResource;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
@@ -24,7 +22,8 @@ class PersonalInfoController extends Controller
     public function __construct(
         protected CommandBusInterface $bus
     )
-    {}
+    {
+    }
 
     public function index(Request $request)
     {

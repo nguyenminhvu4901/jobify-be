@@ -5,6 +5,7 @@ namespace App\Repositories\User;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -105,5 +106,16 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
 
             return null;
         }
+    }
+
+    /**
+     * @param $userId
+     * @return \Illuminate\Database\Eloquent\Collection|Model|null
+     */
+    public function getListUserExperience($userId): Model|\Illuminate\Database\Eloquent\Collection|null
+    {
+        return $this->model->with(['userExperiences' => function ($query) {
+            $query->orderByDesc('id');
+        }])->find($userId);
     }
 }

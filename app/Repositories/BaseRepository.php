@@ -24,4 +24,18 @@ abstract class BaseRepository extends Repository
     {
         return $this->model->where('id', $userId)->first();
     }
+
+    /**
+     * @param $slug
+     * @param $columnKey
+     * @param $columnValue
+     * @return mixed
+     */
+    public function findByUserSlugAndColumnDetail($slug, $columnKey, $columnValue): mixed
+    {
+        return $this->model->where($columnKey, $columnValue)
+            ->whereHas('user', function ($query) use($slug) {
+                return $query->where('slug', $slug);
+            })->get();
+    }
 }

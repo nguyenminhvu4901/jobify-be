@@ -3,6 +3,7 @@
 namespace App\Entities\UserExperience;
 
 use App\Entities\UserExperience\Traits\UserExperienceRelationship;
+use App\Entities\UserExperience\Traits\UserExperienceScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
@@ -10,7 +11,7 @@ use Prettus\Repository\Traits\TransformableTrait;
 
 class UserExperience extends Model implements Transformable
 {
-    use TransformableTrait, HasFactory, UserExperienceRelationship;
+    use TransformableTrait, HasFactory, UserExperienceRelationship, UserExperienceScope;
 
     protected $table = 'user_experiences';
 
