@@ -34,7 +34,7 @@ class UserExperienceRequest extends FormRequest
             case 'PATCH':
                 $updateRule = [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
-                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
                 ];
 
                 return array_merge($commonRules, $updateRule);
@@ -51,6 +51,12 @@ class UserExperienceRequest extends FormRequest
             'is_working' => ['bail', 'required', 'boolean'],
             'start_date' => ['bail', 'required', 'date_format:Y-m-d'],
             'end_date' => ['bail', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
+
+            'attachments' => ['bail', 'nullable', 'array'],
+            'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
+            'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
+            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id'],
+            'attachments.*.file' => ['bail', 'required', 'image', 'mimes:jpeg,jpg,png,gif,bmp,svg,webp', 'max:5000']
         ];
     }
 }

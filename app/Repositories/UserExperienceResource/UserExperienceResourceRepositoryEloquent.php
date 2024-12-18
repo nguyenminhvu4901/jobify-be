@@ -6,7 +6,7 @@ use App\Entities\UserExperienceResource\UserExperienceResource;
 use App\Repositories\BaseRepository;
 use App\Repositories\UserExperience\UserExperienceRepository;
 
-class UserExperienceResourceRepositoryEloquent extends BaseRepository implements UserExperienceRepository
+class UserExperienceResourceRepositoryEloquent extends BaseRepository implements UserExperienceResourceRepository
 {
     public function model()
     {

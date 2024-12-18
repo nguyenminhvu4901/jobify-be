@@ -17,7 +17,7 @@ trait ImageHandler
     {
         $prefixEmail = extractEmailPrefix($user->email);
 
-        $fileName = $prefixEmail . Str::random().'.'.$file->extension();
+        $fileName = $prefixEmail . '-' . Str::random(50).'.'.$file->extension();
 
         $file->storeAs('public/'.$path.'/'.$fileName);
 

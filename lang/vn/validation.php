@@ -202,6 +202,11 @@ return [
         'name' => 'Tên',
         'is_working' => 'Đang làm việc tại đây',
         'start_date' => 'Ngày bắt đầu',
-        'end_date' => 'Ngày kết thúc'
+        'end_date' => 'Ngày kết thúc',
+        'attachments' => 'Tệp đính kèm',
+        'attachments.*.title' => 'Tiêu đề tệp đính kèm',
+        'attachments.*.description' => 'Mô tả tệp đính kèm',
+        'attachments.*.content_type_id' => 'Loại nội dung tệp đính kèm',
+        'attachments.*.file' => 'Ảnh'
     ]
 ];

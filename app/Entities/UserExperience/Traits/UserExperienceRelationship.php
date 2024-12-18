@@ -2,6 +2,7 @@
 
 namespace App\Entities\UserExperience\Traits;
 
+use App\Entities\DefaultContentType\DefaultContentType;
 use App\Entities\UserExperienceResource\UserExperienceResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,5 +24,10 @@ trait UserExperienceRelationship
     public function userExperienceResource(): HasMany
     {
         return $this->hasMany(UserExperienceResource::class);
+    }
+
+    public function contentType(): BelongsTo
+    {
+        return $this->belongsTo(DefaultContentType::class, 'content_type_id', 'id');
     }
 }
