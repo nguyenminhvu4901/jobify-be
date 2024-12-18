@@ -22,7 +22,7 @@ class UserProfileResource extends JsonResource
             'slug' => $this->slug,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
-            'current_user' => $this->current_user,
+            'current_role' => $this->current_role,
             'status' => new DefaultStatusResource($this->status),
             'avatar' => $this->avatar,
             'role' => RoleResource::collection($this->roles),

@@ -46,7 +46,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('status_id')->nullable()
                 ->default(1)->comment('default active');
-            $table->string('current_user')->nullable();
+            $table->string('current_role')->nullable();
             $table->string('avatar')
                 ->default(asset(config('constants.default_avatar')));
 
