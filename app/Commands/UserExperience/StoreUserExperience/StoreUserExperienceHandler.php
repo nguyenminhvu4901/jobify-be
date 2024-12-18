@@ -2,14 +2,16 @@
 
 namespace App\Commands\UserExperience\StoreUserExperience;
 
+use App\Enums\DefaultContentType;
 use App\Repositories\UserExperience\UserExperienceRepository;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
 use App\Traits\ImageHandler;
+use App\Traits\VideoHandler;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class StoreUserExperienceHandler
 {
-    use ImageHandler;
+    use ImageHandler, VideoHandler;
 
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository,
@@ -55,18 +57,47 @@ class StoreUserExperienceHandler
     {
         $user = auth()->user();
 
-        $path = 'images/profiles/' . extractEmailPrefix($user->email) . '/experiences';
-
         foreach ($attachments as $attachment) {
-            $pathStorage = $this->storeImage($attachment['file'], $path, $user);
+            if($attachment['content_type_id'] == DefaultContentType::IMAGE->value) {
+                $path = 'images/profiles/' . extractEmailPrefix($user->email) . '/experiences';
+                $pathStorage = $this->storeImage($attachment['image'], $path, $user);
 
-            $this->userExperienceResourceRepository->create([
-                'user_experience_id' => $userExperienceId,
-                'title' => $attachment['title'],
-                'path' => $pathStorage,
-                'description' => $attachment['description'],
-                'content_type_id' => $attachment['content_type_id']
-            ]);
+                if(!empty($pathStorage))
+                {
+                    $this->userExperienceResourceRepository->create([
+                        'user_experience_id' => $userExperienceId,
+                        'title' => $attachment['title'],
+                        'path' => $pathStorage,
+                        'description' => $attachment['description'],
+                        'content_type_id' => $attachment['content_type_id']
+                    ]);
+                }
+
+            }elseif($attachment['content_type_id'] == DefaultContentType::FILE->value){
+                $this->userExperienceResourceRepository->create([
+                    'user_experience_id' => $userExperienceId,
+                    'title' => $attachment['title'],
+                    'path' => $pathStorage,
+                    'description' => $attachment['description'],
+                    'content_type_id' => $attachment['content_type_id']
+                ]);
+            }elseif($attachment['content_type_id'] == DefaultContentType::URL->value) {
+
+            }elseif ($attachment['content_type_id'] == DefaultContentType::VIDEO->value){
+                $path = 'videos/profiles/' . extractEmailPrefix($user->email) . '/experiences';
+                $pathStorage = $this->storeImage($attachment['image'], $path, $user);
+
+                $this->userExperienceResourceRepository->create([
+                    'user_experience_id' => $userExperienceId,
+                    'title' => $attachment['title'],
+                    'path' => $pathStorage,
+                    'description' => $attachment['description'],
+                    'content_type_id' => $attachment['content_type_id']
+                ]);
+            }else{
+                continue;
+            }
+
         }
     }
 }

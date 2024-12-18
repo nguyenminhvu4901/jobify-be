@@ -21,3 +21,14 @@ if (!function_exists('getStatus')) {
         return $status === 1;
     }
 }
+
+if (!function_exists('convertVideoSizToMB')) {
+    /**
+     * @param $requestVideo
+     * @return float|int
+     */
+    function convertVideoSizToMB($requestVideo): float|int
+    {
+        return ($requestVideo->getSize() / (1024 * 1024));
+    }
+}

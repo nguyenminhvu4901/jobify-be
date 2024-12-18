@@ -3,6 +3,7 @@
 namespace App\Commands\UserExperience\StoreUserExperience;
 
 use App\Commands\CommandInterface;
+use App\Enums\DefaultContentType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserExperienceCommand implements CommandInterface
@@ -22,14 +23,27 @@ class StoreUserExperienceCommand implements CommandInterface
     {
         $attachments = collect($request->get('attachments', []))
             ->map(function ($attachment, $key) use ($request) {
-                $file = $request->file("attachments.$key.file");
 
-                return [
-                    'title' => $attachment['title'],
-                    'description' => $attachment['description'],
-                    'content_type_id' => $attachment['content_type_id'],
-                    'file' => $file,
-                ];
+                if($attachment['content_type_id']  == DefaultContentType::IMAGE->value)
+                {
+                    $image = $request->file("attachments.$key.image");
+
+                    return [
+                        'title' => $attachment['title'],
+                        'description' => $attachment['description'],
+                        'content_type_id' => $attachment['content_type_id'],
+                        'image' => $image ?? null,
+                    ];
+                }elseif($attachment['content_type_id'] == DefaultContentType::VIDEO->value){
+                    $video = $request->file("attachments.$key.video");
+
+                    return [
+                        'title' => $attachment['title'],
+                        'description' => $attachment['description'],
+                        'content_type_id' => $attachment['content_type_id'],
+                        'video' => $video ?? null,
+                    ];
+                }
             })
             ->toArray();
 
