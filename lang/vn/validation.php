@@ -165,6 +165,7 @@ return [
 
         'the_password_field_is_required_when_type_is_standard' => 'Trường password không được bỏ trống khi trường type là standard.',
         'the_name_field_is_required_when_type_is_standard' => 'Trường name không được bỏ trống khi trường type là standard.',
+        "invalid_content_type_value_please_choose_again" => 'Sai giá trị trường Content type, vui lòng chọn lại.'
     ],
 
     /*
@@ -195,6 +196,18 @@ return [
         'position' => 'Vị trí',
         'birth_date' => 'Ngày sinh',
         'description' => 'Mô tả',
-        'profile_description' => 'Giới thiệu bản thân'
+        'profile_description' => 'Giới thiệu bản thân',
+        'avatar' => 'Ảnh đại diện',
+        'user_slug' => 'Mã người dùng',
+        'user_experience_id' => 'Mã kinh nghiệm',
+        'name' => 'Tên',
+        'is_working' => 'Đang làm việc tại đây',
+        'start_date' => 'Ngày bắt đầu',
+        'end_date' => 'Ngày kết thúc',
+        'attachments' => 'Tệp đính kèm',
+        'attachments.*.title' => 'Tiêu đề tệp đính kèm',
+        'attachments.*.description' => 'Mô tả tệp đính kèm',
+        'attachments.*.content_type_id' => 'Loại nội dung tệp đính kèm',
+        'attachments.*.file' => 'Ảnh'
     ]
 ];

@@ -28,5 +28,7 @@ return [
     'Unauthorized' => 'Không được phép',
     'unauthorized' => 'Không được phép',
     'user_update_profile_success' => 'Đã lưu',
-    'user_update_profile_error' => 'Lưu thất bại'
+    'user_update_profile_error' => 'Lưu thất bại',
+    'user_get_profile_success' => 'Lấy thông tin thành công',
+    'user_get_profile_error' => 'Lấy thông tin thất bại'
 ];

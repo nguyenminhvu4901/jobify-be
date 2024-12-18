@@ -5,8 +5,10 @@ namespace App\Models\Traits;
 use App\Entities\Company\Company;
 use App\Entities\DefaultGender\DefaultGender;
 use App\Entities\DefaultStatus\DefaultStatus;
+use App\Entities\UserExperience\UserExperience;
 use App\Entities\UserProfile\UserProfile;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait UserRelationship
@@ -35,8 +37,19 @@ trait UserRelationship
         return $this->hasOne(Company::class);
     }
 
-    public function userProfile()
+    /**
+     * @return HasOne
+     */
+    public function userProfile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function userExperiences(): HasMany
+    {
+        return $this->hasMany(UserExperience::class);
     }
 }

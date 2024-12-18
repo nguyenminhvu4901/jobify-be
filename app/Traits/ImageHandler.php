@@ -11,17 +11,22 @@ trait ImageHandler
      * @param $file
      * @param $path
      * @param $user
-     * @return string
+     * @return string|null
      */
-    public function storeImage($file, $path, $user): string
+    public function storeImage($file, $path, $user): string|null
     {
-        $prefixEmail = extractEmailPrefix($user->email);
+        if($file)
+        {
+            $prefixEmail = extractEmailPrefix($user->email);
 
-        $fileName = $prefixEmail . Str::random().'.'.$file->extension();
+            $fileName = $prefixEmail . '-' . Str::random(50).'.'.$file->extension();
 
-        $file->storeAs('public/'.$path.'/'.$fileName);
+            $file->storeAs('public/'.$path.'/'.$fileName);
 
-        return asset('storage/'.$path.'/'.$fileName);
+            return asset('storage/'.$path.'/'.$fileName);
+        }
+
+        return null;
     }
 
     /**

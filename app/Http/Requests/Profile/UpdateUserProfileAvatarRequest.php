@@ -24,7 +24,7 @@ class UpdateUserProfileAvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => ['bail', 'nullable', 'image', 'mimes:jpeg,jpg,png,gif']
+            'avatar' => ['bail', 'nullable', 'image', 'mimes:jpeg,jpg,png,gif,bmp,svg,webp', 'max:5000']
         ];
     }
 }

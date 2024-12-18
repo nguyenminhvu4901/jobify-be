@@ -176,6 +176,8 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+
+        "invalid_content_type_value_please_choose_again" =>"Invalid content type value, please choose again."
     ],
 
     /*
@@ -206,6 +208,13 @@ return [
         'position' => 'Position',
         'birth_date' => 'Birth Date',
         'description' => 'Description',
-        'profile_description' => 'Profile Description'
+        'profile_description' => 'Profile Description',
+        'avatar' => 'Avatar',
+        'user_slug' => 'User slug',
+        'user_experience_id' => 'User experience id',
+        'name' => 'Name',
+        'is_working' => 'Is working at here',
+        'start_date' => 'Start Date',
+        'end_date' => 'End Date'
     ]
 ];
