@@ -176,6 +176,8 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+
+        "invalid_content_type_value_please_choose_again" =>"Invalid content type value, please choose again."
     ],
 
     /*

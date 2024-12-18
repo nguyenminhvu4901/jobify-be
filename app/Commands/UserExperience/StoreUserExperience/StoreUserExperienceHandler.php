@@ -23,8 +23,9 @@ class StoreUserExperienceHandler
     /**
      * @param StoreUserExperienceCommand $command
      * @return mixed
+     * @throws ValidatorException
      */
-    public function handle(StoreUserExperienceCommand $command)
+    public function handle(StoreUserExperienceCommand $command): mixed
     {
         $userId = auth()->user()->id;
 
@@ -41,7 +42,7 @@ class StoreUserExperienceHandler
         {
             $attachments = $command->attachments;
 
-            $this->saveAttachment($attachments, $userExperience->id);
+            $this->processAttachment($attachments, $userExperience->id);
         }
 
         return $userExperience;
@@ -53,7 +54,7 @@ class StoreUserExperienceHandler
      * @return void
      * @throws ValidatorException
      */
-    private function saveAttachment($attachments, $userExperienceId): void
+    private function processAttachment($attachments, $userExperienceId): void
     {
         $user = auth()->user();
 
@@ -61,43 +62,26 @@ class StoreUserExperienceHandler
             if($attachment['content_type_id'] == DefaultContentType::IMAGE->value) {
                 $path = 'images/profiles/' . extractEmailPrefix($user->email) . '/experiences';
                 $pathStorage = $this->storeImage($attachment['image'], $path, $user);
-
-                if(!empty($pathStorage))
-                {
-                    $this->userExperienceResourceRepository->create([
-                        'user_experience_id' => $userExperienceId,
-                        'title' => $attachment['title'],
-                        'path' => $pathStorage,
-                        'description' => $attachment['description'],
-                        'content_type_id' => $attachment['content_type_id']
-                    ]);
-                }
-
-            }elseif($attachment['content_type_id'] == DefaultContentType::FILE->value){
-                $this->userExperienceResourceRepository->create([
-                    'user_experience_id' => $userExperienceId,
-                    'title' => $attachment['title'],
-                    'path' => $pathStorage,
-                    'description' => $attachment['description'],
-                    'content_type_id' => $attachment['content_type_id']
-                ]);
             }elseif($attachment['content_type_id'] == DefaultContentType::URL->value) {
-
+                $pathStorage = $attachment['url'];
             }elseif ($attachment['content_type_id'] == DefaultContentType::VIDEO->value){
                 $path = 'videos/profiles/' . extractEmailPrefix($user->email) . '/experiences';
-                $pathStorage = $this->storeImage($attachment['image'], $path, $user);
+                $pathStorage = $this->storeVideo($attachment['video'], $path, $user);
 
-                $this->userExperienceResourceRepository->create([
-                    'user_experience_id' => $userExperienceId,
-                    'title' => $attachment['title'],
-                    'path' => $pathStorage,
-                    'description' => $attachment['description'],
-                    'content_type_id' => $attachment['content_type_id']
-                ]);
             }else{
                 continue;
             }
 
+            if(!empty($pathStorage))
+            {
+                $this->userExperienceResourceRepository->create([
+                    'user_experience_id' => $userExperienceId,
+                    'title' => $attachment['title'],
+                    'path' => $pathStorage,
+                    'description' => $attachment['description'],
+                    'content_type_id' => $attachment['content_type_id']
+                ]);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests\UserExperience;
 
 use App\Enums\DefaultContentType;
 use App\Traits\FailedValidation;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserExperienceRequest extends FormRequest
@@ -20,7 +21,7 @@ class UserExperienceRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -46,7 +47,6 @@ class UserExperienceRequest extends FormRequest
 
     public function getCommonRules(): array
     {
-
         return [
             'name' => ['bail', 'required', 'string', 'max:255'],
             'position' => ['bail', 'required', 'string', 'max:255'],
@@ -54,7 +54,7 @@ class UserExperienceRequest extends FormRequest
             'start_date' => ['bail', 'required', 'date_format:Y-m-d'],
             'end_date' => ['bail', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
 
-            'attachments' => ['bail', 'nullable', 'array'],
+            'attachments' => ['bail', 'nullable', 'array', 'max:10'],
             'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
@@ -67,10 +67,12 @@ class UserExperienceRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if ($this->has('attachments')) {
-                foreach ($this->input('attachments') as $index => $attachment) {
-                    $contentTypeId = $attachment['content_type_id'] ?? null;
 
+            if ($this->has('attachments')) {
+                $attachments = $this->attachments;
+
+                foreach ($attachments as $index => $attachment) {
+                    $contentTypeId = $attachment['content_type_id'] ?? null;
                     if ($contentTypeId == DefaultContentType::IMAGE->value) {
                         $imageRules = ['required', 'image', 'mimes:jpeg,jpg,png,gif,bmp,svg,webp', 'max:10240'];
                         $imageValidator = validator(['image' => $attachment['image'] ?? null], ['image' => $imageRules]);
@@ -81,20 +83,9 @@ class UserExperienceRequest extends FormRequest
                             }
                         }
                     }
-
-                    if ($contentTypeId == DefaultContentType::FILE->value) {
-                        $imageRules = ['required', 'file', 'max:10240'];
-                        $imageValidator = validator(['file' => $attachment['file'] ?? null], ['file' => $imageRules]);
-
-                        if ($imageValidator->fails()) {
-                            foreach ($imageValidator->errors()->get('file') as $message) {
-                                $validator->errors()->add("attachments.{$index}.file", $message);
-                            }
-                        }
-                    }
-
-                    if ($contentTypeId == DefaultContentType::URL->value) {
+                    elseif ($contentTypeId == DefaultContentType::URL->value) {
                         $imageRules = ['required', 'string'];
+
                         $imageValidator = validator(['url' => $attachment['url'] ?? null], ['url' => $imageRules]);
 
                         if ($imageValidator->fails()) {
@@ -103,10 +94,8 @@ class UserExperienceRequest extends FormRequest
                             }
                         }
                     }
-
-
-                    if ($contentTypeId == DefaultContentType::VIDEO->value) {
-                        $videoRules = ['required', 'file', 'mimes:mp4,mov,avi,flv,mkv', 'max:102400'];
+                    elseif ($contentTypeId == DefaultContentType::VIDEO->value) {
+                        $videoRules = ['bail', 'required', 'file', 'mimes:mp4,mov,avi,flv,mkv', 'max:51200'];
                         $videoValidator = validator(['video' => $attachment['video'] ?? null], ['video' => $videoRules]);
 
                         if ($videoValidator->fails()) {
@@ -114,6 +103,10 @@ class UserExperienceRequest extends FormRequest
                                 $validator->errors()->add("attachments.{$index}.video", $message);
                             }
                         }
+                    }else{
+                        $validator->errors()->add(
+                            "attachments.{$index}.content_type_id",
+                            __('validation.custom.invalid_content_type_value_please_choose_again'));
                     }
                 }
             }

@@ -23,7 +23,6 @@ class StoreUserExperienceCommand implements CommandInterface
     {
         $attachments = collect($request->get('attachments', []))
             ->map(function ($attachment, $key) use ($request) {
-
                 if($attachment['content_type_id']  == DefaultContentType::IMAGE->value)
                 {
                     $image = $request->file("attachments.$key.image");
@@ -34,7 +33,18 @@ class StoreUserExperienceCommand implements CommandInterface
                         'content_type_id' => $attachment['content_type_id'],
                         'image' => $image ?? null,
                     ];
-                }elseif($attachment['content_type_id'] == DefaultContentType::VIDEO->value){
+                }
+                elseif($attachment['content_type_id']  == DefaultContentType::URL->value) {
+                    $url = $request->input("attachments.$key.url");
+
+                    return [
+                        'title' => $attachment['title'],
+                        'description' => $attachment['description'],
+                        'content_type_id' => $attachment['content_type_id'],
+                        'url' => $url ?? null,
+                    ];
+                }
+                elseif($attachment['content_type_id'] == DefaultContentType::VIDEO->value){
                     $video = $request->file("attachments.$key.video");
 
                     return [
@@ -43,6 +53,8 @@ class StoreUserExperienceCommand implements CommandInterface
                         'content_type_id' => $attachment['content_type_id'],
                         'video' => $video ?? null,
                     ];
+                }else{
+                    return null;
                 }
             })
             ->toArray();
