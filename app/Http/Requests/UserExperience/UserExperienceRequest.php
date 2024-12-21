@@ -37,6 +37,9 @@ class UserExperienceRequest extends FormRequest
                 $updateRule = [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
+                    'attachments.*.user_experience_resource_id' => [
+                        'bail', 'nullable', 'integer', 'exists:user_experience_resources,id'
+                    ]
                 ];
 
                 return array_merge($commonRules, $updateRule);

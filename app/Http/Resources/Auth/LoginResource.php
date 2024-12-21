@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Auth;
 
 use App\Http\Resources\DefaultStatus\DefaultStatusResource;
+use App\Http\Resources\Role\RoleResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

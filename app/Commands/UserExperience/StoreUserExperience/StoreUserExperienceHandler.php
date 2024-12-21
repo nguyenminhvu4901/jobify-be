@@ -59,14 +59,19 @@ class StoreUserExperienceHandler
         $user = auth()->user();
 
         foreach ($attachments as $attachment) {
-            if($attachment['content_type_id'] == DefaultContentType::IMAGE->value) {
+            if($attachment['content_type_id'] == DefaultContentType::IMAGE->value)
+            {
                 $path = 'images/profiles/' . extractEmailPrefix($user->email) . '/experiences';
-                $pathStorage = $this->storeImage($attachment['image'], $path, $user);
-            }elseif($attachment['content_type_id'] == DefaultContentType::URL->value) {
-                $pathStorage = $attachment['url'];
-            }elseif ($attachment['content_type_id'] == DefaultContentType::VIDEO->value){
+                $pathStorage = $this->storeImage($attachment['content'], $path, $user);
+
+            }elseif($attachment['content_type_id'] == DefaultContentType::URL->value)
+            {
+                $pathStorage = $attachment['content'];
+
+            }elseif ($attachment['content_type_id'] == DefaultContentType::VIDEO->value)
+            {
                 $path = 'videos/profiles/' . extractEmailPrefix($user->email) . '/experiences';
-                $pathStorage = $this->storeVideo($attachment['video'], $path, $user);
+                $pathStorage = $this->storeVideo($attachment['content'], $path, $user);
 
             }else{
                 continue;

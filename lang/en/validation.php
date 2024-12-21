@@ -215,6 +215,15 @@ return [
         'name' => 'Name',
         'is_working' => 'Is working at here',
         'start_date' => 'Start Date',
-        'end_date' => 'End Date'
+        'end_date' => 'End Date',
+        'attachments' => 'Attachment',
+        'attachments.*.title' => 'Attachment title',
+        'attachments.*.description' => 'Attachment description',
+        'attachments.*.content_type_id' => 'Attachment content type',
+        'attachments.*.image' => 'Attachment image',
+        'attachments.*.video' => 'Attachment video',
+        'attachments.*.file' => 'Attachment file',
+        'attachments.*.url' => 'Attachment url',
+        'user_experience_resource_id' => 'User Experience Resource Code'
     ]
 ];
