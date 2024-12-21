@@ -4,6 +4,8 @@ namespace App\Repositories\UserExperience;
 
 use App\Entities\UserExperience\UserExperience;
 use App\Repositories\BaseRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class UserExperienceRepositoryEloquent extends BaseRepository implements UserExperienceRepository
@@ -13,7 +15,11 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         return UserExperience::class;
     }
 
-    public function create(array $data)
+    /**
+     * @param array $data
+     * @return LengthAwarePaginator|Collection|mixed|null
+     */
+    public function create(array $data): mixed
     {
 
         DB::beginTransaction();

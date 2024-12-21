@@ -212,6 +212,6 @@ return [
         'attachments.*.video' => 'Video',
         'attachments.*.file' => 'Tài liệu',
         'attachments.*.url' => 'Địa chỉ web',
-        'user_experience_resource_id' => 'Mã kinh nghiệm tài nguyên người dùng'
+        'attachments.*.user_experience_resource_id' => 'Mã kinh nghiệm tài nguyên người dùng'
     ]
 ];

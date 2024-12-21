@@ -25,15 +25,16 @@ class UserExperienceRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method = $this->method();
+        $routeName = request()->route()->getName();
 
         $commonRules = $this->getCommonRules();
 
-        switch ($method){
-            case 'POST':
+        switch ($routeName){
+            case "profile.user-experience.store":
+
                 return $commonRules;
-            case 'PUT':
-            case 'PATCH':
+
+            case "profile.user-experience.updateExperience":
                 $updateRule = [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],

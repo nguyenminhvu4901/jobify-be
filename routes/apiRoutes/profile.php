@@ -20,10 +20,11 @@ Route::group(
             ->name('uploadAvatar');
 
         Route::group(['prefix' => 'user-experience', 'as' => 'user-experience.'], function() {
-            Route::post('/', [UserExperienceController::class, 'store']);
+            Route::post('/', [UserExperienceController::class, 'store'])->name('store');
             Route::get('/list-experience-current-user', [UserExperienceController::class,
                 'getListExperienceCurrentUser']);
 
-            Route::put('/', [UserExperienceController::class, 'update']);
+            Route::post('/update-experience', [UserExperienceController::class, 'update'])
+                ->name('updateExperience');
         });
 });
