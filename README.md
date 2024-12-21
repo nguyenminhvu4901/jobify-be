@@ -25,7 +25,7 @@ cd laradock
 cp env-example .env
 ```
 
-```sh
+```sh .env in laradock
 PHP_VERSION=8.3
 APP_CODE_PATH_HOST=../jobify-be
 COMPOSE_PROJECT_NAME=Jobify
@@ -34,10 +34,19 @@ WORKSPACE_INSTALL_YARN=true
 
 PHP_FPM_INSTALL_MYSQLI=true
 
-MYSQL_VERSION=8.4
+MYSQL_VERSION=latest
 MYSQL_DATABASE=default
 MYSQL_USER=default
 MYSQL_PASSWORD=secret
+```
+
+```sh .env in php8.3.ini in php-fpm
+post_max_size = 500M
+upload_max_filesize = 500M
+memory_limit = 512M
+max_input_time = 300
+max_execution_time = 300
+max_input_vars = 3000
 ```
 
 ### 2. Source code:
