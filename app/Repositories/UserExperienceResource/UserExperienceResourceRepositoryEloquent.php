@@ -12,4 +12,9 @@ class UserExperienceResourceRepositoryEloquent extends BaseRepository implements
     {
         return UserExperienceResource::class;
     }
+
+    public function getListUserExperienceResourceByIds(array $userExperienceResourceId)
+    {
+        return $this->model->whereIn('id', $userExperienceResourceId)->get();
+    }
 }

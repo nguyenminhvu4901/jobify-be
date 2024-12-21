@@ -30,23 +30,35 @@ trait ImageHandler
     }
 
     /**
-     * @param $oldImage
-     * @param $newImage
-     * @return void
+     * @param $file
+     * @param $path
+     * @param $oldPath
+     * @param $user
+     * @return string|null
      */
-    public function updateImage($oldImage, $newImage)
+    public function updateImage($file, $path, $oldPath, $user): ?string
     {
+        $this->deleteImage($oldPath);
 
+        return $this->storeImage($file, $path, $user);
     }
 
     /**
-     * @param $path
-     * @param $user
+     * @param $absolutePath
      * @return bool
      */
-    public function deleteImage($path, $user): bool
+    public function deleteImage($absolutePath): bool
     {
-        $fileName = basename(parse_url($user->avatar, PHP_URL_PATH));
-        return Storage::disk('public')->delete($path.'/'.$fileName);
+        $path = parse_url($absolutePath, PHP_URL_PATH);
+
+        $path = ltrim($path, '/storage');
+
+        if (Storage::disk('public')->exists($path)) {
+
+            return Storage::disk('public')->delete($path);
+        } else {
+
+            return false;
+        }
     }
 }
