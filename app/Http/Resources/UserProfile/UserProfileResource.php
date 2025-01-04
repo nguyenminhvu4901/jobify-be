@@ -4,6 +4,7 @@ namespace App\Http\Resources\UserProfile;
 
 use App\Http\Resources\DefaultStatus\DefaultStatusResource;
 use App\Http\Resources\Role\RoleResource;
+use App\Http\Resources\UserExperience\UserExperienceResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,17 +17,12 @@ class UserProfileResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'full_name' => $this->full_name,
-            'slug' => $this->slug,
-            'email' => $this->email,
-            'phone_number' => $this->phone_number,
-            'current_role' => $this->current_role,
-            'status' => new DefaultStatusResource($this->status),
-            'avatar' => $this->avatar,
-            'role' => RoleResource::collection($this->roles),
-            'profile' => new ProfileResource($this->userProfile)
-        ];
+        return array_merge(
+            $this->userData(),
+            [
+                'roles' => RoleResource::collection($this->roles),
+                'profile' => new ProfileResource($this->userProfile)
+            ]
+        );
     }
 }

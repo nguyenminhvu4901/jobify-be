@@ -4,11 +4,13 @@ namespace App\Http\Resources\Auth;
 
 use App\Http\Resources\DefaultStatus\DefaultStatusResource;
 use App\Http\Resources\Role\RoleResource;
+use App\Traits\Resources\UserResourceTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
+    use UserResourceTrait;
     /**
      * Transform the resource into an array.
      *
@@ -16,15 +18,6 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'full_name' => $this->full_name,
-            'slug' => $this->slug,
-            'email' => $this->email,
-            'current_role' => $this->current_role,
-            'status' => new DefaultStatusResource($this->status),
-            'avatar' => $this->avatar,
-            'role' => RoleResource::collection($this->roles)
-        ];
+        return $this->userData();
     }
 }

@@ -38,7 +38,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/Global/AppHelper.php"
+            "app/Helpers/Global/AppHelper.php",
+            "app/Helpers/Global/TimeZone.php"
         ]
     },
     "autoload-dev": {
@@ -46,7 +47,8 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "app/Helpers/Global/AppHelper.php"
+            "app/Helpers/Global/AppHelper.php",
+            "app/Helpers/Global/TimeZone.php"
         ]
     },
     "scripts": {
