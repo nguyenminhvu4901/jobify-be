@@ -30,5 +30,7 @@ return [
     'user_update_profile_success' => 'Đã lưu',
     'user_update_profile_error' => 'Lưu thất bại',
     'user_get_profile_success' => 'Lấy thông tin thành công',
-    'user_get_profile_error' => 'Lấy thông tin thất bại'
+    'user_get_profile_error' => 'Lấy thông tin thất bại',
+    'user_destroy_profile_success' => 'Xóa thành công',
+    'user_destroy_profile_error' => 'Xóa thất bại',
 ];

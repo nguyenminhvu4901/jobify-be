@@ -19,12 +19,14 @@ Route::group(
         Route::post('upload-avatar', [PersonalInfoController::class, 'uploadAvatar'])
             ->name('uploadAvatar');
 
-        Route::group(['prefix' => 'user-experience', 'as' => 'user-experience.'], function() {
+        Route::group(['prefix' => 'user-experience', 'as' => 'userExperience.'], function() {
             Route::post('/', [UserExperienceController::class, 'store'])->name('store');
             Route::get('/list-experience-current-user', [UserExperienceController::class,
                 'getListExperienceCurrentUser']);
 
             Route::post('/update-experience', [UserExperienceController::class, 'update'])
                 ->name('updateExperience');
+
+            Route::delete('/', [UserExperienceController::class, 'destroy'])->name('destroy');
         });
 });

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\Profile;
 
+use App\Commands\UserExperience\DestroyUserExperience\DestroyUserExperienceCommand;
+use App\Commands\UserExperience\DestroyUserExperience\DestroyUserExperienceHandler;
 use App\Commands\UserExperience\GetListExperienceCurrentUser\GetListExperienceCurrentUserCommand;
 use App\Commands\UserExperience\GetListExperienceCurrentUser\GetListExperienceCurrentUserHandler;
 use App\Commands\UserExperience\StoreUserExperience\StoreUserExperienceCommand;
@@ -74,4 +76,18 @@ class UserExperienceController extends Controller
             $this->responseError(__('messages.user_update_profile_error'));
     }
 
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+     */
+    public function destroy(UserExperienceRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(DestroyUserExperienceCommand::class, DestroyUserExperienceHandler::class);
+
+        $userExperience = $this->bus->dispatch(DestroyUserExperienceCommand::withForm($request));
+
+        return $userExperience ?
+            $this->responseSuccessWithNoData(__('messages.user_destroy_profile_success')) :
+            $this->responseError(__('messages.user_destroy_profile_error'));
+    }
 }

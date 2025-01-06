@@ -36,4 +36,22 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
             return null;
         }
     }
+
+    public function destroy($userExperience): bool
+    {
+        DB::beginTransaction();
+
+        try {
+            $userExperience->delete();
+
+            DB::commit();
+
+            return true;
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+
+            return false;
+        }
+    }
 }

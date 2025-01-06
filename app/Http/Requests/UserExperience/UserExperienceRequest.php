@@ -30,11 +30,11 @@ class UserExperienceRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         switch ($routeName){
-            case "profile.user-experience.store":
+            case "profile.userExperience.store":
 
                 return $commonRules;
 
-            case "profile.user-experience.updateExperience":
+            case "profile.userExperience.updateExperience":
                 $updateRule = [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
@@ -44,6 +44,12 @@ class UserExperienceRequest extends FormRequest
                 ];
 
                 return array_merge($commonRules, $updateRule);
+
+            case "profile.userExperience.destroy":
+                return [
+                    'user_slug' => ['required', 'string', 'exists:users,slug'],
+                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+                ];
             default:
                 return [];
         }
