@@ -17,7 +17,7 @@ class CompleteListOfUserExperienceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => new UserResource($this->user),
+            'user' => new UserResource($this->user),
             'name' => $this->name,
             'position' => $this->position,
             'is_working' => getStatus($this->is_working),

@@ -4,6 +4,10 @@ namespace App\Http\Controllers\API\Profile;
 
 use App\Commands\UserExperience\DestroyUserExperience\DestroyUserExperienceCommand;
 use App\Commands\UserExperience\DestroyUserExperience\DestroyUserExperienceHandler;
+use App\Commands\UserExperience\DetailListOfUserExperience\DetailListOfUserExperienceCommand;
+use App\Commands\UserExperience\DetailListOfUserExperience\DetailListOfUserExperienceHandle;
+use App\Commands\UserExperience\DetailListOfUserExperienceByUserSlug\DetailListOfUserExperienceByUserSlugCommand;
+use App\Commands\UserExperience\DetailListOfUserExperienceByUserSlug\DetailListOfUserExperienceByUserSlugHandle;
 use App\Commands\UserExperience\GetCompleteListOfUserExperience\GetCompleteListOfUserExperienceCommand;
 use App\Commands\UserExperience\GetCompleteListOfUserExperience\GetCompleteListOfUserExperienceHandler;
 use App\Commands\UserExperience\GetListExperienceCurrentUser\GetListExperienceCurrentUserCommand;
@@ -79,15 +83,36 @@ class UserExperienceController extends Controller
             $this->responseError(__('messages.user_get_profile_error'));
     }
 
-    public function getDetailListOfUserExperience(UserExperienceRequest $request)
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+     */
+    public function getDetailListOfUserExperience(UserExperienceRequest $request): JsonResponse
     {
-        $this->bus->addHandler(GetListExperienceCurrentUserCommand::class,
-            GetListExperienceCurrentUserHandler::class);
+        $this->bus->addHandler(DetailListOfUserExperienceCommand::class,
+            DetailListOfUserExperienceHandle::class);
 
-        $user = $this->bus->dispatch(new GetListExperienceCurrentUserCommand());
+        $userExperience = $this->bus->dispatch(DetailListOfUserExperienceCommand::withForm($request));
+
+        return $userExperience ?
+            $this->responseSuccess(CompleteListOfUserExperienceResource::make($userExperience),
+                __('messages.user_get_profile_success')) :
+            $this->responseError(__('messages.user_get_profile_error'));
+    }
+
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+     */
+    public function getDetailListOfUserExperienceByUserSlug(UserExperienceRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(DetailListOfUserExperienceByUserSlugCommand::class,
+            DetailListOfUserExperienceByUserSlugHandle::class);
+
+        $user = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
 
         return $user ?
-            $this->responseSuccess(CurrentUserExperienceResource::make($user),
+            $this->responseSuccess(CompleteListOfUserExperienceResource::collection($user),
                 __('messages.user_get_profile_success')) :
             $this->responseError(__('messages.user_get_profile_error'));
     }

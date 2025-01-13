@@ -18,6 +18,7 @@ class CurrentUserExperienceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        dd($this);
         return array_merge(
             $this->userData(),
             [
