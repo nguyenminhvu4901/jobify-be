@@ -3,13 +3,14 @@
 namespace App\Http\Requests\UserExperience;
 
 use App\Enums\DefaultContentType;
+use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserExperienceRequest extends FormRequest
 {
-    use FailedValidation;
+    use FailedValidation, ValidatesAttachmentsTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -74,57 +75,5 @@ class UserExperienceRequest extends FormRequest
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
         ];
-    }
-
-    /**
-     * Custom validation logic for conditional validation.
-     */
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-
-            if ($this->has('attachments')) {
-                $attachments = $this->attachments;
-
-                foreach ($attachments as $index => $attachment) {
-                    $contentTypeId = $attachment['content_type_id'] ?? null;
-                    if ($contentTypeId == DefaultContentType::IMAGE->value) {
-                        $imageRules = ['required', 'image', 'mimes:jpeg,jpg,png,gif,bmp,svg,webp', 'max:10240'];
-                        $imageValidator = validator(['image' => $attachment['image'] ?? null], ['image' => $imageRules]);
-
-                        if ($imageValidator->fails()) {
-                            foreach ($imageValidator->errors()->get('image') as $message) {
-                                $validator->errors()->add("attachments.{$index}.image", $message);
-                            }
-                        }
-                    }
-                    elseif ($contentTypeId == DefaultContentType::URL->value) {
-                        $imageRules = ['required', 'string'];
-
-                        $imageValidator = validator(['url' => $attachment['url'] ?? null], ['url' => $imageRules]);
-
-                        if ($imageValidator->fails()) {
-                            foreach ($imageValidator->errors()->get('url') as $message) {
-                                $validator->errors()->add("attachments.{$index}.url", $message);
-                            }
-                        }
-                    }
-                    elseif ($contentTypeId == DefaultContentType::VIDEO->value) {
-                        $videoRules = ['bail', 'required', 'file', 'mimes:mp4,mov,avi,flv,mkv', 'max:51200'];
-                        $videoValidator = validator(['video' => $attachment['video'] ?? null], ['video' => $videoRules]);
-
-                        if ($videoValidator->fails()) {
-                            foreach ($videoValidator->errors()->get('video') as $message) {
-                                $validator->errors()->add("attachments.{$index}.video", $message);
-                            }
-                        }
-                    }else{
-                        $validator->errors()->add(
-                            "attachments.{$index}.content_type_id",
-                            __('validation.custom.invalid_content_type_value_please_choose_again'));
-                    }
-                }
-            }
-        });
     }
 }
