@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Eloquent\BaseRepository as Repository;
 
 abstract class BaseRepository extends Repository
@@ -45,5 +46,21 @@ abstract class BaseRepository extends Repository
         }
 
         return $query->firstOrFail();
+    }
+
+    /**
+     * @param array|string $relationship
+     * @return Collection
+     */
+    public function getWithRelationship(array|string $relationship = []): Collection
+    {
+        $query = $this->model->newQuery();
+
+        if(!empty($relationship)){
+            $relationship = is_array($relationship) ? $relationship : [$relationship];
+            $query->with($relationship);
+        }
+
+        return $query->get();
     }
 }

@@ -50,6 +50,11 @@ class UserExperienceRequest extends FormRequest
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
                 ];
+
+            case "profile.userExperience.DetailListOfUserExperience":
+                return [
+                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+                ];
             default:
                 return [];
         }

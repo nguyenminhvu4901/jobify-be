@@ -23,6 +23,10 @@ Route::group(
             Route::post('/', [UserExperienceController::class, 'store'])->name('store');
             Route::get('/list-experience-current-user', [UserExperienceController::class,
                 'getListExperienceCurrentUser']);
+            Route::get('/complete-list-user-experience', [UserExperienceController::class,
+                'getCompleteListOfUserExperience']);
+            Route::get('/detail-list-user-experience', [UserExperienceController::class,
+                'getDetailListOfUserExperience'])->name('DetailListOfUserExperience');
 
             Route::post('/update-experience', [UserExperienceController::class, 'update'])
                 ->name('updateExperience');
