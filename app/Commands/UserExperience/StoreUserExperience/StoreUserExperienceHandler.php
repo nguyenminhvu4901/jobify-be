@@ -42,33 +42,12 @@ class StoreUserExperienceHandler
         {
             $attachments = $command->attachments;
 
-            $this->processAttachment($attachments, $userExperience->id);
+            foreach ($attachments as $attachment)
+            {
+                $this->userExperienceService->processAttachment($attachment, $userExperience->id);
+            }
         }
 
         return $userExperience;
-    }
-
-    /**
-     * @param $attachments
-     * @param $userExperienceId
-     * @return void
-     * @throws ValidatorException
-     */
-    private function processAttachment($attachments, $userExperienceId): void
-    {
-        foreach ($attachments as $attachment) {
-            $pathStorage = $this->userExperienceService->processStoreAttachment($attachment, $userExperienceId);
-
-            if(!empty($pathStorage))
-            {
-                $this->userExperienceResourceRepository->create([
-                    'user_experience_id' => $userExperienceId,
-                    'title' => $attachment['title'],
-                    'path' => $pathStorage,
-                    'description' => $attachment['description'],
-                    'content_type_id' => $attachment['content_type_id']
-                ]);
-            }
-        }
     }
 }

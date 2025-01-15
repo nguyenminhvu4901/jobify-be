@@ -26,6 +26,11 @@ abstract class BaseRepository extends Repository
         return $this->model->where('id', $userId)->first();
     }
 
+    /**
+     * @param $userSlug
+     * @param array|string $relationship
+     * @return mixed
+     */
     public function findByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed
     {
         $query = $this->model
@@ -77,5 +82,23 @@ abstract class BaseRepository extends Repository
         }
 
         return $query->get();
+    }
+
+
+    /**
+     * @param int|string $id
+     * @param array|string $relationship
+     * @return mixed
+     */
+    public function findByIdAndWithRelationship(int|string $id, array|string $relationship = []): mixed
+    {
+        $query = $this->model->newQuery();
+
+        if(!empty($relationship)){
+            $relationship = is_array($relationship) ? $relationship : [$relationship];
+            $query->with($relationship);
+        }
+
+        return $query->find($id);
     }
 }

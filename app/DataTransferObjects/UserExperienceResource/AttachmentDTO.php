@@ -10,7 +10,7 @@ class AttachmentDTO
         public readonly string $title,
         public readonly string $description,
         public readonly int $contentTypeId,
-        public readonly ?UploadedFile $content,
+        public readonly UploadedFile|string|null $content,
         public readonly int|null $userExperienceResourceId = null
     ) {}
 }

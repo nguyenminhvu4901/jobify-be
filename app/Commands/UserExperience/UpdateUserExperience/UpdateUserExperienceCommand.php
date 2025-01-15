@@ -23,7 +23,6 @@ class UpdateUserExperienceCommand implements CommandInterface
 
     public static function withForm(FormRequest $request): CommandInterface
     {
-
         $attachments = UserExperienceService::handleAttachments($request);
 
         return new self(

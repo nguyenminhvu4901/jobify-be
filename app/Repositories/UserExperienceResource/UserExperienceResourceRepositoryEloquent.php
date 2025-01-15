@@ -4,7 +4,6 @@ namespace App\Repositories\UserExperienceResource;
 
 use App\Entities\UserExperienceResource\UserExperienceResource;
 use App\Repositories\BaseRepository;
-use App\Repositories\UserExperience\UserExperienceRepository;
 use Illuminate\Support\Facades\DB;
 
 class UserExperienceResourceRepositoryEloquent extends BaseRepository implements UserExperienceResourceRepository

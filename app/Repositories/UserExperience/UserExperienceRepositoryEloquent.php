@@ -37,6 +37,29 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         }
     }
 
+    /**
+     * @param array $data
+     * @return LengthAwarePaginator|Collection|mixed|null
+     */
+    public function updateUserExperience(array $data, $userExperienceId): mixed
+    {
+        DB::beginTransaction();
+
+        try {
+            $userExperience = $this->findByIdAndWithRelationship($userExperienceId, ['userExperienceResource']);
+
+            $userExperience->update($data);
+
+            DB::commit();
+
+            return $userExperience->refresh();
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
     public function destroy($userExperience): bool
     {
         DB::beginTransaction();

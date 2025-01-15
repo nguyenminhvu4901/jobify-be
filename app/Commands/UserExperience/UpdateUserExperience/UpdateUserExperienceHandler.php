@@ -19,32 +19,34 @@ class UpdateUserExperienceHandler
 
     public function handle(UpdateUserExperienceCommand $command)
     {
-        $userExperience = $this->userExperienceRepository->findByRelationshipUserSlugAndColumnDetailId(
-            $command->userSlug, $command->userExperienceId, 'userExperienceResource'
-        );
+        DB::beginTransaction();
 
-        if($userExperience)
-        {
-            return DB::transaction(function () use ($command) {
-                $this->userExperienceRepository->update([
-                    'name' => $command->name,
-                    'position' => $command->position,
-                    'is_working' => $command->isWorking,
-                    'start_date' => $command->startDate,
-                    'end_date' => $command->endDate
-                ], $command->userExperienceId);
+        try {
+            $userExperience = $this->userExperienceRepository->updateUserExperience([
+                'name' => $command->name,
+                'position' => $command->position,
+                'is_working' => $command->isWorking,
+                'start_date' => $command->startDate,
+                'end_date' => $command->endDate
+            ], $command->userExperienceId);
 
-                if(!empty($command->attachments))
-                {
-                    $attachments = $command->attachments;
+            if(!empty($command->attachments))
+            {
+                $attachments = $command->attachments;
+                $userExperienceResource = $userExperience->userExperienceResource;
 
-                    $this->processAttachment($attachments, $command->userExperienceId);
-                }else{
+                $this->userExperienceService->processUpdateAttachment(
+                    $attachments, $userExperienceResource, $command->userExperienceId
+                );
+            }
 
-                }
-            });
+            DB::commit();
+
+            return $userExperience;
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
         }
-
-        return null;
     }
 }

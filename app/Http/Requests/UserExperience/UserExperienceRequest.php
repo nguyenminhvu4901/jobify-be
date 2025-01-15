@@ -76,4 +76,45 @@ class UserExperienceRequest extends FormRequest
             'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
         ];
     }
+
+    /**
+     * Custom validation logic for conditional validation.
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator){
+
+            if ($this->has('attachments')) {
+                $attachments = $this->attachments;
+
+                foreach ($attachments as $index => $attachment) {
+                    $contentTypeId = $attachment['content_type_id'] ?? null;
+
+                    switch ($contentTypeId){
+                        case DefaultContentType::IMAGE->value:
+                            $this->validateImageUpdate($attachment, $index, $validator);
+
+                            break;
+
+                        case DefaultContentType::URL->value:
+                            $this->validateUrl($attachment, $index, $validator);
+
+                            break;
+
+                        case DefaultContentType::VIDEO->value:
+                            $this->validateVideoUpdate($attachment, $index, $validator);
+
+                            break;
+
+                        default:
+                            $validator->errors()->add(
+                                "attachments.{$index}.content_type_id",
+                                __('validation.custom.invalid_content_type_value_please_choose_again')
+                            );
+                            break;
+                    }
+                }
+            }
+        });
+    }
 }
