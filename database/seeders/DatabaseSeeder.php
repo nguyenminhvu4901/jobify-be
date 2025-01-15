@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Address\DistrictSeeder;
 use Database\Seeders\CompanyScales\CompanyScaleSeeder;
 use Database\Seeders\DefaultData\DefaultContentTypeSeeder;
 use Database\Seeders\DefaultData\DefaultGenderSeeder;

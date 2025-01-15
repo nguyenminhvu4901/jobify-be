@@ -19,11 +19,24 @@ Route::group(
         Route::post('upload-avatar', [PersonalInfoController::class, 'uploadAvatar'])
             ->name('uploadAvatar');
 
-        Route::group(['prefix' => 'user-experience', 'as' => 'user-experience.'], function() {
-            Route::post('/', [UserExperienceController::class, 'store']);
+        Route::group(['prefix' => 'user-experience', 'as' => 'userExperience.'], function() {
+            Route::post('/', [UserExperienceController::class, 'store'])->name('store');
+
             Route::get('/list-experience-current-user', [UserExperienceController::class,
                 'getListExperienceCurrentUser']);
 
-            Route::put('/', [UserExperienceController::class, 'update']);
+            Route::get('/complete-list-user-experience', [UserExperienceController::class,
+                'getCompleteListOfUserExperience']);
+
+            Route::get('/detail-list-user-experience', [UserExperienceController::class,
+                'getDetailListOfUserExperience'])->name('DetailListOfUserExperience');
+
+            Route::get('/detail-list-user-experience-by-user-slug', [UserExperienceController::class,
+                'getDetailListOfUserExperienceByUserSlug'])->name('DetailListOfUserExperienceByUserSlug');
+
+            Route::post('/update-experience', [UserExperienceController::class, 'update'])
+                ->name('updateExperience');
+
+            Route::delete('/', [UserExperienceController::class, 'destroy'])->name('destroy');
         });
 });

@@ -15,6 +15,6 @@ class GetListExperienceCurrentUserHandler
     {
         $user = auth()->user();
 
-        return $this->userRepository->getListUserExperience($user->id);
+        return $this->userRepository->getListUserExperienceByUserId($user->id);
     }
 }

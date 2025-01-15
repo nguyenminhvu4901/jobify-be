@@ -3,13 +3,14 @@
 namespace App\Http\Requests\UserExperience;
 
 use App\Enums\DefaultContentType;
+use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserExperienceRequest extends FormRequest
 {
-    use FailedValidation;
+    use FailedValidation, ValidatesAttachmentsTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,21 +26,36 @@ class UserExperienceRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method = $this->method();
+        $routeName = request()->route()->getName();
 
         $commonRules = $this->getCommonRules();
 
-        switch ($method){
-            case 'POST':
+        switch ($routeName){
+            case "profile.userExperience.store":
+
                 return $commonRules;
-            case 'PUT':
-            case 'PATCH':
+
+            case "profile.userExperience.updateExperience":
                 $updateRule = [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
+                    'attachments.*.user_experience_resource_id' => [
+                        'bail', 'nullable', 'integer', 'exists:user_experience_resources,id'
+                    ]
                 ];
 
                 return array_merge($commonRules, $updateRule);
+
+            case "profile.userExperience.destroy":
+                return [
+                    'user_slug' => ['required', 'string', 'exists:users,slug'],
+                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+                ];
+
+            case "profile.userExperience.DetailListOfUserExperience":
+                return [
+                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+                ];
             default:
                 return [];
         }
@@ -66,47 +82,36 @@ class UserExperienceRequest extends FormRequest
      */
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
+        $validator->after(function ($validator){
 
             if ($this->has('attachments')) {
                 $attachments = $this->attachments;
 
                 foreach ($attachments as $index => $attachment) {
                     $contentTypeId = $attachment['content_type_id'] ?? null;
-                    if ($contentTypeId == DefaultContentType::IMAGE->value) {
-                        $imageRules = ['required', 'image', 'mimes:jpeg,jpg,png,gif,bmp,svg,webp', 'max:10240'];
-                        $imageValidator = validator(['image' => $attachment['image'] ?? null], ['image' => $imageRules]);
 
-                        if ($imageValidator->fails()) {
-                            foreach ($imageValidator->errors()->get('image') as $message) {
-                                $validator->errors()->add("attachments.{$index}.image", $message);
-                            }
-                        }
-                    }
-                    elseif ($contentTypeId == DefaultContentType::URL->value) {
-                        $imageRules = ['required', 'string'];
+                    switch ($contentTypeId){
+                        case DefaultContentType::IMAGE->value:
+                            $this->validateImageUpdate($attachment, $index, $validator);
 
-                        $imageValidator = validator(['url' => $attachment['url'] ?? null], ['url' => $imageRules]);
+                            break;
 
-                        if ($imageValidator->fails()) {
-                            foreach ($imageValidator->errors()->get('url') as $message) {
-                                $validator->errors()->add("attachments.{$index}.url", $message);
-                            }
-                        }
-                    }
-                    elseif ($contentTypeId == DefaultContentType::VIDEO->value) {
-                        $videoRules = ['bail', 'required', 'file', 'mimes:mp4,mov,avi,flv,mkv', 'max:51200'];
-                        $videoValidator = validator(['video' => $attachment['video'] ?? null], ['video' => $videoRules]);
+                        case DefaultContentType::URL->value:
+                            $this->validateUrl($attachment, $index, $validator);
 
-                        if ($videoValidator->fails()) {
-                            foreach ($videoValidator->errors()->get('video') as $message) {
-                                $validator->errors()->add("attachments.{$index}.video", $message);
-                            }
-                        }
-                    }else{
-                        $validator->errors()->add(
-                            "attachments.{$index}.content_type_id",
-                            __('validation.custom.invalid_content_type_value_please_choose_again'));
+                            break;
+
+                        case DefaultContentType::VIDEO->value:
+                            $this->validateVideoUpdate($attachment, $index, $validator);
+
+                            break;
+
+                        default:
+                            $validator->errors()->add(
+                                "attachments.{$index}.content_type_id",
+                                __('validation.custom.invalid_content_type_value_please_choose_again')
+                            );
+                            break;
                     }
                 }
             }

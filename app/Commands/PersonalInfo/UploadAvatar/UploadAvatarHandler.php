@@ -16,16 +16,18 @@ class UploadAvatarHandler
     public function handle(UploadAvatarCommand $command)
     {
         $user = auth()->user();
-        $path = config('constants.path_avatar');
+
 
         if(!empty($command->avatar)){
+            $path = config('constants.path_avatar');
+
             $pathStorage = $this->storeImage($command->avatar, $path, $user);
 
             return $this->userRepository->update([
                 'avatar' => $pathStorage
             ], $user->id);
         }else{
-            $status = $this->deleteImage($path, $user);
+            $status = $this->deleteImage($user->avatar);
 
             if($status){
                 return $this->userRepository->update([

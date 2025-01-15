@@ -4,6 +4,8 @@ namespace App\Repositories\UserExperience;
 
 use App\Entities\UserExperience\UserExperience;
 use App\Repositories\BaseRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class UserExperienceRepositoryEloquent extends BaseRepository implements UserExperienceRepository
@@ -13,7 +15,11 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         return UserExperience::class;
     }
 
-    public function create(array $data)
+    /**
+     * @param array $data
+     * @return LengthAwarePaginator|Collection|mixed|null
+     */
+    public function create(array $data): mixed
     {
 
         DB::beginTransaction();
@@ -28,6 +34,47 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
             DB::rollBack();
 
             return null;
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return LengthAwarePaginator|Collection|mixed|null
+     */
+    public function updateUserExperience(array $data, $userExperienceId): mixed
+    {
+        DB::beginTransaction();
+
+        try {
+            $userExperience = $this->findByIdAndWithRelationship($userExperienceId, ['userExperienceResource']);
+
+            $userExperience->update($data);
+
+            DB::commit();
+
+            return $userExperience->refresh();
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
+    public function destroy($userExperience): bool
+    {
+        DB::beginTransaction();
+
+        try {
+            $userExperience->delete();
+
+            DB::commit();
+
+            return true;
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+
+            return false;
         }
     }
 }
