@@ -107,15 +107,4 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             return null;
         }
     }
-
-    /**
-     * @param $userId
-     * @return \Illuminate\Database\Eloquent\Collection|Model|null
-     */
-    public function getListUserExperienceByUserId($userId): Model|\Illuminate\Database\Eloquent\Collection|null
-    {
-        return $this->model->with(['userExperiences' => function ($query) {
-            $query->orderByDesc('id');
-        }])->find($userId);
-    }
 }

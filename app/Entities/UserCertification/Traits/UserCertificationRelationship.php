@@ -12,7 +12,7 @@ trait UserCertificationRelationship
     /**
      * @return HasMany
      */
-    public function userCertificationResource(): HasMany
+    public function userCertificationResources(): HasMany
     {
         return $this->hasMany(UserCertificationResource::class);
     }

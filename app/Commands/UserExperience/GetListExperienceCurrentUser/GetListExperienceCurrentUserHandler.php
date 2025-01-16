@@ -15,6 +15,14 @@ class GetListExperienceCurrentUserHandler
     {
         $user = auth()->user();
 
-        return $this->userRepository->getListUserExperienceByUserId($user->id);
+        return $this->userRepository->findWithRelationships(
+            $user->id,
+            'userExperiences',
+            [
+                'userExperiences' => function ($query) {
+                    return $query->orderByDesc('id');
+                }
+            ]
+        );
     }
 }

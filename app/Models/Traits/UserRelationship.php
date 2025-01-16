@@ -5,6 +5,7 @@ namespace App\Models\Traits;
 use App\Entities\Company\Company;
 use App\Entities\DefaultGender\DefaultGender;
 use App\Entities\DefaultStatus\DefaultStatus;
+use App\Entities\UserCertification\UserCertification;
 use App\Entities\UserExperience\UserExperience;
 use App\Entities\UserProfile\UserProfile;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,5 +52,13 @@ trait UserRelationship
     public function userExperiences(): HasMany
     {
         return $this->hasMany(UserExperience::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function userCertifications(): HasMany
+    {
+        return $this->hasMany(UserCertification::class);
     }
 }

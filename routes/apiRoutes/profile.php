@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Profile\PersonalInfoController;
+use App\Http\Controllers\API\Profile\UserCertificationController;
 use App\Http\Controllers\API\Profile\UserExperienceController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,5 +39,10 @@ Route::group(
                 ->name('updateExperience');
 
             Route::delete('/', [UserExperienceController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group(['prefix' => 'user-certification', 'as' => 'userCertification.'], function (){
+            Route::get('/list-certification-current-user', [UserCertificationController::class,
+                'getListCertificationCurrentUser']);
         });
 });

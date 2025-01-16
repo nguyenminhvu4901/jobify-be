@@ -46,7 +46,7 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         DB::beginTransaction();
 
         try {
-            $userExperience = $this->findByIdAndWithRelationship($userExperienceId, ['userExperienceResource']);
+            $userExperience = $this->findWithRelationships($userExperienceId, ['userExperienceResource']);
 
             $userExperience->update($data);
 
