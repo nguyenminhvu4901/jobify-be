@@ -17,7 +17,7 @@ class UserCertificationAttachmentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_experience_id' => $this->user_experience_id,
+            'user_certification_id' => $this->user_certification_id,
             'title' => $this->title,
             'path' => $this->path,
             'description' => $this->description,

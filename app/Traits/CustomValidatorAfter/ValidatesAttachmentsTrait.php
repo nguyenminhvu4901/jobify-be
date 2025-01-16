@@ -2,8 +2,6 @@
 
 namespace App\Traits\CustomValidatorAfter;
 
-use App\Enums\DefaultContentType;
-
 trait ValidatesAttachmentsTrait
 {
     /**
@@ -14,7 +12,7 @@ trait ValidatesAttachmentsTrait
      */
     private function validateImage($attachment, $index, $validator): void
     {
-        $imageRules = ['required', 'image', 'mimes:jpeg,jpg,png,gif,bmp,svg,webp', 'max:10240'];
+        $imageRules = ['bail', 'required', 'image', 'mimes:jpeg,jpg,png,gif,bmp,svg,webp', 'max:10240'];
         $imageValidator = validator(['image' => $attachment['image'] ?? null], ['image' => $imageRules]);
 
         if ($imageValidator->fails()) {
@@ -32,7 +30,7 @@ trait ValidatesAttachmentsTrait
      */
     private function validateImagePath($attachment, $index, $validator): void
     {
-        $imageRules = ['required', 'string'];
+        $imageRules = ['bail', 'required', 'string'];
         $imageValidator = validator(['image' => $attachment['image'] ?? null], ['image' => $imageRules]);
 
         if ($imageValidator->fails()) {
@@ -50,7 +48,7 @@ trait ValidatesAttachmentsTrait
      */
     private function validateUrl($attachment, $index, $validator): void
     {
-        $urlRules = ['required', 'string'];
+        $urlRules = ['bail', 'required', 'string'];
         $urlValidator = validator(['url' => $attachment['url'] ?? null], ['url' => $urlRules]);
 
         if ($urlValidator->fails()) {
@@ -68,7 +66,7 @@ trait ValidatesAttachmentsTrait
      */
     private function validateVideo($attachment, $index, $validator): void
     {
-        $videoRules = ['required', 'file', 'mimes:mp4,mov,avi,flv,mkv', 'max:51200'];
+        $videoRules = ['bail', 'required', 'file', 'mimes:mp4,mov,avi,flv,mkv', 'max:51200'];
         $videoValidator = validator(['video' => $attachment['video'] ?? null], ['video' => $videoRules]);
 
         if ($videoValidator->fails()) {
@@ -86,7 +84,7 @@ trait ValidatesAttachmentsTrait
      */
     private function validateVideoPath($attachment, $index, $validator): void
     {
-        $videoRules = ['required', 'string'];
+        $videoRules = ['bail', 'required', 'string'];
         $videoValidator = validator(['video' => $attachment['video'] ?? null], ['video' => $videoRules]);
 
         if ($videoValidator->fails()) {
@@ -104,7 +102,7 @@ trait ValidatesAttachmentsTrait
      */
     private function validateImageUpdate($attachment, $index, $validator): void
     {
-        if(is_string($attachment['image'])){
+        if(!empty($attachment['image']) && is_string($attachment['image'])){
             $this->validateImagePath($attachment, $index, $validator);
         }else{
             $this->validateImage($attachment, $index, $validator);
@@ -119,7 +117,7 @@ trait ValidatesAttachmentsTrait
      */
     private function validateVideoUpdate($attachment, $index, $validator): void
     {
-        if(is_string($attachment['video'])){
+        if(!empty($attachment['video']) && is_string($attachment['video'])){
             $this->validateVideoPath($attachment, $index, $validator);
         }else{
             $this->validateVideo($attachment, $index, $validator);

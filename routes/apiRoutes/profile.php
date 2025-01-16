@@ -44,5 +44,7 @@ Route::group(
         Route::group(['prefix' => 'user-certification', 'as' => 'userCertification.'], function (){
             Route::get('/list-certification-current-user', [UserCertificationController::class,
                 'getListCertificationCurrentUser']);
+
+            Route::post('/', [UserCertificationController::class, 'store'])->name('store');
         });
 });

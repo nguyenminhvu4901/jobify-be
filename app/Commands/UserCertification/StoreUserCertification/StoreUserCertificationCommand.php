@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Commands\UserExperience\UpdateUserExperience;
+namespace App\Commands\UserCertification\StoreUserCertification;
 
 use App\Commands\CommandInterface;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserExperienceCommand implements CommandInterface
+class StoreUserCertificationCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $userSlug,
-        public readonly int $userExperienceId,
         public readonly string $name,
-        public readonly string $position,
-        public readonly bool $isWorking,
+        public readonly string|null $organization,
+        public readonly bool $isNoExpiration,
         public readonly string $startDate,
         public readonly string|null $endDate,
         public readonly array|null $attachments
@@ -26,11 +24,9 @@ class UpdateUserExperienceCommand implements CommandInterface
         $attachments = AttachmentResourceService::handleAttachments($request);
 
         return new self(
-            userSlug: $request->get('user_slug'),
-            userExperienceId: $request->get('user_experience_id'),
             name: $request->get('name'),
-            position: $request->get('position'),
-            isWorking: $request->get('is_working'),
+            organization: $request->get('organization'),
+            isNoExpiration: $request->get('is_no_expiration'),
             startDate: $request->get('start_date'),
             endDate: $request->get('end_date') ?? null,
             attachments: $attachments

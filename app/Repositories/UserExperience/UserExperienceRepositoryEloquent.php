@@ -21,7 +21,6 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
      */
     public function create(array $data): mixed
     {
-
         DB::beginTransaction();
 
         try {
