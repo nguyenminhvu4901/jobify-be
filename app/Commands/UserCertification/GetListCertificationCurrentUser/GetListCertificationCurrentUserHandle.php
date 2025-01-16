@@ -2,12 +2,12 @@
 
 namespace App\Commands\UserCertification\GetListCertificationCurrentUser;
 
-use App\Repositories\UserCertification\UserCertificationRepository;
+use App\Repositories\User\UserRepository;
 
 class GetListCertificationCurrentUserHandle
 {
     public function __construct(
-        protected UserCertificationRepository $userCertificationRepository
+        protected UserRepository $userRepository
     )
     {
     }
@@ -19,11 +19,11 @@ class GetListCertificationCurrentUserHandle
     {
         $user = auth()->user();
 
-        return $this->userCertificationRepository->findWithRelationships(
+        return $this->userRepository->findWithRelationships(
             $user->id,
-            'userCertificationResources',
+            'userCertifications',
             [
-                'userCertificationResources' => function ($query) {
+                'userCertifications' => function ($query) {
                     return $query->orderByDesc('id');
                 }
             ]
