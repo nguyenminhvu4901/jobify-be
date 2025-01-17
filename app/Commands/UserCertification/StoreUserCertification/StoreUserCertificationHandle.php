@@ -5,19 +5,20 @@ namespace App\Commands\UserCertification\StoreUserCertification;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
 use App\Services\UserCertification\UserCertificationService;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class StoreUserCertificationHandle
 {
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository,
-        protected UserCertificationService $userCertificationService,
-        protected UserCertificationResourceRepository $userCertificationResourceRepository
+        protected UserCertificationService $userCertificationService
     )
     {}
 
     /**
      * @param StoreUserCertificationCommand $command
      * @return mixed
+     * @throws ValidatorException
      */
     public function handle(StoreUserCertificationCommand $command): mixed
     {
@@ -38,16 +39,12 @@ class StoreUserCertificationHandle
 
             foreach ($attachments as $attachment)
             {
-                $pathStorage = $this->userCertificationService->processAttachment($attachment);
+                $pathStorage = $this->userCertificationService->processSaveAttachment($attachment);
 
                 if(!empty($pathStorage)){
-                    $this->userCertificationResourceRepository->create([
-                        'user_certification_id' => $userCertification->id,
-                        'title' => $attachment['title'],
-                        'path' => $pathStorage,
-                        'description' => $attachment['description'],
-                        'content_type_id' => $attachment['content_type_id']
-                    ]);
+                    $this->userCertificationService->storeUserCertificationResource(
+                        $attachment, $userCertification->id, $pathStorage
+                    );
                 }
             }
         }

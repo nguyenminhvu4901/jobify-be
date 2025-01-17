@@ -56,6 +56,9 @@ Route::group(
             Route::get('/detail-list-user-certification-by-user-slug', [UserCertificationController::class,
                 'getDetailListOfUserCertificationByUserSlug'])->name('DetailListOfUserCertificationByUserSlug');
 
+            Route::post('/update-certification', [UserCertificationController::class, 'update'])
+                ->name('updateCertification');
+
             Route::delete('/', [UserCertificationController::class, 'destroy'])->name('destroy');
         });
 });

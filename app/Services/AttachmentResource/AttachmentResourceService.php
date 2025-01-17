@@ -14,12 +14,13 @@ class AttachmentResourceService
 
     /**
      * @param FormRequest $request
+     * @param string $idName
      * @return array
      */
-    public static function handleAttachments(FormRequest $request): array
+    public static function handleAttachments(FormRequest $request, string $idName): array
     {
         return collect($request->get('attachments', []))
-            ->map(function ($attachment, $key) use ($request) {
+            ->map(function ($attachment, $key) use ($request, $idName) {
                 switch ($attachment['content_type_id']) {
                     case DefaultContentType::IMAGE->value:
                         if(!empty($attachment['image']) && is_string($attachment['image'])){
@@ -50,7 +51,7 @@ class AttachmentResourceService
                     $attachment['description'],
                     $attachment['content_type_id'],
                     $content ?? null,
-                    $attachment['user_experience_resource_id'] ?? null
+                    $attachment[$idName] ?? null
                 );
 
                 return [
@@ -58,7 +59,7 @@ class AttachmentResourceService
                     'description' => $attachmentDTO->description,
                     'content_type_id' => $attachmentDTO->contentTypeId,
                     'content' => $attachmentDTO->content,
-                    'user_experience_resource_id' => $attachmentDTO->userExperienceResourceId,
+                    $idName => $attachmentDTO->userResourceId,
                 ];
             })
             ->filter()
@@ -70,12 +71,26 @@ class AttachmentResourceService
      * @param $attachmentResource
      * @return void
      */
-    public function processDeleteAttachment($attachmentResource): void
+    public function deleteFileAttachment($attachmentResource): void
     {
         if ($attachmentResource->content_type_id == DefaultContentType::IMAGE->value) {
             $this->deleteImage($attachmentResource->path);
         }elseif ($attachmentResource->content_type_id == DefaultContentType::VIDEO->value) {
             $this->deleteVideo($attachmentResource->path);
         }
+    }
+
+    /**
+     * @param $attachments
+     * @param $userModelResource
+     * @param $idName
+     * @return array
+     */
+    public function getListRedundantIdsToDelete($attachments, $userModelResource, $idName): array
+    {
+        $attachmentIds = getFilterCollectionIds($attachments, $idName);
+        $userModelResourceIds = getFilterCollectionIds($userModelResource);
+
+        return getElementsNotInFirstCollection($attachmentIds, $userModelResourceIds)->toArray();
     }
 }

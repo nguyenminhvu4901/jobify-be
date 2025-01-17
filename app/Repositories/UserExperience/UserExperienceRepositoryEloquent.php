@@ -36,9 +36,11 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         }
     }
 
+
     /**
      * @param array $data
-     * @return LengthAwarePaginator|Collection|mixed|null
+     * @param $userExperienceId
+     * @return mixed
      */
     public function updateUserExperience(array $data, $userExperienceId): mixed
     {
@@ -59,6 +61,10 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         }
     }
 
+    /**
+     * @param $userExperience
+     * @return bool
+     */
     public function destroy($userExperience): bool
     {
         DB::beginTransaction();

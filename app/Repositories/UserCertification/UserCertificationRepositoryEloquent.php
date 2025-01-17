@@ -60,4 +60,28 @@ class UserCertificationRepositoryEloquent extends BaseRepository implements User
             return false;
         }
     }
+
+    /**
+     * @param array $data
+     * @param $userCertificationId
+     * @return mixed|null
+     */
+    public function updateUserCertification(array $data, $userCertificationId): mixed
+    {
+        DB::beginTransaction();
+
+        try {
+            $userCertification = $this->findWithRelationships($userCertificationId, 'userCertificationResources');
+
+            $userCertification->update($data);
+
+            DB::commit();
+
+            return  $userCertification;
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
+        }
+    }
 }

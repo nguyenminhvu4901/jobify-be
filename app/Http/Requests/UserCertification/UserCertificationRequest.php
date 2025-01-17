@@ -33,6 +33,16 @@ class UserCertificationRequest extends FormRequest
 
         return match ($routeName) {
             "profile.userCertification.store" => $commonRules,
+            "profile.userCertification.updateUserCertification" => array_merge(
+                $commonRules,
+                [
+                    'user_slug' => ['required', 'string', 'exists:users,slug'],
+                    'user_certification_id' => ['required', 'integer', 'exists:user_certifications,id'],
+                    'attachments.*.user_certification_resource_id' => [
+                        'bail', 'nullable', 'integer', 'exists:user_certification_resources,id'
+                    ]
+                ]
+            ),
             "profile.userCertification.DetailListOfUserCertification" => [
                 'user_certification_id' => ['required', 'integer', 'exists:user_certifications,id']
             ],

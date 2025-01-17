@@ -14,6 +14,8 @@ use App\Commands\UserCertification\GetListCertificationCurrentUser\GetListCertif
 use App\Commands\UserCertification\GetListCertificationCurrentUser\GetListCertificationCurrentUserHandle;
 use App\Commands\UserCertification\StoreUserCertification\StoreUserCertificationCommand;
 use App\Commands\UserCertification\StoreUserCertification\StoreUserCertificationHandle;
+use App\Commands\UserCertification\UpdateUserCertification\UpdateUserCertificationCommand;
+use App\Commands\UserCertification\UpdateUserCertification\UpdateUserCertificationHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCertification\UserCertificationRequest;
 use App\Http\Resources\UserCertification\CurrentUserCertificationResource;
@@ -120,6 +122,25 @@ class UserCertificationController extends Controller
             $this->responseSuccess(UserCertificationResource::collection($userCertification),
                 __('messages.user_get_profile_success')) :
             $this->responseError(__('messages.user_get_profile_error'));
+    }
+
+    /**
+     * @param UserCertificationRequest $request
+     * @return JsonResponse
+     */
+    public function update(UserCertificationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateUserCertificationCommand::class,
+            UpdateUserCertificationHandle::class
+        );
+
+        $userCertification = $this->bus->dispatch(UpdateUserCertificationCommand::withForm($request));
+
+        return $userCertification ?
+            $this->responseSuccess(UserCertificationResource::make($userCertification),
+                __('messages.user_update_profile_success')) :
+            $this->responseError(__('messages.user_update_profile_error'));
     }
 
     /**

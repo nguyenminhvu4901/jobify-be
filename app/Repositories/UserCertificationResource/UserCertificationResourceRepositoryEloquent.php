@@ -17,7 +17,20 @@ class UserCertificationResourceRepositoryEloquent extends BaseRepository impleme
         return UserCertificationResource::class;
     }
 
-    public function destroy($userCertificationResource)
+    /**
+     * @param array $userCertificationResourceId
+     * @return mixed
+     */
+    public function getListUserCertificationResourceByIds(array $userCertificationResourceId): mixed
+    {
+        return $this->model->whereIn('id', $userCertificationResourceId)->get();
+    }
+
+    /**
+     * @param $userCertificationResource
+     * @return mixed
+     */
+    public function destroy($userCertificationResource): mixed
     {
         DB::beginTransaction();
 
