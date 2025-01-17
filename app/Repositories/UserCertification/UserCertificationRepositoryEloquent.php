@@ -38,4 +38,26 @@ class UserCertificationRepositoryEloquent extends BaseRepository implements User
             return null;
         }
     }
+
+    /**
+     * @param $userCertification
+     * @return bool
+     */
+    public function destroy($userCertification): bool
+    {
+        DB::beginTransaction();
+
+        try {
+            $userCertification->delete();
+
+            DB::commit();
+
+            return true;
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+
+            return false;
+        }
+    }
 }

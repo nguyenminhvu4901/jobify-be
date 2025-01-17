@@ -4,10 +4,14 @@ namespace App\Services\AttachmentResource;
 
 use App\DataTransferObjects\UserExperienceResource\AttachmentDTO;
 use App\Enums\DefaultContentType;
+use App\Traits\ImageHandler;
+use App\Traits\VideoHandler;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AttachmentResourceService
 {
+    use ImageHandler, VideoHandler;
+
     /**
      * @param FormRequest $request
      * @return array
@@ -60,5 +64,18 @@ class AttachmentResourceService
             ->filter()
             ->values()
             ->toArray();
+    }
+
+    /**
+     * @param $attachmentResource
+     * @return void
+     */
+    public function processDeleteAttachment($attachmentResource): void
+    {
+        if ($attachmentResource->content_type_id == DefaultContentType::IMAGE->value) {
+            $this->deleteImage($attachmentResource->path);
+        }elseif ($attachmentResource->content_type_id == DefaultContentType::VIDEO->value) {
+            $this->deleteVideo($attachmentResource->path);
+        }
     }
 }

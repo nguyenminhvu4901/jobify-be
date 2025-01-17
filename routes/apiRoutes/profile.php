@@ -49,5 +49,13 @@ Route::group(
 
             Route::get('/complete-list-user-certification', [UserCertificationController::class,
                 'getCompleteListOfUserCertification']);
+
+            Route::get('/detail-list-user-certification', [UserCertificationController::class,
+                'getDetailListOfUserCertification'])->name('DetailListOfUserCertification');
+
+            Route::get('/detail-list-user-certification-by-user-slug', [UserCertificationController::class,
+                'getDetailListOfUserCertificationByUserSlug'])->name('DetailListOfUserCertificationByUserSlug');
+
+            Route::delete('/', [UserCertificationController::class, 'destroy'])->name('destroy');
         });
 });
