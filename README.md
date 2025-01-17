@@ -86,8 +86,9 @@ Error
 Nếu code có vấn đề, hãy chạy các câu lệnh terminal sau:
 composer install
 composer update
-art cache:clear
-art route:clear
-art route:cache
-art view:clear
-art config:cache
+composer dump-autoload
+php artisan cache:clear
+php artisan route:clear
+php artisan route:cache
+php artisan view:clear
+php artisan config:cache
