@@ -75,6 +75,7 @@ php artisan key:generate
 php artisan jwt:secret
 php artisan migrate --seed
 phpunit
+composer dump-autoload
 php artisan storage:link
 ```
 Notice
@@ -86,7 +87,6 @@ Error
 Nếu code có vấn đề, hãy chạy các câu lệnh terminal sau:
 composer install
 composer update
-composer dump-autoload
 php artisan cache:clear
 php artisan route:clear
 php artisan route:cache
