@@ -202,6 +202,8 @@ return [
         'user_experience_id' => 'Mã kinh nghiệm',
         'name' => 'Tên',
         'is_working' => 'Đang làm việc tại đây',
+        'organization' => 'Tổ chức',
+        'is_no_expiration' => 'Ngày hết hạn',
         'start_date' => 'Ngày bắt đầu',
         'end_date' => 'Ngày kết thúc',
         'attachments' => 'Tệp đính kèm',
@@ -212,6 +214,7 @@ return [
         'attachments.*.video' => 'Video',
         'attachments.*.file' => 'Tài liệu',
         'attachments.*.url' => 'Địa chỉ web',
-        'attachments.*.user_experience_resource_id' => 'Mã kinh nghiệm tài nguyên người dùng'
+        'attachments.*.user_experience_resource_id' => 'Mã kinh nghiệm tài nguyên người dùng',
+        'user_certification_id' => 'Mã chứng chỉ'
     ]
 ];

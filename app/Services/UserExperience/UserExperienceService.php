@@ -2,15 +2,12 @@
 
 namespace App\Services\UserExperience;
 
-use App\DataTransferObjects\UserExperienceResource\AttachmentDTO;
 use App\Enums\DefaultContentType;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
-use Prettus\Validator\Exceptions\ValidatorException;
 
 class UserExperienceService
 {
@@ -20,61 +17,6 @@ class UserExperienceService
         protected UserExperienceResourceRepository $userExperienceResourceRepository,
     )
     {}
-
-    /**
-     * @param FormRequest $request
-     * @return array
-     */
-    public static function handleAttachments(FormRequest $request): array
-    {
-        return collect($request->get('attachments', []))
-            ->map(function ($attachment, $key) use ($request) {
-                switch ($attachment['content_type_id']) {
-                    case DefaultContentType::IMAGE->value:
-                        if(!empty($attachment['image']) && is_string($attachment['image'])){
-                            $content = $request->input("attachments.$key.image");
-                        }else{
-                            $content = $request->file("attachments.$key.image");
-                        }
-
-                        break;
-                    case DefaultContentType::URL->value:
-                        $content = $request->input("attachments.$key.url");
-
-                        break;
-                    case DefaultContentType::VIDEO->value:
-                        if(!empty($attachment['video']) && is_string($attachment['video'])){
-                            $content = $request->input("attachments.$key.video");
-                        }else{
-                            $content = $request->file("attachments.$key.video");
-                        }
-
-                        break;
-                    default:
-                        return null;
-                }
-
-                $attachmentDTO = new AttachmentDTO(
-                    $attachment['title'],
-                    $attachment['description'],
-                    $attachment['content_type_id'],
-                    $content ?? null,
-                    $attachment['user_experience_resource_id'] ?? null
-                );
-
-                return [
-                    'title' => $attachmentDTO->title,
-                    'description' => $attachmentDTO->description,
-                    'content_type_id' => $attachmentDTO->contentTypeId,
-                    'content' => $attachmentDTO->content,
-                    'user_experience_resource_id' => $attachmentDTO->userExperienceResourceId,
-                ];
-            })
-            ->filter()
-            ->values()
-            ->toArray();
-    }
-
 
     /**
      * @param $attachment

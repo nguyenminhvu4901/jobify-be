@@ -21,7 +21,6 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
      */
     public function create(array $data): mixed
     {
-
         DB::beginTransaction();
 
         try {
@@ -37,16 +36,18 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         }
     }
 
+
     /**
      * @param array $data
-     * @return LengthAwarePaginator|Collection|mixed|null
+     * @param $userExperienceId
+     * @return mixed
      */
     public function updateUserExperience(array $data, $userExperienceId): mixed
     {
         DB::beginTransaction();
 
         try {
-            $userExperience = $this->findByIdAndWithRelationship($userExperienceId, ['userExperienceResource']);
+            $userExperience = $this->findWithRelationships($userExperienceId, ['userExperienceResource']);
 
             $userExperience->update($data);
 
@@ -60,6 +61,10 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         }
     }
 
+    /**
+     * @param $userExperience
+     * @return bool
+     */
     public function destroy($userExperience): bool
     {
         DB::beginTransaction();

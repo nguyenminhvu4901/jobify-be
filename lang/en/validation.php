@@ -224,6 +224,7 @@ return [
         'attachments.*.video' => 'Attachment video',
         'attachments.*.file' => 'Attachment file',
         'attachments.*.url' => 'Attachment url',
-        'user_experience_resource_id' => 'User Experience Resource Code'
+        'user_experience_resource_id' => 'User Experience Resource Code',
+        'user_certification_id' => 'User Certification Code'
     ]
 ];

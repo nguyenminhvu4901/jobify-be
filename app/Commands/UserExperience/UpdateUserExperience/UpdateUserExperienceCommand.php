@@ -3,7 +3,7 @@
 namespace App\Commands\UserExperience\UpdateUserExperience;
 
 use App\Commands\CommandInterface;
-use App\Services\UserExperience\UserExperienceService;
+use App\Services\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserExperienceCommand implements CommandInterface
@@ -23,7 +23,7 @@ class UpdateUserExperienceCommand implements CommandInterface
 
     public static function withForm(FormRequest $request): CommandInterface
     {
-        $attachments = UserExperienceService::handleAttachments($request);
+        $attachments = AttachmentResourceService::handleAttachments($request, 'user_experience_resource_id');
 
         return new self(
             userSlug: $request->get('user_slug'),

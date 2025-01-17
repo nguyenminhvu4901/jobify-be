@@ -84,19 +84,34 @@ abstract class BaseRepository extends Repository
         return $query->get();
     }
 
-
     /**
      * @param int|string $id
      * @param array|string $relationship
+     * @param array $relationshipCallbacks = []
      * @return mixed
      */
-    public function findByIdAndWithRelationship(int|string $id, array|string $relationship = []): mixed
+    public function findWithRelationships(
+        int|string $id,
+        array|string $relationship = [],
+        array $relationshipCallbacks = []
+    ): mixed
     {
         $query = $this->model->newQuery();
 
         if(!empty($relationship)){
             $relationship = is_array($relationship) ? $relationship : [$relationship];
-            $query->with($relationship);
+
+            if (!empty($relationshipCallbacks)) {
+                foreach ($relationship as $rel) {
+                    if (!empty($relationshipCallbacks[$rel])) {
+                        $query->with([$rel => $relationshipCallbacks[$rel]]);
+                    } else {
+                        $query->with($rel);
+                    }
+                }
+            } else {
+                $query->with($relationship);
+            }
         }
 
         return $query->find($id);

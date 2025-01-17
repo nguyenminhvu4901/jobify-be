@@ -1,25 +1,29 @@
 <?php
 
-namespace App\Commands\UserExperience\GetListExperienceCurrentUser;
+namespace App\Commands\UserCertification\GetListCertificationCurrentUser;
 
 use App\Repositories\User\UserRepository;
 
-class GetListExperienceCurrentUserHandler
+class GetListCertificationCurrentUserHandle
 {
     public function __construct(
         protected UserRepository $userRepository
     )
-    {}
+    {
+    }
 
-    public function handle()
+    /**
+     * @return mixed
+     */
+    public function handle(): mixed
     {
         $user = auth()->user();
 
         return $this->userRepository->findWithRelationships(
             $user->id,
-            'userExperiences',
+            'userCertifications',
             [
-                'userExperiences' => function ($query) {
+                'userCertifications' => function ($query) {
                     return $query->orderByDesc('id');
                 }
             ]

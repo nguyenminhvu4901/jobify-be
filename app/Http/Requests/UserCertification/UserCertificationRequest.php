@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\UserExperience;
+namespace App\Http\Requests\UserCertification;
 
 use App\Enums\DefaultContentType;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -9,7 +9,7 @@ use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserExperienceRequest extends FormRequest
+class UserCertificationRequest extends FormRequest
 {
     use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
     /**
@@ -31,35 +31,30 @@ class UserExperienceRequest extends FormRequest
 
         $commonRules = $this->getCommonRules();
 
-        switch ($routeName){
-            case "profile.userExperience.store":
-
-                return $commonRules;
-
-            case "profile.userExperience.updateExperience":
-                $updateRule = [
+        return match ($routeName) {
+            "profile.userCertification.store" => $commonRules,
+            "profile.userCertification.updateUserCertification" => array_merge(
+                $commonRules,
+                [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
-                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
-                    'attachments.*.user_experience_resource_id' => [
-                        'bail', 'nullable', 'integer', 'exists:user_experience_resources,id'
+                    'user_certification_id' => ['required', 'integer', 'exists:user_certifications,id'],
+                    'attachments.*.user_certification_resource_id' => [
+                        'bail', 'nullable', 'integer', 'exists:user_certification_resources,id'
                     ]
-                ];
-
-                return array_merge($commonRules, $updateRule);
-
-            case "profile.userExperience.destroy":
-                return [
-                    'user_slug' => ['required', 'string', 'exists:users,slug'],
-                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
-                ];
-
-            case "profile.userExperience.DetailListOfUserExperience":
-                return [
-                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
-                ];
-            default:
-                return [];
-        }
+                ]
+            ),
+            "profile.userCertification.DetailListOfUserCertification" => [
+                'user_certification_id' => ['required', 'integer', 'exists:user_certifications,id']
+            ],
+            "profile.userCertification.DetailListOfUserCertificationByUserSlug" => [
+                'user_slug' => ['required', 'string', 'exists:users,slug'],
+            ],
+            "profile.userCertification.destroy" => [
+                'user_slug' => ['required', 'string', 'exists:users,slug'],
+                'user_certification_id' => ['required', 'integer', 'exists:user_certifications,id']
+            ],
+            default => [],
+        };
     }
 
     /**
@@ -70,12 +65,15 @@ class UserExperienceRequest extends FormRequest
         $this->normalizeDateFields(['start_date', 'end_date']);
     }
 
-    public function getCommonRules(): array
+    /**
+     * @return array[]
+     */
+    public function getCommonRules() :array
     {
         return [
             'name' => ['bail', 'required', 'string', 'max:255'],
-            'position' => ['bail', 'required', 'string', 'max:255'],
-            'is_working' => ['bail', 'required', 'boolean'],
+            'organization' => ['bail', 'nullable', 'string', 'max:255'],
+            'is_no_expiration' => ['bail', 'required', 'boolean'],
             'start_date' => ['bail', 'required', 'date_format:Y-m-d'],
             'end_date' => ['bail', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
 
@@ -103,28 +101,25 @@ class UserExperienceRequest extends FormRequest
 
                     switch ($contentTypeId){
                         case DefaultContentType::IMAGE->value:
-                            if($routeName == "profile.userExperience.store")
+                            if($routeName == "profile.userCertification.store")
                             {
                                 $this->validateImage($attachment, $index, $validator);
                             }else{
                                 $this->validateImageUpdate($attachment, $index, $validator);
                             }
-
                             break;
 
                         case DefaultContentType::URL->value:
                             $this->validateUrl($attachment, $index, $validator);
-
                             break;
 
                         case DefaultContentType::VIDEO->value:
-                            if($routeName == "profile.userExperience.store")
+                            if($routeName == "profile.userCertification.store")
                             {
                                 $this->validateVideo($attachment, $index, $validator);
                             }else{
                                 $this->validateVideoUpdate($attachment, $index, $validator);
                             }
-
                             break;
 
                         default:

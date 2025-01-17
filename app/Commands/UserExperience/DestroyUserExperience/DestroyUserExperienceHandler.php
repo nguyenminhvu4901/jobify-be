@@ -15,7 +15,7 @@ class DestroyUserExperienceHandler
     )
     {}
 
-    public function handle(DestroyUserExperienceCommand $command)
+    public function handle(DestroyUserExperienceCommand $command): ?bool
     {
         $userExperience = $this->userExperienceRepository->findByRelationshipUserSlugAndColumnDetailId(
             $command->userSlug, $command->userExperienceId, 'userExperienceResource'
@@ -25,10 +25,12 @@ class DestroyUserExperienceHandler
 
             $userExperienceResource = $userExperience->userExperienceResource;
 
-            $userExperienceResource->map(function ($eachUserExperienceResource){
-                $this->userExperienceService->processDeleteAttachment($eachUserExperienceResource);
-                $this->userExperienceResourceRepository->destroy($eachUserExperienceResource);
-            });
+            if(!empty($userExperienceResource)){
+                $userExperienceResource->map(function ($eachUserExperienceResource){
+                    $this->userExperienceService->processDeleteAttachment($eachUserExperienceResource);
+                    $this->userExperienceResourceRepository->destroy($eachUserExperienceResource);
+                });
+            }
 
              return $this->userExperienceRepository->destroy($userExperience);
         }
