@@ -18,7 +18,6 @@ use App\Commands\UserExperience\UpdateUserExperience\UpdateUserExperienceCommand
 use App\Commands\UserExperience\UpdateUserExperience\UpdateUserExperienceHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserExperience\UserExperienceRequest;
-use App\Http\Resources\UserExperience\CompleteListOfUserExperienceResource;
 use App\Http\Resources\UserExperience\CurrentUserExperienceResource;
 use App\Http\Resources\UserExperience\UserExperienceResource;
 use Illuminate\Http\JsonResponse;
@@ -78,7 +77,7 @@ class UserExperienceController extends Controller
         $userExperiences = $this->bus->dispatch(new GetCompleteListOfUserExperienceCommand());
 
         return $userExperiences ?
-            $this->responseSuccess(CompleteListOfUserExperienceResource::collection($userExperiences),
+            $this->responseSuccess(UserExperienceResource::collection($userExperiences),
                 __('messages.user_get_profile_success')) :
             $this->responseError(__('messages.user_get_profile_error'));
     }
@@ -95,7 +94,7 @@ class UserExperienceController extends Controller
         $userExperience = $this->bus->dispatch(DetailListOfUserExperienceCommand::withForm($request));
 
         return $userExperience ?
-            $this->responseSuccess(CompleteListOfUserExperienceResource::make($userExperience),
+            $this->responseSuccess(UserExperienceResource::make($userExperience),
                 __('messages.user_get_profile_success')) :
             $this->responseError(__('messages.user_get_profile_error'));
     }
@@ -112,7 +111,7 @@ class UserExperienceController extends Controller
         $user = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
 
         return $user ?
-            $this->responseSuccess(CompleteListOfUserExperienceResource::collection($user),
+            $this->responseSuccess(UserExperienceResource::collection($user),
                 __('messages.user_get_profile_success')) :
             $this->responseError(__('messages.user_get_profile_error'));
     }

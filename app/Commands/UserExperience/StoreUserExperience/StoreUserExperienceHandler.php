@@ -14,7 +14,6 @@ class StoreUserExperienceHandler
 {
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository,
-        protected UserExperienceResourceRepository $userExperienceResourceRepository,
         protected UserExperienceService $userExperienceService
     )
     {
@@ -44,7 +43,13 @@ class StoreUserExperienceHandler
 
             foreach ($attachments as $attachment)
             {
-                $this->userExperienceService->processAttachment($attachment, $userExperience->id);
+                $pathStorage = $this->userExperienceService->processSaveAttachment($attachment);
+
+                if(!empty($pathStorage)){
+                    $this->userExperienceService->storeUserExperienceResource(
+                        $attachment, $userExperience->id, $pathStorage
+                    );
+                }
             }
         }
 

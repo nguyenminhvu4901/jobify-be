@@ -31,7 +31,6 @@ class DestroyUserCertificationHandle
             $userCertificationResource = $userCertification->userCertificationResources;
 
             if(!empty($userCertificationResource)){
-
                 $userCertificationResource->map(function ($eachUserCertificationResource) {
                     $this->attachmentResourceService->deleteFileAttachment($eachUserCertificationResource);
                     $this->userCertificationResourceRepository->destroy($eachUserCertificationResource);
