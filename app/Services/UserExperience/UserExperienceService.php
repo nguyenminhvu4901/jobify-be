@@ -4,78 +4,28 @@ namespace App\Services\UserExperience;
 
 use App\Enums\DefaultContentType;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
+use App\Services\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class UserExperienceService
 {
     use ImageHandler, VideoHandler;
 
     public function __construct(
+        protected AttachmentResourceService $attachmentResourceService,
         protected UserExperienceResourceRepository $userExperienceResourceRepository,
     )
     {}
 
     /**
      * @param $attachment
-     * @param $userExperienceId
-     * @param bool $isStore
-     * @return void
+     * @return void|null
      */
-    public function processAttachment($attachment, $userExperienceId, bool $isStore = true): void
-    {
-        $pathStorage = $this->processStoreAttachment($attachment);
-
-        if(!empty($pathStorage))
-        {
-            if($isStore){
-                $this->storeUserExperienceResource($attachment, $userExperienceId, $pathStorage);
-            }else{
-                $this->updateUserExperienceResource($attachment, $userExperienceId, $pathStorage);
-            }
-        }
-    }
-
-    /**
-     * @param $attachment
-     * @param $userExperienceId
-     * @param $pathStorage
-     * @return LengthAwarePaginator|Collection|mixed
-     */
-    private function storeUserExperienceResource($attachment, $userExperienceId, $pathStorage): mixed
-    {
-        return $this->userExperienceResourceRepository->create([
-            'user_experience_id' => $userExperienceId,
-            'title' => $attachment['title'],
-            'path' => $pathStorage,
-            'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id']
-        ]);
-    }
-
-    /**
-     * @param $attachment
-     * @param $userExperienceResourceId
-     * @param $pathStorage
-     * @return LengthAwarePaginator|Collection|mixed
-     */
-    private function updateUserExperienceResource($attachment, $userExperienceResourceId, $pathStorage): mixed
-    {
-        return $this->userExperienceResourceRepository->update([
-            'title' => $attachment['title'],
-            'path' => $pathStorage,
-            'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id']
-        ], $userExperienceResourceId);
-    }
-
-    /**
-     * @param $attachment
-     * @return mixed|string|null
-     */
-    public function processStoreAttachment($attachment): mixed
+    public function processSaveAttachment($attachment)
     {
         $user = auth()->user();
 
@@ -98,82 +48,111 @@ class UserExperienceService
     }
 
     /**
+     * @param $attachment
+     * @param $userExperienceId
+     * @param $pathStorage
+     * @return LengthAwarePaginator|Collection|mixed
+     * @throws ValidatorException
+     */
+    public function storeUserExperienceResource($attachment, $userExperienceId, $pathStorage): mixed
+    {
+        return $this->userExperienceResourceRepository->create([
+            'user_experience_id' => $userExperienceId,
+            'title' => $attachment['title'],
+            'path' => $pathStorage,
+            'description' => $attachment['description'],
+            'content_type_id' => $attachment['content_type_id']
+        ]);
+    }
+
+    /**
+     * @param $attachment
+     * @param $userExperienceResourceId
+     * @param $pathStorage
+     * @return LengthAwarePaginator|Collection|mixed
+     * @throws ValidatorException
+     */
+    private function updateUserExperienceResource($attachment, $userExperienceResourceId, $pathStorage): mixed
+    {
+        return $this->userExperienceResourceRepository->update([
+            'title' => $attachment['title'],
+            'path' => $pathStorage,
+            'description' => $attachment['description'],
+            'content_type_id' => $attachment['content_type_id']
+        ], $userExperienceResourceId);
+    }
+
+
+    /**
      * @param $attachments
      * @param $userExperienceResource
-     * @return void
+     * @param $userExperienceId
+     * @return LengthAwarePaginator|Collection|mixed|null
+     * @throws ValidatorException
      */
-    public function processUpdateAttachment(
+    public function updateResourceAttachment(
         $attachments, $userExperienceResource, $userExperienceId
-    ): void
+    ): mixed
     {
-        $this->processDeleteUserExperienceResource($attachments, $userExperienceResource);
+        $this->deleteUserExperienceResourceAndAttachment($attachments, $userExperienceResource);
 
         foreach ($attachments as $attachment)
         {
             if(!empty($attachment['user_experience_resource_id'])){
-                $this->updateAttachment($attachment);
+                $this->processUpdateAttachment($attachment);
             }else{
-                $pathStorage = $this->processStoreAttachment($attachment);
-
-                $this->storeUserExperienceResource(
-                    $attachment, $userExperienceId, $pathStorage
-                );
+                $pathStorage = $this->processSaveAttachment($attachment);
+                $this->storeUserExperienceResource($attachment, $userExperienceId, $pathStorage);
             }
         }
-    }
 
-    /**
-     * @param $userExperienceResource
-     * @return void
-     */
-    public function processDeleteAttachment($userExperienceResource): void
-    {
-        if ($userExperienceResource->content_type_id == DefaultContentType::IMAGE->value) {
-            $this->deleteImage($userExperienceResource->path);
-        }elseif ($userExperienceResource->content_type_id == DefaultContentType::VIDEO->value) {
-            $this->deleteVideo($userExperienceResource->path);
-        }
+        return null;
     }
 
     /**
      * @param $attachments
-     * @param $userExperienceResource
+     * @param $userCertificationResource
      * @return mixed
      */
-    private function processDeleteUserExperienceResource($attachments, $userExperienceResource): mixed
+    private function deleteUserExperienceResourceAndAttachment($attachments, $userCertificationResource): mixed
     {
-        $attachmentIds = getFilterCollectionIds($attachments, 'user_experience_resource_id');
-        $userExperienceResourceIds = getFilterCollectionIds($userExperienceResource);
+        $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
+            $attachments, $userCertificationResource, 'user_experience_resource_id'
+        );
 
-        $listDelIds = getElementsNotInFirstCollection($attachmentIds, $userExperienceResourceIds)->toArray();
-
-        $listUserExperienceResource = $this->userExperienceResourceRepository
+        $listUserExperienceResourceToDelete = $this->userExperienceResourceRepository
             ->getListUserExperienceResourceByIds($listDelIds);
 
-        return $listUserExperienceResource->map(function ($eachUserExperienceResource){
-            $this->processDeleteAttachment($eachUserExperienceResource);
-            $this->userExperienceResourceRepository->destroy($eachUserExperienceResource);
-        });
+        if(!empty($listUserExperienceResourceToDelete)){
+            return $listUserExperienceResourceToDelete->map(function ($eachUserCertificationResource) {
+
+                $this->attachmentResourceService->deleteFileAttachment($eachUserCertificationResource);
+                $this->userExperienceResourceRepository->destroy($eachUserCertificationResource);
+            });
+        }
+
+        return null;
     }
 
     /**
      * @param $attachment
      * @return void|null
+     * @throws ValidatorException
      */
-    private function updateAttachment($attachment)
+    public function processUpdateAttachment($attachment)
     {
         $userExperienceResource = $this->userExperienceResourceRepository
             ->find($attachment['user_experience_resource_id']);
 
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
-            ) {
+        ) {
             if(is_string($attachment['content'])){
-                $this->processDeleteAttachment($userExperienceResource);
-                $this->updateUserExperienceResource($attachment, $userExperienceResource->id, $attachment['content']);
+                return ;
             }else{
-                $this->processDeleteAttachment($userExperienceResource);
-                $this->processAttachment($attachment, $userExperienceResource->id, false);
+                $this->attachmentResourceService->deleteFileAttachment($userExperienceResource);
+                $pathStorage = $this->processSaveAttachment($attachment);
+                $this->updateUserExperienceResource($attachment, $userExperienceResource->id, $pathStorage);
             }
         } elseif ($attachment['content_type_id'] == DefaultContentType::URL->value) {
             $this->updateUserExperienceResource($attachment, $userExperienceResource->id, $attachment['content']);

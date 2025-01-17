@@ -35,7 +35,7 @@ class UpdateUserExperienceHandler
                 $attachments = $command->attachments;
                 $userExperienceResource = $userExperience->userExperienceResource;
 
-                $this->userExperienceService->processUpdateAttachment(
+                $this->userExperienceService->updateResourceAttachment(
                     $attachments, $userExperienceResource, $command->userExperienceId
                 );
             }

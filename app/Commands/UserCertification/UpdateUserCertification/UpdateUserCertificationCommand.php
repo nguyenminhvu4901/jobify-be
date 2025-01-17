@@ -29,7 +29,7 @@ class UpdateUserCertificationCommand implements CommandInterface
             userSlug: $request->get('user_slug'),
             userCertificationId: $request->get('user_certification_id'),
             name: $request->get('name'),
-            organization: $request->get('organization'),
+            organization: $request->get('organization') ?? null,
             isNoExpiration: $request->get('is_no_expiration'),
             startDate: $request->get('start_date'),
             endDate: $request->get('end_date') ?? null,

@@ -3,7 +3,6 @@
 namespace App\Commands\UserCertification\StoreUserCertification;
 
 use App\Repositories\UserCertification\UserCertificationRepository;
-use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
 use App\Services\UserCertification\UserCertificationService;
 use Prettus\Validator\Exceptions\ValidatorException;
 

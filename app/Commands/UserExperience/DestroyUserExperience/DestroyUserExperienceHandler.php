@@ -4,17 +4,21 @@ namespace App\Commands\UserExperience\DestroyUserExperience;
 
 use App\Repositories\UserExperience\UserExperienceRepository;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
-use App\Services\UserExperience\UserExperienceService;
+use App\Services\AttachmentResource\AttachmentResourceService;
 
 class DestroyUserExperienceHandler
 {
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository,
         protected UserExperienceResourceRepository $userExperienceResourceRepository,
-        protected UserExperienceService $userExperienceService
+        protected AttachmentResourceService $attachmentResourceService
     )
     {}
 
+    /**
+     * @param DestroyUserExperienceCommand $command
+     * @return bool|null
+     */
     public function handle(DestroyUserExperienceCommand $command): ?bool
     {
         $userExperience = $this->userExperienceRepository->findByRelationshipUserSlugAndColumnDetailId(
@@ -27,7 +31,7 @@ class DestroyUserExperienceHandler
 
             if(!empty($userExperienceResource)){
                 $userExperienceResource->map(function ($eachUserExperienceResource){
-                    $this->userExperienceService->processDeleteAttachment($eachUserExperienceResource);
+                    $this->attachmentResourceService->deleteFileAttachment($eachUserExperienceResource);
                     $this->userExperienceResourceRepository->destroy($eachUserExperienceResource);
                 });
             }
@@ -35,6 +39,6 @@ class DestroyUserExperienceHandler
              return $this->userExperienceRepository->destroy($userExperience);
         }
 
-        return null;
+        return false;
     }
 }

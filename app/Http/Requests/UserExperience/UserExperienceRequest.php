@@ -31,35 +31,30 @@ class UserExperienceRequest extends FormRequest
 
         $commonRules = $this->getCommonRules();
 
-        switch ($routeName){
-            case "profile.userExperience.store":
-
-                return $commonRules;
-
-            case "profile.userExperience.updateExperience":
-                $updateRule = [
+        return match ($routeName) {
+            "profile.userExperience.store" => $commonRules,
+            "profile.userExperience.updateExperience" => array_merge(
+                $commonRules,
+                [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
                     'attachments.*.user_experience_resource_id' => [
                         'bail', 'nullable', 'integer', 'exists:user_experience_resources,id'
                     ]
-                ];
-
-                return array_merge($commonRules, $updateRule);
-
-            case "profile.userExperience.destroy":
-                return [
+                ]
+            ),
+            "profile.userExperience.destroy" => [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
-                ];
-
-            case "profile.userExperience.DetailListOfUserExperience":
-                return [
-                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
-                ];
-            default:
-                return [];
-        }
+            ],
+            "profile.userExperience.DetailListOfUserExperienceByUserSlug" => [
+                'user_slug' => ['required', 'string', 'exists:users,slug'],
+            ],
+            "profile.userExperience.DetailListOfUserExperience" => [
+                'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+            ],
+            default => [],
+        };
     }
 
     /**

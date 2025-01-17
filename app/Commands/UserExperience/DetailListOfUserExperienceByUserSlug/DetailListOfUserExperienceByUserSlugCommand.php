@@ -16,7 +16,7 @@ class DetailListOfUserExperienceByUserSlugCommand implements CommandInterface
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(
-            userSlug: $request->get('user-slug')
+            userSlug: $request->get('user_slug')
         );
     }
 }
