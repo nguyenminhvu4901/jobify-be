@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\Profile;
 
+use App\Commands\UserCertification\GetCompleteListOfUserCertification\GetCompleteListOfUserCertificationCommand;
+use App\Commands\UserCertification\GetCompleteListOfUserCertification\GetCompleteListOfUserCertificationHandle;
 use App\Commands\UserCertification\GetListCertificationCurrentUser\GetListCertificationCurrentUserCommand;
 use App\Commands\UserCertification\GetListCertificationCurrentUser\GetListCertificationCurrentUserHandle;
 use App\Commands\UserCertification\StoreUserCertification\StoreUserCertificationCommand;
@@ -54,6 +56,24 @@ class UserCertificationController extends Controller
 
         return $userCertification ?
             $this->responseSuccess(UserCertificationResource::make($userCertification),
+                __('messages.user_update_profile_success')) :
+            $this->responseError(__('messages.user_update_profile_error'));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getCompleteListOfUserCertification(): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetCompleteListOfUserCertificationCommand::class,
+            GetCompleteListOfUserCertificationHandle::class
+        );
+
+        $userCertifications = $this->bus->dispatch(new GetCompleteListOfUserCertificationCommand());
+
+        return $userCertifications ?
+            $this->responseSuccess(UserCertificationResource::collection($userCertifications),
                 __('messages.user_update_profile_success')) :
             $this->responseError(__('messages.user_update_profile_error'));
     }

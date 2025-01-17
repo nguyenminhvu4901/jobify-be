@@ -46,5 +46,8 @@ Route::group(
                 'getListCertificationCurrentUser']);
 
             Route::post('/', [UserCertificationController::class, 'store'])->name('store');
+
+            Route::get('/complete-list-user-certification', [UserCertificationController::class,
+                'getCompleteListOfUserCertification']);
         });
 });
