@@ -77,6 +77,7 @@ php artisan migrate --seed
 phpunit
 composer dump-autoload
 php artisan storage:link
+php artisan l5-swagger:generate
 ```
 Notice
 ```
