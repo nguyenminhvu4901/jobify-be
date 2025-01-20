@@ -22,12 +22,10 @@ use App\Http\Resources\UserExperience\CurrentUserExperienceResource;
 use App\Http\Resources\UserExperience\UserExperienceResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
+use OpenApi\Annotations as OA;
 
 class UserExperienceController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
     )
@@ -37,6 +35,7 @@ class UserExperienceController extends Controller
     /**
      * @param UserExperienceRequest $request
      * @return JsonResponse
+
      */
     public function store(UserExperienceRequest $request): JsonResponse
     {
@@ -67,6 +66,24 @@ class UserExperienceController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/profile/user-experience/complete-list-user-experience",
+     *     summary="Get complete list of user experience",
+     *     tags={"UserExperience"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Hello World")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
      * @return JsonResponse
      */
     public function getCompleteListOfUserExperience(): JsonResponse

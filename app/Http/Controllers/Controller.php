@@ -7,11 +7,28 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
+use OpenApi\Annotations as OA;
+use Illuminate\Routing\Controller as BaseController;
 
 /**
- *
+ * @OA\Info(
+ *     title="Jobify",
+ *     description="Thông tin dự án Jobify",
+ *     version="1.0.0",
+ * )
+ * @OA\Server(
+ *      url="http://localhost:8040/api",
+ *      description="Local server"
+ *  )
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ *      description="JWT Bearer token"
+ * )
  */
-abstract class Controller
+abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
