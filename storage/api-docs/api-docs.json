@@ -1,0 +1,636 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Jobify",
+        "description": "Thông tin dự án Jobify",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8040/api",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Process login user",
+                "description": "Authenticate a user and return a JWT token if successful.",
+                "operationId": "4a0653990bae153573fca45c02b86632",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "Admin@12"
+                                    },
+                                    "remember": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User login successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User login successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User login failure",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User login failure"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout user",
+                "description": "Log out a user by invalidating the JWT token.",
+                "operationId": "615f1ac2443597e75609845bf0366ab4",
+                "responses": {
+                    "200": {
+                        "description": "Logout successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Người dùng đã đăng xuất"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token không hợp lệ hoặc đã hết hạn"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/job-seeker-register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Create new JobSeeker Account",
+                "operationId": "resigterJobSeeker",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "full_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "phone_number"
+                                ],
+                                "properties": {
+                                    "full_name": {
+                                        "description": "Họ tên người tìm việc",
+                                        "type": "string",
+                                        "example": "Người tìm việc 1"
+                                    },
+                                    "email": {
+                                        "description": "Email người tìm việc",
+                                        "type": "string",
+                                        "example": "jobseeker123@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "Mật khẩu",
+                                        "type": "string",
+                                        "example": "Timviec@123"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Nhập lại mật khẩu",
+                                        "type": "string",
+                                        "example": "Timviec@123"
+                                    },
+                                    "phone_number": {
+                                        "description": "Nhập số điện thoại vào nhé",
+                                        "type": "string",
+                                        "example": "0912345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "JobSeeker Register Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registration successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "JobSeeker Register Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registration error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/recruiter-register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Create new Recruiter Account",
+                "operationId": "registerRecruiter",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "full_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "phone_number",
+                                    "gender_id",
+                                    "company_name",
+                                    "company_scale_id",
+                                    "tax_code",
+                                    "province",
+                                    "district"
+                                ],
+                                "properties": {
+                                    "full_name": {
+                                        "description": "Họ tên người tìm việc",
+                                        "type": "string",
+                                        "example": "Người tìm việc 1"
+                                    },
+                                    "email": {
+                                        "description": "Email người tìm việc",
+                                        "type": "string",
+                                        "example": "jobseeker.deptrai.123@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "Mật khẩu",
+                                        "type": "string",
+                                        "example": "Timviec@123"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Nhập lại mật khẩu",
+                                        "type": "string",
+                                        "example": "Timviec@123"
+                                    },
+                                    "phone_number": {
+                                        "description": "Nhập số điện thoại vào nhé",
+                                        "type": "string",
+                                        "example": "0912345678"
+                                    },
+                                    "gender_id": {
+                                        "description": "Mã giới tính: 1:male, 2:female, 3:other",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "company_name": {
+                                        "description": "Tên công ty",
+                                        "type": "string",
+                                        "example": "Công ty trách nhiệm hữu hạn siêu đẹp trai"
+                                    },
+                                    "company_scale_id": {
+                                        "description": "Mã Id của bảng company_scales, quy mô công ty",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "tax_code": {
+                                        "description": "Mã số thuế của công ty",
+                                        "type": "string",
+                                        "example": "A0011"
+                                    },
+                                    "province": {
+                                        "description": "Mã Id của Tỉnh/Thành phố",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "district": {
+                                        "description": "Mã Id của Quận/Huyện",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Recruiter Register Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registration successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recruiter Register Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registration error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/change-password": {
+            "patch": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Change Password Account",
+                "operationId": "changePassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "slug",
+                                    "email",
+                                    "current_password",
+                                    "new_password",
+                                    "new_password_confirmation"
+                                ],
+                                "properties": {
+                                    "slug": {
+                                        "description": "Slug của Account",
+                                        "type": "string",
+                                        "example": "user-admin"
+                                    },
+                                    "email": {
+                                        "description": "Email của Account",
+                                        "type": "string",
+                                        "example": "admin@example.com"
+                                    },
+                                    "current_password": {
+                                        "description": "Password cũ của Account",
+                                        "type": "string",
+                                        "example": "Admin@12"
+                                    },
+                                    "new_password": {
+                                        "description": "Password mới của Account",
+                                        "type": "string",
+                                        "example": "Admin@123"
+                                    },
+                                    "new_password_confirmation": {
+                                        "description": "Nhập lại Password mới của Account",
+                                        "type": "string",
+                                        "example": "Admin@123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Change Password Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User change password successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Change Password Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User Change password Fail!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/forgot-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Send Mail To Get New Password",
+                "operationId": "forgotPassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Send Email Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Send Password Successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Send Email Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Send Email Fail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reset-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Reset Password",
+                "description": "Reset Password",
+                "operationId": "d533a5e92f718cc9a3a74b1495da7316",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "description": "Send mail đi rồi lấy token đấy đặt vào đây",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Mật khẩu",
+                                        "type": "string",
+                                        "example": "Timviec@123"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Nhập lại mật khẩu",
+                                        "type": "string",
+                                        "example": "Timviec@123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reset Password Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reset Password successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Reset Password Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reset Password Fail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/user-experience/complete-list-user-experience": {
+            "get": {
+                "tags": [
+                    "UserExperience"
+                ],
+                "summary": "Get complete list of user experience",
+                "operationId": "92ba90e9f51dfd47b0b3069df05bf6c3",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hello World"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "JWT Bearer token",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Auth Resource"
+        },
+        {
+            "name": "UserExperience",
+            "description": "UserExperience"
+        }
+    ]
+}

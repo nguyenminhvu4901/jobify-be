@@ -41,6 +41,8 @@ class RecruiterRegisterRequest extends FormRequest
             'phone_number' => ['bail', 'required', 'string', new PhoneNumberRule()],
             'gender_id' => ['bail', 'required', 'integer', 'exists:default_genders,id'],
             'company_name' => ['bail', 'required', 'string', 'max:255'],
+            'company_scale_id' => ['bail', 'required', 'integer','exists:company_scales,id'],
+            'tax_code' => ['bail', 'required', 'string', 'max:255'],
             'province' => ['bail', 'required', 'integer','exists:provinces,id'],
             'district' => ['bail', 'required', 'integer','exists:districts,id']
         ];

@@ -28,5 +28,7 @@ return [
     'user_update_profile_success' => 'Saved',
     'user_update_profile_error' => 'Save failed',
     'user_get_profile_success' => 'Get user info successfully',
-    'user_get_profile_error' => 'Get user info failed!'
+    'user_get_profile_error' => 'Get user info failed!',
+    'user_change_password_success' => 'User change password successfully',
+    'user_change_password_error' => 'User Change password Fail!'
 ];

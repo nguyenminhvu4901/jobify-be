@@ -9,9 +9,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth', 'as' => 'auth.'], funct
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout')
         ->middleware('auth');
     Route::post('/job-seeker-register', [AuthController::class, 'jobSeekerRegister'])
-        ->name('job-seeker-register')->middleware('guest');
+        ->name('jobSeekerRegister')->middleware('guest');
     Route::post('/recruiter-register', [AuthController::class, 'recruiterRegister'])
-        ->name('recruiter-register')->middleware('guest');
+        ->name('recruiterRegister')->middleware('guest');
     Route::get('/unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
 
     Route::patch('/change-password', [AuthController::class, 'changePassword'])
