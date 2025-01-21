@@ -3,13 +3,15 @@
 namespace App\Http\Requests\Profile;
 
 use App\Rules\PhoneNumberRule;
+use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\FailedValidation;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdateUserProfileRequest extends FormRequest
 {
-    use FailedValidation;
+    use FailedValidation, NormalizeDateTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,7 +23,7 @@ class UpdateUserProfileRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -33,5 +35,13 @@ class UpdateUserProfileRequest extends FormRequest
             'birth_date' => ['bail', 'required', 'date_format:Y-m-d'],
             'description' => ['bail', 'nullable', 'string'],
         ];
+    }
+
+    /**
+     * @return void
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->normalizeDateFields(['birth_date']);
     }
 }

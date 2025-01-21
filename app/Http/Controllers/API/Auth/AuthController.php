@@ -115,12 +115,22 @@ class AuthController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="message", type="string", example="Token không hợp lệ hoặc đã hết hạn")
-     *         )
+     *           response=401,
+     *           description="Unauthenticated - Token is invalid or missing",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *           )
+     *     ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="Server Error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message", type="string", example="Server Error"
+     *              )
+     *          )
      *     )
      * )
      * @return JsonResponse
@@ -399,6 +409,14 @@ class AuthController extends Controller
      *                   property="message", type="string", example="User change password successfully"
      *               )
      *           )
+     *     ),
+     *     @OA\Response(
+     *            response=401,
+     *            description="Unauthenticated - Token is invalid or missing",
+     *            @OA\JsonContent(
+     *                type="object",
+     *                @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *            )
      *     ),
      *     @OA\Response(
      *            response="500",
