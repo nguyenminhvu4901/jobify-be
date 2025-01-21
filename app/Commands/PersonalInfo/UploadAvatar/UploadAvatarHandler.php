@@ -17,25 +17,41 @@ class UploadAvatarHandler
     {
         $user = auth()->user();
 
-
         if(!empty($command->avatar)){
-            $path = config('constants.path_avatar');
+            if(is_string($command->avatar)){
+                if($command->avatar == $user->avatar){
+                    return $this->userRepository->find(auth()->user()->id);
+                }else{
+                    return $this->processAvatarDefault($user);
+                }
+            }else{
+                $path = config('constants.path_avatar');
 
-            $pathStorage = $this->storeImage($command->avatar, $path, $user);
+                $pathStorage = $this->storeImage($command->avatar, $path, $user);
 
-            return $this->userRepository->update([
-                'avatar' => $pathStorage
-            ], $user->id);
-        }else{
-            $status = $this->deleteImage($user->avatar);
-
-            if($status){
                 return $this->userRepository->update([
-                    'avatar' => asset(config('constants.default_avatar'))
+                    'avatar' => $pathStorage
                 ], $user->id);
             }
-
-            return null;
+        }else{
+            return $this->processAvatarDefault($user);
         }
+    }
+
+    /**
+     * @param $userInfo
+     * @return mixed
+     */
+    private function processAvatarDefault($userInfo): mixed
+    {
+        $status = $this->deleteImage($userInfo->avatar);
+
+        if($status){
+            return $this->userRepository->update([
+                'avatar' => asset(config('constants.default_avatar'))
+            ], $userInfo->id);
+        }
+
+        return null;
     }
 }
