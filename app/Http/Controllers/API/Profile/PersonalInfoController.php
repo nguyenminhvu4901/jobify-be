@@ -104,6 +104,7 @@ class PersonalInfoController extends Controller
      *                 @OA\Property(
      *                     property="full_name",
      *                     type="string",
+     *                     example="Nguyễn Văn A",
      *                     description="Nhập họ và tên"
      *                 ),
      *                 @OA\Property(
@@ -189,7 +190,7 @@ class PersonalInfoController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/upload-avatar",
+     *     path="/profile/upload-avatar",
      *     summary="Upload Avatar",
      *     description="Upload Avatar",
      *     tags={"PersonalInfo"},
@@ -201,16 +202,9 @@ class PersonalInfoController extends Controller
      *                 type="object",
      *                 @OA\Property(
      *                     property="avatar",
-     *                     oneOf={
-     *                         @OA\Schema(type="string", example="http://localhost/images/default_avatar.jpeg"),
-     *                         @OA\Schema(type="null", example=null),
-     *                         @OA\Property(
-     *                              property="file",
-     *                              type="string",
-     *                              format="binary",
-     *                              description="The file to upload"
-     *                          )
-     *                     }
+     *                     type="string",
+     *                     format="binary",
+     *                     description="The file to upload"
      *                 )
      *             )
      *         )

@@ -696,7 +696,8 @@
                                 "properties": {
                                     "full_name": {
                                         "description": "Nhập họ và tên",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Nguyễn Văn A"
                                     },
                                     "phone_number": {
                                         "description": "Nhập số điện thoại vào nhé",
@@ -787,36 +788,23 @@
                 ]
             }
         },
-        "/upload-avatar": {
+        "/profile/upload-avatar": {
             "post": {
                 "tags": [
                     "PersonalInfo"
                 ],
                 "summary": "Upload Avatar",
                 "description": "Upload Avatar",
-                "operationId": "8c9b3bddc2c8582ef4c7728c59955f32",
+                "operationId": "16164780291b0cc069db4a972d336257",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "avatar": {
-                                        "oneOf": [
-                                            {
-                                                "type": "string",
-                                                "example": "http://localhost/images/default_avatar.jpeg"
-                                            },
-                                            {
-                                                "type": "null",
-                                                "example": null
-                                            },
-                                            {
-                                                "description": "The file to upload",
-                                                "type": "string",
-                                                "format": "binary",
-                                                "property": "file"
-                                            }
-                                        ]
+                                        "description": "The file to upload",
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"
@@ -866,6 +854,221 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Save failed"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-certification/list-certification-current-user": {
+            "get": {
+                "tags": [
+                    "UserCertification"
+                ],
+                "summary": "Get List Certification Current User",
+                "operationId": "854a865d71e77e5e67bceb52ed477fec",
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-certification/": {
+            "post": {
+                "tags": [
+                    "UserCertification"
+                ],
+                "summary": "Store User Certification",
+                "description": "Store User Certification",
+                "operationId": "68943d1b502068c37eba1039bc5fa3d4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "is_no_expiration",
+                                    "start_date"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nhập tên chứng chỉ",
+                                        "type": "string",
+                                        "example": "Ielts 8.0"
+                                    },
+                                    "organization": {
+                                        "description": "Tên tổ chức",
+                                        "type": "string",
+                                        "example": "Hội đồng Anh và Em"
+                                    },
+                                    "is_no_expiration": {
+                                        "description": "Không có ngày hết hạn (0:false, 1:true), mặc định là 1",
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "start_date": {
+                                        "description": "Ngày nhận chứng chỉ",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-01-01"
+                                    },
+                                    "end_date": {
+                                        "description": "Ngày hết hạn chứng chỉ nếu chứng chỉ không vĩnh viễn",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-1-2"
+                                    },
+                                    "attachments": {
+                                        "description": "Mảng chứa file",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "content_type_id"
+                                            ],
+                                            "properties": {
+                                                "title": {
+                                                    "description": "Tiêu đề file đính kèm",
+                                                    "type": "string",
+                                                    "example": "File chứng chỉ"
+                                                },
+                                                "description": {
+                                                    "description": "Mô tả file đính kèm",
+                                                    "type": "string",
+                                                    "example": "File scan chứng chỉ IELTS"
+                                                },
+                                                "content_type_id": {
+                                                    "description": "ID loại nội dung của file (tham chiếu tới bảng default_content_types), Loại nội dung: 1 (image), 2 (file), 3 (url), 4 (video)",
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "url": {
+                                                    "description": "ID loại nội dung của file (tham chiếu tới bảng default_content_types), Loại nội dung: 1 (image), 2 (file), 3 (url), 4 (video)",
+                                                    "type": "string",
+                                                    "example": "http://localhost:8040/api/documentation"
+                                                },
+                                                "image": {
+                                                    "description": "The file to upload",
+                                                    "type": "string",
+                                                    "format": "binary"
+                                                },
+                                                "video": {
+                                                    "description": "The file to upload",
+                                                    "type": "string",
+                                                    "format": "binary"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Store User Certification Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Saved"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Store User Certification Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fail"
                                         }
                                     },
                                     "type": "object"
@@ -935,6 +1138,10 @@
         {
             "name": "PersonalInfo",
             "description": "Common Profile And Avatar"
+        },
+        {
+            "name": "UserCertification",
+            "description": "UserCertification"
         },
         {
             "name": "UserExperience",
