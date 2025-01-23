@@ -1084,6 +1084,70 @@
                 ]
             }
         },
+        "/profile/user-education/list-education-current-user": {
+            "get": {
+                "tags": [
+                    "UserEducation"
+                ],
+                "summary": "Get List Education Current User",
+                "operationId": "9921f6a043679d99c1b32f666bd41176",
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearAuth": []
+                    }
+                ]
+            }
+        },
         "/profile/user-experience/complete-list-user-experience": {
             "get": {
                 "tags": [
@@ -1142,6 +1206,10 @@
         {
             "name": "UserCertification",
             "description": "UserCertification"
+        },
+        {
+            "name": "UserEducation",
+            "description": "UserEducation"
         },
         {
             "name": "UserExperience",

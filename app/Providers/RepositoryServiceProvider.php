@@ -12,6 +12,8 @@ use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Repositories\UserCertification\UserCertificationRepositoryEloquent;
 use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
 use App\Repositories\UserCertificationResource\UserCertificationResourceRepositoryEloquent;
+use App\Repositories\UserEducation\UserEducationRepository;
+use App\Repositories\UserEducation\UserEducationRepositoryEloquent;
 use App\Repositories\UserExperience\UserExperienceRepository;
 use App\Repositories\UserExperience\UserExperienceRepositoryEloquent;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
@@ -30,6 +32,7 @@ class RepositoryServiceProvider extends ServiceProvider
         UserExperienceRepository::class => UserExperienceRepositoryEloquent::class,
         UserExperienceResourceRepository::class => UserExperienceResourceRepositoryEloquent::class,
         UserCertificationRepository::class => UserCertificationRepositoryEloquent::class,
-        UserCertificationResourceRepository::class => UserCertificationResourceRepositoryEloquent::class
+        UserCertificationResourceRepository::class => UserCertificationResourceRepositoryEloquent::class,
+        UserEducationRepository::class => UserEducationRepositoryEloquent::class
     ];
 }

@@ -6,6 +6,7 @@ use App\Entities\Company\Company;
 use App\Entities\DefaultGender\DefaultGender;
 use App\Entities\DefaultStatus\DefaultStatus;
 use App\Entities\UserCertification\UserCertification;
+use App\Entities\UserEducation\UserEducation;
 use App\Entities\UserExperience\UserExperience;
 use App\Entities\UserProfile\UserProfile;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -60,5 +61,13 @@ trait UserRelationship
     public function userCertifications(): HasMany
     {
         return $this->hasMany(UserCertification::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function userEducations(): HasMany
+    {
+        return $this->hasMany(UserEducation::class);
     }
 }
