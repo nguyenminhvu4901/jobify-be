@@ -1148,6 +1148,121 @@
                 ]
             }
         },
+        "/profile/user-education/": {
+            "post": {
+                "tags": [
+                    "UserEducation"
+                ],
+                "summary": "Store User Education",
+                "description": "Store User Education",
+                "operationId": "3a7c53d39ab54bbf55ed5a891397f890",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "major",
+                                    "is_studying",
+                                    "start_date"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nhập tên trường",
+                                        "type": "string",
+                                        "example": "TLU"
+                                    },
+                                    "major": {
+                                        "description": "Ngành học",
+                                        "type": "string",
+                                        "example": "TLU"
+                                    },
+                                    "is_studying": {
+                                        "description": "Đang học ở đây (0: đã tốt nghiệp, 1: chưa tốt nghiệp)",
+                                        "type": "boolean",
+                                        "example": 0
+                                    },
+                                    "start_date": {
+                                        "description": "Ngày bắt đầu học",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-01-01"
+                                    },
+                                    "end_date": {
+                                        "description": "Ngày tốt nghiệp",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-1-2"
+                                    },
+                                    "description": {
+                                        "description": "Mô tả thời đi học =)))",
+                                        "type": "string",
+                                        "example": "Học cũng vui"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Store User Education Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Saved"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Store User Education Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearAuth": []
+                    }
+                ]
+            }
+        },
         "/profile/user-experience/complete-list-user-experience": {
             "get": {
                 "tags": [

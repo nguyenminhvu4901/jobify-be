@@ -66,5 +66,7 @@ Route::group(
         Route::group(['prefix' => 'user-education', 'as' => 'userEducation.'], function() {
             Route::get('/list-education-current-user', [UserEducationController::class,
                 'getListEducationCurrentUser'])->name('ListEducationCurrentUser');
+
+            Route::post('/', [UserEducationController::class, 'store'])->name('store');
         });
 });
