@@ -4,6 +4,10 @@ namespace App\Http\Controllers\API\Profile;
 
 use App\Commands\UserEducation\GetCompleteListOfUserEducation\GetCompleteListOfUserEducationCommand;
 use App\Commands\UserEducation\GetCompleteListOfUserEducation\GetCompleteListOfUserEducationHandle;
+use App\Commands\UserEducation\GetDetailListOfUserEducation\GetDetailListOfUserEducationCommand;
+use App\Commands\UserEducation\GetDetailListOfUserEducation\GetDetailListOfUserEducationHandle;
+use App\Commands\UserEducation\GetDetailListOfUserEducationByUserSlug\GetDetailListOfUserEducationByUserSlugCommand;
+use App\Commands\UserEducation\GetDetailListOfUserEducationByUserSlug\GetDetailListOfUserEducationByUserSlugHandle;
 use App\Commands\UserEducation\GetListEducationCurrentUser\GetListEducationCurrentUserCommand;
 use App\Commands\UserEducation\GetListEducationCurrentUser\GetListEducationCurrentUserHandle;
 use App\Commands\UserEducation\StoreUserEducation\StoreUserEducationCommand;
@@ -37,7 +41,7 @@ class UserEducationController extends Controller
      *     path="/profile/user-education/list-education-current-user",
      *     summary="Get List Education Current User",
      *     tags={"UserEducation"},
-     *     security={{"bearAuth": {}}},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Get user info successfully",
@@ -91,7 +95,7 @@ class UserEducationController extends Controller
      *     summary="Store User Education",
      *     description="Store User Education",
      *     tags={"UserEducation"},
-     *     security={{"bearAuth": {}}},
+     *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -192,8 +196,8 @@ class UserEducationController extends Controller
      * @OA\Get(
      *     path="/profile/user-education/complete-list-user-education",
      *     summary="Get Complete List User Education",
-     *     tags={"userEducation"},
-     *     security={{"bearAuth": {}}},
+     *     tags={"UserEducation"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response="200",
      *         description="Get user info successfully",
@@ -240,6 +244,142 @@ class UserEducationController extends Controller
         );
 
         $userEducation = $this->bus->dispatch(new GetCompleteListOfUserEducationCommand());
+
+        return $userEducation ?
+            $this->responseSuccess(UserEducationResource::collection($userEducation),
+                __('messages.user_get_profile_success')) :
+            $this->responseError(__('messages.user_get_profile_error'));
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/profile/user-education/detail-list-user-education",
+     *      summary="Get Detail List User Education",
+     *      tags={"UserEducation"},
+     *      security={{"bearerAuth": {}}},
+     *      @OA\Parameter(
+     *         name="user_education_id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *         description="Thông tin Id của User Education",
+     *         example=1
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="Get user info successfully",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message", type="string", example="Get user info successfully"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response="401",
+     *          description="Unauthenticated - Token is invalid or missing",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Unauthenticated."
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response="500",
+     *          description="Get user info failed!",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Get user info failed!"
+     *              )
+     *          )
+     *      )
+     * )
+     *
+     * @param UserEducationRequest $request
+     * @return JsonResponse
+     */
+    public function getDetailListOfUserEducation(UserEducationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetDetailListOfUserEducationCommand::class,
+            GetDetailListOfUserEducationHandle::class
+        );
+
+        $userEducation = $this->bus->dispatch(GetDetailListOfUserEducationCommand::withForm($request));
+
+        return $userEducation ?
+            $this->responseSuccess(UserEducationResource::make($userEducation),
+                __('messages.user_get_profile_success')) :
+            $this->responseError(__('messages.user_get_profile_error'));
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/profile/user-education/detail-list-user-education-by-user-slug",
+     *      summary="Get Detail List User Education By User Slug",
+     *      tags={"UserEducation"},
+     *      security={{"bearerAuth": {}}},
+     *      @OA\Parameter(
+     *         name="user_slug",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         description="Thông tin Slug của User",
+     *         example="user-admin"
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="Get user info successfully",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message", type="string", example="Get user info successfully"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response="401",
+     *          description="Unauthenticated - Token is invalid or missing",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Unauthenticated."
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response="500",
+     *          description="Get user info failed!",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Get user info failed!"
+     *              )
+     *          )
+     *      )
+     * )
+     *
+     * @param UserEducationRequest $request
+     * @return JsonResponse
+     */
+    public function getDetailListOfUserEducationByUserSlug(UserEducationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetDetailListOfUserEducationByUserSlugCommand::class,
+            GetDetailListOfUserEducationByUserSlugHandle::class
+        );
+
+        $userEducation = $this->bus->dispatch(GetDetailListOfUserEducationByUserSlugCommand::withForm($request));
 
         return $userEducation ?
             $this->responseSuccess(UserEducationResource::collection($userEducation),

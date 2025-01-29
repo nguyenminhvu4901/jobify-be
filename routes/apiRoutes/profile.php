@@ -71,5 +71,11 @@ Route::group(
 
             Route::get('/complete-list-user-education', [UserEducationController::class,
                 'getCompleteListOfUserEducation']);
+
+            Route::get('/detail-list-user-education', [UserEducationController::class,
+                'getDetailListOfUserEducation'])->name('DetailListOfUserEducation');
+
+            Route::get('/detail-list-user-education-by-user-slug', [UserEducationController::class,
+                'getDetailListOfUserEducationByUserSlug'])->name('DetailListOfUserEducationByUserSlug');
         });
 });

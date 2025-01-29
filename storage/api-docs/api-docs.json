@@ -1143,7 +1143,7 @@
                 },
                 "security": [
                     {
-                        "bearAuth": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -1258,7 +1258,223 @@
                 },
                 "security": [
                     {
-                        "bearAuth": []
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-education/complete-list-user-education": {
+            "get": {
+                "tags": [
+                    "UserEducation"
+                ],
+                "summary": "Get Complete List User Education",
+                "operationId": "517f8d01fcd89ee1d038dcbef95b8246",
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-education/detail-list-user-education": {
+            "get": {
+                "tags": [
+                    "UserEducation"
+                ],
+                "summary": "Get Detail List User Education",
+                "operationId": "4cc9d4a81f7a1716768b6a6f55b921c9",
+                "parameters": [
+                    {
+                        "name": "user_education_id",
+                        "in": "query",
+                        "description": "Thông tin Id của User Education",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-education/detail-list-user-education-by-user-slug": {
+            "get": {
+                "tags": [
+                    "UserEducation"
+                ],
+                "summary": "Get Detail List User Education By User Slug",
+                "operationId": "0ab8fc6837941e2a775cd83e14adff6b",
+                "parameters": [
+                    {
+                        "name": "user_slug",
+                        "in": "query",
+                        "description": "Thông tin Slug của User",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "user-admin"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ]
             }
