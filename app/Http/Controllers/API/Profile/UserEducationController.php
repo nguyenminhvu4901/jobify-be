@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\API\Profile;
 
+use App\Commands\UserEducation\GetCompleteListOfUserEducation\GetCompleteListOfUserEducationCommand;
+use App\Commands\UserEducation\GetCompleteListOfUserEducation\GetCompleteListOfUserEducationHandle;
 use App\Commands\UserEducation\GetListEducationCurrentUser\GetListEducationCurrentUserCommand;
 use App\Commands\UserEducation\GetListEducationCurrentUser\GetListEducationCurrentUserHandle;
 use App\Commands\UserEducation\StoreUserEducation\StoreUserEducationCommand;
 use App\Commands\UserEducation\StoreUserEducation\StoreUserEducationHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserEducation\UserEducationRequest;
-use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Http\Resources\UserEducation\CurrentUserEducationResource;
 use App\Http\Resources\UserEducation\UserEducationResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
 
@@ -186,5 +186,64 @@ class UserEducationController extends Controller
             $this->responseSuccess(UserEducationResource::make($userEducation),
                 __('messages.user_update_profile_success')) :
             $this->responseError(__('messages.user_update_profile_error'));
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/profile/user-education/complete-list-user-education",
+     *     summary="Get Complete List User Education",
+     *     tags={"userEducation"},
+     *     security={{"bearAuth": {}}},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get user info successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message", type="string", example="Get user info successfully"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="Unauthenticated - Token is invalid or missing",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Unauthenticated."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="Get user info failed!",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Get user info failed!"
+     *             )
+     *         )
+     *     )
+     * )
+     *
+     * @return JsonResponse
+     */
+    public function getCompleteListOfUserEducation(): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetCompleteListOfUserEducationCommand::class,
+            GetCompleteListOfUserEducationHandle::class
+        );
+
+        $userEducation = $this->bus->dispatch(new GetCompleteListOfUserEducationCommand());
+
+        return $userEducation ?
+            $this->responseSuccess(UserEducationResource::collection($userEducation),
+                __('messages.user_get_profile_success')) :
+            $this->responseError(__('messages.user_get_profile_error'));
     }
 }

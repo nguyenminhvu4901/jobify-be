@@ -68,5 +68,8 @@ Route::group(
                 'getListEducationCurrentUser'])->name('ListEducationCurrentUser');
 
             Route::post('/', [UserEducationController::class, 'store'])->name('store');
+
+            Route::get('/complete-list-user-education', [UserEducationController::class,
+                'getCompleteListOfUserEducation']);
         });
 });
