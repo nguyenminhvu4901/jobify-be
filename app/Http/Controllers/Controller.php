@@ -72,6 +72,13 @@ abstract class Controller extends BaseController
         string|int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
     ): JsonResponse
     {
+        if (!empty($error) && is_string($error)) {
+            return response()->json([
+                'message' => $error,
+                'status_code' => $statusCode
+            ], $statusCode);
+        }
+
         if ($error instanceof ModelNotFoundException) {
             return $this->responseNotFound(__('messages.response.resource_not_found'), $error);
         }
@@ -112,13 +119,6 @@ abstract class Controller extends BaseController
             return $this->responseException($error);
         }
 
-        if (is_string($error)) {
-            return response()->json([
-                'message' => $error,
-                'status_code' => $statusCode
-            ], $statusCode);
-        }
-
         if (is_array($error)) {
             return response()->json([
                 'message' => __('messages.response.multiple_errors_occurred'),
@@ -142,7 +142,7 @@ abstract class Controller extends BaseController
     {
         return response()->json([
             'message' => __($message),
-            'errors' => $error->errors() ?: $error,
+            'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
             'status_code' => Response::HTTP_UNAUTHORIZED
         ], Response::HTTP_UNAUTHORIZED);
     }
@@ -156,7 +156,7 @@ abstract class Controller extends BaseController
     {
         return response()->json([
             'message' => $message,
-            'errors' => $error->errors() ?: $error,
+            'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
             'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -170,7 +170,7 @@ abstract class Controller extends BaseController
     {
         return response()->json([
             'message' => $message,
-            'errors' => $error->errors() ?: $error,
+            'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
             'status_code' => Response::HTTP_NOT_FOUND
         ], Response::HTTP_NOT_FOUND);
     }
@@ -200,7 +200,7 @@ abstract class Controller extends BaseController
     {
         return response()->json([
             'message' => $message,
-            'errors' => $error->errors() ?: $error,
+            'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
             'status_code' => Response::HTTP_INTERNAL_SERVER_ERROR
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -211,10 +211,12 @@ abstract class Controller extends BaseController
      */
     public function responseException(mixed $error = ''): JsonResponse
     {
+        $statusCode = is_object($error) && method_exists($error, 'getCode') ? $error->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+
         return response()->json([
-            'message' => $error->getMessage(),
-            'status_code' => $error->getCode() ?: Response::HTTP_INTERNAL_SERVER_ERROR
-        ], $error->getCode() ?: Response::HTTP_INTERNAL_SERVER_ERROR);
+            'message' => is_object($error) && method_exists($error, 'getMessage') ? $error->getMessage() : $error,
+            'status_code' => $statusCode,
+        ], $statusCode);
     }
 
     /**
@@ -226,7 +228,7 @@ abstract class Controller extends BaseController
     {
         return response()->json([
             'message' => $message,
-            'errors' => $error->errors() ?: $error,
+            'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
             'status_code' => Response::HTTP_METHOD_NOT_ALLOWED
         ], Response::HTTP_METHOD_NOT_ALLOWED);
     }

@@ -5,7 +5,7 @@ namespace App\Commands\Auth\RecruiterRegister;
 use App\Commands\Base\BaseRegister\BaseRegisterCommand;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RecruiterCommand extends BaseRegisterCommand
+class RecruiterRegisterCommand extends BaseRegisterCommand
 {
     public function __construct(
         string $fullName,
@@ -25,7 +25,7 @@ class RecruiterCommand extends BaseRegisterCommand
     /**
      * Tạo RecruiterCommand từ FormRequest
      */
-    public static function withForm(FormRequest $request): RecruiterCommand
+    public static function withForm(FormRequest $request): RecruiterRegisterCommand
     {
         $data = array_merge(
             parent::fromBaseRequest($request),

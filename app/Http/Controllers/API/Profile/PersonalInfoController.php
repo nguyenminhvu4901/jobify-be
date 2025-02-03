@@ -20,8 +20,8 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Tag(
- *     name="PersonalInfo",
- *     description="Common Profile And Avatar"
+ *     name="Personal Info",
+ *     description="Information And Profile Changes"
  * )
  */
 class PersonalInfoController extends Controller

@@ -25,24 +25,33 @@ class LoginStandardHandler
 
         $token = auth('api')->attempt($credentials);
 
-        if(auth('api')->attempt($credentials))
+        if(!empty($token))
         {
             $user = $this->userRepository->whereEmail($command->email)->first();
 
             if($user->isActive()) {
-
                 $user->token = [
                     'access_token' => $token,
                     'token_type' => 'Bearer',
                     'expires_in' => $expiry,
                 ];
 
-                return $user;
+                return [
+                    'user' => $user,
+                    'message' => __('messages.authentication.user_login_success'),
+                ];
+            }else{
+                JWTAuth::setToken($token)->invalidate(true);
+
+                return [
+                    'message' => __('messages.authentication.account_has_been_locked')
+                ];
             }
+        }else{
 
-            JWTAuth::setToken($token)->invalidate(true);
+            return [
+                'message' => __('messages.authentication.wrong_account')
+            ];
         }
-
-        return null;
     }
 }

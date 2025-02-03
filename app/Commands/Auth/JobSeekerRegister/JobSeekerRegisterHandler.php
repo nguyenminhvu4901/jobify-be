@@ -15,7 +15,7 @@ class JobSeekerRegisterHandler
 
     public function handle(JobSeekerRegisterCommand $command)
     {
-        return $this->userRepository->create([
+        $jobSeeker =  $this->userRepository->create([
             'full_name' => $command->fullName,
             'email' => $command->email,
             'password' => $command->password,
@@ -23,5 +23,16 @@ class JobSeekerRegisterHandler
             'current_role' => DefaultRole::JOBSEEKER,
             'role' => DefaultRole::JOBSEEKER
         ]);
+
+        if(!empty($jobSeeker)){
+            return [
+                'jobSeeker' => $jobSeeker,
+                'message' => __('messages.authentication.user_register_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.authentication.user_register_error')
+        ];
     }
 }

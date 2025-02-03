@@ -9,9 +9,19 @@ class LogoutHandler
     public function handle(LogoutCommand $command)
     {
         if(!empty($command->token)){
-            return JWTAuth::setToken($command->token)->invalidate(true);
+            $tokenInfo = JWTAuth::setToken($command->token)->invalidate(true);
+
+            if($tokenInfo){
+                return [
+                    'logout' => true,
+                    'message' => __('messages.authentication.user_is_logged_out')
+                ];
+            }
         }
 
-        return null;
+        return [
+            'logout' => false,
+            'message' => __('messages.authentication.user_logout_error')
+        ];
     }
 }

@@ -8,8 +8,8 @@ use App\Commands\Auth\LoginStandard\LoginStandardCommand;
 use App\Commands\Auth\LoginStandard\LoginStandardHandler;
 use App\Commands\Auth\Logout\LogoutCommand;
 use App\Commands\Auth\Logout\LogoutHandler;
-use App\Commands\Auth\RecruiterRegister\RecruiterCommand;
-use App\Commands\Auth\RecruiterRegister\RecruiterHandler;
+use App\Commands\Auth\RecruiterRegister\RecruiterRegisterCommand;
+use App\Commands\Auth\RecruiterRegister\RecruiterRegisterHandler;
 use App\Commands\Auth\ResetPassword\ResetPasswordCommand;
 use App\Commands\Auth\ResetPassword\ResetPasswordHandler;
 use App\Commands\Auth\SendForgotPassword\SendForgotPasswordCommand;
@@ -34,7 +34,7 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Tag(
  *     name="Authentication",
- *     description="Auth Resource"
+ *     description="Process Login, Logout, Register"
  * )
  */
 class AuthController extends Controller
@@ -50,8 +50,8 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/auth/login",
-     *     summary="Process login user",
-     *     description="Authenticate a user and return a JWT token if successful.",
+     *     summary="Process Login User",
+     *     description="Log in to your account and return the JWT token.",
      *     tags={"Authentication"},
      *     @OA\RequestBody(
      *         required=true,
@@ -76,11 +76,19 @@ class AuthController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *          response=401,
+     *          description="Account has been locked",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Account has been locked")
+     *          )
+     *      )
+     *     @OA\Response(
      *         response=401,
-     *         description="User login failure",
+     *         description="Wrong account or password",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="User login failure")
+     *             @OA\Property(property="message", type="string", example="Wrong account or password")
      *         )
      *     )
      * )
@@ -92,11 +100,14 @@ class AuthController extends Controller
     {
         $this->bus->addHandler(LoginStandardCommand::class, LoginStandardHandler::class);
 
-        $user = $this->bus->dispatch(LoginStandardCommand::withForm($request));
+        $userData = $this->bus->dispatch(LoginStandardCommand::withForm($request));
 
-        return $user ?
-            $this->responseSuccess(LoginResource::make($user), __('messages.user_login_success')) :
-            $this->responseUnauthorized(__('messages.user_login_error'));
+        if(!empty($userData['user'])){
+            return $this->responseSuccess(LoginResource::make($userData['user']), $userData['message']);
+        }
+
+        return $this->responseUnauthorized($userData['message']);
+
     }
 
     /**
@@ -116,10 +127,10 @@ class AuthController extends Controller
      *     ),
      *     @OA\Response(
      *           response=401,
-     *           description="Unauthenticated - Token is invalid or missing",
+     *           description="The user is not logged in",
      *           @OA\JsonContent(
      *               type="object",
-     *               @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *               @OA\Property(property="message", type="string", example="The user is not logged in")
      *           )
      *     ),
      *     @OA\Response(
@@ -128,7 +139,7 @@ class AuthController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(
-     *                  property="message", type="string", example="Server Error"
+     *                  property="message", type="string", example="User logout failure"
      *              )
      *          )
      *     )
@@ -141,9 +152,11 @@ class AuthController extends Controller
 
         $result = $this->bus->dispatch(new LogoutCommand(request()->bearerToken()));
 
-        return $result ?
-            $this->responseSuccessWithNoData(__('messages.user_is_logged_out')) :
-            $this->responseInternalServerError();
+        if($result['logout']){
+            return $this->responseSuccessWithNoData($result['message']);
+        }
+
+        return $this->responseInternalServerError($result['message']);
     }
 
 
@@ -151,7 +164,7 @@ class AuthController extends Controller
      * @OA\Post(
      *     path="/auth/job-seeker-register",
      *     operationId="resigterJobSeeker",
-     *     summary="Create new JobSeeker Account",
+     *     summary="Create New JobSeeker Account",
      *     tags={"Authentication"},
      *     @OA\RequestBody(
      *         required=true,
@@ -195,7 +208,7 @@ class AuthController extends Controller
      *     ),
      *     @OA\Response(
      *         response="200",
-     *         description="JobSeeker Register Successfully",
+     *         description="Registration successfully",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
@@ -205,7 +218,7 @@ class AuthController extends Controller
      *     ),
      *     @OA\Response(
      *          response="500",
-     *          description="JobSeeker Register Error",
+     *          description="Registration error",
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(
@@ -222,12 +235,13 @@ class AuthController extends Controller
     {
         $this->bus->addHandler(JobSeekerRegisterCommand::class, JobSeekerRegisterHandler::class);
 
-        $jobSeeker = $this->bus->dispatch(JobSeekerRegisterCommand::withForm($request));
+        $result = $this->bus->dispatch(JobSeekerRegisterCommand::withForm($request));
 
-        return $jobSeeker ?
-            $this->responseSuccess(JobSeekerRegisterResource::make($jobSeeker),
-                __('messages.user_register_success')) :
-            $this->responseError(__('messages.user_register_error'));
+        if(!empty($result['jobSeeker'])){
+            return $this->responseSuccess(JobSeekerRegisterResource::make($result['jobSeeker']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -342,13 +356,15 @@ class AuthController extends Controller
      */
     public function recruiterRegister(RecruiterRegisterRequest $request): JsonResponse
     {
-        $this->bus->addHandler(RecruiterCommand::class, RecruiterHandler::class);
+        $this->bus->addHandler(RecruiterRegisterCommand::class, RecruiterRegisterHandler::class);
 
-        $recruiter = $this->bus->dispatch(RecruiterCommand::withForm($request));
+        $result = $this->bus->dispatch(RecruiterRegisterCommand::withForm($request));
 
-        return $recruiter ?
-            $this->responseSuccess(RecruiterRegisterResource::make($recruiter), __('messages.user_register_success')) :
-            $this->responseError(__('messages.user_register_error'));
+        if(!empty($result['recruiter'])){
+            return $this->responseSuccess(RecruiterRegisterResource::make($result['recruiter']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -411,12 +427,12 @@ class AuthController extends Controller
      *           )
      *     ),
      *     @OA\Response(
-     *            response=401,
-     *            description="Unauthenticated - Token is invalid or missing",
-     *            @OA\JsonContent(
-     *                type="object",
-     *                @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *            )
+     *           response=401,
+     *           description="The user is not logged in",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(property="message", type="string", example="The user is not logged in")
+     *           )
      *     ),
      *     @OA\Response(
      *            response="500",
@@ -437,11 +453,14 @@ class AuthController extends Controller
     {
         $this->bus->addHandler(UserChangePasswordCommand::class, UserChangePasswordHandler::class);
 
-        $user = $this->bus->dispatch(UserChangePasswordCommand::withForm($request));
+        $result = $this->bus->dispatch(UserChangePasswordCommand::withForm($request));
 
-        return $user ?
-            $this->responseSuccess(UserChangePasswordResource::make($user), __('messages.user_change_password_success')) :
-            $this->responseError(__('messages.user_change_password_error'));
+        if(!empty($result['user'])){
+
+            return $this->responseSuccess(UserChangePasswordResource::make($result['user']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -575,6 +594,6 @@ class AuthController extends Controller
      */
     public function unauthorized(): JsonResponse
     {
-        return $this->responseUnauthorized();
+        return $this->responseUnauthorized(__('messages.authentication.user_is_not_logged_in'));
     }
 }
