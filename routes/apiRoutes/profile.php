@@ -77,5 +77,9 @@ Route::group(
 
             Route::get('/detail-list-user-education-by-user-slug', [UserEducationController::class,
                 'getDetailListOfUserEducationByUserSlug'])->name('DetailListOfUserEducationByUserSlug');
+
+            Route::put('/', [UserEducationController::class, 'update'])->name('updateEducation');
+
+            Route::delete('/', [UserEducationController::class, 'destroy'])->name('destroy');
         });
 });

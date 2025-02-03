@@ -17,7 +17,11 @@ class UserEducationRepositoryEloquent extends BaseRepository implements UserEduc
         return UserEducation::class;
     }
 
-    public function store(array $data)
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function store(array $data): mixed
     {
         DB::beginTransaction();
 
@@ -31,6 +35,52 @@ class UserEducationRepositoryEloquent extends BaseRepository implements UserEduc
             DB::rollBack();
 
             return null;
+        }
+    }
+
+    /**
+     * @param array $data
+     * @param int|string $userEducationId
+     * @return mixed
+     */
+    public function updateUserEducation(array $data, int|string $userEducationId): mixed
+    {
+        DB::beginTransaction();
+
+        try {
+            $userEducation = $this->model->find($userEducationId);
+
+            $userEducation->update($data);
+
+            DB::commit();
+
+            return $userEducation->refresh();
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
+    /**
+     * @param $userEducation
+     * @return bool
+     */
+    public function destroy($userEducation): bool
+    {
+        DB::beginTransaction();
+
+        try {
+            $userEducation->delete();
+
+            DB::commit();
+
+            return true;
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+
+            return false;
         }
     }
 }

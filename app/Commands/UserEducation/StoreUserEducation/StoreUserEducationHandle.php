@@ -12,12 +12,12 @@ class StoreUserEducationHandle
     {
     }
 
-    public function handle(StoreUserEducationCommand $command)
+    public function handle(StoreUserEducationCommand $command): array
     {
-        $user = auth()->user();
+        $userId = auth()->user()->id;
 
-        return $this->userEducationRepository->store([
-            'user_id' => $user->id,
+        $userEducation =  $this->userEducationRepository->store([
+            'user_id' => $userId,
             'name' => $command->name,
             'major' => $command->major,
             'is_studying' => $command->isStudying,
@@ -25,5 +25,16 @@ class StoreUserEducationHandle
             'end_date' => $command->endDate,
             'description' => $command->description
         ]);
+
+        if(!empty($userEducation)){
+            return [
+                'message' => __('messages.user_update_profile_success'),
+                'userEducation' => $userEducation
+            ];
+        }
+
+        return [
+            'message' => __('messages.user_update_profile_error')
+        ];
     }
 }

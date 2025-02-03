@@ -72,7 +72,8 @@ class AuthController extends Controller
      *         description="User login successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="User login successfully")
+     *             @OA\Property(property="message", type="string", example="User login successfully"),
+     *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
      *     @OA\Response(
@@ -80,7 +81,8 @@ class AuthController extends Controller
      *         description="Wrong account or password",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Wrong account or password")
+     *             @OA\Property(property="message", type="string", example="Wrong account or password"),
+     *             @OA\Property(property="status_code", type="integer", example=401)
      *         )
      *     )
      * )
@@ -114,7 +116,8 @@ class AuthController extends Controller
      *         description="Logout successful",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Người dùng đã đăng xuất")
+     *             @OA\Property(property="message", type="string", example="Người dùng đã đăng xuất"),
+     *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
      *     @OA\Response(
@@ -122,7 +125,8 @@ class AuthController extends Controller
      *           description="The user is not logged in",
      *           @OA\JsonContent(
      *               type="object",
-     *               @OA\Property(property="message", type="string", example="The user is not logged in")
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
      *     @OA\Response(
@@ -132,7 +136,8 @@ class AuthController extends Controller
      *              type="object",
      *              @OA\Property(
      *                  property="message", type="string", example="User logout failure"
-     *              )
+     *              ),
+     *             @OA\Property(property="status_code", type="integer", example=500)
      *          )
      *     )
      * )
@@ -205,7 +210,8 @@ class AuthController extends Controller
      *             type="object",
      *             @OA\Property(
      *                 property="message", type="string", example="Registration successfully"
-     *             )
+     *             ),
+     *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
      *     @OA\Response(
@@ -215,7 +221,8 @@ class AuthController extends Controller
      *              type="object",
      *              @OA\Property(
      *                  property="message", type="string", example="Registration error"
-     *              )
+     *              ),
+     *             @OA\Property(property="status_code", type="integer", example=500)
      *          )
      *      ),
      * )
@@ -328,7 +335,8 @@ class AuthController extends Controller
      *              type="object",
      *              @OA\Property(
      *                  property="message", type="string", example="Registration successfully"
-     *              )
+     *              ),
+     *              @OA\Property(property="status_code", type="integer", example=200)
      *          )
      *      ),
      *      @OA\Response(
@@ -338,7 +346,8 @@ class AuthController extends Controller
      *               type="object",
      *               @OA\Property(
      *                   property="message", type="string", example="Registration error"
-     *               )
+     *               ),
+     *               @OA\Property(property="status_code", type="integer", example=500)
      *           )
      *       ),
      * )
@@ -415,7 +424,8 @@ class AuthController extends Controller
      *               type="object",
      *               @OA\Property(
      *                   property="message", type="string", example="User change password successfully"
-     *               )
+     *               ),
+     *               @OA\Property(property="status_code", type="integer", example=200)
      *           )
      *     ),
      *     @OA\Response(
@@ -423,7 +433,8 @@ class AuthController extends Controller
      *           description="The user is not logged in",
      *           @OA\JsonContent(
      *               type="object",
-     *               @OA\Property(property="message", type="string", example="The user is not logged in")
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
      *     @OA\Response(
@@ -433,7 +444,8 @@ class AuthController extends Controller
      *                type="object",
      *                @OA\Property(
      *                    property="message", type="string", example="User Change password Fail!"
-     *                )
+     *                ),
+     *                @OA\Property(property="status_code", type="integer", example=500)
      *            )
      *      ),
      * )
@@ -482,15 +494,17 @@ class AuthController extends Controller
      *         description="Send Email Successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Send Password Successfully")
-     *         )
+     *             @OA\Property(property="message", type="string", example="Send Password Successfully"),
+     *             @OA\Property(property="status_code", type="integer", example=200)
+     *         ),
      *     ),
      *     @OA\Response(
      *         response=500,
      *         description="Send Email Fail",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Send Email Fail")
+     *             @OA\Property(property="message", type="string", example="Send Email Fail"),
+     *             @OA\Property(property="status_code", type="integer", example=500)
      *         )
      *     )
      * )
@@ -554,7 +568,8 @@ class AuthController extends Controller
      *              type="object",
      *              @OA\Property(
      *                  property="message", type="string", example="Reset Password successfully"
-     *              )
+     *              ),
+     *              @OA\Property(property="status_code", type="integer", example=200)
      *          )
      *     ),
      *     @OA\Response(
@@ -562,7 +577,8 @@ class AuthController extends Controller
      *         description="Reset Password Fail",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Reset Password Fail")
+     *             @OA\Property(property="message", type="string", example="Reset Password Fail"),
+     *             @OA\Property(property="status_code", type="integer", example=500)
      *         )
      *     )
      * )

@@ -14,6 +14,17 @@ class GetCompleteListOfUserEducationHandle
 
     public function handle(GetCompleteListOfUserEducationCommand $command)
     {
-        return $this->userEducationRepository->getWithRelationship('user');
+        $userEducation = $this->userEducationRepository->getWithRelationship('user');
+
+        if($userEducation->isNotEmpty()){
+            return [
+                'userEducation' => $userEducation,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }

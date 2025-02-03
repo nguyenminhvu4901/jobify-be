@@ -50,7 +50,8 @@ class PersonalInfoController extends Controller
      *             type="object",
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info successfully"
-     *             )
+     *             ),
+     *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
      *     @OA\Response(
@@ -58,7 +59,8 @@ class PersonalInfoController extends Controller
      *           description="The user is not logged in",
      *           @OA\JsonContent(
      *               type="object",
-     *               @OA\Property(property="message", type="string", example="The user is not logged in")
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
      *     @OA\Response(
@@ -68,7 +70,8 @@ class PersonalInfoController extends Controller
      *             type="object",
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info failed!"
-     *             )
+     *             ),
+     *             @OA\Property(property="status_code", type="integer", example=500)
      *         )
      *     )
      * )
@@ -151,7 +154,8 @@ class PersonalInfoController extends Controller
      *              type="object",
      *              @OA\Property(
      *                  property="message", type="string", example="Saved"
-     *              )
+     *              ),
+     *              @OA\Property(property="status_code", type="integer", example=200)
      *          )
      *     ),
      *     @OA\Response(
@@ -159,7 +163,8 @@ class PersonalInfoController extends Controller
      *           description="The user is not logged in",
      *           @OA\JsonContent(
      *               type="object",
-     *               @OA\Property(property="message", type="string", example="The user is not logged in")
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
      *     @OA\Response(
@@ -169,7 +174,8 @@ class PersonalInfoController extends Controller
      *                type="object",
      *                @OA\Property(
      *                    property="message", type="string", example="Save failed"
-     *                )
+     *                ),
+     *                @OA\Property(property="status_code", type="integer", example=500)
      *            )
      *      ),
      * )
@@ -219,7 +225,8 @@ class PersonalInfoController extends Controller
      *               type="object",
      *               @OA\Property(
      *                   property="message", type="string", example="Saved"
-     *               )
+     *               ),
+     *               @OA\Property(property="status_code", type="integer", example=200)
      *           )
      *     ),
      *     @OA\Response(
@@ -227,17 +234,19 @@ class PersonalInfoController extends Controller
      *           description="The user is not logged in",
      *           @OA\JsonContent(
      *               type="object",
-     *               @OA\Property(property="message", type="string", example="The user is not logged in")
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
      *     @OA\Response(
-     *             response=404,
+     *             response=500,
      *             description="Update Profile Error",
      *             @OA\JsonContent(
      *                 type="object",
      *                 @OA\Property(
      *                     property="message", type="string", example="Save failed"
-     *                 )
+     *                 ),
+     *                 @OA\Property(property="status_code", type="integer", example=500)
      *             )
      *      ),
      * )

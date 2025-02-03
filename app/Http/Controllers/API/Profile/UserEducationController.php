@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\Profile;
 
+use App\Commands\UserEducation\DestroyUserEducation\DestroyUserEducationCommand;
+use App\Commands\UserEducation\DestroyUserEducation\DestroyUserEducationHandle;
 use App\Commands\UserEducation\GetCompleteListOfUserEducation\GetCompleteListOfUserEducationCommand;
 use App\Commands\UserEducation\GetCompleteListOfUserEducation\GetCompleteListOfUserEducationHandle;
 use App\Commands\UserEducation\GetDetailListOfUserEducation\GetDetailListOfUserEducationCommand;
@@ -12,6 +14,8 @@ use App\Commands\UserEducation\GetListEducationCurrentUser\GetListEducationCurre
 use App\Commands\UserEducation\GetListEducationCurrentUser\GetListEducationCurrentUserHandle;
 use App\Commands\UserEducation\StoreUserEducation\StoreUserEducationCommand;
 use App\Commands\UserEducation\StoreUserEducation\StoreUserEducationHandle;
+use App\Commands\UserEducation\UpdateUserEducation\UpdateUserEducationCommand;
+use App\Commands\UserEducation\UpdateUserEducation\UpdateUserEducationHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserEducation\UserEducationRequest;
 use App\Http\Resources\UserEducation\CurrentUserEducationResource;
@@ -26,6 +30,7 @@ use OpenApi\Annotations as OA;
  *     description="User Education Information and Action",
  * )
  */
+
 class UserEducationController extends Controller
 {
     /**
@@ -40,7 +45,7 @@ class UserEducationController extends Controller
      * @OA\Get(
      *     path="/profile/user-education/list-education-current-user",
      *     summary="Get List Education Current User",
-     *     tags={"UserEducation"},
+     *     tags={"User Education"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
@@ -49,16 +54,23 @@ class UserEducationController extends Controller
      *             type="object",
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info successfully"
-     *             )
+     *             ),
+     *             @OA\Property(property="status_code", type="integer", example=200),
+     *             @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(ref="#/components/schemas/CurrentUserEducationResource")
+     *             ),
      *         )
      *     ),
      *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated - Token is invalid or missing",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *          )
+     *           response=401,
+     *           description="The user is not logged in",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
+     *           )
      *     ),
      *     @OA\Response(
      *          response=500,
@@ -67,7 +79,8 @@ class UserEducationController extends Controller
      *              type="object",
      *              @OA\Property(
      *                  property="message", type="string", example="Get user info failed!"
-     *              )
+     *              ),
+     *              @OA\Property(property="status_code", type="integer", example=500)
      *          )
      *      )
      * ),
@@ -81,12 +94,13 @@ class UserEducationController extends Controller
             GetListEducationCurrentUserHandle::class
         );
 
-        $user = $this->bus->dispatch(new GetListEducationCurrentUserCommand());
+        $result = $this->bus->dispatch(new GetListEducationCurrentUserCommand());
 
-        return $user ?
-            $this->responseSuccess(new CurrentUserEducationResource($user),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['user'])){
+            return $this->responseSuccess(new CurrentUserEducationResource($result['user']), $result['message']);
+        }
+
+        return  $this->responseError($result['message']);
     }
 
     /**
@@ -94,7 +108,7 @@ class UserEducationController extends Controller
      *     path="/profile/user-education/",
      *     summary="Store User Education",
      *     description="Store User Education",
-     *     tags={"UserEducation"},
+     *     tags={"User Education"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -151,17 +165,19 @@ class UserEducationController extends Controller
      *                type="object",
      *                @OA\Property(
      *                    property="message", type="string", example="Saved"
-     *                )
+     *                ),
+     *                @OA\Property(property="status_code", type="integer", example=200)
      *            )
      *      ),
-     *       @OA\Response(
-     *               response=401,
-     *               description="Unauthenticated - Token is invalid or missing",
-     *               @OA\JsonContent(
-     *                   type="object",
-     *                   @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *               )
-     *        ),
+     *     @OA\Response(
+     *           response=401,
+     *           description="The user is not logged in",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
+     *           )
+     *     ),
      *       @OA\Response(
      *             response="500",
      *             description="Store User Education Fail",
@@ -169,7 +185,8 @@ class UserEducationController extends Controller
      *                 type="object",
      *                 @OA\Property(
      *                     property="message", type="string", example="Fail"
-     *                 )
+     *                 ),
+     *                 @OA\Property(property="status_code", type="integer", example=500)
      *             )
      *       ),
      * )
@@ -184,12 +201,13 @@ class UserEducationController extends Controller
             StoreUserEducationHandle::class
         );
 
-        $userEducation = $this->bus->dispatch(StoreUserEducationCommand::withForm($request));
+        $result = $this->bus->dispatch(StoreUserEducationCommand::withForm($request));
 
-        return $userEducation ?
-            $this->responseSuccess(UserEducationResource::make($userEducation),
-                __('messages.user_update_profile_success')) :
-            $this->responseError(__('messages.user_update_profile_error'));
+        if(!empty($result['userEducation'])){
+            return $this->responseSuccess(UserEducationResource::make($result['userEducation']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -243,12 +261,15 @@ class UserEducationController extends Controller
             GetCompleteListOfUserEducationHandle::class
         );
 
-        $userEducation = $this->bus->dispatch(new GetCompleteListOfUserEducationCommand());
+        $result = $this->bus->dispatch(new GetCompleteListOfUserEducationCommand());
 
-        return $userEducation ?
-            $this->responseSuccess(UserEducationResource::collection($userEducation),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userEducation'])){
+            return $this->responseSuccess(
+                UserEducationResource::collection($result['userEducation']), $result['message']
+            );
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -311,12 +332,14 @@ class UserEducationController extends Controller
             GetDetailListOfUserEducationHandle::class
         );
 
-        $userEducation = $this->bus->dispatch(GetDetailListOfUserEducationCommand::withForm($request));
+        $result = $this->bus->dispatch(GetDetailListOfUserEducationCommand::withForm($request));
 
-        return $userEducation ?
-            $this->responseSuccess(UserEducationResource::make($userEducation),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userEducation'])){
+            return $this->responseSuccess(
+                UserEducationResource::make($result['userEducation']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -379,11 +402,49 @@ class UserEducationController extends Controller
             GetDetailListOfUserEducationByUserSlugHandle::class
         );
 
-        $userEducation = $this->bus->dispatch(GetDetailListOfUserEducationByUserSlugCommand::withForm($request));
+        $result = $this->bus->dispatch(GetDetailListOfUserEducationByUserSlugCommand::withForm($request));
 
-        return $userEducation ?
-            $this->responseSuccess(UserEducationResource::collection($userEducation),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userEducation'])){
+            return $this->responseSuccess(UserEducationResource::collection($result['userEducation']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
+    }
+
+    /**
+     * @param UserEducationRequest $request
+     * @return JsonResponse
+     */
+    public function update(UserEducationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateUserEducationCommand::class,
+            UpdateUserEducationHandle::class
+        );
+
+        $result = $this->bus->dispatch(UpdateUserEducationCommand::withForm($request));
+
+        if(!empty($result['userEducation'])){
+            return $this->responseSuccess(
+                UserEducationResource::make($result['userEducation']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
+    }
+
+    public function destroy(UserEducationRequest $request)
+    {
+        $this->bus->addHandler(
+            DestroyUserEducationCommand::class,
+            DestroyUserEducationHandle::class
+        );
+
+        $result = $this->bus->dispatch(DestroyUserEducationCommand::withForm($request));
+
+        if(!empty($result['userEducation'])){
+            return $this->responseSuccessWithNoData($result['message']);
+        }
+
+        return $this->responseError($result['message'], $result['status_code']);
     }
 }

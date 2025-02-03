@@ -58,6 +58,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User login successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -74,6 +78,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Wrong account or password"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -102,6 +110,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Người dùng đã đăng xuất"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -118,6 +130,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -134,6 +150,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User logout failure"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -210,6 +230,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Registration successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -226,6 +250,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Registration error"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -333,6 +361,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Registration successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -349,6 +381,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Registration error"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -420,6 +456,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User change password successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -436,6 +476,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -452,6 +496,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User Change password Fail!"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -503,6 +551,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Send Password Successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -519,6 +571,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Send Email Fail"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -583,6 +639,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Reset Password successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -599,6 +659,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Reset Password Fail"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -626,6 +690,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Get user info successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -642,6 +710,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -658,6 +730,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Get user info failed!"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -741,6 +817,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Saved"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -749,14 +829,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -773,6 +857,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Save failed"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -822,6 +910,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Saved"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -830,14 +922,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -845,7 +941,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Update Profile Error",
                         "content": {
                             "application/json": {
@@ -854,6 +950,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Save failed"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -1087,7 +1187,7 @@
         "/profile/user-education/list-education-current-user": {
             "get": {
                 "tags": [
-                    "UserEducation"
+                    "User Education"
                 ],
                 "summary": "Get List Education Current User",
                 "operationId": "9921f6a043679d99c1b32f666bd41176",
@@ -1101,6 +1201,16 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Get user info successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CurrentUserEducationResource"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -1109,14 +1219,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -1133,6 +1247,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Get user info failed!"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -1151,7 +1269,7 @@
         "/profile/user-education/": {
             "post": {
                 "tags": [
-                    "UserEducation"
+                    "User Education"
                 ],
                 "summary": "Store User Education",
                 "description": "Store User Education",
@@ -1216,6 +1334,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Saved"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -1224,14 +1346,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -1248,6 +1374,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Fail"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -1516,6 +1646,41 @@
         }
     },
     "components": {
+        "schemas": {
+            "CurrentUserEducationResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "school_name": {
+                        "type": "string",
+                        "example": "Harvard University"
+                    },
+                    "degree": {
+                        "type": "string",
+                        "example": "Bachelor of Science"
+                    },
+                    "field_of_study": {
+                        "type": "string",
+                        "example": "Computer Science"
+                    },
+                    "start_year": {
+                        "type": "integer",
+                        "example": 2015
+                    },
+                    "end_year": {
+                        "type": "integer",
+                        "example": 2019
+                    }
+                },
+                "type": "object"
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
@@ -1529,6 +1694,10 @@
         {
             "name": "Authentication",
             "description": "Process Login, Logout, Register"
+        },
+        {
+            "name": "User Education",
+            "description": "User Education Information and Action"
         },
         {
             "name": "PersonalInfo",

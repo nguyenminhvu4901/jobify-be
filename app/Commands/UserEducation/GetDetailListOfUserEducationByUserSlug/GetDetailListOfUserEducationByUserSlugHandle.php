@@ -14,9 +14,20 @@ class GetDetailListOfUserEducationByUserSlugHandle
 
     public function handle(GetDetailListOfUserEducationByUserSlugCommand $command)
     {
-        return $this->userEducationRepository->findByRelationshipUserSlug(
+        $userEducation = $this->userEducationRepository->findByRelationshipUserSlug(
             $command->userSlug,
             'user'
         );
+
+        if(!empty($userEducation)){
+            return [
+                'userEducation' => $userEducation,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }

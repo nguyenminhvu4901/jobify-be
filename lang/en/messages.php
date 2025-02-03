@@ -18,6 +18,8 @@ return [
         'user_get_profile_error' => 'Get user info failed!',
         'user_update_profile_success' => 'Saved',
         'user_update_profile_error' => 'Save failed',
+        'user_change_password_success' => 'User change password successfully',
+        'user_change_password_error' => 'User Change password Fail!',
     ],
 
     'account_is_not_registered' => 'User is not registered',

@@ -14,10 +14,10 @@ class GetListEducationCurrentUserHandle
 
     public function handle(GetListEducationCurrentUserCommand $command)
     {
-        $user = auth()->user();
+        $userId = auth()->user()->id;
 
-        return $this->userRepository->findWithRelationships(
-            $user->id,
+        $user = $this->userRepository->findWithRelationships(
+            $userId,
             'userEducations',
             [
                 'userEducations' => function ($query) {
@@ -25,5 +25,16 @@ class GetListEducationCurrentUserHandle
                 }
             ]
         );
+
+        if(!empty($user)){
+            return [
+                'user' => $user,
+                'message' => __('messages.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }

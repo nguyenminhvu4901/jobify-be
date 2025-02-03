@@ -14,6 +14,17 @@ class GetDetailListOfUserEducationHandle
 
     public function handle(GetDetailListOfUserEducationCommand $command)
     {
-        return $this->userEducationRepository->find($command->userEducationId);
+        $userEducation = $this->userEducationRepository->find($command->userEducationId);
+
+        if(!empty($userEducation)){
+            return [
+                'userEducation' => $userEducation,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }
