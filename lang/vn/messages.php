@@ -33,4 +33,17 @@ return [
     'user_get_profile_error' => 'Lấy thông tin thất bại',
     'user_destroy_profile_success' => 'Xóa thành công',
     'user_destroy_profile_error' => 'Xóa thất bại',
+
+    'response' => [
+        'resource_not_found' => 'Không tìm thấy tài nguyên yêu cầu',
+        'validation_error' => 'Lỗi xác thực',
+        'unauthorized' => 'Không được phép',
+        'server_error' => 'Lỗi máy chủ',
+        'authentication_failed' => 'Xác thực không thành công',
+        'access_denied' => 'Quyền truy cập bị từ chối',
+        'method_not_allowed' => 'Phương thức này không được hỗ trợ',
+        'not_found' => 'Không tìm thấy',
+        'multiple_errors_occurred' => 'Đã xảy ra nhiều lỗi',
+        'an_unexpected_error_occurred' => 'Đã xảy ra lỗi không mong muốn'
+    ]
 ];

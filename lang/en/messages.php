@@ -30,5 +30,18 @@ return [
     'user_get_profile_success' => 'Get user info successfully',
     'user_get_profile_error' => 'Get user info failed!',
     'user_change_password_success' => 'User change password successfully',
-    'user_change_password_error' => 'User Change password Fail!'
+    'user_change_password_error' => 'User Change password Fail!',
+
+    'response' => [
+        'resource_not_found' => 'Resource Not Found!',
+        'validation_error' => 'Validation Error',
+        'unauthorized' => 'Unauthorized',
+        'server_error' => 'Server Error',
+        'authentication_failed' => 'Authentication Failed',
+        'access_denied' => 'Access Denied',
+        'method_not_allowed' => 'Method Not Allowed',
+        'not_found' => 'Not Found',
+        'multiple_errors_occurred' => 'Multiple Errors Occurred',
+        'an_unexpected_error_occurred' => 'An Unexpected Error Occurred'
+    ]
 ];
