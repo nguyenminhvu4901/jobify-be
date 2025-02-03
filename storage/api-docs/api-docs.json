@@ -17,8 +17,8 @@
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Process login user",
-                "description": "Authenticate a user and return a JWT token if successful.",
+                "summary": "Process Login User",
+                "description": "Log in to your account and return the JWT token.",
                 "operationId": "4a0653990bae153573fca45c02b86632",
                 "requestBody": {
                     "required": true,
@@ -66,14 +66,14 @@
                         }
                     },
                     "401": {
-                        "description": "User login failure",
+                        "description": "Wrong account or password",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "User login failure"
+                                            "example": "Wrong account or password"
                                         }
                                     },
                                     "type": "object"
@@ -110,14 +110,14 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
                                         }
                                     },
                                     "type": "object"
@@ -133,7 +133,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Server Error"
+                                            "example": "User logout failure"
                                         }
                                     },
                                     "type": "object"
@@ -154,7 +154,7 @@
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Create new JobSeeker Account",
+                "summary": "Create New JobSeeker Account",
                 "operationId": "resigterJobSeeker",
                 "requestBody": {
                     "required": true,
@@ -202,7 +202,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "JobSeeker Register Successfully",
+                        "description": "Registration successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -218,7 +218,7 @@
                         }
                     },
                     "500": {
-                        "description": "JobSeeker Register Error",
+                        "description": "Registration error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -428,14 +428,14 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
                                         }
                                     },
                                     "type": "object"
@@ -634,14 +634,14 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
                                         }
                                     },
                                     "type": "object"
@@ -1528,11 +1528,11 @@
     "tags": [
         {
             "name": "Authentication",
-            "description": "Auth Resource"
+            "description": "Process Login, Logout, Register"
         },
         {
             "name": "PersonalInfo",
-            "description": "Common Profile And Avatar"
+            "description": "PersonalInfo"
         },
         {
             "name": "UserCertification",

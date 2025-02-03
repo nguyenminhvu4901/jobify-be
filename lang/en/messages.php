@@ -13,6 +13,13 @@ return [
         'wrong_account' => 'Wrong account or password'
     ],
 
+    'profile' => [
+        'user_get_profile_success' => 'Get user info successfully',
+        'user_get_profile_error' => 'Get user info failed!',
+        'user_update_profile_success' => 'Saved',
+        'user_update_profile_error' => 'Save failed',
+    ],
+
     'account_is_not_registered' => 'User is not registered',
 
     'user_is_not_logged_in' => 'The user is not logged in',
@@ -34,8 +41,6 @@ return [
     'unauthorized' => 'Unauthorized',
     'user_update_profile_success' => 'Saved',
     'user_update_profile_error' => 'Save failed',
-    'user_get_profile_success' => 'Get user info successfully',
-    'user_get_profile_error' => 'Get user info failed!',
     'user_change_password_success' => 'User change password successfully',
     'user_change_password_error' => 'User Change password Fail!',
 

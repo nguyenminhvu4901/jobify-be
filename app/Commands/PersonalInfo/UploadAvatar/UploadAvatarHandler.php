@@ -20,22 +20,33 @@ class UploadAvatarHandler
         if(!empty($command->avatar)){
             if(is_string($command->avatar)){
                 if($command->avatar == $user->avatar){
-                    return $this->userRepository->find(auth()->user()->id);
+                    $userInfo = $this->userRepository->find($user->id);
                 }else{
-                    return $this->processAvatarDefault($user);
+                    $userInfo = $this->processAvatarDefault($user);
                 }
             }else{
                 $path = config('constants.path_avatar');
 
                 $pathStorage = $this->storeImage($command->avatar, $path, $user);
 
-                return $this->userRepository->update([
+                $userInfo = $this->userRepository->update([
                     'avatar' => $pathStorage
                 ], $user->id);
             }
         }else{
-            return $this->processAvatarDefault($user);
+            $userInfo = $this->processAvatarDefault($user);
         }
+
+        if(!empty($userInfo)){
+            return [
+                'user' => $userInfo,
+                'message' => __('messages.profile.user_update_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_update_profile_error')
+        ];
     }
 
     /**

@@ -12,6 +12,13 @@ return [
         'wrong_account' => 'Sai tài khoản hoặc mật khẩu'
     ],
 
+    'profile' => [
+        'user_get_profile_success' => 'Lấy thông tin thành công',
+        'user_get_profile_error' => 'Lấy thông tin thất bại',
+        'user_update_profile_success' => 'Đã lưu',
+        'user_update_profile_error' => 'Lưu thất bại',
+    ],
+
     'account_is_not_registered' => 'Tài khoản chưa được đăng ký',
     'account_has_been_locked' => 'Tài khoản đã bị khóa',
     'language_does_not_exist' => 'Ngôn ngữ không có sẵn',
@@ -32,10 +39,6 @@ return [
     'user_logged_in' => 'Tài khoản đã được đăng nhập',
     'Unauthorized' => 'Không được phép',
     'unauthorized' => 'Không được phép',
-    'user_update_profile_success' => 'Đã lưu',
-    'user_update_profile_error' => 'Lưu thất bại',
-    'user_get_profile_success' => 'Lấy thông tin thành công',
-    'user_get_profile_error' => 'Lấy thông tin thất bại',
     'user_destroy_profile_success' => 'Xóa thành công',
     'user_destroy_profile_error' => 'Xóa thất bại',
 

@@ -76,14 +76,6 @@ class AuthController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *          response=401,
-     *          description="Account has been locked",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="Account has been locked")
-     *          )
-     *      )
-     *     @OA\Response(
      *         response=401,
      *         description="Wrong account or password",
      *         @OA\JsonContent(

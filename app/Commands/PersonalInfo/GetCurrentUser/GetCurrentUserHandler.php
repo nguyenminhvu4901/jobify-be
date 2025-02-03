@@ -15,6 +15,17 @@ class GetCurrentUserHandler
     {
         $userId = auth()->user()->id;
 
-        return $this->userRepository->find($userId);
+        $user = $this->userRepository->find($userId);
+
+        if(!empty($user)){
+            return [
+                'user' => $user,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }
