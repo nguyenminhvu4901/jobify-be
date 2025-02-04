@@ -412,6 +412,99 @@ class UserEducationController extends Controller
     }
 
     /**
+     * @OA\Put(
+     *     path="/profile/user-education/",
+     *     summary="Update User Education",
+     *     description="Update User Education",
+     *     tags={"User Education"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"user_education_id", "name", "major", "is_studying", "start_date"},
+     *                 @OA\Property(
+     *                      property="user_education_id",
+     *                      type="integer",
+     *                      example=1,
+     *                      description="Nhập id của user education"
+     *                  ),
+     *                 @OA\Property(
+     *                     property="name",
+     *                     type="string",
+     *                     example="TLU",
+     *                     description="Nhập tên trường"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="major",
+     *                     type="string",
+     *                     example="TLU",
+     *                     description="Ngành học"
+     *                 ),
+     *                 @OA\Property(
+     *                      property="is_studying",
+     *                      type="boolean",
+     *                      example=0,
+     *                      description="Đang học ở đây (0: đã tốt nghiệp, 1: chưa tốt nghiệp)"
+     *                 ),
+     *                 @OA\Property(
+     *                       property="start_date",
+     *                       type="string",
+     *                       format="date",
+     *                       example="2025-01-01",
+     *                       description="Ngày bắt đầu học"
+     *                 ),
+     *                 @OA\Property(
+     *                      property="end_date",
+     *                      type="string",
+     *                      format="date",
+     *                      example="2025-1-2",
+     *                      description="Ngày tốt nghiệp",
+     *                 ),
+     *                 @OA\Property(
+     *                       property="description",
+     *                       type="string",
+     *                       example="Học cũng vui",
+     *                       description="Mô tả thời đi học =)))",
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *             response="200",
+     *             description="Update User Education Successfully",
+     *             @OA\JsonContent(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="message", type="string", example="Saved"
+     *                 ),
+     *                 @OA\Property(property="status_code", type="integer", example=200)
+     *             )
+     *      ),
+     *     @OA\Response(
+     *            response=401,
+     *            description="The user is not logged in",
+     *            @OA\JsonContent(
+     *                type="object",
+     *                @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *                @OA\Property(property="status_code", type="integer", example=401)
+     *            )
+     *      ),
+     *      @OA\Response(
+     *              response="500",
+     *              description="Update User Education Fail",
+     *              @OA\JsonContent(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="message", type="string", example="Fail"
+     *                  ),
+     *                  @OA\Property(property="status_code", type="integer", example=500)
+     *              )
+     *       ),
+     * )
+     *
      * @param UserEducationRequest $request
      * @return JsonResponse
      */
@@ -432,7 +525,72 @@ class UserEducationController extends Controller
         return $this->responseError($result['message']);
     }
 
-    public function destroy(UserEducationRequest $request)
+    /**
+     * @OA\Delete(
+     *     path="/profile/user-education/",
+     *     summary="Destroy User Education",
+     *     description="Destroy User Education",
+     *     tags={"User Education"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"user_education_id", "user_slug"},
+     *                 @OA\Property(
+     *                     property="user_education_id",
+     *                     type="integer",
+     *                     example="1,
+     *                     description="Nhập id của user education"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="user_slug",
+     *                     type="string",
+     *                     example="user-admin",
+     *                     description="Nhập slug của tài khoản đang đăng nhập hiện tại"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *              response="200",
+     *              description="Destroy User Education Successfully",
+     *              @OA\JsonContent(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="message", type="string", example="Saved"
+     *                  ),
+     *                  @OA\Property(property="status_code", type="integer", example=200)
+     *              )
+     *      ),
+     *     @OA\Response(
+     *             response=401,
+     *             description="The user is not logged in",
+     *             @OA\JsonContent(
+     *                 type="object",
+     *                 @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *                 @OA\Property(property="status_code", type="integer", example=401)
+     *             )
+     *       ),
+     *      @OA\Response(
+     *               response="500",
+     *               description="Destroy User Education Fail",
+     *               @OA\JsonContent(
+     *                   type="object",
+     *                   @OA\Property(
+     *                       property="message", type="string", example="Fail"
+     *                   ),
+     *                   @OA\Property(property="status_code", type="integer", example=500)
+     *               )
+     *       ),
+     * )
+     *
+     * @param UserEducationRequest $request
+     * @return JsonResponse
+     */
+    public function destroy(UserEducationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             DestroyUserEducationCommand::class,
