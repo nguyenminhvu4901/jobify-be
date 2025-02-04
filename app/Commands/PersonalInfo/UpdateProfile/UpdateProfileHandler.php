@@ -20,29 +20,34 @@ class UpdateProfileHandler
     public function handle(UpdateProfileCommand $command)
     {
         return DB::transaction(function () use ($command) {
-            $user = auth()->user();
+            $userId = auth()->user()->id;
 
-            if($user){
-                $this->userRepository->update([
-                    'full_name' => $command->fullName,
-                    'phone_number' => $command->phoneNumber
-                ], $user->id);
+            $user =  $this->userRepository->update([
+                'full_name' => $command->fullName,
+                'phone_number' => $command->phoneNumber
+            ], $userId);
 
-                $this->userProfileRepository->updateOrCreate(
-                    ['user_id' => $user->id],
-                    [
-                        'user_id' => $user->id,
-                        'position' => $command->position,
-                        'gender_id' => $command->gender,
-                        'birth_date' => $command->birthDate,
-                        'description' => $command->description
-                    ]
-                );
+            $this->userProfileRepository->updateOrCreate(
+                ['user_id' => $userId],
+                [
+                    'user_id' => $userId,
+                    'position' => $command->position,
+                    'gender_id' => $command->gender,
+                    'birth_date' => $command->birthDate,
+                    'description' => $command->description
+                ]
+            );
 
-                return $user->refresh();
+            if(!empty($user)){
+                return [
+                    'user' => $user,
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
             }
 
-            return null;
+            return [
+                'message' => __('messages.profile.user_update_profile_error')
+            ];
         });
     }
 }

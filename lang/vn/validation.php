@@ -215,6 +215,8 @@ return [
         'attachments.*.file' => 'Tài liệu',
         'attachments.*.url' => 'Địa chỉ web',
         'attachments.*.user_experience_resource_id' => 'Mã kinh nghiệm tài nguyên người dùng',
-        'user_certification_id' => 'Mã chứng chỉ'
+        'user_certification_id' => 'Mã chứng chỉ',
+        'major' => 'Ngành học',
+        'user_education_id' => 'Mã học vấn',
     ]
 ];

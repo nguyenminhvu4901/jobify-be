@@ -13,10 +13,21 @@ class UserChangePasswordHandler
 
     public function handle(UserChangePasswordCommand $command)
     {
-        return $this->userRepository->changePassword([
+        $user =  $this->userRepository->changePassword([
             'slug' => $command->slug,
             'new_password' => $command->newPassword
         ]);
+
+        if(!empty($user)){
+            return [
+                'user' => $user,
+                'message' =>  __('messages.user_change_password_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.user_change_password_error')
+        ];
     }
 
 }

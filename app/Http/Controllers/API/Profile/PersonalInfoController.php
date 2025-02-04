@@ -20,8 +20,8 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Tag(
- *     name="PersonalInfo",
- *     description="Common Profile And Avatar"
+ *     name="Personal Info",
+ *     description="Information And Profile Changes"
  * )
  */
 class PersonalInfoController extends Controller
@@ -50,16 +50,18 @@ class PersonalInfoController extends Controller
      *             type="object",
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info successfully"
-     *             )
+     *             ),
+     *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
      *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated - Token is invalid or missing",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *          )
+     *           response=401,
+     *           description="The user is not logged in",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
+     *           )
      *     ),
      *     @OA\Response(
      *         response=500,
@@ -68,7 +70,8 @@ class PersonalInfoController extends Controller
      *             type="object",
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info failed!"
-     *             )
+     *             ),
+     *             @OA\Property(property="status_code", type="integer", example=500)
      *         )
      *     )
      * )
@@ -79,12 +82,13 @@ class PersonalInfoController extends Controller
     {
         $this->bus->addHandler(GetCurrentUserCommand::class, GetCurrentUserHandler::class);
 
-        $user = $this->bus->dispatch(new GetCurrentUserCommand());
+        $result = $this->bus->dispatch(new GetCurrentUserCommand());
 
-        return $user ?
-            $this->responseSuccess(CurrentUserInfoResource::make($user),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['user'])){
+           return $this->responseSuccess(CurrentUserInfoResource::make($result['user']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -150,16 +154,18 @@ class PersonalInfoController extends Controller
      *              type="object",
      *              @OA\Property(
      *                  property="message", type="string", example="Saved"
-     *              )
+     *              ),
+     *              @OA\Property(property="status_code", type="integer", example=200)
      *          )
      *     ),
      *     @OA\Response(
-     *            response=401,
-     *            description="Unauthenticated - Token is invalid or missing",
-     *            @OA\JsonContent(
-     *                type="object",
-     *                @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *            )
+     *           response=401,
+     *           description="The user is not logged in",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
+     *           )
      *     ),
      *     @OA\Response(
      *            response="500",
@@ -168,7 +174,8 @@ class PersonalInfoController extends Controller
      *                type="object",
      *                @OA\Property(
      *                    property="message", type="string", example="Save failed"
-     *                )
+     *                ),
+     *                @OA\Property(property="status_code", type="integer", example=500)
      *            )
      *      ),
      * )
@@ -180,12 +187,14 @@ class PersonalInfoController extends Controller
     {
         $this->bus->addHandler(UpdateProfileCommand::class, UpdateProfileHandler::class);
 
-        $user = $this->bus->dispatch(UpdateProfileCommand::withForm($request));
+        $result = $this->bus->dispatch(UpdateProfileCommand::withForm($request));
 
-        return $user ?
-            $this->responseSuccess(UserProfileResource::make($user),
-                __('messages.user_update_profile_success')) :
-            $this->responseError(__('messages.user_update_profile_error'));
+        if(!empty($result['user'])){
+            return $this->responseSuccess(UserProfileResource::make($result['user']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
+
     }
 
     /**
@@ -216,25 +225,28 @@ class PersonalInfoController extends Controller
      *               type="object",
      *               @OA\Property(
      *                   property="message", type="string", example="Saved"
-     *               )
+     *               ),
+     *               @OA\Property(property="status_code", type="integer", example=200)
      *           )
      *     ),
      *     @OA\Response(
-     *             response=401,
-     *             description="Unauthenticated - Token is invalid or missing",
-     *             @OA\JsonContent(
-     *                 type="object",
-     *                 @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *             )
-     *      ),
+     *           response=401,
+     *           description="The user is not logged in",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(property="message", type="string", example="The user is not logged in"),
+     *               @OA\Property(property="status_code", type="integer", example=401)
+     *           )
+     *     ),
      *     @OA\Response(
-     *             response=404,
+     *             response=500,
      *             description="Update Profile Error",
      *             @OA\JsonContent(
      *                 type="object",
      *                 @OA\Property(
      *                     property="message", type="string", example="Save failed"
-     *                 )
+     *                 ),
+     *                 @OA\Property(property="status_code", type="integer", example=500)
      *             )
      *      ),
      * )
@@ -246,11 +258,12 @@ class PersonalInfoController extends Controller
     {
         $this->bus->addHandler(UploadAvatarCommand::class, UploadAvatarHandler::class);
 
-        $user = $this->bus->dispatch(UploadAvatarCommand::withForm($request));
+        $result = $this->bus->dispatch(UploadAvatarCommand::withForm($request));
 
-        return $user ?
-            $this->responseSuccess(UserProfileResource::make($user),
-                __('messages.user_update_profile_success')) :
-            $this->responseError(__('messages.user_update_profile_error'));
+        if(!empty($result['user'])){
+            return $this->responseSuccess(UserProfileResource::make($result['user']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Profile\PersonalInfoController;
 use App\Http\Controllers\API\Profile\UserCertificationController;
+use App\Http\Controllers\API\Profile\UserEducationController;
 use App\Http\Controllers\API\Profile\UserExperienceController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,5 +61,25 @@ Route::group(
                 ->name('updateCertification');
 
             Route::delete('/', [UserCertificationController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group(['prefix' => 'user-education', 'as' => 'userEducation.'], function() {
+            Route::get('/list-education-current-user', [UserEducationController::class,
+                'getListEducationCurrentUser'])->name('ListEducationCurrentUser');
+
+            Route::post('/', [UserEducationController::class, 'store'])->name('store');
+
+            Route::get('/complete-list-user-education', [UserEducationController::class,
+                'getCompleteListOfUserEducation']);
+
+            Route::get('/detail-list-user-education', [UserEducationController::class,
+                'getDetailListOfUserEducation'])->name('DetailListOfUserEducation');
+
+            Route::get('/detail-list-user-education-by-user-slug', [UserEducationController::class,
+                'getDetailListOfUserEducationByUserSlug'])->name('DetailListOfUserEducationByUserSlug');
+
+            Route::put('/', [UserEducationController::class, 'update'])->name('updateEducation');
+
+            Route::delete('/', [UserEducationController::class, 'destroy'])->name('destroy');
         });
 });

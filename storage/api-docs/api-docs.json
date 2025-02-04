@@ -17,8 +17,8 @@
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Process login user",
-                "description": "Authenticate a user and return a JWT token if successful.",
+                "summary": "Process Login User",
+                "description": "Log in to your account and return the JWT token.",
                 "operationId": "4a0653990bae153573fca45c02b86632",
                 "requestBody": {
                     "required": true,
@@ -58,6 +58,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User login successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -66,14 +70,18 @@
                         }
                     },
                     "401": {
-                        "description": "User login failure",
+                        "description": "Wrong account or password",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "User login failure"
+                                            "example": "Wrong account or password"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -102,6 +110,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Người dùng đã đăng xuất"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -110,14 +122,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -133,7 +149,11 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Server Error"
+                                            "example": "User logout failure"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -154,7 +174,7 @@
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Create new JobSeeker Account",
+                "summary": "Create New JobSeeker Account",
                 "operationId": "resigterJobSeeker",
                 "requestBody": {
                     "required": true,
@@ -202,7 +222,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "JobSeeker Register Successfully",
+                        "description": "Registration successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -210,6 +230,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Registration successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -218,7 +242,7 @@
                         }
                     },
                     "500": {
-                        "description": "JobSeeker Register Error",
+                        "description": "Registration error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -226,6 +250,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Registration error"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -333,6 +361,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Registration successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -349,6 +381,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Registration error"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -420,6 +456,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User change password successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -428,14 +468,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -452,6 +496,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User Change password Fail!"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -503,6 +551,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Send Password Successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -519,6 +571,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Send Email Fail"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -583,6 +639,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Reset Password successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -599,6 +659,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Reset Password Fail"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -626,6 +690,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Get user info successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -634,14 +702,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -658,6 +730,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Get user info failed!"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -741,6 +817,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Saved"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -749,14 +829,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -773,6 +857,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Save failed"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -822,6 +910,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Saved"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
                                         }
                                     },
                                     "type": "object"
@@ -830,14 +922,18 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated - Token is invalid or missing",
+                        "description": "The user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Unauthenticated."
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         }
                                     },
                                     "type": "object"
@@ -845,7 +941,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Update Profile Error",
                         "content": {
                             "application/json": {
@@ -854,6 +950,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Save failed"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
                                         }
                                     },
                                     "type": "object"
@@ -1084,6 +1184,431 @@
                 ]
             }
         },
+        "/profile/user-education/list-education-current-user": {
+            "get": {
+                "tags": [
+                    "User Education"
+                ],
+                "summary": "Get List Education Current User",
+                "operationId": "9921f6a043679d99c1b32f666bd41176",
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CurrentUserEducationResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-education/": {
+            "post": {
+                "tags": [
+                    "User Education"
+                ],
+                "summary": "Store User Education",
+                "description": "Store User Education",
+                "operationId": "3a7c53d39ab54bbf55ed5a891397f890",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "major",
+                                    "is_studying",
+                                    "start_date"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nhập tên trường",
+                                        "type": "string",
+                                        "example": "TLU"
+                                    },
+                                    "major": {
+                                        "description": "Ngành học",
+                                        "type": "string",
+                                        "example": "TLU"
+                                    },
+                                    "is_studying": {
+                                        "description": "Đang học ở đây (0: đã tốt nghiệp, 1: chưa tốt nghiệp)",
+                                        "type": "boolean",
+                                        "example": 0
+                                    },
+                                    "start_date": {
+                                        "description": "Ngày bắt đầu học",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-01-01"
+                                    },
+                                    "end_date": {
+                                        "description": "Ngày tốt nghiệp",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-1-2"
+                                    },
+                                    "description": {
+                                        "description": "Mô tả thời đi học =)))",
+                                        "type": "string",
+                                        "example": "Học cũng vui"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Store User Education Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Saved"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The user is not logged in"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Store User Education Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Fail"
+                                        },
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-education/complete-list-user-education": {
+            "get": {
+                "tags": [
+                    "UserEducation"
+                ],
+                "summary": "Get Complete List User Education",
+                "operationId": "517f8d01fcd89ee1d038dcbef95b8246",
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-education/detail-list-user-education": {
+            "get": {
+                "tags": [
+                    "UserEducation"
+                ],
+                "summary": "Get Detail List User Education",
+                "operationId": "4cc9d4a81f7a1716768b6a6f55b921c9",
+                "parameters": [
+                    {
+                        "name": "user_education_id",
+                        "in": "query",
+                        "description": "Thông tin Id của User Education",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/user-education/detail-list-user-education-by-user-slug": {
+            "get": {
+                "tags": [
+                    "UserEducation"
+                ],
+                "summary": "Get Detail List User Education By User Slug",
+                "operationId": "0ab8fc6837941e2a775cd83e14adff6b",
+                "parameters": [
+                    {
+                        "name": "user_slug",
+                        "in": "query",
+                        "description": "Thông tin Slug của User",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "user-admin"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get user info successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated - Token is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get user info failed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get user info failed!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/profile/user-experience/complete-list-user-experience": {
             "get": {
                 "tags": [
@@ -1121,6 +1646,41 @@
         }
     },
     "components": {
+        "schemas": {
+            "CurrentUserEducationResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "school_name": {
+                        "type": "string",
+                        "example": "Harvard University"
+                    },
+                    "degree": {
+                        "type": "string",
+                        "example": "Bachelor of Science"
+                    },
+                    "field_of_study": {
+                        "type": "string",
+                        "example": "Computer Science"
+                    },
+                    "start_year": {
+                        "type": "integer",
+                        "example": 2015
+                    },
+                    "end_year": {
+                        "type": "integer",
+                        "example": 2019
+                    }
+                },
+                "type": "object"
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
@@ -1133,15 +1693,23 @@
     "tags": [
         {
             "name": "Authentication",
-            "description": "Auth Resource"
+            "description": "Process Login, Logout, Register"
+        },
+        {
+            "name": "User Education",
+            "description": "User Education Information and Action"
         },
         {
             "name": "PersonalInfo",
-            "description": "Common Profile And Avatar"
+            "description": "PersonalInfo"
         },
         {
             "name": "UserCertification",
             "description": "UserCertification"
+        },
+        {
+            "name": "UserEducation",
+            "description": "UserEducation"
         },
         {
             "name": "UserExperience",

@@ -8,7 +8,7 @@ use App\Repositories\CompanyAddress\CompanyAddressRepository;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\DB;
 
-class RecruiterHandler
+class RecruiterRegisterHandler
 {
     /**
      * @param UserRepository $userRepository
@@ -24,27 +24,36 @@ class RecruiterHandler
     }
 
     /**
-     * @param RecruiterCommand $command
+     * @param RecruiterRegisterCommand $command
      * @return mixed
      */
-    public function handle(RecruiterCommand $command): mixed
+    public function handle(RecruiterRegisterCommand $command): mixed
     {
         return DB::transaction(function () use ($command) {
             $recruiter = $this->createRecruiter($command);
+
+            if(!empty($recruiter)){
+                return [
+                    'recruiter' => $recruiter,
+                    'message' => __('messages.authentication.user_register_success')
+                ];
+            }
 
             $company = $this->createCompany($command, $recruiter->id);
 
             $this->createCompanyAddress($command, $company->id);
 
-            return $recruiter;
+            return [
+                'message' => __('messages.authentication.user_register_error')
+            ];
         });
     }
 
     /**
-     * @param RecruiterCommand $command
+     * @param RecruiterRegisterCommand $command
      * @return mixed
      */
-    private function createRecruiter(RecruiterCommand $command): mixed
+    private function createRecruiter(RecruiterRegisterCommand $command): mixed
     {
         return $this->userRepository->create([
             'full_name' => $command->fullName,
@@ -57,11 +66,11 @@ class RecruiterHandler
     }
 
     /**
-     * @param RecruiterCommand $command
+     * @param RecruiterRegisterCommand $command
      * @param int $userId
      * @return mixed
      */
-    private function createCompany(RecruiterCommand $command, int $userId): mixed
+    private function createCompany(RecruiterRegisterCommand $command, int $userId): mixed
     {
         return $this->companyRepository->create([
             'user_id' => $userId,
@@ -73,11 +82,11 @@ class RecruiterHandler
     }
 
     /**
-     * @param RecruiterCommand $command
+     * @param RecruiterRegisterCommand $command
      * @param int $companyId
      * @return void
      */
-    private function createCompanyAddress(RecruiterCommand $command, int $companyId): void
+    private function createCompanyAddress(RecruiterRegisterCommand $command, int $companyId): void
     {
         $this->companyAddressRepository->create([
             'company_id' => $companyId,
