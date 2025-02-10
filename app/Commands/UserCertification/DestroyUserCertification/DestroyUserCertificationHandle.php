@@ -17,7 +17,7 @@ class DestroyUserCertificationHandle
     {
     }
 
-    public function handle(DestroyUserCertificationCommand $command)
+    public function handle(DestroyUserCertificationCommand $command): array
     {
         $userCertification = $this->userCertificationRepository->findByRelationshipUserSlugAndColumnDetailId(
             $command->userSlug, $command->userCertificationId, 'userCertificationResources'
@@ -45,7 +45,7 @@ class DestroyUserCertificationHandle
 
             if (!empty($userCertificationDelete)) {
                 return [
-                    'userCertification' => $userCertificationDelete,
+                    'userCertificationDelete' => $userCertificationDelete,
                     'message' => __('messages.profile.user_destroy_profile_success')
                 ];
             }
