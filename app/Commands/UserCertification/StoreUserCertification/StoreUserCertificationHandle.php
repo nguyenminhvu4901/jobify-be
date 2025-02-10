@@ -48,6 +48,16 @@ class StoreUserCertificationHandle
             }
         }
 
-        return $userCertification;
+        if(!empty($userCertification))
+        {
+            return [
+                'message' => __('messages.profile.user_update_profile_success'),
+                'userCertification' => $userCertification
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_update_profile_error')
+        ];
     }
 }

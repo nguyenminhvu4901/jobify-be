@@ -86,12 +86,14 @@ class UserCertificationController extends Controller
             GetListCertificationCurrentUserHandle::class
         );
 
-        $user = $this->bus->dispatch(new GetListCertificationCurrentUserCommand());
+        $result = $this->bus->dispatch(new GetListCertificationCurrentUserCommand());
 
-        return $user ?
-            $this->responseSuccess(CurrentUserCertificationResource::make($user),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userCertification'])){
+            return $this->responseSuccess(CurrentUserCertificationResource::make($result['userCertification']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -225,12 +227,14 @@ class UserCertificationController extends Controller
     {
         $this->bus->addHandler(StoreUserCertificationCommand::class, StoreUserCertificationHandle::class);
 
-        $userCertification = $this->bus->dispatch(StoreUserCertificationCommand::withForm($request));
+        $result = $this->bus->dispatch(StoreUserCertificationCommand::withForm($request));
 
-        return $userCertification ?
-            $this->responseSuccess(UserCertificationResource::make($userCertification),
-                __('messages.user_update_profile_success')) :
-            $this->responseError(__('messages.user_update_profile_error'));
+        if(!empty($result['userCertification'])){
+            return $this->responseSuccess(UserCertificationResource::make($result['userCertification']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -245,12 +249,14 @@ class UserCertificationController extends Controller
             GetCompleteListOfUserCertificationHandle::class
         );
 
-        $userCertifications = $this->bus->dispatch(new GetCompleteListOfUserCertificationCommand());
+        $result = $this->bus->dispatch(new GetCompleteListOfUserCertificationCommand());
 
-        return $userCertifications ?
-            $this->responseSuccess(UserCertificationResource::collection($userCertifications),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userEducations'])){
+            return $this->responseSuccess(UserCertificationResource::collection($result['userEducations']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -264,12 +270,14 @@ class UserCertificationController extends Controller
             GetDetailListOfUserCertificationHandle::class
         );
 
-        $userCertification = $this->bus->dispatch(GetDetailListOfUserCertificationCommand::withForm($request));
+        $result = $this->bus->dispatch(GetDetailListOfUserCertificationCommand::withForm($request));
 
-        return $userCertification ?
-            $this->responseSuccess(UserCertificationResource::make($userCertification),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userCertification'])){
+            return $this->responseSuccess(UserCertificationResource::make($result['userCertification']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -283,12 +291,14 @@ class UserCertificationController extends Controller
             GetDetailListOfUserCertificationByUserSlugHandle::class
         );
 
-        $userCertification = $this->bus->dispatch(GetDetailListOfUserCertificationByUserSlugCommand::withForm($request));
+        $result = $this->bus->dispatch(GetDetailListOfUserCertificationByUserSlugCommand::withForm($request));
 
-        return $userCertification ?
-            $this->responseSuccess(UserCertificationResource::collection($userCertification),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userCertifications'])){
+            return $this->responseSuccess(UserCertificationResource::collection($result['userCertifications']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -302,12 +312,14 @@ class UserCertificationController extends Controller
             UpdateUserCertificationHandle::class
         );
 
-        $userCertification = $this->bus->dispatch(UpdateUserCertificationCommand::withForm($request));
+        $result = $this->bus->dispatch(UpdateUserCertificationCommand::withForm($request));
 
-        return $userCertification ?
-            $this->responseSuccess(UserCertificationResource::make($userCertification),
-                __('messages.user_update_profile_success')) :
-            $this->responseError(__('messages.user_update_profile_error'));
+        if(!empty($result['userCertification'])){
+            return $this->responseSuccess(UserCertificationResource::make($result['userCertification']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -321,10 +333,13 @@ class UserCertificationController extends Controller
           DestroyUserCertificationHandle::class
         );
 
-        $userCertification = $this->bus->dispatch(DestroyUserCertificationCommand::withForm($request));
+        $result = $this->bus->dispatch(DestroyUserCertificationCommand::withForm($request));
 
-        return $userCertification ?
-            $this->responseSuccessWithNoData(__('messages.user_destroy_profile_success')) :
-            $this->responseError(__('messages.user_destroy_profile_error'));
+        if(!empty($result['userCertification'])){
+            return $this->responseSuccess(UserCertificationResource::make($result['userCertification']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 }

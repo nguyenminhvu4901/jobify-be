@@ -100,7 +100,7 @@ class UserEducationController extends Controller
             return $this->responseSuccess(new CurrentUserEducationResource($result['user']), $result['message']);
         }
 
-        return  $this->responseError($result['message']);
+        return $this->responseError($result['message']);
     }
 
     /**

@@ -14,9 +14,21 @@ class GetDetailListOfUserCertificationByUserSlugHandle
 
     public function handle(GetDetailListOfUserCertificationByUserSlugCommand $command)
     {
-        return $this->userCertificationRepository->findByRelationshipUserSlug(
+
+        $userCertifications =  $this->userCertificationRepository->findByRelationshipUserSlug(
             $command->userSlug,
             ['userCertificationResources', 'user']
         );
+
+        if(!empty($userCertifications)){
+            return [
+                'userCertifications' => $userCertifications,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }

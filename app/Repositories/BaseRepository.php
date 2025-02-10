@@ -87,13 +87,13 @@ abstract class BaseRepository extends Repository
     /**
      * @param int|string $id
      * @param array|string $relationship
-     * @param array $relationshipCallbacks = []
+     * @param array $relationshipCallbacksToFilter = []
      * @return mixed
      */
     public function findWithRelationships(
         int|string $id,
         array|string $relationship = [],
-        array $relationshipCallbacks = []
+        array $relationshipCallbacksToFilter = []
     ): mixed
     {
         $query = $this->model->newQuery();
@@ -101,10 +101,10 @@ abstract class BaseRepository extends Repository
         if(!empty($relationship)){
             $relationship = is_array($relationship) ? $relationship : [$relationship];
 
-            if (!empty($relationshipCallbacks)) {
+            if (!empty($relationshipCallbacksToFilter)) {
                 foreach ($relationship as $rel) {
-                    if (!empty($relationshipCallbacks[$rel])) {
-                        $query->with([$rel => $relationshipCallbacks[$rel]]);
+                    if (!empty($relationshipCallbacksToFilter[$rel])) {
+                        $query->with([$rel => $relationshipCallbacksToFilter[$rel]]);
                     } else {
                         $query->with($rel);
                     }

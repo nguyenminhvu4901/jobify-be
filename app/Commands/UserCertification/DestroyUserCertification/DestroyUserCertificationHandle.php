@@ -5,6 +5,7 @@ namespace App\Commands\UserCertification\DestroyUserCertification;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserCertificationHandle
 {
@@ -16,15 +17,18 @@ class DestroyUserCertificationHandle
     {
     }
 
-    /**
-     * @param DestroyUserCertificationCommand $command
-     * @return ?bool
-     */
-    public function handle(DestroyUserCertificationCommand $command): ?bool
+    public function handle(DestroyUserCertificationCommand $command)
     {
         $userCertification = $this->userCertificationRepository->findByRelationshipUserSlugAndColumnDetailId(
             $command->userSlug, $command->userCertificationId, 'userCertificationResources'
         );
+
+        if (!$userCertification) {
+            return [
+                'message' => __('messages.response.resource_not_found'),
+                'status_code' => ResponseAlias::HTTP_NOT_FOUND
+            ];
+        }
 
         if(!empty($userCertification)){
 
@@ -37,9 +41,19 @@ class DestroyUserCertificationHandle
                 });
             }
 
-            return $this->userCertificationRepository->destroy($userCertification);
+            $userCertificationDelete = $this->userCertificationRepository->destroy($userCertification);
+
+            if (!empty($userCertificationDelete)) {
+                return [
+                    'userCertification' => $userCertificationDelete,
+                    'message' => __('messages.profile.user_destroy_profile_success')
+                ];
+            }
         }
 
-        return false;
+        return [
+            'message' => __('messages.profile.user_destroy_profile_error'),
+            'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+        ];
     }
 }
