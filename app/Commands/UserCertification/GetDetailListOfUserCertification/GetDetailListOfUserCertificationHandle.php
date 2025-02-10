@@ -14,6 +14,17 @@ class GetDetailListOfUserCertificationHandle
 
     public function handle(GetDetailListOfUserCertificationCommand $command)
     {
-        return $this->userCertificationRepository->find($command->userCertificationId);
+        $userCertification = $this->userCertificationRepository->find($command->userCertificationId);
+
+        if(!empty($userCertification)){
+            return [
+                'userCertification' => $userCertification,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }

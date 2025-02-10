@@ -19,7 +19,7 @@ class GetListCertificationCurrentUserHandle
     {
         $user = auth()->user();
 
-        return $this->userRepository->findWithRelationships(
+        $userCertification =  $this->userRepository->findWithRelationships(
             $user->id,
             'userCertifications',
             [
@@ -28,5 +28,16 @@ class GetListCertificationCurrentUserHandle
                 }
             ]
         );
+
+        if(!empty($userCertification)){
+            return [
+                'userCertification' => $userCertification,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }

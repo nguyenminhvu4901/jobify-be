@@ -41,11 +41,16 @@ class UpdateUserCertificationHandle
 
             DB::commit();
 
-            return $userCertification;
+            return [
+                'userCertification' => $userCertification,
+                'message' => __('messages.profile.user_update_profile_success')
+            ];
         }catch (\Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'message' => __('messages.profile.user_update_profile_error')
+            ];
         }
     }
 }

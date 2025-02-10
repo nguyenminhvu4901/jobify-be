@@ -12,7 +12,7 @@ class GetListEducationCurrentUserHandle
     {
     }
 
-    public function handle(GetListEducationCurrentUserCommand $command)
+    public function handle()
     {
         $userId = auth()->user()->id;
 
@@ -29,7 +29,7 @@ class GetListEducationCurrentUserHandle
         if(!empty($user)){
             return [
                 'user' => $user,
-                'message' => __('messages.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success')
             ];
         }
 

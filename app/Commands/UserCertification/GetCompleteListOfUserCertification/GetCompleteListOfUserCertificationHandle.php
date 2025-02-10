@@ -12,10 +12,24 @@ class GetCompleteListOfUserCertificationHandle
     {
     }
 
-    public function handle(GetCompleteListOfUserCertificationCommand $command)
+    /**
+     * @return array
+     */
+    public function handle(): array
     {
-        return $this->userCertificationRepository->getWithRelationship(
+        $userEducations = $this->userCertificationRepository->getWithRelationship(
             ['userCertificationResources', 'user']
         );
+
+        if($userEducations->isNotEmpty()){
+            return [
+                'userEducations' => $userEducations,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }
