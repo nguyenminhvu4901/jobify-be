@@ -15,7 +15,7 @@ class GetDetailListOfUserCertificationByUserSlugHandle
     public function handle(GetDetailListOfUserCertificationByUserSlugCommand $command)
     {
 
-        $userCertifications =  $this->userCertificationRepository->findByRelationshipUserSlug(
+        $userCertifications =  $this->userCertificationRepository->getByRelationshipUserSlug(
             $command->userSlug,
             ['userCertificationResources', 'user']
         );

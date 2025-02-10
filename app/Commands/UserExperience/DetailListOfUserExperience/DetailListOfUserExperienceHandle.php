@@ -14,6 +14,17 @@ class DetailListOfUserExperienceHandle
 
     public function handle(DetailListOfUserExperienceCommand $command)
     {
-        return $this->userExperienceRepository->find($command->userExperienceId);
+        $userExperience = $this->userExperienceRepository->find($command->userExperienceId);
+
+        if(!empty($userExperience)){
+            return [
+                'userExperience' => $userExperience,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }

@@ -14,7 +14,7 @@ class GetDetailListOfUserEducationByUserSlugHandle
 
     public function handle(GetDetailListOfUserEducationByUserSlugCommand $command)
     {
-        $userEducation = $this->userEducationRepository->findByRelationshipUserSlug(
+        $userEducation = $this->userEducationRepository->getByRelationshipUserSlug(
             $command->userSlug,
             'user'
         );

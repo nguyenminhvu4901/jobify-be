@@ -15,7 +15,7 @@ class GetListExperienceCurrentUserHandler
     {
         $user = auth()->user();
 
-        return $this->userRepository->findWithRelationships(
+        $userExperience = $this->userRepository->findWithRelationships(
             $user->id,
             'userExperiences',
             [
@@ -24,5 +24,16 @@ class GetListExperienceCurrentUserHandler
                 }
             ]
         );
+
+        if(!empty($userExperience)){
+            return [
+                'userExperience' => $userExperience,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }

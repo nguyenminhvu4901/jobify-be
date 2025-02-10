@@ -31,7 +31,7 @@ abstract class BaseRepository extends Repository
      * @param array|string $relationship
      * @return mixed
      */
-    public function findByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed
+    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed
     {
         $query = $this->model
             ->whereHas('user', function ($query) use ($userSlug) {

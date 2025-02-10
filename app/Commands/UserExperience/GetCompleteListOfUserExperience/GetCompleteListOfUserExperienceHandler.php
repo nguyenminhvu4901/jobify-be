@@ -12,10 +12,21 @@ class GetCompleteListOfUserExperienceHandler
     {
     }
 
-    public function handle(GetCompleteListOfUserExperienceCommand $command)
+    public function handle()
     {
-        return $this->userExperienceRepository->getWithRelationship(
+        $userExperiences = $this->userExperienceRepository->getWithRelationship(
             ['userExperienceResource', 'user']
         );
+
+        if($userExperiences->isNotEmpty()){
+            return [
+                'userExperiences' => $userExperiences,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }
