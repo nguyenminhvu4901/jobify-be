@@ -17,13 +17,13 @@ class GetCompleteListOfUserCertificationHandle
      */
     public function handle(): array
     {
-        $userEducations = $this->userCertificationRepository->getWithRelationship(
+        $userCertifications = $this->userCertificationRepository->getWithRelationship(
             ['userCertificationResources', 'user']
         );
 
-        if($userEducations->isNotEmpty()){
+        if($userCertifications->isNotEmpty()){
             return [
-                'userEducations' => $userEducations,
+                'userCertifications' => $userCertifications,
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }
