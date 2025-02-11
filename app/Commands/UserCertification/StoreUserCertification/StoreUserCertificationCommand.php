@@ -6,15 +6,15 @@ use App\Commands\CommandInterface;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserCertificationCommand implements CommandInterface
+readonly class StoreUserCertificationCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $name,
-        public readonly string|null $organization,
-        public readonly bool $isNoExpiration,
-        public readonly string $startDate,
-        public readonly string|null $endDate,
-        public readonly array|null $attachments
+        public string      $name,
+        public string|null $organization,
+        public bool        $isNoExpiration,
+        public string      $startDate,
+        public string|null $endDate,
+        public array|null  $attachments
     )
     {
     }

@@ -5,11 +5,11 @@ namespace App\Commands\UserCertification\DestroyUserCertification;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DestroyUserCertificationCommand implements CommandInterface
+readonly class DestroyUserCertificationCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $userSlug,
-        public readonly string|int $userCertificationId
+        public string     $userSlug,
+        public string|int $userCertificationId
     )
     {
     }

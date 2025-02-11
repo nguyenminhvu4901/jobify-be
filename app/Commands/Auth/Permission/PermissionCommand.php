@@ -13,7 +13,7 @@ class PermissionCommand implements CommandInterface
 
     public static function withForm(FormRequest $request): CommandInterface
     {
-        // TODO: Implement withForm() method.
+        return new self();
     }
 
 }

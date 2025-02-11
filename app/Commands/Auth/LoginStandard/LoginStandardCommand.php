@@ -5,7 +5,7 @@ namespace App\Commands\Auth\LoginStandard;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginStandardCommand implements CommandInterface
+readonly class LoginStandardCommand implements CommandInterface
 {
     /**
      * @param string $email
@@ -13,9 +13,9 @@ class LoginStandardCommand implements CommandInterface
      * @param bool|null $remember
      */
     public function __construct(
-        public readonly string $email,
-        public readonly string $password,
-        public readonly ?bool $remember
+        public string $email,
+        public string $password,
+        public ?bool  $remember
     ){}
 
     /**

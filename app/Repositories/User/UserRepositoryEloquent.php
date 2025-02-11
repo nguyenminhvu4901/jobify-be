@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\Models\User;
 use App\Repositories\BaseRepository;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -52,7 +53,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             DB::commit();
 
             return $user->refresh();
-        }catch (\Exception $e){
+        }catch (Exception){
             DB::rollBack();
 
             return null;
@@ -101,7 +102,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             DB::commit();
 
             return $user->refresh();
-        }catch (\Exception $e){
+        }catch (Exception){
             DB::rollBack();
 
             return null;

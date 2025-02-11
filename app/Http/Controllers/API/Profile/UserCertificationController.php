@@ -23,6 +23,7 @@ use App\Http\Resources\UserCertification\UserCertificationResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @OA\Tag(
@@ -30,6 +31,9 @@ use OpenApi\Annotations as OA;
  *     description="User Certification Information and Action",
  * )
  */
+#[
+    Route("/api/profile/user-certification")
+]
 class UserCertificationController extends Controller
 {
     /**
@@ -79,6 +83,7 @@ class UserCertificationController extends Controller
      *
      * @return JsonResponse
      */
+    #[Route('/list-certification-current-user')]
     public function getListCertificationCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(
@@ -89,11 +94,12 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(new GetListCertificationCurrentUserCommand());
 
         if(!empty($result['userCertification'])){
-            return $this->responseSuccess(CurrentUserCertificationResource::make($result['userCertification']),
-                $result['message']);
+            return $this->responseSuccess(
+                data: CurrentUserCertificationResource::make($result['userCertification']),
+                message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(error: $result['message']);
     }
 
     /**

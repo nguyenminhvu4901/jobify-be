@@ -6,15 +6,15 @@ use App\Commands\CommandInterface;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserExperienceCommand implements CommandInterface
+readonly class StoreUserExperienceCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $name,
-        public readonly string $position,
-        public readonly bool $isWorking,
-        public readonly string $startDate,
-        public readonly string|null $endDate,
-        public readonly array|null $attachments
+        public string      $name,
+        public string      $position,
+        public bool        $isWorking,
+        public string      $startDate,
+        public string|null $endDate,
+        public array|null  $attachments
     )
     {
     }

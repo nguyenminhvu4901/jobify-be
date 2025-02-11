@@ -5,11 +5,11 @@ namespace App\Commands\UserExperience\DestroyUserExperience;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DestroyUserExperienceCommand implements CommandInterface
+readonly class DestroyUserExperienceCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $userSlug,
-        public readonly int $userExperienceId,
+        public string $userSlug,
+        public int    $userExperienceId,
     )
     {
     }

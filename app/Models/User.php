@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use App\Entities\DefaultStatus\DefaultStatus;
 use App\Enums\Status;
 use App\Models\Traits\UserRelationship;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

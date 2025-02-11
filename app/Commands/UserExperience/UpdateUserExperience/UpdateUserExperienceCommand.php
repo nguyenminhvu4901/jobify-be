@@ -6,17 +6,17 @@ use App\Commands\CommandInterface;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserExperienceCommand implements CommandInterface
+readonly class UpdateUserExperienceCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $userSlug,
-        public readonly int $userExperienceId,
-        public readonly string $name,
-        public readonly string $position,
-        public readonly bool $isWorking,
-        public readonly string $startDate,
-        public readonly string|null $endDate,
-        public readonly array|null $attachments
+        public string      $userSlug,
+        public int         $userExperienceId,
+        public string      $name,
+        public string      $position,
+        public bool        $isWorking,
+        public string      $startDate,
+        public string|null $endDate,
+        public array|null  $attachments
     )
     {
     }

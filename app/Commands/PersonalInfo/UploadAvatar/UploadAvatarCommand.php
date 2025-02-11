@@ -6,10 +6,10 @@ use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
 
-class UploadAvatarCommand implements CommandInterface
+readonly class UploadAvatarCommand implements CommandInterface
 {
     public function __construct(
-        public readonly UploadedFile|null|string $avatar
+        public UploadedFile|null|string $avatar
     )
     {}
 
