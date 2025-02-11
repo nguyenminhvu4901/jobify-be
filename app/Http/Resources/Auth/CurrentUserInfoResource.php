@@ -18,13 +18,11 @@ class CurrentUserInfoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return array_merge(
-            $this->userData(),
-            [
-                'token' => $request->bearerToken(),
-                'role' => RoleResource::collection($this->roles),
-                'profile' => new ProfileResource($this->userProfile)
-            ]
-        );
+        return [
+            ...$this->userData(),
+            'token' => $request->bearerToken(),
+            'role' => RoleResource::collection($this->roles),
+            'profile' => new ProfileResource($this->userProfile)
+        ];
     }
 }
