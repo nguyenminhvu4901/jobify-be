@@ -20,6 +20,8 @@ return [
         'user_update_profile_error' => 'Save failed',
         'user_change_password_success' => 'User change password successfully',
         'user_change_password_error' => 'User Change password Fail!',
+        'user_destroy_profile_success' => 'User Destroy Profile Successfully',
+        'user_destroy_profile_error' => 'User Destroy Profile Error',
     ],
 
     'account_is_not_registered' => 'User is not registered',
@@ -43,8 +45,6 @@ return [
     'unauthorized' => 'Unauthorized',
     'user_update_profile_success' => 'Saved',
     'user_update_profile_error' => 'Save failed',
-    'user_change_password_success' => 'User change password successfully',
-    'user_change_password_error' => 'User Change password Fail!',
 
     'response' => [
         'resource_not_found' => 'Resource Not Found!',

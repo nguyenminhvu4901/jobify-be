@@ -28,7 +28,7 @@ class StoreUserEducationHandle
 
         if(!empty($userEducation)){
             return [
-                'message' => __('messages.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success'),
                 'userEducation' => $userEducation
             ];
         }

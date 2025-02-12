@@ -29,13 +29,13 @@ class UpdateUserEducationHandle
 
         if(!empty($userEducation)){
             return [
-                'message' => __('messages.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success'),
                 'userEducation' => $userEducation
             ];
         }
 
         return [
-            'message' => __('messages.user_update_profile_error')
+            'message' => __('messages.profile.user_update_profile_error')
         ];
     }
 }

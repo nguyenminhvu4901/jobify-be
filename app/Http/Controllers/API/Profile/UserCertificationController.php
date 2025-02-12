@@ -251,8 +251,8 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserCertificationCommand());
 
-        if(!empty($result['userEducations'])){
-            return $this->responseSuccess(UserCertificationResource::collection($result['userEducations']),
+        if(!empty($result['userCertifications'])){
+            return $this->responseSuccess(UserCertificationResource::collection($result['userCertifications']),
                 $result['message']);
         }
 

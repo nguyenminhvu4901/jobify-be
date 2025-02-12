@@ -519,7 +519,7 @@ class AuthController extends Controller
         $data = $this->bus->dispatch(SendForgotPasswordCommand::withForm($request));
 
         return $data ?
-            $this->responseSuccess("", $data) :
+            $this->responseSuccessWithNoData($data) :
             $this->responseError();
     }
 
@@ -593,7 +593,7 @@ class AuthController extends Controller
         $data = $this->bus->dispatch(ResetPasswordCommand::withForm($request));
 
         return $data ?
-            $this->responseSuccess("", $data) :
+            $this->responseSuccessWithNoData($data) :
             $this->responseError();
     }
 

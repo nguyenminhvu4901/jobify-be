@@ -17,9 +17,9 @@ class DestroyUserExperienceHandler
 
     /**
      * @param DestroyUserExperienceCommand $command
-     * @return bool|null
+     * @return array
      */
-    public function handle(DestroyUserExperienceCommand $command): ?bool
+    public function handle(DestroyUserExperienceCommand $command): ?array
     {
         $userExperience = $this->userExperienceRepository->findByRelationshipUserSlugAndColumnDetailId(
             $command->userSlug, $command->userExperienceId, 'userExperienceResource'
@@ -36,9 +36,18 @@ class DestroyUserExperienceHandler
                 });
             }
 
-             return $this->userExperienceRepository->destroy($userExperience);
+            $userExperienceDestroy = $this->userExperienceRepository->destroy($userExperience);
+
+            if($userExperienceDestroy){
+                return [
+                    'userExperienceDestroy' => $userExperienceDestroy,
+                    'message' =>__('messages.profile.user_destroy_profile_success')
+                ];
+            }
         }
 
-        return false;
+        return [
+            'message' =>__('messages.profile.user_destroy_profile_error')
+        ];
     }
 }

@@ -21,12 +21,12 @@ class UserChangePasswordHandler
         if(!empty($user)){
             return [
                 'user' => $user,
-                'message' =>  __('messages.user_change_password_success')
+                'message' =>  __('messages.profile.user_change_password_success')
             ];
         }
 
         return [
-            'message' => __('messages.user_change_password_error')
+            'message' => __('messages.profile.user_change_password_error')
         ];
     }
 

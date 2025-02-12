@@ -2,7 +2,6 @@
 
 namespace App\Commands\UserExperience\StoreUserExperience;
 
-use App\Enums\DefaultContentType;
 use App\Repositories\UserExperience\UserExperienceRepository;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
 use App\Services\UserExperience\UserExperienceService;
@@ -21,10 +20,10 @@ class StoreUserExperienceHandler
 
     /**
      * @param StoreUserExperienceCommand $command
-     * @return mixed
+     * @return array
      * @throws ValidatorException
      */
-    public function handle(StoreUserExperienceCommand $command): mixed
+    public function handle(StoreUserExperienceCommand $command): array
     {
         $userId = auth()->user()->id;
 
@@ -53,6 +52,15 @@ class StoreUserExperienceHandler
             }
         }
 
-        return $userExperience;
+        if(!empty($userExperience)){
+            return [
+                'userExperience' => $userExperience,
+                'message' => __('messages.profile.user_update_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_update_profile_error')
+        ];
     }
 }

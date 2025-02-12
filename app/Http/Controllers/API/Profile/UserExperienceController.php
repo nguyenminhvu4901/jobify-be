@@ -41,12 +41,13 @@ class UserExperienceController extends Controller
     {
         $this->bus->addHandler(StoreUserExperienceCommand::class, StoreUserExperienceHandler::class);
 
-        $userExperience = $this->bus->dispatch(StoreUserExperienceCommand::withForm($request));
+        $result = $this->bus->dispatch(StoreUserExperienceCommand::withForm($request));
 
-        return $userExperience ?
-            $this->responseSuccess(UserExperienceResource::make($userExperience),
-                __('messages.user_update_profile_success')) :
-            $this->responseError(__('messages.user_update_profile_error'));
+        if(!empty($result['userExperience'])){
+            return $this->responseSuccess(UserExperienceResource::make($result['userExperience']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -57,12 +58,14 @@ class UserExperienceController extends Controller
         $this->bus->addHandler(GetListExperienceCurrentUserCommand::class,
             GetListExperienceCurrentUserHandler::class);
 
-        $user = $this->bus->dispatch(new GetListExperienceCurrentUserCommand());
+        $result = $this->bus->dispatch(new GetListExperienceCurrentUserCommand());
 
-        return $user ?
-            $this->responseSuccess(CurrentUserExperienceResource::make($user),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userExperience'])){
+            return $this->responseSuccess(CurrentUserExperienceResource::make($result['userExperience']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -91,12 +94,15 @@ class UserExperienceController extends Controller
         $this->bus->addHandler(GetCompleteListOfUserExperienceCommand::class,
             GetCompleteListOfUserExperienceHandler::class);
 
-        $userExperiences = $this->bus->dispatch(new GetCompleteListOfUserExperienceCommand());
+        $result = $this->bus->dispatch(new GetCompleteListOfUserExperienceCommand());
 
-        return $userExperiences ?
-            $this->responseSuccess(UserExperienceResource::collection($userExperiences),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userExperiences'])){
+            return $this->responseSuccess(UserExperienceResource::collection($result['userExperiences']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
+
     }
 
     /**
@@ -108,12 +114,14 @@ class UserExperienceController extends Controller
         $this->bus->addHandler(DetailListOfUserExperienceCommand::class,
             DetailListOfUserExperienceHandle::class);
 
-        $userExperience = $this->bus->dispatch(DetailListOfUserExperienceCommand::withForm($request));
+        $result = $this->bus->dispatch(DetailListOfUserExperienceCommand::withForm($request));
 
-        return $userExperience ?
-            $this->responseSuccess(UserExperienceResource::make($userExperience),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userExperience'])){
+            return $this->responseSuccess(UserExperienceResource::make($result['userExperience']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -125,12 +133,13 @@ class UserExperienceController extends Controller
         $this->bus->addHandler(DetailListOfUserExperienceByUserSlugCommand::class,
             DetailListOfUserExperienceByUserSlugHandle::class);
 
-        $user = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
+        $result = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
 
-        return $user ?
-            $this->responseSuccess(UserExperienceResource::collection($user),
-                __('messages.user_get_profile_success')) :
-            $this->responseError(__('messages.user_get_profile_error'));
+        if(!empty($result['userExperiences'])){
+            $this->responseSuccess(UserExperienceResource::collection($result['userExperiences']), $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -141,12 +150,14 @@ class UserExperienceController extends Controller
     {
         $this->bus->addHandler(UpdateUserExperienceCommand::class, UpdateUserExperienceHandler::class);
 
-        $userExperience = $this->bus->dispatch(UpdateUserExperienceCommand::withForm($request));
+        $result = $this->bus->dispatch(UpdateUserExperienceCommand::withForm($request));
 
-        return $userExperience ?
-            $this->responseSuccess(UserExperienceResource::make($userExperience),
-                __('messages.user_update_profile_success')) :
-            $this->responseError(__('messages.user_update_profile_error'));
+        if(!empty($result['userExperience'])){
+            return $this->responseSuccess(UserExperienceResource::make($result['userExperience']),
+                $result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 
     /**
@@ -157,10 +168,12 @@ class UserExperienceController extends Controller
     {
         $this->bus->addHandler(DestroyUserExperienceCommand::class, DestroyUserExperienceHandler::class);
 
-        $userExperience = $this->bus->dispatch(DestroyUserExperienceCommand::withForm($request));
+        $result = $this->bus->dispatch(DestroyUserExperienceCommand::withForm($request));
 
-        return $userExperience ?
-            $this->responseSuccessWithNoData(__('messages.user_destroy_profile_success')) :
-            $this->responseError(__('messages.user_destroy_profile_error'));
+        if($result['userExperienceDestroy']){
+            return $this->responseSuccessWithNoData($result['message']);
+        }
+
+        return $this->responseError($result['message']);
     }
 }

@@ -12,7 +12,10 @@ class GetListEducationCurrentUserHandle
     {
     }
 
-    public function handle()
+    /**
+     * @return array
+     */
+    public function handle(): array
     {
         $userId = auth()->user()->id;
 

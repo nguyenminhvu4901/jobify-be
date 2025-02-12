@@ -14,9 +14,20 @@ class DetailListOfUserExperienceByUserSlugHandle
 
     public function handle(DetailListOfUserExperienceByUserSlugCommand $command)
     {
-        return $this->userExperienceRepository->findByRelationshipUserSlug(
+        $userExperiences = $this->userExperienceRepository->getByRelationshipUserSlug(
             $command->userSlug,
             ['userExperienceResource', 'user']
         );
+
+        if(!empty($userExperiences)){
+            return [
+                'userExperiences' => $userExperiences,
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }
+
+        return [
+            'message' => __('messages.profile.user_get_profile_error')
+        ];
     }
 }
