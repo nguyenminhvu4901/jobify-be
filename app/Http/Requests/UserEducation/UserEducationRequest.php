@@ -37,12 +37,10 @@ class UserEducationRequest extends FormRequest
             "profile.userEducation.DetailListOfUserEducationByUserSlug" => [
                 "user_slug" => ['required', 'string', 'exists:users,slug']
             ],
-            "profile.userEducation.updateEducation" => array_merge(
-                $commonRule,
-                [
-                    "user_education_id" => ['required', 'integer', 'exists:user_educations,id']
-                ]
-            ),
+            "profile.userEducation.updateEducation" => [
+                ...$commonRule,
+                "user_education_id" => ['required', 'integer', 'exists:user_educations,id']
+            ],
             "profile.userEducation.destroy" => [
                 "user_education_id" => ['required', 'integer', 'exists:user_educations,id'],
                 "user_slug" => ['required', 'string', 'exists:users,slug']

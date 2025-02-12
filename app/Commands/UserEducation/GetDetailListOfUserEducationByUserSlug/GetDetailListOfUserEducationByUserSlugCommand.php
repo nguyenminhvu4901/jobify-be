@@ -5,10 +5,10 @@ namespace App\Commands\UserEducation\GetDetailListOfUserEducationByUserSlug;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetDetailListOfUserEducationByUserSlugCommand implements CommandInterface
+readonly class GetDetailListOfUserEducationByUserSlugCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $userSlug
+        public string $userSlug
     )
     {
     }

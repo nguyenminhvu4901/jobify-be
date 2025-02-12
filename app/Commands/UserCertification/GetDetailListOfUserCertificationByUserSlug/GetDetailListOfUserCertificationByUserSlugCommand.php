@@ -5,10 +5,10 @@ namespace App\Commands\UserCertification\GetDetailListOfUserCertificationByUserS
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetDetailListOfUserCertificationByUserSlugCommand implements CommandInterface
+readonly class GetDetailListOfUserCertificationByUserSlugCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $userSlug
+        public string $userSlug
     )
     {
     }

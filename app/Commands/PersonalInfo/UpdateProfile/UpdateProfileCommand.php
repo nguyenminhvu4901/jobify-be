@@ -5,15 +5,15 @@ namespace App\Commands\PersonalInfo\UpdateProfile;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProfileCommand implements CommandInterface
+readonly class UpdateProfileCommand implements CommandInterface
 {
     public function __construct(
-        public readonly ?string $fullName,
-        public readonly ?string $phoneNumber,
-        public readonly ?string $position,
-        public readonly int|string|null $gender,
-        public readonly ?string $birthDate,
-        public readonly string|null $description
+        public ?string         $fullName,
+        public ?string         $phoneNumber,
+        public ?string         $position,
+        public int|string|null $gender,
+        public ?string         $birthDate,
+        public string|null     $description
     )
     {}
 

@@ -5,13 +5,13 @@ namespace App\Commands\Auth\ResetPassword;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetPasswordCommand implements CommandInterface
+readonly class ResetPasswordCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $email,
-        public readonly string $token,
-        public readonly string $password,
-        public readonly string $passwordConfirmation
+        public string $email,
+        public string $token,
+        public string $password,
+        public string $passwordConfirmation
     )
     {}
 

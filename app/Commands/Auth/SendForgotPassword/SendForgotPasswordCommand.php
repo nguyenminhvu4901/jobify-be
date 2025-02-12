@@ -5,10 +5,10 @@ namespace App\Commands\Auth\SendForgotPassword;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SendForgotPasswordCommand implements CommandInterface
+readonly class SendForgotPasswordCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $email
+        public string $email
     )
     {}
 

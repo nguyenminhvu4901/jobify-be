@@ -5,11 +5,11 @@ namespace App\Commands\Auth\UserChangePassword;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserChangePasswordCommand implements CommandInterface
+readonly class UserChangePasswordCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $slug,
-        public readonly string $newPassword
+        public string $slug,
+        public string $newPassword
     )
     {}
 

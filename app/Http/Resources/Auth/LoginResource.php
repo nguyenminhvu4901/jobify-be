@@ -19,12 +19,10 @@ class LoginResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return array_merge(
-            $this->userData(),
-            [
-                'token' => $this->token,
-                'roles' => RoleResource::collection($this->roles),
-            ]
-        );
+        return [
+            ...$this->userData(),
+            'token' => $this->token,
+            'roles' => RoleResource::collection($this->roles),
+        ];
     }
 }

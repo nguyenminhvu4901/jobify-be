@@ -5,10 +5,10 @@ namespace App\Commands\UserExperience\DetailListOfUserExperience;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DetailListOfUserExperienceCommand implements CommandInterface
+readonly class DetailListOfUserExperienceCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string|int $userExperienceId
+        public string|int $userExperienceId
     )
     {
     }

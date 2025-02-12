@@ -5,15 +5,15 @@ namespace App\Commands\UserEducation\StoreUserEducation;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserEducationCommand implements CommandInterface
+readonly class StoreUserEducationCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $name,
-        public readonly string $major,
-        public readonly bool|int|string $isStudying,
-        public readonly string $startDate,
-        public readonly string|null $endDate,
-        public readonly ?string $description
+        public string          $name,
+        public string          $major,
+        public bool|int|string $isStudying,
+        public string          $startDate,
+        public string|null     $endDate,
+        public ?string         $description
     )
     {
     }

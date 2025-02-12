@@ -33,16 +33,14 @@ class UserExperienceRequest extends FormRequest
 
         return match ($routeName) {
             "profile.userExperience.store" => $commonRules,
-            "profile.userExperience.updateExperience" => array_merge(
-                $commonRules,
-                [
-                    'user_slug' => ['required', 'string', 'exists:users,slug'],
-                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
-                    'attachments.*.user_experience_resource_id' => [
+            "profile.userExperience.updateExperience" => [
+                ...$commonRules,
+                'user_slug' => ['required', 'string', 'exists:users,slug'],
+                'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
+                'attachments.*.user_experience_resource_id' => [
                         'bail', 'nullable', 'integer', 'exists:user_experience_resources,id'
-                    ]
                 ]
-            ),
+            ],
             "profile.userExperience.destroy" => [
                     'user_slug' => ['required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']

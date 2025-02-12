@@ -5,10 +5,10 @@ namespace App\Commands\UserEducation\GetDetailListOfUserEducation;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetDetailListOfUserEducationCommand implements CommandInterface
+readonly class GetDetailListOfUserEducationCommand implements CommandInterface
 {
     public function __construct(
-        public readonly int|string $userEducationId
+        public int|string $userEducationId
     )
     {
     }

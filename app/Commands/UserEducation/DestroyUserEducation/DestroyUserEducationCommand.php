@@ -5,15 +5,15 @@ namespace App\Commands\UserEducation\DestroyUserEducation;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DestroyUserEducationCommand implements CommandInterface
+readonly class DestroyUserEducationCommand implements CommandInterface
 {
     /**
      * @param string $userSlug
      * @param int|string $userEducationId
      */
     public function __construct(
-        public readonly string $userSlug,
-        public readonly int|string $userEducationId,
+        public string     $userSlug,
+        public int|string $userEducationId,
     )
     {}
 

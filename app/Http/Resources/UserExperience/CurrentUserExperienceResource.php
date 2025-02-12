@@ -17,12 +17,10 @@ class CurrentUserExperienceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return array_merge(
-            $this->userData(),
-            [
-                'roles' => RoleResource::collection($this->roles),
-                'experiences' => UserExperienceResource::collection($this->userExperiences)
-            ]
-        );
+        return [
+            ...$this->userData(),
+            'roles' => RoleResource::collection($this->roles),
+            'experiences' => UserExperienceResource::collection($this->userExperiences)
+        ];
     }
 }
