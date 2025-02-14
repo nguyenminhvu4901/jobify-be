@@ -11,43 +11,50 @@ class UpdateProfileHandler
 {
     use ImageHandler;
 
+    /**
+     * @param UserRepository $userRepository
+     * @param UserProfileRepository $userProfileRepository
+     */
     public function __construct(
         protected UserRepository $userRepository,
         protected UserProfileRepository $userProfileRepository
     )
     {}
 
-    public function handle(UpdateProfileCommand $command)
+
+    /**
+     * @param UpdateProfileCommand $command
+     * @return array
+     */
+    public function handle(UpdateProfileCommand $command): array
     {
-        return DB::transaction(function () use ($command) {
-            $userId = auth()->user()->id;
+        $userId = auth()->user()->id;
 
-            $user =  $this->userRepository->update([
-                'full_name' => $command->fullName,
-                'phone_number' => $command->phoneNumber
-            ], $userId);
+        $user =  $this->userRepository->update([
+            'full_name' => $command->fullName,
+            'phone_number' => $command->phoneNumber
+        ], $userId);
 
-            $this->userProfileRepository->updateOrCreate(
-                ['user_id' => $userId],
-                [
-                    'user_id' => $userId,
-                    'position' => $command->position,
-                    'gender_id' => $command->gender,
-                    'birth_date' => $command->birthDate,
-                    'description' => $command->description
-                ]
-            );
+        $this->userProfileRepository->updateOrCreateUserProfile(
+            ['user_id' => $userId],
+            [
+                'user_id' => $userId,
+                'position' => $command->position,
+                'gender_id' => $command->gender,
+                'birth_date' => $command->birthDate,
+                'description' => $command->description
+            ]
+        );
 
-            if(!empty($user)){
-                return [
-                    'user' => $user,
-                    'message' => __('messages.profile.user_update_profile_success')
-                ];
-            }
-
+        if(!empty($user)){
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'user' => $user,
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        });
+        }
+
+        return [
+            'message' => __('messages.profile.user_update_profile_error')
+        ];
     }
 }

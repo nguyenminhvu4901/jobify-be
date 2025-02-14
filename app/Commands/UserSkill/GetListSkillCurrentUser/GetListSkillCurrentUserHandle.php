@@ -6,6 +6,9 @@ use App\Repositories\User\UserRepository;
 
 class GetListSkillCurrentUserHandle
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected UserRepository $userRepository
     )

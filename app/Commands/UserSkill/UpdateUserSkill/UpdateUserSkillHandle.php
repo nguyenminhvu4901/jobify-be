@@ -6,6 +6,9 @@ use App\Repositories\UserSkill\UserSkillRepository;
 
 class UpdateUserSkillHandle
 {
+    /**
+     * @param UserSkillRepository $userSkillRepository
+     */
     public function __construct(
         protected UserSkillRepository $userSkillRepository
     ){}

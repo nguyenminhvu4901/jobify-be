@@ -6,6 +6,9 @@ use App\Repositories\UserEducation\UserEducationRepository;
 
 class UpdateUserEducationHandle
 {
+    /**
+     * @param UserEducationRepository $userEducationRepository
+     */
     public function __construct(
         protected UserEducationRepository $userEducationRepository
     )

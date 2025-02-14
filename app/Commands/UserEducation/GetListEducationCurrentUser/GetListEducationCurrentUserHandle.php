@@ -6,6 +6,9 @@ use App\Repositories\User\UserRepository;
 
 class GetListEducationCurrentUserHandle
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected UserRepository $userRepository
     )

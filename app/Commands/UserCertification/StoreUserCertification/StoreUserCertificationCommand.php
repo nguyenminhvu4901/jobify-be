@@ -8,6 +8,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class StoreUserCertificationCommand implements CommandInterface
 {
+    /**
+     * @param string $name
+     * @param string|null $organization
+     * @param bool $isNoExpiration
+     * @param string $startDate
+     * @param string|null $endDate
+     * @param array|null $attachments
+     */
     public function __construct(
         public string      $name,
         public string|null $organization,
@@ -19,6 +27,10 @@ readonly class StoreUserCertificationCommand implements CommandInterface
     {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         $attachments = AttachmentResourceService::handleAttachments($request, 'user_certification_resource_id');

@@ -4,37 +4,39 @@ namespace App\Repositories\Company;
 
 use App\Entities\Company\Company;
 use App\Repositories\BaseRepository;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class CompanyRepositoryEloquent extends BaseRepository implements CompanyRepository
 {
-    public function model()
+    /**
+     * @return string
+     */
+    public function model(): string
     {
         return Company::class;
     }
 
     /**
-     * @param array $data
+     * @param array $attributes
      * @return LengthAwarePaginator|Collection|mixed|null
      */
-    public function create(array $data): mixed
+    public function create(array $attributes): mixed
     {
         DB::beginTransaction();
 
         try {
-            $company = $this->model->create($data);
+            $company = $this->model->create($attributes);
 
             DB::commit();
 
             return $company->refresh();
-        }catch (\Exception $e){
+        }catch (Exception){
             DB::rollBack();
 
             return null;
         }
     }
-
-
 }

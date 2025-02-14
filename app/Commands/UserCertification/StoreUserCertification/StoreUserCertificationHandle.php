@@ -8,6 +8,10 @@ use Prettus\Validator\Exceptions\ValidatorException;
 
 class StoreUserCertificationHandle
 {
+    /**
+     * @param UserCertificationRepository $userCertificationRepository
+     * @param UserCertificationService $userCertificationService
+     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository,
         protected UserCertificationService $userCertificationService
@@ -16,10 +20,10 @@ class StoreUserCertificationHandle
 
     /**
      * @param StoreUserCertificationCommand $command
-     * @return mixed
+     * @return array
      * @throws ValidatorException
      */
-    public function handle(StoreUserCertificationCommand $command): mixed
+    public function handle(StoreUserCertificationCommand $command): array
     {
         $userId = auth()->user()->id;
 

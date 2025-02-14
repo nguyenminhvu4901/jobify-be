@@ -15,6 +15,10 @@ class UserCertificationService
 {
     use ImageHandler, VideoHandler;
 
+    /**
+     * @param AttachmentResourceService $attachmentResourceService
+     * @param UserCertificationResourceRepository $userCertificationResourceRepository
+     */
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
         protected UserCertificationResourceRepository $userCertificationResourceRepository
@@ -70,12 +74,12 @@ class UserCertificationService
      * @param $attachments
      * @param $userCertificationResource
      * @param $userCertificationId
-     * @return mixed
+     * @return void
      * @throws ValidatorException
      */
     public function updateResourceAttachment(
         $attachments, $userCertificationResource, $userCertificationId
-    ): mixed
+    ): void
     {
         $this->deleteUserCertificationResourceAndAttachment($attachments, $userCertificationResource);
 
@@ -88,8 +92,6 @@ class UserCertificationService
                 $this->storeUserCertificationResource($attachment, $userCertificationId, $pathStorage);
             }
         }
-
-        return null;
     }
 
     /**

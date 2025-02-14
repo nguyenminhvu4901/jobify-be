@@ -7,12 +7,19 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserEducationHandle
 {
+    /**
+     * @param UserEducationRepository $userEducationRepository
+     */
     public function __construct(
         protected UserEducationRepository $userEducationRepository
     )
     {
     }
 
+    /**
+     * @param DestroyUserEducationCommand $command
+     * @return array
+     */
     public function handle(DestroyUserEducationCommand $command): array
     {
         $userEducation = $this->userEducationRepository->findByRelationshipUserSlugAndColumnDetailId(

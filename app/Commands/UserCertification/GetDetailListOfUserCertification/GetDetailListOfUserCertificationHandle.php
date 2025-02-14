@@ -6,15 +6,25 @@ use App\Repositories\UserCertification\UserCertificationRepository;
 
 class GetDetailListOfUserCertificationHandle
 {
+    /**
+     * @param UserCertificationRepository $userCertificationRepository
+     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository
     )
     {
     }
 
-    public function handle(GetDetailListOfUserCertificationCommand $command)
+    /**
+     * @param GetDetailListOfUserCertificationCommand $command
+     * @return array
+     */
+    public function handle(GetDetailListOfUserCertificationCommand $command): array
     {
-        $userCertification = $this->userCertificationRepository->find($command->userCertificationId);
+        $userCertification = $this->userCertificationRepository->findWithRelationships(
+            $command->userCertificationId,
+            ['user', 'userCertificationResources']
+        );
 
         if(!empty($userCertification)){
             return [

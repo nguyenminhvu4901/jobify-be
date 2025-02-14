@@ -6,7 +6,11 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LogoutHandler
 {
-    public function handle(LogoutCommand $command)
+    /**
+     * @param LogoutCommand $command
+     * @return array
+     */
+    public function handle(LogoutCommand $command): array
     {
         if(!empty($command->token)){
             $tokenInfo = JWTAuth::setToken($command->token)->invalidate(true);

@@ -6,13 +6,20 @@ use App\Repositories\UserEducation\UserEducationRepository;
 
 class GetDetailListOfUserEducationByUserSlugHandle
 {
+    /**
+     * @param UserEducationRepository $userEducationRepository
+     */
     public function __construct(
         protected UserEducationRepository $userEducationRepository
     )
     {
     }
 
-    public function handle(GetDetailListOfUserEducationByUserSlugCommand $command)
+    /**
+     * @param GetDetailListOfUserEducationByUserSlugCommand $command
+     * @return array
+     */
+    public function handle(GetDetailListOfUserEducationByUserSlugCommand $command): array
     {
         $userEducation = $this->userEducationRepository->getByRelationshipUserSlug(
             $command->userSlug,

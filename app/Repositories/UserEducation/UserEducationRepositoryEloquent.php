@@ -4,6 +4,7 @@ namespace App\Repositories\UserEducation;
 
 use App\Entities\UserEducation\UserEducation;
 use App\Repositories\BaseRepository;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class UserEducationRepositoryEloquent extends BaseRepository implements UserEducationRepository
@@ -63,10 +64,10 @@ class UserEducationRepositoryEloquent extends BaseRepository implements UserEduc
     }
 
     /**
-     * @param $userEducation
+     * @param UserEducation $userEducation
      * @return bool
      */
-    public function destroy($userEducation): bool
+    public function destroy(UserEducation $userEducation): bool
     {
         DB::beginTransaction();
 
@@ -76,7 +77,7 @@ class UserEducationRepositoryEloquent extends BaseRepository implements UserEduc
             DB::commit();
 
             return true;
-        }catch (\Exception $e)
+        }catch (Exception)
         {
             DB::rollBack();
 

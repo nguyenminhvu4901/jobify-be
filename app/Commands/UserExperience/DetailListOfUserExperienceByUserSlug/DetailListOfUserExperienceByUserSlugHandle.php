@@ -6,13 +6,20 @@ use App\Repositories\UserExperience\UserExperienceRepository;
 
 class DetailListOfUserExperienceByUserSlugHandle
 {
+    /**
+     * @param UserExperienceRepository $userExperienceRepository
+     */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository
     )
     {
     }
 
-    public function handle(DetailListOfUserExperienceByUserSlugCommand $command)
+    /**
+     * @param DetailListOfUserExperienceByUserSlugCommand $command
+     * @return array
+     */
+    public function handle(DetailListOfUserExperienceByUserSlugCommand $command): array
     {
         $userExperiences = $this->userExperienceRepository->getByRelationshipUserSlug(
             $command->userSlug,

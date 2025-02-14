@@ -6,6 +6,9 @@ use App\Repositories\User\UserRepository;
 
 class GetListCertificationCurrentUserHandle
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected UserRepository $userRepository
     )
@@ -13,9 +16,9 @@ class GetListCertificationCurrentUserHandle
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function handle(): mixed
+    public function handle(): array
     {
         $user = auth()->user();
 

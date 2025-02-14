@@ -6,13 +6,19 @@ use App\Repositories\UserExperience\UserExperienceRepository;
 
 class GetCompleteListOfUserExperienceHandler
 {
+    /**
+     * @param UserExperienceRepository $userExperienceRepository
+     */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository
     )
     {
     }
 
-    public function handle()
+    /**
+     * @return array
+     */
+    public function handle(): array
     {
         $userExperiences = $this->userExperienceRepository->getWithRelationship(
             ['userExperienceResource', 'user']

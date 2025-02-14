@@ -6,7 +6,6 @@ use App\Enums\DefaultRole;
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\CompanyAddress\CompanyAddressRepository;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\DB;
 
 class RecruiterRegisterHandler
 {
@@ -16,37 +15,35 @@ class RecruiterRegisterHandler
      * @param CompanyAddressRepository $companyAddressRepository
      */
     public function __construct(
-        protected readonly UserRepository $userRepository,
-        protected readonly CompanyRepository $companyRepository,
-        protected readonly CompanyAddressRepository $companyAddressRepository
+        protected UserRepository $userRepository,
+        protected CompanyRepository $companyRepository,
+        protected CompanyAddressRepository $companyAddressRepository
     )
     {
     }
 
     /**
      * @param RecruiterRegisterCommand $command
-     * @return mixed
+     * @return array
      */
-    public function handle(RecruiterRegisterCommand $command): mixed
+    public function handle(RecruiterRegisterCommand $command): array
     {
-        return DB::transaction(function () use ($command) {
-            $recruiter = $this->createRecruiter($command);
+        $recruiter = $this->createRecruiter($command);
 
-            if(!empty($recruiter)){
-                return [
-                    'recruiter' => $recruiter,
-                    'message' => __('messages.authentication.user_register_success')
-                ];
-            }
-
-            $company = $this->createCompany($command, $recruiter->id);
-
-            $this->createCompanyAddress($command, $company->id);
-
+        if(!empty($recruiter)){
             return [
-                'message' => __('messages.authentication.user_register_error')
+                'recruiter' => $recruiter,
+                'message' => __('messages.authentication.user_register_success')
             ];
-        });
+        }
+
+        $company = $this->createCompany($command, $recruiter->id);
+
+        $this->createCompanyAddress($command, $company->id);
+
+        return [
+            'message' => __('messages.authentication.user_register_error')
+        ];
     }
 
     /**

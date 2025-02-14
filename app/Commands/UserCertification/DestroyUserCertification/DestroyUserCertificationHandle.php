@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserCertificationHandle
 {
+    /**
+     * @param UserCertificationRepository $userCertificationRepository
+     * @param UserCertificationResourceRepository $userCertificationResourceRepository
+     * @param AttachmentResourceService $attachmentResourceService
+     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository,
         protected UserCertificationResourceRepository $userCertificationResourceRepository,
@@ -17,6 +22,10 @@ class DestroyUserCertificationHandle
     {
     }
 
+    /**
+     * @param DestroyUserCertificationCommand $command
+     * @return array
+     */
     public function handle(DestroyUserCertificationCommand $command): array
     {
         $userCertification = $this->userCertificationRepository->findByRelationshipUserSlugAndColumnDetailId(

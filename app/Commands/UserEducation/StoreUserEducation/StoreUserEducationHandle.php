@@ -6,12 +6,19 @@ use App\Repositories\UserEducation\UserEducationRepository;
 
 class StoreUserEducationHandle
 {
+    /**
+     * @param UserEducationRepository $userEducationRepository
+     */
     public function __construct(
         protected UserEducationRepository $userEducationRepository
     )
     {
     }
 
+    /**
+     * @param StoreUserEducationCommand $command
+     * @return array
+     */
     public function handle(StoreUserEducationCommand $command): array
     {
         $userId = auth()->user()->id;

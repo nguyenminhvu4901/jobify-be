@@ -6,6 +6,9 @@ use App\Repositories\UserCertification\UserCertificationRepository;
 
 class GetCompleteListOfUserCertificationHandle
 {
+    /**
+     * @param UserCertificationRepository $userCertificationRepository
+     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository
     )

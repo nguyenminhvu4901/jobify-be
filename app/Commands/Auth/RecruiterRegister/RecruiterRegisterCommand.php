@@ -7,6 +7,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RecruiterRegisterCommand extends BaseRegisterCommand
 {
+    /**
+     * @param string $fullName
+     * @param string $email
+     * @param string $password
+     * @param string $phoneNumber
+     * @param string $companyName
+     * @param int $companyScaleId
+     * @param string $taxCode
+     * @param int $genderId
+     * @param int $province
+     * @param int $district
+     */
     public function __construct(
         string $fullName,
         string $email,
@@ -23,7 +35,8 @@ class RecruiterRegisterCommand extends BaseRegisterCommand
     }
 
     /**
-     * Tạo RecruiterCommand từ FormRequest
+     * @param FormRequest $request
+     * @return RecruiterRegisterCommand
      */
     public static function withForm(FormRequest $request): RecruiterRegisterCommand
     {

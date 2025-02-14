@@ -6,13 +6,20 @@ use App\Repositories\UserCertification\UserCertificationRepository;
 
 class GetDetailListOfUserCertificationByUserSlugHandle
 {
+    /**
+     * @param UserCertificationRepository $userCertificationRepository
+     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository
     )
     {
     }
 
-    public function handle(GetDetailListOfUserCertificationByUserSlugCommand $command)
+    /**
+     * @param GetDetailListOfUserCertificationByUserSlugCommand $command
+     * @return array
+     */
+    public function handle(GetDetailListOfUserCertificationByUserSlugCommand $command): array
     {
 
         $userCertifications =  $this->userCertificationRepository->getByRelationshipUserSlug(

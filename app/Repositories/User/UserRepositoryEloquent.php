@@ -23,32 +23,24 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
      *
      * @return string
      */
-    public function model()
+    public function model(): string
     {
         return User::class;
     }
 
     /**
-     * Boot up the repository, pushing criteria
-     */
-    public function boot()
-    {
-        $this->pushCriteria(app(RequestCriteria::class));
-    }
-
-    /**
-     * @param array $data
+     * @param array $attributes
      * @return LengthAwarePaginator|Collection|mixed|null
      */
-    public function create(array $data): mixed
+    public function create(array $attributes): mixed
     {
         DB::beginTransaction();
 
         try {
 
-            $user = $this->model->create($data);
+            $user = $this->model->create($attributes);
 
-            $user->syncRoles($data['role'] ?? null);
+            $user->syncRoles($attributes['role'] ?? null);
 
             DB::commit();
 
@@ -61,18 +53,18 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     }
 
     /**
-     * @param $data
+     * @param array $attributes
      * @return User|null
      */
-    public function changePassword($data): ?User
+    public function changePassword(array $attributes): ?User
     {
         DB::beginTransaction();
 
         try {
-            $user = $this->findBySlug($data['slug'] ?? null);
+            $user = $this->findBySlug($attributes['slug'] ?? null);
 
             $user->update([
-                'password' => $data['new_password']
+                'password' => $attributes['new_password']
             ]);
 
             DB::commit();
@@ -86,18 +78,18 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     }
 
     /**
-     * @param array $data
+     * @param array $attributes
      * @param $userId
      * @return LengthAwarePaginator|Collection|mixed|null
      */
-    public function update(array $data, $userId): mixed
+    public function update(array $attributes, $userId): mixed
     {
         DB::beginTransaction();
 
         try {
             $user = $this->find($userId);
 
-            $user->update($data);
+            $user->update($attributes);
 
             DB::commit();
 

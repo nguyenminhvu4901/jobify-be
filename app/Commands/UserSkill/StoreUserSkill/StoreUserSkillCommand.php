@@ -7,6 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class StoreUserSkillCommand implements CommandInterface
 {
+    /**
+     * @param string $name
+     * @param string|int|null $rateId
+     * @param string|null $description
+     */
     public function __construct(
         public string $name,
         public string|int|null $rateId,
@@ -14,6 +19,10 @@ readonly class StoreUserSkillCommand implements CommandInterface
     )
     {}
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(
