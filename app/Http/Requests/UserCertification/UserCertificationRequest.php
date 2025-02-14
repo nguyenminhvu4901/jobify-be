@@ -35,21 +35,21 @@ class UserCertificationRequest extends FormRequest
             "profile.userCertification.store" => $commonRules,
             "profile.userCertification.updateUserCertification" => [
                 ...$commonRules,
-                'user_slug' => ['required', 'string', 'exists:users,slug'],
-                'user_certification_id' => ['required', 'integer', 'exists:user_certifications,id'],
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+                'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
                 'attachments.*.user_certification_resource_id' => [
                         'bail', 'nullable', 'integer', 'exists:user_certification_resources,id'
                 ]
             ],
-            "profile.userCertification.DetailListOfUserCertification" => [
-                'user_certification_id' => ['required', 'integer', 'exists:user_certifications,id']
+            "profile.userCertification.detailListOfUserCertification" => [
+                'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
             ],
-            "profile.userCertification.DetailListOfUserCertificationByUserSlug" => [
-                'user_slug' => ['required', 'string', 'exists:users,slug'],
+            "profile.userCertification.detailListOfUserCertificationByUserSlug" => [
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
             "profile.userCertification.destroy" => [
-                'user_slug' => ['required', 'string', 'exists:users,slug'],
-                'user_certification_id' => ['required', 'integer', 'exists:user_certifications,id']
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+                'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
             ],
             default => [],
         };

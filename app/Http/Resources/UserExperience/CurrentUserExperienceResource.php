@@ -20,7 +20,7 @@ class CurrentUserExperienceResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'experiences' => UserExperienceResource::collection($this->userExperiences)
+            'experiences' => UserExperienceNoUserDataResource::collection($this->userExperiences)
         ];
     }
 }

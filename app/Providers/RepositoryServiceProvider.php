@@ -20,6 +20,8 @@ use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepositoryEloquent;
 use App\Repositories\UserProfile\UserProfileRepository;
 use App\Repositories\UserProfile\UserProfileRepositoryEloquent;
+use App\Repositories\UserSkill\UserSkillRepository;
+use App\Repositories\UserSkill\UserSkillRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -33,6 +35,7 @@ class RepositoryServiceProvider extends ServiceProvider
         UserExperienceResourceRepository::class => UserExperienceResourceRepositoryEloquent::class,
         UserCertificationRepository::class => UserCertificationRepositoryEloquent::class,
         UserCertificationResourceRepository::class => UserCertificationResourceRepositoryEloquent::class,
-        UserEducationRepository::class => UserEducationRepositoryEloquent::class
+        UserEducationRepository::class => UserEducationRepositoryEloquent::class,
+        UserSkillRepository::class => UserSkillRepositoryEloquent::class
     ];
 }

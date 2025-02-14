@@ -12,7 +12,10 @@ class GetCompleteListOfUserEducationHandle
     {
     }
 
-    public function handle(GetCompleteListOfUserEducationCommand $command)
+    /**
+     * @return array
+     */
+    public function handle(): array
     {
         $userEducation = $this->userEducationRepository->getWithRelationship('user');
 

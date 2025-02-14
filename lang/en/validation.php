@@ -191,41 +191,7 @@ return [
     |
     */
 
-    'attributes' => [
-        'email' => 'Email',
-        'password' => 'Password',
-        'full_name' => 'Full Name',
-        'password_confirmation' => 'Password Confirmation',
-        'phone_number' => 'Phone Number',
-        'gender_id' => 'Gender',
-        'company_name' => 'Company Name',
-        'province' => 'Province/City',
-        'district' => 'District',
-        'current_password' => 'Current Password',
-        'new_password' => 'New Password',
-        'new_password_confirmation' => 'New Password Confirmation',
-        'user_profile_id' => 'User Profile Id',
-        'position' => 'Position',
-        'birth_date' => 'Birth Date',
-        'description' => 'Description',
-        'profile_description' => 'Profile Description',
-        'avatar' => 'Avatar',
-        'user_slug' => 'User slug',
-        'user_experience_id' => 'User experience id',
-        'name' => 'Name',
-        'is_working' => 'Is working at here',
-        'start_date' => 'Start Date',
-        'end_date' => 'End Date',
-        'attachments' => 'Attachment',
-        'attachments.*.title' => 'Attachment title',
-        'attachments.*.description' => 'Attachment description',
-        'attachments.*.content_type_id' => 'Attachment content type',
-        'attachments.*.image' => 'Attachment image',
-        'attachments.*.video' => 'Attachment video',
-        'attachments.*.file' => 'Attachment file',
-        'attachments.*.url' => 'Attachment url',
-        'user_experience_resource_id' => 'User Experience Resource Code',
-        'user_certification_id' => 'User Certification Code',
-        'user_education_id' => 'User Education Id',
-    ]
+    'attributes' => collect(glob(__DIR__ . '/attributes/*.php'))
+        ->mapWithKeys(fn ($file) => require $file)
+        ->toArray(),
 ];

@@ -12,7 +12,11 @@ class GetDetailListOfUserEducationHandle
     {
     }
 
-    public function handle(GetDetailListOfUserEducationCommand $command)
+    /**
+     * @param GetDetailListOfUserEducationCommand $command
+     * @return array
+     */
+    public function handle(GetDetailListOfUserEducationCommand $command): array
     {
         $userEducation = $this->userEducationRepository->find($command->userEducationId);
 

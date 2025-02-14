@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'full_name' => 'Họ và tên',
+    'phone_number' => 'Số điện thoại',
+    'gender_id' => 'Giới tính',
+    'user_profile_id' => 'Mã hồ sơ',
+    'position' => 'Vị trí',
+    'birth_date' => 'Ngày sinh',
+    'description' => 'Mô tả',
+    'profile_description' => 'Giới thiệu bản thân',
+    'avatar' => 'Ảnh đại diện',
+    'user_slug' => 'Mã người dùng',
+    'user_experience_id' => 'Mã kinh nghiệm',
+    'name' => 'Tên',
+    'is_working' => 'Đang làm việc tại đây',
+    'organization' => 'Tổ chức',
+    'is_no_expiration' => 'Ngày hết hạn',
+    'start_date' => 'Ngày bắt đầu',
+    'end_date' => 'Ngày kết thúc',
+    'user_certification_id' => 'Mã chứng chỉ',
+    'major' => 'Ngành học',
+    'user_education_id' => 'Mã học vấn',
+    'is_studying' => 'Đang học tại đây',
+    'user_skill_id' => 'Mã kĩ năng',
+    'rate_id' => 'Đánh giá'
+];

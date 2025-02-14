@@ -20,7 +20,7 @@ class CurrentUserCertificationResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'certifications' => UserCertificationResource::collection($this->userCertifications)
+            'certifications' => UserCertificationNoUserDataResource::collection($this->userCertifications)
         ];
     }
 }

@@ -35,21 +35,21 @@ class UserExperienceRequest extends FormRequest
             "profile.userExperience.store" => $commonRules,
             "profile.userExperience.updateExperience" => [
                 ...$commonRules,
-                'user_slug' => ['required', 'string', 'exists:users,slug'],
-                'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id'],
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+                'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
                 'attachments.*.user_experience_resource_id' => [
                         'bail', 'nullable', 'integer', 'exists:user_experience_resources,id'
                 ]
             ],
             "profile.userExperience.destroy" => [
-                    'user_slug' => ['required', 'string', 'exists:users,slug'],
-                    'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+                    'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+                    'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
-            "profile.userExperience.DetailListOfUserExperienceByUserSlug" => [
-                'user_slug' => ['required', 'string', 'exists:users,slug'],
+            "profile.userExperience.detailListOfUserExperienceByUserSlug" => [
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userExperience.DetailListOfUserExperience" => [
-                'user_experience_id' => ['required', 'integer', 'exists:user_experiences,id']
+            "profile.userExperience.detailListOfUserExperience" => [
+                'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
             default => [],
         };

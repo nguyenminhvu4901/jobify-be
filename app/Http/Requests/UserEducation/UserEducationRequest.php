@@ -31,19 +31,19 @@ class UserEducationRequest extends FormRequest
 
         return match ($routeName){
             "profile.userEducation.store" => $commonRule,
-            "profile.userEducation.DetailListOfUserEducation" => [
-                "user_education_id" => ['required', 'integer', 'exists:user_educations,id']
+            "profile.userEducation.detailListOfUserEducation" => [
+                "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            "profile.userEducation.DetailListOfUserEducationByUserSlug" => [
-                "user_slug" => ['required', 'string', 'exists:users,slug']
+            "profile.userEducation.detailListOfUserEducationByUserSlug" => [
+                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
             "profile.userEducation.updateEducation" => [
                 ...$commonRule,
-                "user_education_id" => ['required', 'integer', 'exists:user_educations,id']
+                "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
             "profile.userEducation.destroy" => [
-                "user_education_id" => ['required', 'integer', 'exists:user_educations,id'],
-                "user_slug" => ['required', 'string', 'exists:users,slug']
+                "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id'],
+                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
             default => []
         };
