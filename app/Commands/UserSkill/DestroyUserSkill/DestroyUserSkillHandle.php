@@ -7,13 +7,20 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserSkillHandle
 {
+    /**
+     * @param UserSkillRepository $userSkillRepository
+     */
     public function __construct(
         protected UserSkillRepository $userSkillRepository
     )
     {
     }
 
-    public function handle(DestroyUserSkillCommand $command)
+    /**
+     * @param DestroyUserSkillCommand $command
+     * @return array
+     */
+    public function handle(DestroyUserSkillCommand $command): array
     {
         $userSkill = $this->userSkillRepository->findByRelationshipUserSlugAndColumnDetailId(
             $command->userSlug, $command->userSkillId

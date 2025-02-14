@@ -13,7 +13,11 @@ class JobSeekerRegisterHandler
     {
     }
 
-    public function handle(JobSeekerRegisterCommand $command)
+    /**
+     * @param JobSeekerRegisterCommand $command
+     * @return array
+     */
+    public function handle(JobSeekerRegisterCommand $command): array
     {
         $jobSeeker =  $this->userRepository->create([
             'full_name' => $command->fullName,

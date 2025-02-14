@@ -3,14 +3,15 @@
 namespace App\Commands\UserExperience\StoreUserExperience;
 
 use App\Repositories\UserExperience\UserExperienceRepository;
-use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
 use App\Services\UserExperience\UserExperienceService;
-use App\Traits\ImageHandler;
-use App\Traits\VideoHandler;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class StoreUserExperienceHandler
 {
+    /**
+     * @param UserExperienceRepository $userExperienceRepository
+     * @param UserExperienceService $userExperienceService
+     */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository,
         protected UserExperienceService $userExperienceService

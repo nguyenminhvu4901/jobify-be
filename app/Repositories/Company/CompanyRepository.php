@@ -9,5 +9,5 @@ namespace App\Repositories\Company;
  */
 interface CompanyRepository
 {
-    public function create(array $data);
+    public function create(array $attributes);
 }

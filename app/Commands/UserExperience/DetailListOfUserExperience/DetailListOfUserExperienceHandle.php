@@ -12,9 +12,12 @@ class DetailListOfUserExperienceHandle
     {
     }
 
-    public function handle(DetailListOfUserExperienceCommand $command)
+    public function handle(DetailListOfUserExperienceCommand $command): array
     {
-        $userExperience = $this->userExperienceRepository->find($command->userExperienceId);
+        $userExperience = $this->userExperienceRepository->findWithRelationships(
+            $command->userExperienceId,
+            ['user', 'userExperienceResource']
+        );
 
         if(!empty($userExperience)){
             return [

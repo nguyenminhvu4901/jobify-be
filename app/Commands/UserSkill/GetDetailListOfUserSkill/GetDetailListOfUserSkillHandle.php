@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class GetDetailListOfUserSkillHandle
 {
+    /**
+     * @param UserSkillRepository $userSkillRepository
+     */
     public function __construct(
         protected UserSkillRepository $userSkillRepository
     )

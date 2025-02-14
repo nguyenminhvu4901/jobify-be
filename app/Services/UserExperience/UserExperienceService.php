@@ -52,17 +52,11 @@ class UserExperienceService
      * @param $userExperienceId
      * @param $pathStorage
      * @return LengthAwarePaginator|Collection|mixed
-     * @throws ValidatorException
      */
     public function storeUserExperienceResource($attachment, $userExperienceId, $pathStorage): mixed
     {
-        return $this->userExperienceResourceRepository->create([
-            'user_experience_id' => $userExperienceId,
-            'title' => $attachment['title'],
-            'path' => $pathStorage,
-            'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id']
-        ]);
+        return $this->userExperienceResourceRepository->store(
+            attachment: $attachment, userExperienceId: $userExperienceId, pathStorage: $pathStorage);
     }
 
     /**
@@ -70,16 +64,14 @@ class UserExperienceService
      * @param $userExperienceResourceId
      * @param $pathStorage
      * @return LengthAwarePaginator|Collection|mixed
-     * @throws ValidatorException
      */
     private function updateUserExperienceResource($attachment, $userExperienceResourceId, $pathStorage): mixed
     {
-        return $this->userExperienceResourceRepository->update([
-            'title' => $attachment['title'],
-            'path' => $pathStorage,
-            'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id']
-        ], $userExperienceResourceId);
+        return $this->userExperienceResourceRepository->updateUserExperienceResource(
+            attachment: $attachment,
+            userExperienceResourceId: $userExperienceResourceId,
+            pathStorage: $pathStorage
+        );
     }
 
 
@@ -94,7 +86,8 @@ class UserExperienceService
         $attachments, $userExperienceResource, $userExperienceId
     ): mixed
     {
-        $this->deleteUserExperienceResourceAndAttachment($attachments, $userExperienceResource);
+        $this->deleteUserExperienceResourceAndAttachment(
+            attachments: $attachments, userCertificationResource: $userExperienceResource);
 
         foreach ($attachments as $attachment)
         {

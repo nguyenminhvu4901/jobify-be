@@ -9,5 +9,5 @@ namespace App\Repositories\CompanyAddress;
  */
 interface CompanyAddressRepository
 {
-    public function create(array $data);
+    public function create(array $attributes);
 }

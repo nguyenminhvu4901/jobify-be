@@ -4,32 +4,36 @@ namespace App\Repositories\CompanyAddress;
 
 use App\Entities\CompanyAddress\CompanyAddress;
 use App\Repositories\BaseRepository;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class CompanyAddressRepositoryEloquent extends BaseRepository implements CompanyAddressRepository
 {
-    public function model()
+    /**
+     * @return string
+     */
+    public function model(): string
     {
         return CompanyAddress::class;
     }
 
     /**
-     * @param array $data
+     * @param array $attributes
      * @return LengthAwarePaginator|Collection|mixed|null
      */
-    public function create(array $data): mixed
+    public function create(array $attributes): mixed
     {
         DB::beginTransaction();
 
         try {
-            $companyAddress = $this->model->create($data);
+            $companyAddress = $this->model->create($attributes);
 
             DB::commit();
 
             return $companyAddress->refresh();
-        }catch (\Exception $e){
+        }catch (Exception){
             DB::rollBack();
 
             return null;

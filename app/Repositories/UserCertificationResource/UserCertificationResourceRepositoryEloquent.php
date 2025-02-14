@@ -4,6 +4,7 @@ namespace App\Repositories\UserCertificationResource;
 
 use App\Entities\UserCertificationResource\UserCertificationResource;
 use App\Repositories\BaseRepository;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class UserCertificationResourceRepositoryEloquent extends BaseRepository implements UserCertificationResourceRepository
@@ -27,10 +28,10 @@ class UserCertificationResourceRepositoryEloquent extends BaseRepository impleme
     }
 
     /**
-     * @param $userCertificationResource
-     * @return mixed
+     * @param UserCertificationResource $userCertificationResource
+     * @return UserCertificationResource|null
      */
-    public function destroy($userCertificationResource): mixed
+    public function destroy(UserCertificationResource $userCertificationResource): ?UserCertificationResource
     {
         DB::beginTransaction();
 
@@ -40,7 +41,7 @@ class UserCertificationResourceRepositoryEloquent extends BaseRepository impleme
             DB::commit();
 
             return $userCertificationResource->fresh();
-        }catch (\Exception $e)
+        }catch (Exception)
         {
             DB::rollBack();
 

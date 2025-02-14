@@ -6,12 +6,18 @@ use App\Repositories\User\UserRepository;
 
 class GetListExperienceCurrentUserHandler
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected UserRepository $userRepository
     )
     {}
 
-    public function handle()
+    /**
+     * @return array
+     */
+    public function handle(): array
     {
         $user = auth()->user();
 

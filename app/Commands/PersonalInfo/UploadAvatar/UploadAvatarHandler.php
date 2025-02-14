@@ -9,11 +9,18 @@ class UploadAvatarHandler
 {
     use ImageHandler;
 
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected UserRepository $userRepository
     ){}
 
-    public function handle(UploadAvatarCommand $command)
+    /**
+     * @param UploadAvatarCommand $command
+     * @return array
+     */
+    public function handle(UploadAvatarCommand $command): array
     {
         $user = auth()->user();
 

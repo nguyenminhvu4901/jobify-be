@@ -49,6 +49,12 @@ trait ImageHandler
      */
     public function deleteImage($absolutePath): bool
     {
+        $urlAvatarDefault = asset(config('constants.default_avatar'));
+
+        if($absolutePath == $urlAvatarDefault) {
+            return true;
+        }
+
         $path = parse_url($absolutePath, PHP_URL_PATH);
 
         $path = ltrim($path, '/storage');

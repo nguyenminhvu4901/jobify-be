@@ -6,6 +6,9 @@ use App\Repositories\UserEducation\UserEducationRepository;
 
 class GetDetailListOfUserEducationHandle
 {
+    /**
+     * @param UserEducationRepository $userEducationRepository
+     */
     public function __construct(
         protected UserEducationRepository $userEducationRepository
     )
@@ -18,7 +21,10 @@ class GetDetailListOfUserEducationHandle
      */
     public function handle(GetDetailListOfUserEducationCommand $command): array
     {
-        $userEducation = $this->userEducationRepository->find($command->userEducationId);
+        $userEducation = $this->userEducationRepository->findWithRelationships(
+            $command->userEducationId,
+            'user'
+        );
 
         if(!empty($userEducation)){
             return [

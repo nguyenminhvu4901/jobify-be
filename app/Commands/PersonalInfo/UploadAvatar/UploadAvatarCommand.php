@@ -8,11 +8,18 @@ use Illuminate\Http\UploadedFile;
 
 readonly class UploadAvatarCommand implements CommandInterface
 {
+    /**
+     * @param UploadedFile|string|null $avatar
+     */
     public function __construct(
         public UploadedFile|null|string $avatar
     )
     {}
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         $avatarRequest = self::getAvatarRequest($request);
@@ -22,7 +29,11 @@ readonly class UploadAvatarCommand implements CommandInterface
         );
     }
 
-    private static function getAvatarRequest($request)
+    /**
+     * @param $request
+     * @return string|null
+     */
+    private static function getAvatarRequest($request): ?string
     {
         $avatarRequest = null;
 

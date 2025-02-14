@@ -3,17 +3,23 @@
 namespace App\Commands\Auth\LoginStandard;
 
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginStandardHandler
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected UserRepository $userRepository)
     {
     }
 
-    public function handle(LoginStandardCommand $command)
+    /**
+     * @param LoginStandardCommand $command
+     * @return array
+     */
+    public function handle(LoginStandardCommand $command): array
     {
         $credentials = [
             'email' => $command->email,

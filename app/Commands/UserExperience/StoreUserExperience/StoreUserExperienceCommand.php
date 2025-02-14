@@ -8,6 +8,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class StoreUserExperienceCommand implements CommandInterface
 {
+    /**
+     * @param string $name
+     * @param string $position
+     * @param bool $isWorking
+     * @param string $startDate
+     * @param string|null $endDate
+     * @param array|null $attachments
+     */
     public function __construct(
         public string      $name,
         public string      $position,
@@ -19,6 +27,10 @@ readonly class StoreUserExperienceCommand implements CommandInterface
     {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         $attachments = AttachmentResourceService::handleAttachments($request, 'user_experience_resource_id');

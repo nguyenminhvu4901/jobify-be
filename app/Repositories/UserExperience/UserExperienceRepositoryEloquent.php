@@ -75,7 +75,7 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
             DB::commit();
 
             return true;
-        }catch (\Exception $e)
+        }catch (Exception)
         {
             DB::rollBack();
 

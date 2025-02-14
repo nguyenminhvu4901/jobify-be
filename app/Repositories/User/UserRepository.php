@@ -9,9 +9,9 @@ namespace App\Repositories\User;
  */
 interface UserRepository
 {
-    public function create(array $data);
+    public function create(array $attributes);
 
-    public function update(array $data, $userId);
+    public function update(array $attributes, int|string $userId);
 
-    public function changePassword(array $data);
+    public function changePassword(array $attributes);
 }
