@@ -179,44 +179,7 @@ return [
     |
     */
 
-    'attributes' => [
-        'email' => 'Email',
-        'password' => 'Mật khẩu',
-        'full_name' => 'Họ và tên',
-        'password_confirmation' => 'Xác nhận mật khẩu',
-        'phone_number' => 'Số điện thoại',
-        'gender_id' => 'Giới tính',
-        'company_name' => 'Tên công ty',
-        'province' => 'Tỉnh/Thành phố',
-        'district' => 'Quận/Huyện',
-        'current_password' => 'Mật khẩu hiện tại',
-        'new_password' => 'Mật khẩu mới',
-        'new_password_confirmation' => 'Xác nhận mật khẩu mới',
-        'user_profile_id' => 'Mã hồ sơ',
-        'position' => 'Vị trí',
-        'birth_date' => 'Ngày sinh',
-        'description' => 'Mô tả',
-        'profile_description' => 'Giới thiệu bản thân',
-        'avatar' => 'Ảnh đại diện',
-        'user_slug' => 'Mã người dùng',
-        'user_experience_id' => 'Mã kinh nghiệm',
-        'name' => 'Tên',
-        'is_working' => 'Đang làm việc tại đây',
-        'organization' => 'Tổ chức',
-        'is_no_expiration' => 'Ngày hết hạn',
-        'start_date' => 'Ngày bắt đầu',
-        'end_date' => 'Ngày kết thúc',
-        'attachments' => 'Tệp đính kèm',
-        'attachments.*.title' => 'Tiêu đề tệp đính kèm',
-        'attachments.*.description' => 'Mô tả tệp đính kèm',
-        'attachments.*.content_type_id' => 'Loại nội dung tệp đính kèm',
-        'attachments.*.image' => 'Ảnh',
-        'attachments.*.video' => 'Video',
-        'attachments.*.file' => 'Tài liệu',
-        'attachments.*.url' => 'Địa chỉ web',
-        'attachments.*.user_experience_resource_id' => 'Mã kinh nghiệm tài nguyên người dùng',
-        'user_certification_id' => 'Mã chứng chỉ',
-        'major' => 'Ngành học',
-        'user_education_id' => 'Mã học vấn',
-    ]
+    'attributes' => collect(glob(__DIR__ . '/attributes/*.php'))
+        ->mapWithKeys(fn ($file) => require $file)
+        ->toArray(),
 ];
