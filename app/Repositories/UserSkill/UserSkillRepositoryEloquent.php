@@ -32,8 +32,54 @@ class UserSkillRepositoryEloquent extends BaseRepository implements UserSkillRep
 
             DB::commit();
 
-            return $userSkill;
+            return $userSkill->refresh();
         }catch (Exception){
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
+    /**
+     * @param array $attributes
+     * @param int $userSkillId
+     * @return null
+     */
+    public function updateUserSkill(array $attributes, int $userSkillId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $userSkill = $this->model->find($userSkillId);
+
+            $userSkill->update($attributes);
+
+            DB::commit();
+
+            return $userSkill->refresh();
+        }catch (Exception){
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
+    /**
+     * @param UserSkill $userSkill
+     * @return UserSkill|null
+     */
+    public function destroy(UserSkill $userSkill): ?UserSkill
+    {
+        DB::beginTransaction();
+
+        try {
+            $userSkill->delete();
+
+            DB::commit();
+
+            return $userSkill;
+        }catch (Exception)
+        {
             DB::rollBack();
 
             return null;

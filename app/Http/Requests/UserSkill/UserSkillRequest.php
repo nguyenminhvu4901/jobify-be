@@ -29,7 +29,21 @@ class UserSkillRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
        return match ($routeName){
-            'profile.user-skill.store' => $commonRules,
+            'profile.userSkill.store' => $commonRules,
+            'profile.userSkill.detailListOfUserSkill' => [
+                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
+            ],
+            'profile.userSkill.detailListOfUserSkillByUserSlug' => [
+                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
+            ],
+           'profile.userSkill.updateSkill' => [
+               ...$commonRules,
+               "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
+           ],
+           'profile.userSkill.destroy' => [
+               "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id'],
+               "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
+           ],
             default => []
        };
     }
