@@ -3,7 +3,6 @@
 namespace App\Http\Resources\UserSkill;
 
 use App\Http\Resources\Role\RoleResource;
-use App\Http\Resources\UserEducation\UserEducationResource;
 use App\Traits\Resources\UserResourceTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
