@@ -9,6 +9,7 @@ use App\Entities\UserCertification\UserCertification;
 use App\Entities\UserEducation\UserEducation;
 use App\Entities\UserExperience\UserExperience;
 use App\Entities\UserProfile\UserProfile;
+use App\Entities\UserSkill\UserSkill;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -69,5 +70,13 @@ trait UserRelationship
     public function userEducations(): HasMany
     {
         return $this->hasMany(UserEducation::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function userSkills(): HasMany
+    {
+        return $this->hasMany(UserSkill::class);
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\API\Profile\PersonalInfoController;
 use App\Http\Controllers\API\Profile\UserCertificationController;
 use App\Http\Controllers\API\Profile\UserEducationController;
 use App\Http\Controllers\API\Profile\UserExperienceController;
+use App\Http\Controllers\API\Profile\UserSkillController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -81,5 +82,12 @@ Route::group(
             Route::put('/', [UserEducationController::class, 'update'])->name('updateEducation');
 
             Route::delete('/', [UserEducationController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group(['prefix' => 'user-skill', 'as' => 'user-skill.'], function() {
+            Route::get('/list-skill-current-user', [UserSkillController::class,
+                'getListSkillCurrentUser'])->name('ListSkillCurrentUser');
+
+           Route::post('/', [UserSkillController::class, 'store'])->name('store');
         });
 });

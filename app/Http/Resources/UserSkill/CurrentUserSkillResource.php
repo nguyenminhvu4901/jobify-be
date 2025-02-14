@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Resources\UserEducation;
+namespace App\Http\Resources\UserSkill;
 
 use App\Http\Resources\Role\RoleResource;
+use App\Http\Resources\UserEducation\UserEducationResource;
 use App\Traits\Resources\UserResourceTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CurrentUserEducationResource extends JsonResource
+class CurrentUserSkillResource extends JsonResource
 {
     use UserResourceTrait;
     /**
@@ -20,7 +21,7 @@ class CurrentUserEducationResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'educations' => UserEducationNoUserData::collection($this->userEducations)
+            'skills' => UserSkillNoUserDataResource::collection($this->userSkills)
         ];
     }
 }
