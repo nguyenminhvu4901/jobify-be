@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Commands\UserExperience\GetListExperienceCurrentUser;
+namespace App\Commands\UserCourse\GetListCourseCurrentUser;
 
 use App\Repositories\User\UserRepository;
 
-class GetListExperienceCurrentUserHandler
+class GetListCourseCurrentUserHandle
 {
     /**
      * @param UserRepository $userRepository
@@ -12,7 +12,8 @@ class GetListExperienceCurrentUserHandler
     public function __construct(
         protected UserRepository $userRepository
     )
-    {}
+    {
+    }
 
     /**
      * @return array
@@ -21,19 +22,19 @@ class GetListExperienceCurrentUserHandler
     {
         $user = auth()->user();
 
-        $userExperience = $this->userRepository->findWithRelationships(
+        $userCourses = $this->userRepository->findWithRelationships(
             $user->id,
-            'userExperiences.userExperienceResource',
+            'userCourses.userCourseResource',
             [
-                'userExperiences' => function ($query) {
+                'userCourses' => function ($query) {
                     return $query->orderByDesc('id');
                 }
             ]
         );
 
-        if(!empty($userExperience)){
+        if(!empty($userCourses)){
             return [
-                'userExperience' => $userExperience,
+                'userCourses' => $userCourses,
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }

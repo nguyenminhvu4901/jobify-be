@@ -6,6 +6,7 @@ use App\Entities\Company\Company;
 use App\Entities\DefaultGender\DefaultGender;
 use App\Entities\DefaultStatus\DefaultStatus;
 use App\Entities\UserCertification\UserCertification;
+use App\Entities\UserCourse\UserCourse;
 use App\Entities\UserEducation\UserEducation;
 use App\Entities\UserExperience\UserExperience;
 use App\Entities\UserProfile\UserProfile;
@@ -78,5 +79,13 @@ trait UserRelationship
     public function userSkills(): HasMany
     {
         return $this->hasMany(UserSkill::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function userCourses(): HasMany
+    {
+        return $this->hasMany(UserCourse::class);
     }
 }
