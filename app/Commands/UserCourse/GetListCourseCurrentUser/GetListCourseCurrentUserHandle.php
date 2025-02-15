@@ -24,7 +24,7 @@ class GetListCourseCurrentUserHandle
 
         $userCourses = $this->userRepository->findWithRelationships(
             $user->id,
-            'userCourses.userCourseResource',
+            'userCourses.userCourseResources',
             [
                 'userCourses' => function ($query) {
                     return $query->orderByDesc('id');

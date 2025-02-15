@@ -12,7 +12,7 @@ trait UserCourseRelationship
     /**
      * @return HasMany
      */
-    public function userCourseResource(): HasMany
+    public function userCourseResources(): HasMany
     {
         return $this->hasMany(UserCourseResource::class);
     }

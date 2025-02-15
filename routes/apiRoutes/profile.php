@@ -108,5 +108,8 @@ Route::group(
         Route::group(['prefix' => 'user-course', 'as' => 'userCourse.'], function () {
             Route::get('/list-course-current-user', [UserCourseController::class,
                 'getListCourseCurrentUser'])->name('listCourseCurrentUser');
+
+            Route::get('/complete-list-user-course', [UserCourseController::class,
+                'getCompleteListOfUserCourse'])->name('completeListOfUserCourse');
         });
 });
