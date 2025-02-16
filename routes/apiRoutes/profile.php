@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Profile\PersonalInfoController;
 use App\Http\Controllers\API\Profile\UserCertificationController;
+use App\Http\Controllers\API\Profile\UserCourseController;
 use App\Http\Controllers\API\Profile\UserEducationController;
 use App\Http\Controllers\API\Profile\UserExperienceController;
 use App\Http\Controllers\API\Profile\UserSkillController;
@@ -102,5 +103,13 @@ Route::group(
             Route::put('/', [UserSkillController::class, 'update'])->name('updateSkill');
 
             Route::delete('/', [UserSkillController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group(['prefix' => 'user-course', 'as' => 'userCourse.'], function () {
+            Route::get('/list-course-current-user', [UserCourseController::class,
+                'getListCourseCurrentUser'])->name('listCourseCurrentUser');
+
+            Route::get('/complete-list-user-course', [UserCourseController::class,
+                'getCompleteListOfUserCourse'])->name('completeListOfUserCourse');
         });
 });
