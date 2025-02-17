@@ -130,7 +130,7 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
 
         if(!empty($result['userExperiences'])){
-            $this->responseSuccess(data: $result['userExperiences'], message: $result['message']);
+            return $this->responseSuccess(data: $result['userExperiences'], message: $result['message']);
         }
 
         return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
