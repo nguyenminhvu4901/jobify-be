@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserExperience\DetailListOfUserExperience;
 
+use App\Http\Resources\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
 
 class DetailListOfUserExperienceHandle
@@ -14,20 +15,22 @@ class DetailListOfUserExperienceHandle
 
     public function handle(DetailListOfUserExperienceCommand $command): array
     {
-        $userExperience = $this->userExperienceRepository->findWithRelationships(
-            $command->userExperienceId,
-            ['user', 'userExperienceResource']
-        );
+        try {
+            $userExperience = $this->userExperienceRepository->findWithRelationships(
+                $command->userExperienceId,
+                ['user', 'userExperienceResource']
+            );
 
-        if(!empty($userExperience)){
             return [
-                'userExperience' => $userExperience,
+                'userExperience' => UserExperienceResource::make($userExperience),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

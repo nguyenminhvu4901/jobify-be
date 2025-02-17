@@ -2,6 +2,7 @@
 
 namespace App\Commands\PersonalInfo\UploadAvatar;
 
+use App\Http\Resources\UserProfile\UserProfileResource;
 use App\Repositories\User\UserRepository;
 use App\Traits\ImageHandler;
 
@@ -22,38 +23,45 @@ class UploadAvatarHandler
      */
     public function handle(UploadAvatarCommand $command): array
     {
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
 
-        if(!empty($command->avatar)){
-            if(is_string($command->avatar)){
-                if($command->avatar == $user->avatar){
-                    $userInfo = $this->userRepository->find($user->id);
+            if(!empty($command->avatar)){
+                if(is_string($command->avatar)){
+                    if($command->avatar == $user->avatar){
+                        $userInfo = $this->userRepository->find($user->id);
+                    }else{
+                        $userInfo = $this->processAvatarDefault($user);
+                    }
                 }else{
-                    $userInfo = $this->processAvatarDefault($user);
+                    $path = config('constants.path_avatar');
+
+                    $pathStorage = $this->storeImage($command->avatar, $path, $user);
+
+                    $userInfo = $this->userRepository->update([
+                        'avatar' => $pathStorage
+                    ], $user->id);
                 }
             }else{
-                $path = config('constants.path_avatar');
-
-                $pathStorage = $this->storeImage($command->avatar, $path, $user);
-
-                $userInfo = $this->userRepository->update([
-                    'avatar' => $pathStorage
-                ], $user->id);
+                $userInfo = $this->processAvatarDefault($user);
             }
-        }else{
-            $userInfo = $this->processAvatarDefault($user);
-        }
 
-        if(!empty($userInfo)){
+            if(!empty($userInfo)){
+                return [
+                    'user' => UserProfileResource::make($userInfo),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
+            }
+
             return [
-                'user' => $userInfo,
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error'),
+            ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_update_profile_error'),
+                'error' => $e,
             ];
         }
-
-        return [
-            'message' => __('messages.profile.user_update_profile_error')
-        ];
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserCertification\StoreUserCertification;
 
+use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Services\UserCertification\UserCertificationService;
 use Prettus\Validator\Exceptions\ValidatorException;
@@ -21,47 +22,47 @@ class StoreUserCertificationHandle
     /**
      * @param StoreUserCertificationCommand $command
      * @return array
-     * @throws ValidatorException
      */
     public function handle(StoreUserCertificationCommand $command): array
     {
-        $userId = auth()->user()->id;
+        try {
+            $userId = auth()->user()->id;
 
-        $userCertification = $this->userCertificationRepository->create([
-            'user_id' => $userId,
-            'name' => $command->name,
-            'organization' => $command->organization,
-            'is_no_expiration' => $command->isNoExpiration,
-            'start_date'=> $command->startDate,
-            'end_date' => $command->endDate
-        ]);
+            $userCertification = $this->userCertificationRepository->create([
+                'user_id' => $userId,
+                'name' => $command->name,
+                'organization' => $command->organization,
+                'is_no_expiration' => $command->isNoExpiration,
+                'start_date'=> $command->startDate,
+                'end_date' => $command->endDate
+            ]);
 
-        if(!empty($command->attachments))
-        {
-            $attachments = $command->attachments;
-
-            foreach ($attachments as $attachment)
+            if(!empty($command->attachments))
             {
-                $pathStorage = $this->userCertificationService->processSaveAttachment($attachment);
+                $attachments = $command->attachments;
 
-                if(!empty($pathStorage)){
-                    $this->userCertificationService->storeUserCertificationResource(
-                        $attachment, $userCertification->id, $pathStorage
-                    );
+                foreach ($attachments as $attachment)
+                {
+                    $pathStorage = $this->userCertificationService->processSaveAttachment($attachment);
+
+                    if(!empty($pathStorage)){
+                        $this->userCertificationService->storeUserCertificationResource(
+                            $attachment, $userCertification->id, $pathStorage
+                        );
+                    }
                 }
             }
-        }
 
-        if(!empty($userCertification))
-        {
             return [
                 'message' => __('messages.profile.user_update_profile_success'),
-                'userCertification' => $userCertification
+                'userCertification' => UserCertificationResource::make($userCertification)
+            ];
+        }catch (\Exception $e){
+
+            return [
+                'message' => __('messages.profile.user_update_profile_error'),
+                'error' => $e
             ];
         }
-
-        return [
-            'message' => __('messages.profile.user_update_profile_error')
-        ];
     }
 }

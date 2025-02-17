@@ -3,6 +3,7 @@
 namespace App\Commands\Auth\RecruiterRegister;
 
 use App\Enums\DefaultRole;
+use App\Http\Resources\Auth\RecruiterRegisterResource;
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\CompanyAddress\CompanyAddressRepository;
 use App\Repositories\User\UserRepository;
@@ -28,22 +29,30 @@ class RecruiterRegisterHandler
      */
     public function handle(RecruiterRegisterCommand $command): array
     {
-        $recruiter = $this->createRecruiter($command);
+        try {
+            $recruiter = $this->createRecruiter($command);
 
-        if(!empty($recruiter)){
+            if(empty($recruiter)){
+                return [
+                    'message' => __('messages.authentication.user_register_error'),
+                ];
+            }
+
+            $company = $this->createCompany($command, $recruiter->id);
+
+            $this->createCompanyAddress($command, $company->id);
+
             return [
-                'recruiter' => $recruiter,
+                'recruiter' => RecruiterRegisterResource::make($recruiter),
                 'message' => __('messages.authentication.user_register_success')
             ];
+        }catch (\Exception $e){
+
+            return [
+                'message' => __('messages.authentication.user_register_error'),
+                'error' => $e
+            ];
         }
-
-        $company = $this->createCompany($command, $recruiter->id);
-
-        $this->createCompanyAddress($command, $company->id);
-
-        return [
-            'message' => __('messages.authentication.user_register_error')
-        ];
     }
 
     /**

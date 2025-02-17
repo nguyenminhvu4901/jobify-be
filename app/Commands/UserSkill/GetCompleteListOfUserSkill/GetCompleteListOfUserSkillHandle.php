@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserSkill\GetCompleteListOfUserSkill;
 
+use App\Http\Resources\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
 
 class GetCompleteListOfUserSkillHandle
@@ -20,17 +21,19 @@ class GetCompleteListOfUserSkillHandle
      */
     public function handle(): array
     {
-        $userSkills = $this->userSkillRepository->getWithRelationship(['user', 'rate']);
+        try {
+            $userSkills = $this->userSkillRepository->getWithRelationship(['user', 'rate']);
 
-        if($userSkills->isNotEmpty()){
             return [
-                'userSkills' => $userSkills,
+                'userSkills' => UserSkillResource::collection($userSkills),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

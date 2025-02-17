@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserCourse\GetListCourseCurrentUser;
 
+use App\Http\Resources\UserCourse\CurrentUserCourseResource;
 use App\Repositories\User\UserRepository;
 
 class GetListCourseCurrentUserHandle
@@ -20,27 +21,28 @@ class GetListCourseCurrentUserHandle
      */
     public function handle(): array
     {
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
 
-        $userCourses = $this->userRepository->findWithRelationships(
-            $user->id,
-            'userCourses.userCourseResources',
-            [
-                'userCourses' => function ($query) {
-                    return $query->orderByDesc('id');
-                }
-            ]
-        );
+            $userCourses = $this->userRepository->findWithRelationships(
+                $user->id,
+                'userCourses.userCourseResources',
+                [
+                    'userCourses' => function ($query) {
+                        return $query->orderByDesc('id');
+                    }
+                ]
+            );
 
-        if(!empty($userCourses)){
             return [
-                'userCourses' => $userCourses,
+                'userCourses' => CurrentUserCourseResource::make($userCourses),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
         }
-
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
     }
 }

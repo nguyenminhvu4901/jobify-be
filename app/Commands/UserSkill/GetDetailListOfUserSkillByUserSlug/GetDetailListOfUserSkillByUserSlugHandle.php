@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserSkill\GetDetailListOfUserSkillByUserSlug;
 
+use App\Http\Resources\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
 
 class GetDetailListOfUserSkillByUserSlugHandle
@@ -21,20 +22,22 @@ class GetDetailListOfUserSkillByUserSlugHandle
      */
     public function handle(GetDetailListOfUserSkillByUserSlugCommand $command): array
     {
-        $userSkills = $this->userSkillRepository->getByRelationshipUserSlug(
-            $command->userSlug,
-            ['user', 'rate']
-        );
+        try {
+            $userSkills = $this->userSkillRepository->getByRelationshipUserSlug(
+                $command->userSlug,
+                ['user', 'rate']
+            );
 
-        if(!empty($userSkills)){
             return [
-                'userSkills' => $userSkills,
+                'userSkills' => UserSkillResource::collection($userSkills),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

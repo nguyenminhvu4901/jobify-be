@@ -18,8 +18,6 @@ use App\Commands\UserExperience\UpdateUserExperience\UpdateUserExperienceCommand
 use App\Commands\UserExperience\UpdateUserExperience\UpdateUserExperienceHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserExperience\UserExperienceRequest;
-use App\Http\Resources\UserExperience\CurrentUserExperienceResource;
-use App\Http\Resources\UserExperience\UserExperienceResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
@@ -44,10 +42,10 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(StoreUserExperienceCommand::withForm($request));
 
         if(!empty($result['userExperience'])){
-            return $this->responseSuccess(UserExperienceResource::make($result['userExperience']), $result['message']);
+            return $this->responseSuccess(data: $result['userExperience'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -61,11 +59,10 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(new GetListExperienceCurrentUserCommand());
 
         if(!empty($result['userExperience'])){
-            return $this->responseSuccess(CurrentUserExperienceResource::make($result['userExperience']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userExperience'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -97,12 +94,10 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(new GetCompleteListOfUserExperienceCommand());
 
         if(!empty($result['userExperiences'])){
-            return $this->responseSuccess(UserExperienceResource::collection($result['userExperiences']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userExperiences'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
-
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -117,11 +112,10 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(DetailListOfUserExperienceCommand::withForm($request));
 
         if(!empty($result['userExperience'])){
-            return $this->responseSuccess(UserExperienceResource::make($result['userExperience']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userExperience'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -136,10 +130,10 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
 
         if(!empty($result['userExperiences'])){
-            $this->responseSuccess(UserExperienceResource::collection($result['userExperiences']), $result['message']);
+            $this->responseSuccess(data: $result['userExperiences'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -153,11 +147,10 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(UpdateUserExperienceCommand::withForm($request));
 
         if(!empty($result['userExperience'])){
-            return $this->responseSuccess(UserExperienceResource::make($result['userExperience']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userExperience'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -171,9 +164,9 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(DestroyUserExperienceCommand::withForm($request));
 
         if($result['userExperienceDestroy']){
-            return $this->responseSuccessWithNoData($result['message']);
+            return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 }

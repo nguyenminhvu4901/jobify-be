@@ -2,11 +2,10 @@
 
 namespace App\Commands\UserCertification\UpdateUserCertification;
 
+use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
 use App\Services\UserCertification\UserCertificationService;
-use Illuminate\Support\Facades\DB;
-use Prettus\Validator\Exceptions\ValidatorException;
 
 class UpdateUserCertificationHandle
 {
@@ -26,36 +25,37 @@ class UpdateUserCertificationHandle
     /**
      * @param UpdateUserCertificationCommand $command
      * @return array
-     * @throws ValidatorException
      */
     public function handle(UpdateUserCertificationCommand $command): array
     {
-        $userCertification = $this->userCertificationRepository->updateUserCertification([
-            'name' => $command->name,
-            'organization' => $command->organization,
-            'is_no_expiration' => $command->isNoExpiration,
-            'start_date' => $command->startDate,
-            'end_date' => $command->endDate
-        ], $command->userCertificationId);
+        try {
+            $userCertification = $this->userCertificationRepository->updateUserCertification([
+                'name' => $command->name,
+                'organization' => $command->organization,
+                'is_no_expiration' => $command->isNoExpiration,
+                'start_date' => $command->startDate,
+                'end_date' => $command->endDate
+            ], $command->userCertificationId);
 
-        if(!empty($command->attachments)){
-            $attachments = $command->attachments;
-            $userCertificationResource = $userCertification->userCertificationResources;
+            if(!empty($command->attachments)){
+                $attachments = $command->attachments;
+                $userCertificationResource = $userCertification->userCertificationResources;
 
-            $this->userCertificationService->updateResourceAttachment(
-                $attachments, $userCertificationResource, $command->userCertificationId
-            );
-        }
+                $this->userCertificationService->updateResourceAttachment(
+                    $attachments, $userCertificationResource, $command->userCertificationId
+                );
+            }
 
-        if(!empty($userCertification)) {
             return [
-                'userCertification' => $userCertification,
+                'userCertification' => UserCertificationResource::make($userCertification),
                 'message' => __('messages.profile.user_update_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_update_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_update_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Commands\PersonalInfo\UpdateProfile;
 
+use App\Http\Resources\UserProfile\UserProfileResource;
 use App\Repositories\User\UserRepository;
 use App\Repositories\UserProfile\UserProfileRepository;
 use App\Traits\ImageHandler;
-use Illuminate\Support\Facades\DB;
 
 class UpdateProfileHandler
 {
@@ -28,33 +28,40 @@ class UpdateProfileHandler
      */
     public function handle(UpdateProfileCommand $command): array
     {
-        $userId = auth()->user()->id;
+        try {
+            $userId = auth()->user()->id;
 
-        $user =  $this->userRepository->update([
-            'full_name' => $command->fullName,
-            'phone_number' => $command->phoneNumber
-        ], $userId);
+            $user =  $this->userRepository->update([
+                'full_name' => $command->fullName,
+                'phone_number' => $command->phoneNumber
+            ], $userId);
 
-        $this->userProfileRepository->updateOrCreateUserProfile(
-            ['user_id' => $userId],
-            [
-                'user_id' => $userId,
-                'position' => $command->position,
-                'gender_id' => $command->gender,
-                'birth_date' => $command->birthDate,
-                'description' => $command->description
-            ]
-        );
+            $this->userProfileRepository->updateOrCreateUserProfile(
+                ['user_id' => $userId],
+                [
+                    'user_id' => $userId,
+                    'position' => $command->position,
+                    'gender_id' => $command->gender,
+                    'birth_date' => $command->birthDate,
+                    'description' => $command->description
+                ]
+            );
 
-        if(!empty($user)){
+            if(!empty($user)){
+                return [
+                    'user' => UserProfileResource::make($user),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
+            }
+
             return [
-                'user' => $user,
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error'),
+            ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_update_profile_error'),
+                'error' => $e
             ];
         }
-
-        return [
-            'message' => __('messages.profile.user_update_profile_error')
-        ];
     }
 }

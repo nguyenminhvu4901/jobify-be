@@ -4,6 +4,7 @@ namespace App\Repositories\UserExperience;
 
 use App\Entities\UserExperience\UserExperience;
 use App\Repositories\BaseRepository;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserExperience\GetListExperienceCurrentUser;
 
+use App\Http\Resources\UserExperience\CurrentUserExperienceResource;
 use App\Repositories\User\UserRepository;
 
 class GetListExperienceCurrentUserHandler
@@ -19,27 +20,29 @@ class GetListExperienceCurrentUserHandler
      */
     public function handle(): array
     {
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
 
-        $userExperience = $this->userRepository->findWithRelationships(
-            $user->id,
-            'userExperiences.userExperienceResource',
-            [
-                'userExperiences' => function ($query) {
-                    return $query->orderByDesc('id');
-                }
-            ]
-        );
+            $userExperience = $this->userRepository->findWithRelationships(
+                $user->id,
+                'userExperiences.userExperienceResource',
+                [
+                    'userExperiences' => function ($query) {
+                        return $query->orderByDesc('id');
+                    }
+                ]
+            );
 
-        if(!empty($userExperience)){
             return [
-                'userExperience' => $userExperience,
+                'userExperience' => CurrentUserExperienceResource::make($userExperience),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

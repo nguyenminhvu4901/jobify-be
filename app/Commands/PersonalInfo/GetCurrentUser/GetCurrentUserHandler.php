@@ -2,6 +2,7 @@
 
 namespace App\Commands\PersonalInfo\GetCurrentUser;
 
+use App\Http\Resources\Auth\CurrentUserInfoResource;
 use App\Repositories\User\UserRepository;
 
 class GetCurrentUserHandler
@@ -19,19 +20,26 @@ class GetCurrentUserHandler
      */
     public function handle(): array
     {
-        $userId = auth()->user()->id;
+        try {
+            $userId = auth()->user()->id;
 
-        $user = $this->userRepository->find($userId);
+            $user = $this->userRepository->find($userId);
 
-        if(!empty($user)){
+            if(!empty($user)){
+                return [
+                    'user' => CurrentUserInfoResource::make($user),
+                    'message' => __('messages.profile.user_get_profile_success')
+                ];
+            }
+
             return [
-                'user' => $user,
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_error'),
+            ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
             ];
         }
-
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Commands\Auth\JobSeekerRegister;
 
 use App\Enums\DefaultRole;
+use App\Http\Resources\Auth\JobSeekerRegisterResource;
 use App\Repositories\User\UserRepository;
 
 class JobSeekerRegisterHandler
@@ -19,24 +20,32 @@ class JobSeekerRegisterHandler
      */
     public function handle(JobSeekerRegisterCommand $command): array
     {
-        $jobSeeker =  $this->userRepository->create([
-            'full_name' => $command->fullName,
-            'email' => $command->email,
-            'password' => $command->password,
-            'phone_number' => $command->phoneNumber,
-            'current_role' => DefaultRole::JOBSEEKER,
-            'role' => DefaultRole::JOBSEEKER
-        ]);
+        try {
+            $jobSeeker =  $this->userRepository->create([
+                'full_name' => $command->fullName,
+                'email' => $command->email,
+                'password' => $command->password,
+                'phone_number' => $command->phoneNumber,
+                'current_role' => DefaultRole::JOBSEEKER,
+                'role' => DefaultRole::JOBSEEKER
+            ]);
 
-        if(!empty($jobSeeker)){
+            if(!empty($jobSeeker)){
+                return [
+                    'jobSeeker' => JobSeekerRegisterResource::make($jobSeeker),
+                    'message' => __('messages.authentication.user_register_success'),
+                ];
+            }
+
             return [
-                'jobSeeker' => $jobSeeker,
-                'message' => __('messages.authentication.user_register_success')
+                'message' => __('messages.authentication.user_register_error'),
+            ];
+        }catch (\Exception $e){
+
+            return [
+                'message' => __('messages.authentication.user_register_error'),
+                'error' => $e
             ];
         }
-
-        return [
-            'message' => __('messages.authentication.user_register_error')
-        ];
     }
 }

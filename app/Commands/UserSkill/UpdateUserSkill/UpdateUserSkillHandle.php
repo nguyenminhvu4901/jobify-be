@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserSkill\UpdateUserSkill;
 
+use App\Http\Resources\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
 
 class UpdateUserSkillHandle
@@ -19,21 +20,23 @@ class UpdateUserSkillHandle
      */
     public function handle(UpdateUserSkillCommand $command): array
     {
-        $userSkill = $this->userSkillRepository->updateUserSkill([
-            'name' => $command->name,
-            'rate_id' => $command->rateId,
-            'description' => $command->description
-        ], $command->userSkillId);
+        try {
+            $userSkill = $this->userSkillRepository->updateUserSkill([
+                'name' => $command->name,
+                'rate_id' => $command->rateId,
+                'description' => $command->description
+            ], $command->userSkillId);
 
-        if(!empty($userSkill)){
             return [
-                'userSkill' => $userSkill,
+                'userSkill' => UserSkillResource::make($userSkill),
                 'message' => __('messages.profile.user_update_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_update_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_update_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

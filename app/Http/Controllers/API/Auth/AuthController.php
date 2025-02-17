@@ -23,10 +23,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RecruiterRegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\UserChangePassword;
-use App\Http\Resources\Auth\JobSeekerRegisterResource;
-use App\Http\Resources\Auth\LoginResource;
-use App\Http\Resources\Auth\RecruiterRegisterResource;
-use App\Http\Resources\Auth\UserChangePasswordResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
@@ -97,10 +93,10 @@ class AuthController extends Controller
         $userData = $this->bus->dispatch(LoginStandardCommand::withForm($request));
 
         if(!empty($userData['user'])){
-            return $this->responseSuccess(LoginResource::make($userData['user']), $userData['message']);
+            return $this->responseSuccess(data: $userData['user'], message: $userData['message']);
         }
 
-        return $this->responseUnauthorized($userData['message']);
+        return $this->responseUnauthorized(message: $userData['message'], error: $userData['error'] ?? null);
 
     }
 
@@ -150,10 +146,10 @@ class AuthController extends Controller
         $result = $this->bus->dispatch(new LogoutCommand(request()->bearerToken()));
 
         if($result['logout']){
-            return $this->responseSuccessWithNoData($result['message']);
+            return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
-        return $this->responseInternalServerError($result['message']);
+        return $this->responseInternalServerError(message: $result['message'], error: $result['error'] ?? null);
     }
 
 
@@ -237,10 +233,10 @@ class AuthController extends Controller
         $result = $this->bus->dispatch(JobSeekerRegisterCommand::withForm($request));
 
         if(!empty($result['jobSeeker'])){
-            return $this->responseSuccess(JobSeekerRegisterResource::make($result['jobSeeker']), $result['message']);
+            return $this->responseSuccess(data: $result['jobSeeker'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -362,10 +358,10 @@ class AuthController extends Controller
         $result = $this->bus->dispatch(RecruiterRegisterCommand::withForm($request));
 
         if(!empty($result['recruiter'])){
-            return $this->responseSuccess(RecruiterRegisterResource::make($result['recruiter']), $result['message']);
+            return $this->responseSuccess(data: $result['recruiter'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -461,10 +457,10 @@ class AuthController extends Controller
 
         if(!empty($result['user'])){
 
-            return $this->responseSuccess(UserChangePasswordResource::make($result['user']), $result['message']);
+            return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**

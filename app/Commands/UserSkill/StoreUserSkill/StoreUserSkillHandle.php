@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserSkill\StoreUserSkill;
 
+use App\Http\Resources\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
 
 class StoreUserSkillHandle
@@ -20,24 +21,26 @@ class StoreUserSkillHandle
      */
     public function handle(StoreUserSkillCommand $command): array
     {
-        $userId = auth()->user()->id;
+        try {
+            $userId = auth()->user()->id;
 
-        $userSkill = $this->userSkillRepository->create([
-            'user_id' => $userId,
-            'name' => $command->name,
-            'rate_id' => $command->rateId,
-            'description' => $command->description
-        ]);
+            $userSkill = $this->userSkillRepository->create([
+                'user_id' => $userId,
+                'name' => $command->name,
+                'rate_id' => $command->rateId,
+                'description' => $command->description
+            ]);
 
-        if(!empty($userSkill)){
             return [
-                'userSkill' => $userSkill,
+                'userSkill' => UserSkillResource::make($userSkill),
                 'message' => __('messages.profile.user_update_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_update_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_update_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserEducation\UpdateUserEducation;
 
+use App\Http\Resources\UserEducation\UserEducationResource;
 use App\Repositories\UserEducation\UserEducationRepository;
 
 class UpdateUserEducationHandle
@@ -21,24 +22,26 @@ class UpdateUserEducationHandle
      */
     public function handle(UpdateUserEducationCommand $command): array
     {
-        $userEducation = $this->userEducationRepository->updateUserEducation([
+        try {
+            $userEducation = $this->userEducationRepository->updateUserEducation([
                 'name' => $command->name,
                 'major' => $command->major,
                 'is_studying' => $command->isStudying,
                 'start_date' => $command->startDate,
                 'end_date' => $command->endDate,
                 'description' => $command->description
-        ], $command->userEducationId);
+            ], $command->userEducationId);
 
-        if(!empty($userEducation)){
             return [
                 'message' => __('messages.profile.user_update_profile_success'),
-                'userEducation' => $userEducation
+                'userEducation' => UserEducationResource::make($userEducation)
+            ];
+        }catch (\Exception $e){
+
+            return [
+                'message' => __('messages.profile.user_update_profile_error'),
+                'error' => $e
             ];
         }
-
-        return [
-            'message' => __('messages.profile.user_update_profile_error')
-        ];
     }
 }
