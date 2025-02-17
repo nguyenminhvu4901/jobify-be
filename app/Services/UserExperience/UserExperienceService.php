@@ -130,7 +130,6 @@ class UserExperienceService
     /**
      * @param $attachment
      * @return void|null
-     * @throws ValidatorException
      */
     public function processUpdateAttachment($attachment)
     {

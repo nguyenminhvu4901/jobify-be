@@ -4,6 +4,7 @@ namespace App\Repositories\UserCertification;
 
 use App\Entities\UserCertification\UserCertification;
 use App\Repositories\BaseRepository;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -19,20 +20,20 @@ class UserCertificationRepositoryEloquent extends BaseRepository implements User
     }
 
     /**
-     * @param array $data
+     * @param array $attributes
      * @return LengthAwarePaginator|Collection|mixed|null
      */
-    public function create(array $data): mixed
+    public function create(array $attributes): mixed
     {
         DB::beginTransaction();
 
         try {
-            $userCertification = $this->model->create($data);
+            $userCertification = $this->model->create($attributes);
 
             DB::commit();
 
             return $userCertification->refresh();
-        }catch (\Exception $e){
+        }catch (Exception){
             DB::rollBack();
 
             return null;

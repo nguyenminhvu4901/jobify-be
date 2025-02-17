@@ -1,46 +1,38 @@
 <?php
 
-namespace App\Commands\UserCertification\StoreUserCertification;
+namespace App\Commands\UserCourse\UpdateUserCourse;
 
 use App\Commands\CommandInterface;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
-readonly class StoreUserCertificationCommand implements CommandInterface
+readonly class UpdateUserCourseCommand implements CommandInterface
 {
-    /**
-     * @param string $name
-     * @param string|null $organization
-     * @param bool $isNoExpiration
-     * @param string $startDate
-     * @param string|null $endDate
-     * @param array|null $attachments
-     */
     public function __construct(
+        public string      $userSlug,
+        public int|string  $userCourseId,
         public string      $name,
         public string|null $organization,
-        public bool        $isNoExpiration,
         public string      $startDate,
         public string|null $endDate,
+        public string|null $description,
         public array|null  $attachments
     )
     {
     }
 
-    /**
-     * @param FormRequest $request
-     * @return CommandInterface
-     */
     public static function withForm(FormRequest $request): CommandInterface
     {
-        $attachments = AttachmentResourceService::handleAttachments($request, 'user_certification_resource_id');
+        $attachments = AttachmentResourceService::handleAttachments($request, 'user_course_resource_id');
 
         return new self(
+            userSlug: $request->get('user_slug'),
+            userCourseId: $request->get('user_course_id'),
             name: $request->get('name'),
             organization: $request->get('organization') ?? null,
-            isNoExpiration: $request->get('is_no_expiration'),
             startDate: $request->get('start_date'),
             endDate: $request->get('end_date') ?? null,
+            description: $request->get('description') ?? null,
             attachments: $attachments
         );
     }

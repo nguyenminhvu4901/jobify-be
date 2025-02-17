@@ -11,12 +11,10 @@ class UpdateUserExperienceHandler
 {
     /**
      * @param UserExperienceRepository $userExperienceRepository
-     * @param UserExperienceResourceRepository $userExperienceResourceRepository
      * @param UserExperienceService $userExperienceService
      */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository,
-        protected UserExperienceResourceRepository $userExperienceResourceRepository,
         protected UserExperienceService $userExperienceService
     )
     {
