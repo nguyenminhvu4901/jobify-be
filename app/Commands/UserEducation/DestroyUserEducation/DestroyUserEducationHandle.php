@@ -22,29 +22,37 @@ class DestroyUserEducationHandle
      */
     public function handle(DestroyUserEducationCommand $command): array
     {
-        $userEducation = $this->userEducationRepository->findByRelationshipUserSlugAndColumnDetailId(
-            $command->userSlug, $command->userEducationId
-        );
+        try {
+            $userEducation = $this->userEducationRepository->findByRelationshipUserSlugAndColumnDetailId(
+                $command->userSlug, $command->userEducationId
+            );
 
-        if (!$userEducation) {
+            if (!$userEducation) {
+                return [
+                    'message' => __('messages.response.resource_not_found'),
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                ];
+            }
+
+            $userEducationDelete = $this->userEducationRepository->destroy($userEducation);
+
+            if ($userEducationDelete) {
+                return [
+                    'userEducation' => $userEducation,
+                    'message' => __('messages.profile.user_destroy_profile_success')
+                ];
+            }
+
             return [
-                'message' => __('messages.response.resource_not_found'),
-                'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                'message' => __('messages.profile.user_destroy_profile_error'),
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+            ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_destroy_profile_error'),
+                'error' => $e,
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
         }
-
-        $userEducationDelete = $this->userEducationRepository->destroy($userEducation);
-
-        if ($userEducationDelete) {
-            return [
-                'userEducation' => $userEducation,
-                'message' => __('messages.profile.user_destroy_profile_success')
-            ];
-        }
-
-        return [
-            'message' => __('messages.profile.user_destroy_profile_error'),
-            'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
-        ];
     }
 }

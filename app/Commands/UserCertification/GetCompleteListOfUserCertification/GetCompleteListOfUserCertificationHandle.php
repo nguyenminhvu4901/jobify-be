@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserCertification\GetCompleteListOfUserCertification;
 
+use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
 
 class GetCompleteListOfUserCertificationHandle
@@ -20,19 +21,20 @@ class GetCompleteListOfUserCertificationHandle
      */
     public function handle(): array
     {
-        $userCertifications = $this->userCertificationRepository->getWithRelationship(
-            ['userCertificationResources', 'user']
-        );
+        try {
+            $userCertifications = $this->userCertificationRepository->getWithRelationship(
+                ['userCertificationResources', 'user']
+            );
 
-        if($userCertifications->isNotEmpty()){
             return [
-                'userCertifications' => $userCertifications,
+                'userCertifications' => UserCertificationResource::collection($userCertifications),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
         }
-
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
     }
 }

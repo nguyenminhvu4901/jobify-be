@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserSkill\GetListSkillCurrentUser;
 
+use App\Http\Resources\UserSkill\CurrentUserSkillResource;
 use App\Repositories\User\UserRepository;
 
 class GetListSkillCurrentUserHandle
@@ -20,22 +21,24 @@ class GetListSkillCurrentUserHandle
      */
     public function handle(): array
     {
-        $userId = auth()->user()->id;
+        try {
+            $userId = auth()->user()->id;
 
-        $userSkills = $this->userRepository->findWithRelationships(
-            $userId,
-            ['userSkills.rate']
-        );
+            $userSkills = $this->userRepository->findWithRelationships(
+                $userId,
+                ['userSkills.rate']
+            );
 
-        if(!empty($userSkills)){
             return [
-                'userSkills' => $userSkills,
+                'userSkills' => CurrentUserSkillResource::make($userSkills),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserEducation\GetDetailListOfUserEducation;
 
+use App\Http\Resources\UserEducation\UserEducationResource;
 use App\Repositories\UserEducation\UserEducationRepository;
 
 class GetDetailListOfUserEducationHandle
@@ -21,20 +22,21 @@ class GetDetailListOfUserEducationHandle
      */
     public function handle(GetDetailListOfUserEducationCommand $command): array
     {
-        $userEducation = $this->userEducationRepository->findWithRelationships(
-            $command->userEducationId,
-            'user'
-        );
+        try {
+            $userEducation = $this->userEducationRepository->findWithRelationships(
+                $command->userEducationId,
+                'user'
+            );
 
-        if(!empty($userEducation)){
             return [
-                'userEducation' => $userEducation,
+                'userEducation' => UserEducationResource::make($userEducation),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
         }
-
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
     }
 }

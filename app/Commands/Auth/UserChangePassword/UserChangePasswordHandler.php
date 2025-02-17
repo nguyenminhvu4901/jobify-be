@@ -2,6 +2,7 @@
 
 namespace App\Commands\Auth\UserChangePassword;
 
+use App\Http\Resources\Auth\UserChangePasswordResource;
 use App\Repositories\User\UserRepository;
 
 class UserChangePasswordHandler
@@ -20,21 +21,28 @@ class UserChangePasswordHandler
      */
     public function handle(UserChangePasswordCommand $command): array
     {
-        $user =  $this->userRepository->changePassword([
-            'slug' => $command->slug,
-            'new_password' => $command->newPassword
-        ]);
+        try {
+            $user = $this->userRepository->changePassword([
+                'slug' => $command->slug,
+                'new_password' => $command->newPassword
+            ]);
 
-        if(!empty($user)){
+            if (empty($user)) {
+                return [
+                    'message' => __('messages.profile.user_change_password_error'),
+                ];
+            }
+
             return [
-                'user' => $user,
+                'user' => UserChangePasswordResource::make($user),
                 'message' =>  __('messages.profile.user_change_password_success')
             ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_change_password_error'),
+                'error' => $e
+            ];
         }
-
-        return [
-            'message' => __('messages.profile.user_change_password_error')
-        ];
     }
 
 }

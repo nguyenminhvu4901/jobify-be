@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserExperience\DetailListOfUserExperienceByUserSlug;
 
+use App\Http\Resources\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
 
 class DetailListOfUserExperienceByUserSlugHandle
@@ -21,20 +22,22 @@ class DetailListOfUserExperienceByUserSlugHandle
      */
     public function handle(DetailListOfUserExperienceByUserSlugCommand $command): array
     {
-        $userExperiences = $this->userExperienceRepository->getByRelationshipUserSlug(
-            $command->userSlug,
-            ['userExperienceResource', 'user']
-        );
+        try {
+            $userExperiences = $this->userExperienceRepository->getByRelationshipUserSlug(
+                $command->userSlug,
+                ['userExperienceResource', 'user']
+            );
 
-        if(!empty($userExperiences)){
             return [
-                'userExperiences' => $userExperiences,
+                'userExperiences' => UserExperienceResource::collection($userExperiences),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

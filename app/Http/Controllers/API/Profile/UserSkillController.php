@@ -18,8 +18,6 @@ use App\Commands\UserSkill\UpdateUserSkill\UpdateUserSkillCommand;
 use App\Commands\UserSkill\UpdateUserSkill\UpdateUserSkillHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSkill\UserSkillRequest;
-use App\Http\Resources\UserSkill\CurrentUserSkillResource;
-use App\Http\Resources\UserSkill\UserSkillResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -41,10 +39,10 @@ class UserSkillController extends Controller
         $result = $this->bus->dispatch(new GetListSkillCurrentUserCommand());
 
         if(!empty($result['userSkills'])){
-            return $this->responseSuccess(CurrentUserSkillResource::make($result['userSkills']), $result['message']);
+            return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -58,10 +56,10 @@ class UserSkillController extends Controller
         $result = $this->bus->dispatch(StoreUserSkillCommand::withForm($request));
 
         if(!empty($result['userSkill'])){
-            return $this->responseSuccess(UserSkillResource::make($result['userSkill']), $result['message']);
+            return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -69,15 +67,18 @@ class UserSkillController extends Controller
      */
     public function getCompleteListOfUserSkill(): JsonResponse
     {
-        $this->bus->addHandler(GetCompleteListOfUserSkillCommand::class, GetCompleteListOfUserSkillHandle::class);
+        $this->bus->addHandler(
+            GetCompleteListOfUserSkillCommand::class,
+            GetCompleteListOfUserSkillHandle::class
+        );
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserSkillCommand());
 
         if(!empty($result['userSkills'])){
-            return $this->responseSuccess(UserSkillResource::collection($result['userSkills']), $result['message']);
+            return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     public function getDetailListOfUserSkill(UserSkillRequest $request): JsonResponse
@@ -90,10 +91,10 @@ class UserSkillController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserSkillCommand::withForm($request));
 
         if(!empty($result['userSkill'])){
-            return $this->responseSuccess(UserSkillResource::make($result['userSkill']), $result['message']);
+            return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -110,10 +111,10 @@ class UserSkillController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserSkillByUserSlugCommand::withForm($request));
 
         if(!empty($result['userSkills'])){
-            return $this->responseSuccess(UserSkillResource::collection($result['userSkills']), $result['message']);
+            return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     public function update(UserSkillRequest $request): JsonResponse
@@ -126,10 +127,10 @@ class UserSkillController extends Controller
         $result = $this->bus->dispatch(UpdateUserSkillCommand::withForm($request));
 
         if(!empty($result['userSkill'])){
-            return $this->responseSuccess(UserSkillResource::make($result['userSkill']), $result['message']);
+            return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     public function destroy(UserSkillRequest $request): JsonResponse
@@ -139,9 +140,13 @@ class UserSkillController extends Controller
         $result = $this->bus->dispatch(DestroyUserSkillCommand::withForm($request));
 
         if(!empty($result['userSkill'])){
-            return $this->responseSuccessWithNoData($result['message']);
+            return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
-        return $this->responseError($result['message'], $result['status_code']);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 }

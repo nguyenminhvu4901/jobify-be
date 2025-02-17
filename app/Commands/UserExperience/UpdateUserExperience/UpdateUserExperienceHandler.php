@@ -2,11 +2,10 @@
 
 namespace App\Commands\UserExperience\UpdateUserExperience;
 
+use App\Http\Resources\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
 use App\Services\UserExperience\UserExperienceService;
-use Illuminate\Support\Facades\DB;
-use Prettus\Validator\Exceptions\ValidatorException;
 
 class UpdateUserExperienceHandler
 {
@@ -26,38 +25,38 @@ class UpdateUserExperienceHandler
     /**
      * @param UpdateUserExperienceCommand $command
      * @return array
-     * @throws ValidatorException
      */
     public function handle(UpdateUserExperienceCommand $command): array
     {
-        $userExperience = $this->userExperienceRepository->updateUserExperience([
-            'name' => $command->name,
-            'position' => $command->position,
-            'is_working' => $command->isWorking,
-            'start_date' => $command->startDate,
-            'end_date' => $command->endDate
-        ], $command->userExperienceId);
+        try {
+            $userExperience = $this->userExperienceRepository->updateUserExperience([
+                'name' => $command->name,
+                'position' => $command->position,
+                'is_working' => $command->isWorking,
+                'start_date' => $command->startDate,
+                'end_date' => $command->endDate
+            ], $command->userExperienceId);
 
-        if(!empty($command->attachments))
-        {
-            $attachments = $command->attachments;
-            $userExperienceResource = $userExperience->userExperienceResource;
+            if(!empty($command->attachments))
+            {
+                $attachments = $command->attachments;
+                $userExperienceResource = $userExperience->userExperienceResource;
 
-            $this->userExperienceService->updateResourceAttachment(
-                $attachments, $userExperienceResource, $command->userExperienceId
-            );
-        }
-
-        if(!empty($userExperience)) {
+                $this->userExperienceService->updateResourceAttachment(
+                    $attachments, $userExperienceResource, $command->userExperienceId
+                );
+            }
 
             return [
-                'userExperience' => $userExperience,
+                'userExperience' => UserExperienceResource::make($userExperience),
                 'message' => __('messages.profile.user_update_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_update_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_update_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

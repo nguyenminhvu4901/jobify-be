@@ -11,8 +11,6 @@ use App\Commands\PersonalInfo\UploadAvatar\UploadAvatarHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateUserProfileAvatarRequest;
 use App\Http\Requests\Profile\UpdateUserProfileRequest;
-use App\Http\Resources\Auth\CurrentUserInfoResource;
-use App\Http\Resources\UserProfile\UserProfileResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
@@ -85,10 +83,10 @@ class PersonalInfoController extends Controller
         $result = $this->bus->dispatch(new GetCurrentUserCommand());
 
         if(!empty($result['user'])){
-           return $this->responseSuccess(CurrentUserInfoResource::make($result['user']), $result['message']);
+           return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -190,10 +188,10 @@ class PersonalInfoController extends Controller
         $result = $this->bus->dispatch(UpdateProfileCommand::withForm($request));
 
         if(!empty($result['user'])){
-            return $this->responseSuccess(UserProfileResource::make($result['user']), $result['message']);
+            return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
 
     }
 
@@ -261,9 +259,9 @@ class PersonalInfoController extends Controller
         $result = $this->bus->dispatch(UploadAvatarCommand::withForm($request));
 
         if(!empty($result['user'])){
-            return $this->responseSuccess(UserProfileResource::make($result['user']), $result['message']);
+            return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 }

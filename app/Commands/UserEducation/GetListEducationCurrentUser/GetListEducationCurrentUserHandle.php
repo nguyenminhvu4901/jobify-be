@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserEducation\GetListEducationCurrentUser;
 
+use App\Http\Resources\UserEducation\CurrentUserEducationResource;
 use App\Repositories\User\UserRepository;
 
 class GetListEducationCurrentUserHandle
@@ -20,27 +21,29 @@ class GetListEducationCurrentUserHandle
      */
     public function handle(): array
     {
-        $userId = auth()->user()->id;
+        try {
+            $userId = auth()->user()->id;
 
-        $user = $this->userRepository->findWithRelationships(
-            $userId,
-            'userEducations',
-            [
-                'userEducations' => function ($query) {
-                    return $query->orderByDesc('id');
-                }
-            ]
-        );
+            $user = $this->userRepository->findWithRelationships(
+                $userId,
+                'userEducations',
+                [
+                    'userEducations' => function ($query) {
+                        return $query->orderByDesc('id');
+                    }
+                ]
+            );
 
-        if(!empty($user)){
             return [
-                'user' => $user,
+                'user' => new CurrentUserEducationResource($user),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

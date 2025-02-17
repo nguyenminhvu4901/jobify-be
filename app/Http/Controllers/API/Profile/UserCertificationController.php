@@ -18,8 +18,6 @@ use App\Commands\UserCertification\UpdateUserCertification\UpdateUserCertificati
 use App\Commands\UserCertification\UpdateUserCertification\UpdateUserCertificationHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCertification\UserCertificationRequest;
-use App\Http\Resources\UserCertification\CurrentUserCertificationResource;
-use App\Http\Resources\UserCertification\UserCertificationResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
@@ -95,11 +93,11 @@ class UserCertificationController extends Controller
 
         if(!empty($result['userCertification'])){
             return $this->responseSuccess(
-                data: CurrentUserCertificationResource::make($result['userCertification']),
+                data: $result['userCertification'],
                 message: $result['message']);
         }
 
-        return $this->responseError(error: $result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -236,11 +234,10 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(StoreUserCertificationCommand::withForm($request));
 
         if(!empty($result['userCertification'])){
-            return $this->responseSuccess(UserCertificationResource::make($result['userCertification']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -258,11 +255,10 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(new GetCompleteListOfUserCertificationCommand());
 
         if(!empty($result['userCertifications'])){
-            return $this->responseSuccess(UserCertificationResource::collection($result['userCertifications']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userCertifications'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -279,11 +275,10 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserCertificationCommand::withForm($request));
 
         if(!empty($result['userCertification'])){
-            return $this->responseSuccess(UserCertificationResource::make($result['userCertification']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -300,11 +295,10 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserCertificationByUserSlugCommand::withForm($request));
 
         if(!empty($result['userCertifications'])){
-            return $this->responseSuccess(UserCertificationResource::collection($result['userCertifications']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userCertifications'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -321,11 +315,10 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(UpdateUserCertificationCommand::withForm($request));
 
         if(!empty($result['userCertification'])){
-            return $this->responseSuccess(UserCertificationResource::make($result['userCertification']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -342,9 +335,13 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(DestroyUserCertificationCommand::withForm($request));
 
         if(!empty($result['userCertificationDelete'])){
-            return $this->responseSuccessWithNoData($result['message']);
+            return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 }

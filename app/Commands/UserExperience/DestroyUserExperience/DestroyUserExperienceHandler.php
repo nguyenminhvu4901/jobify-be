@@ -21,31 +21,42 @@ class DestroyUserExperienceHandler
      */
     public function handle(DestroyUserExperienceCommand $command): ?array
     {
-        $userExperience = $this->userExperienceRepository->findByRelationshipUserSlugAndColumnDetailId(
-            $command->userSlug, $command->userExperienceId, 'userExperienceResource'
-        );
+        try {
+            $userExperience = $this->userExperienceRepository->findByRelationshipUserSlugAndColumnDetailId(
+                $command->userSlug, $command->userExperienceId, 'userExperienceResource'
+            );
 
-        if (!$userExperience) {
+            if (!$userExperience) {
+                return [
+                    'message' => __('messages.profile.user_destroy_profile_error')
+                ];
+            }
+
+            $userExperience->userExperienceResource?->each(function ($eachUserExperienceResource) {
+                $this->attachmentResourceService->deleteFileAttachment($eachUserExperienceResource);
+                $this->userExperienceResourceRepository->destroy($eachUserExperienceResource);
+            });
+
+            $userExperienceDestroy = $this->userExperienceRepository->destroy($userExperience);
+
+            if($userExperienceDestroy){
+                return [
+                    'userExperienceDestroy' => true,
+                    'message' => __('messages.profile.user_destroy_profile_success')
+                ];
+            }
+
             return [
                 'message' => __('messages.profile.user_destroy_profile_error')
             ];
-        }
 
-        $userExperience->userExperienceResource?->each(function ($eachUserExperienceResource) {
-            $this->attachmentResourceService->deleteFileAttachment($eachUserExperienceResource);
-            $this->userExperienceResourceRepository->destroy($eachUserExperienceResource);
-        });
+        }catch (\Exception $e){
 
-        if ($this->userExperienceRepository->destroy($userExperience)) {
             return [
-                'userExperienceDestroy' => true,
-                'message' => __('messages.profile.user_destroy_profile_success')
+                'message' => __('messages.profile.user_destroy_profile_error'),
+                'error' => $e
             ];
         }
-
-        return [
-            'message' => __('messages.profile.user_destroy_profile_error')
-        ];
     }
 
 }

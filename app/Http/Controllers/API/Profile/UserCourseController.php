@@ -7,8 +7,6 @@ use App\Commands\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCou
 use App\Commands\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserCommand;
 use App\Commands\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserHandle;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserCourse\CurrentUserCourseResource;
-use App\Http\Resources\UserCourse\UserCourseResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -34,11 +32,10 @@ class UserCourseController extends Controller
         $result = $this->bus->dispatch(new GetListCourseCurrentUserCommand());
 
         if(!empty($result['userCourses'])){
-            return $this->responseSuccess(CurrentUserCourseResource::make($result['userCourses']),
-                $result['message']);
+            return $this->responseSuccess(data: $result['userCourses'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -54,10 +51,10 @@ class UserCourseController extends Controller
         $result = $this->bus->dispatch(new GetCompleteListOfUserCourseCommand());
 
         if(!empty($result['userCourses'])){
-            return $this->responseSuccess(UserCourseResource::collection($result['userCourses']),
-                $result['message']);
+
+            return $this->responseSuccess(data: $result['userCourses'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 }

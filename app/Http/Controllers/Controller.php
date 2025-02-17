@@ -2,23 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\UnauthorizedException;
-use Illuminate\Validation\ValidationException;
 use OpenApi\Annotations as OA;
 use Illuminate\Routing\Controller as BaseController;
-use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @OA\Info(
@@ -62,72 +52,28 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param string $error
+     * @param string $message
+     * @param mixed $error
      * @param string|int $statusCode
      * @return JsonResponse
      */
     public function responseError(
+        string $message = "",
         mixed $error = "",
         string|int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
     ): JsonResponse
     {
-        if (!empty($error) && is_string($error)) {
+        if (!empty($error)) {
             return response()->json([
-                'message' => $error,
-                'status_code' => $statusCode
-            ], $statusCode);
-        }
-
-        if ($error instanceof ModelNotFoundException) {
-            return $this->responseNotFound(__('messages.response.resource_not_found'), $error);
-        }
-
-        if ($error instanceof ValidationException) {
-            return $this->responseValidation(__('messages.response.validation_error'), $error);
-        }
-
-        if ($error instanceof UnauthorizedException) {
-            return $this->responseUnauthorized(__('messages.response.unauthorized'), $error);
-        }
-
-        if ($error instanceof InternalErrorException) {
-            return $this->responseInternalServerError(__('messages.response.unauthorized'), $error);
-        }
-
-        if ($error instanceof AuthenticationException) {
-            return $this->responseUnauthorized(__('messages.response.authentication_failed'), $error);
-        }
-
-        if ($error instanceof AccessDeniedHttpException) {
-            return $this->responseUnauthorized(__('messages.response.access_denied'), $error);
-        }
-
-        if ($error instanceof MethodNotAllowedHttpException) {
-            return $this->responseMethodNotAllowedHttpException(__('messages.response.method_not_allowed'), $error);
-        }
-
-        if ($error instanceof NotFoundHttpException) {
-            return $this->responseNotFound(__('messages.response.not_found'), $error);
-        }
-
-        if ($error instanceof HttpException) {
-            return $this->responseError($error->getMessage(), $error->getStatusCode());
-        }
-
-        if ($error instanceof Exception) {
-            return $this->responseException($error);
-        }
-
-        if (is_array($error)) {
-            return response()->json([
-                'message' => __('messages.response.multiple_errors_occurred'),
-                'errors' => $error,
+                'message' => $message,
+                'error' => config('app.debug') && is_object($error) && method_exists($error, 'getMessage') ?
+                    $error->getMessage() : $error,
                 'status_code' => $statusCode
             ], $statusCode);
         }
 
         return response()->json([
-            'message' => __('messages.response.an_unexpected_error_occurred'),
+            'message' => $message,
             'status_code' => $statusCode
         ], $statusCode);
     }

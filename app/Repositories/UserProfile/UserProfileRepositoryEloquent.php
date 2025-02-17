@@ -54,9 +54,7 @@ class UserProfileRepositoryEloquent extends BaseRepository implements UserProfil
         try {
             $userProfile = $this->model->updateOrCreate(
                     ['user_id' => $attributes['user_id']],
-                    [
-                        $values
-                    ]
+                    $values
                 );
 
             DB::commit();

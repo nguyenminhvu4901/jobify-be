@@ -97,10 +97,10 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(new GetListEducationCurrentUserCommand());
 
         if(!empty($result['user'])){
-            return $this->responseSuccess(new CurrentUserEducationResource($result['user']), $result['message']);
+            return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -204,10 +204,10 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(StoreUserEducationCommand::withForm($request));
 
         if(!empty($result['userEducation'])){
-            return $this->responseSuccess(UserEducationResource::make($result['userEducation']), $result['message']);
+            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -264,12 +264,11 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(new GetCompleteListOfUserEducationCommand());
 
         if(!empty($result['userEducation'])){
-            return $this->responseSuccess(
-                UserEducationResource::collection($result['userEducation']), $result['message']
-            );
+
+            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -335,11 +334,10 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserEducationCommand::withForm($request));
 
         if(!empty($result['userEducation'])){
-            return $this->responseSuccess(
-                UserEducationResource::make($result['userEducation']), $result['message']);
+            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -405,10 +403,10 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserEducationByUserSlugCommand::withForm($request));
 
         if(!empty($result['userEducation'])){
-            return $this->responseSuccess(UserEducationResource::collection($result['userEducation']), $result['message']);
+            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -518,11 +516,10 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(UpdateUserEducationCommand::withForm($request));
 
         if(!empty($result['userEducation'])){
-            return $this->responseSuccess(
-                UserEducationResource::make($result['userEducation']), $result['message']);
+            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError($result['message']);
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
     /**
@@ -600,9 +597,13 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(DestroyUserEducationCommand::withForm($request));
 
         if(!empty($result['userEducation'])){
-            return $this->responseSuccessWithNoData($result['message']);
+            return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
-        return $this->responseError($result['message'], $result['status_code']);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 }

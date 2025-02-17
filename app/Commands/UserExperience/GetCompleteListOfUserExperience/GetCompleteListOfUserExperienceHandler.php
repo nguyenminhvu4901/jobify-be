@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserExperience\GetCompleteListOfUserExperience;
 
+use App\Http\Resources\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
 
 class GetCompleteListOfUserExperienceHandler
@@ -20,19 +21,21 @@ class GetCompleteListOfUserExperienceHandler
      */
     public function handle(): array
     {
-        $userExperiences = $this->userExperienceRepository->getWithRelationship(
-            ['userExperienceResource', 'user']
-        );
+        try {
+            $userExperiences = $this->userExperienceRepository->getWithRelationship(
+                ['userExperienceResource', 'user']
+            );
 
-        if($userExperiences->isNotEmpty()){
             return [
-                'userExperiences' => $userExperiences,
+                'userExperiences' => UserExperienceResource::collection($userExperiences),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
-        }
+        }catch (\Exception $e){
 
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Commands\UserCertification\GetDetailListOfUserCertification;
 
+use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
 
 class GetDetailListOfUserCertificationHandle
@@ -21,20 +22,21 @@ class GetDetailListOfUserCertificationHandle
      */
     public function handle(GetDetailListOfUserCertificationCommand $command): array
     {
-        $userCertification = $this->userCertificationRepository->findWithRelationships(
-            $command->userCertificationId,
-            ['user', 'userCertificationResources']
-        );
+        try {
+            $userCertification = $this->userCertificationRepository->findWithRelationships(
+                $command->userCertificationId,
+                ['user', 'userCertificationResources']
+            );
 
-        if(!empty($userCertification)){
             return [
-                'userCertification' => $userCertification,
+                'userCertification' => UserCertificationResource::make($userCertification),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
         }
-
-        return [
-            'message' => __('messages.profile.user_get_profile_error')
-        ];
     }
 }

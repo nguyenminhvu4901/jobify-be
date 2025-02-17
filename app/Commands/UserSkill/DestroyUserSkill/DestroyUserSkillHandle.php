@@ -22,29 +22,38 @@ class DestroyUserSkillHandle
      */
     public function handle(DestroyUserSkillCommand $command): array
     {
-        $userSkill = $this->userSkillRepository->findByRelationshipUserSlugAndColumnDetailId(
-            $command->userSlug, $command->userSkillId
-        );
+        try {
+            $userSkill = $this->userSkillRepository->findByRelationshipUserSlugAndColumnDetailId(
+                $command->userSlug, $command->userSkillId
+            );
 
-        if (!$userSkill) {
+            if (!$userSkill) {
+                return [
+                    'message' => __('messages.response.resource_not_found'),
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                ];
+            }
+
+            $userEducationDelete = $this->userSkillRepository->destroy($userSkill);
+
+            if ($userEducationDelete) {
+                return [
+                    'userSkill' => $userSkill,
+                    'message' => __('messages.profile.user_destroy_profile_success')
+                ];
+            }
+
             return [
-                'message' => __('messages.response.resource_not_found'),
-                'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                'message' => __('messages.profile.user_destroy_profile_error'),
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+            ];
+        }catch (\Exception $e){
+
+            return [
+                'message' => __('messages.profile.user_destroy_profile_error'),
+                'error' => $e,
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
         }
-
-        $userEducationDelete = $this->userSkillRepository->destroy($userSkill);
-
-        if ($userEducationDelete) {
-            return [
-                'userSkill' => $userSkill,
-                'message' => __('messages.profile.user_destroy_profile_success')
-            ];
-        }
-
-        return [
-            'message' => __('messages.profile.user_destroy_profile_error'),
-            'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
-        ];
     }
 }
