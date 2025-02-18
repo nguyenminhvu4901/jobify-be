@@ -41,7 +41,7 @@ class StoreUserCourseHandle
                 $attachments = $command->attachments;
 
                 foreach ($attachments as $attachment){
-                    $pathStorage = $this->userCourseService->processSaveAttachment($attachment);
+                    $pathStorage = $this->userCourseService->saveAttachment($attachment);
 
                     if(!empty($pathStorage)){
                         $this->userCourseService->storeUserCourseResource(

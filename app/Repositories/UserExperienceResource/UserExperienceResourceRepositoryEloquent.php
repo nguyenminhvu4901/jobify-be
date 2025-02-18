@@ -48,28 +48,21 @@ class UserExperienceResourceRepositoryEloquent extends BaseRepository implements
         }
     }
 
+
     /**
-     * @param $attachment
-     * @param $userExperienceId
-     * @param $pathStorage
+     * @param array $attributes
      * @return mixed
      */
-    public function store($attachment, $userExperienceId, $pathStorage): mixed
+    public function store(array $attributes): mixed
     {
         DB::beginTransaction();
 
         try {
-            $userExperienceResource = $this->model->create([
-                'user_experience_id' => $userExperienceId,
-                'title' => $attachment['title'],
-                'path' => $pathStorage,
-                'description' => $attachment['description'],
-                'content_type_id' => $attachment['content_type_id']
-            ]);
+            $userExperienceResource = $this->model->create($attributes);
 
             DB::commit();
 
-            return $userExperienceResource->refresh();
+            return $userExperienceResource;
         }catch (Exception)
         {
             DB::rollBack();
@@ -78,16 +71,15 @@ class UserExperienceResourceRepositoryEloquent extends BaseRepository implements
         }
     }
 
+
     /**
-     * @param array $attachment
+     * @param array $attributes
      * @param int|string $userExperienceResourceId
-     * @param string $pathStorage
      * @return mixed
      */
     public function updateUserExperienceResource(
-        array $attachment,
-        int|string $userExperienceResourceId,
-        string $pathStorage
+        array $attributes,
+        int|string $userExperienceResourceId
     ): mixed
     {
         DB::beginTransaction();
@@ -95,17 +87,11 @@ class UserExperienceResourceRepositoryEloquent extends BaseRepository implements
         try {
             $userExperienceResource = $this->model->find($userExperienceResourceId);
 
-            $userExperienceResource->update(
-                [
-                'title' => $attachment['title'],
-                'path' => $pathStorage,
-                'description' => $attachment['description'],
-                'content_type_id' => $attachment['content_type_id']
-            ]);
+            $userExperienceResource->update($attributes);
 
             DB::commit();
 
-            return $userExperienceResource->refresh();
+            return $userExperienceResource;
         }catch (Exception)
         {
             DB::rollBack();

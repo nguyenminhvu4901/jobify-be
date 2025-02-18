@@ -43,7 +43,7 @@ class StoreUserCertificationHandle
 
                 foreach ($attachments as $attachment)
                 {
-                    $pathStorage = $this->userCertificationService->processSaveAttachment($attachment);
+                    $pathStorage = $this->userCertificationService->saveAttachment($attachment);
 
                     if(!empty($pathStorage)){
                         $this->userCertificationService->storeUserCertificationResource(

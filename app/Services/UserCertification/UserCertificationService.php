@@ -9,7 +9,6 @@ use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Prettus\Validator\Exceptions\ValidatorException;
 
 class UserCertificationService
 {
@@ -30,26 +29,11 @@ class UserCertificationService
      * @param $attachment
      * @return void|null
      */
-    public function processSaveAttachment($attachment)
+    public function saveAttachment($attachment)
     {
-        $user = auth()->user();
-
-        if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value) {
-            $path = 'images/profiles/' . extractEmailPrefix($user->email) . '/certifications';
-            $pathStorage = $this->storeImage($attachment['content'], $path, $user);
-
-        } elseif ($attachment['content_type_id'] == DefaultContentType::URL->value) {
-            $pathStorage = $attachment['content'];
-
-        } elseif ($attachment['content_type_id'] == DefaultContentType::VIDEO->value) {
-            $path = 'videos/profiles/' . extractEmailPrefix($user->email) . '/certifications';
-            $pathStorage = $this->storeVideo($attachment['content'], $path, $user);
-
-        } else {
-            return null;
-        }
-
-        return $pathStorage;
+        return $this->attachmentResourceService->saveFileAttachment(
+            attachment: $attachment, lastFolderName: 'certifications'
+        );
     }
 
     /**
@@ -74,29 +58,33 @@ class UserCertificationService
      * @param $userCertificationResource
      * @param $userCertificationId
      * @return void
-     * @throws ValidatorException
      */
     public function updateResourceAttachment(
         $attachments, $userCertificationResource, $userCertificationId
     ): void
     {
-        $this->deleteUserCertificationResourceAndAttachment($attachments, $userCertificationResource);
+        $this->deleteUserCertificationResourceAndAttachment(
+            attachments: $attachments, userCertificationResource: $userCertificationResource);
 
         foreach ($attachments as $attachment)
         {
             if(!empty($attachment['user_certification_resource_id'])){
                 $this->processUpdateAttachment($attachment);
             }else{
-                $pathStorage = $this->processSaveAttachment($attachment);
-                $this->storeUserCertificationResource($attachment, $userCertificationId, $pathStorage);
+                $pathStorage = $this->saveAttachment($attachment);
+                $this->storeUserCertificationResource(
+                    attachment: $attachment,
+                    userCertificationId: $userCertificationId,
+                    pathStorage: $pathStorage
+                );
             }
         }
     }
 
+
     /**
      * @param $attachment
-     * @return void|null
-     * @throws ValidatorException
+     * @return LengthAwarePaginator|Collection|mixed|void|null
      */
     private function processUpdateAttachment($attachment)
     {
@@ -111,11 +99,21 @@ class UserCertificationService
             }else{
                 $this->attachmentResourceService->deleteFileAttachment($userCertificationResource);
 
-                $pathStorage = $this->processSaveAttachment($attachment);
-                $this->updateUserCertificationResource($attachment, $userCertificationResource->id, $pathStorage);
+                $pathStorage = $this->saveAttachment($attachment);
+
+                return $this->updateUserCertificationResource(
+                    attachment: $attachment,
+                    userCertificationResourceId: $userCertificationResource->id,
+                    pathStorage: $pathStorage
+                );
             }
         } elseif ($attachment['content_type_id'] == DefaultContentType::URL->value) {
-            $this->updateUserCertificationResource($attachment, $userCertificationResource->id, $attachment['content']);
+
+            return $this->updateUserCertificationResource(
+                attachment: $attachment,
+                userCertificationResourceId: $userCertificationResource->id,
+                pathStorage: $attachment['content']
+            );
         }else {
             return null;
         }
@@ -145,7 +143,9 @@ class UserCertificationService
     private function deleteUserCertificationResourceAndAttachment($attachments, $userCertificationResource): mixed
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
-            $attachments, $userCertificationResource, 'user_certification_resource_id'
+            attachments: $attachments,
+            userModelResource: $userCertificationResource,
+            idName: 'user_certification_resource_id'
         );
 
         $listUserCertificationResourceToDelete = $this->userCertificationResourceRepository
