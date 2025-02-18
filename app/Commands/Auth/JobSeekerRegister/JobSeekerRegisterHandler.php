@@ -31,8 +31,9 @@ class JobSeekerRegisterHandler
             ]);
 
             if(!empty($jobSeeker)){
+
                 return [
-                    'jobSeeker' => JobSeekerRegisterResource::make($jobSeeker),
+                    'jobSeeker' => JobSeekerRegisterResource::make($jobSeeker->refresh()),
                     'message' => __('messages.authentication.user_register_success'),
                 ];
             }

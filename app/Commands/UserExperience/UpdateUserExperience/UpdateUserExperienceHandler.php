@@ -45,6 +45,10 @@ class UpdateUserExperienceHandler
                 );
             }
 
+            if($userExperience){
+                $userExperience->refresh();
+            }
+
             return [
                 'userExperience' => UserExperienceResource::make($userExperience),
                 'message' => __('messages.profile.user_update_profile_success')

@@ -57,11 +57,10 @@ class UserCertificationService
      * @param $userCertificationId
      * @param $pathStorage
      * @return LengthAwarePaginator|Collection|mixed
-     * @throws ValidatorException
      */
     public function storeUserCertificationResource($attachment, $userCertificationId, $pathStorage): mixed
     {
-        return $this->userCertificationResourceRepository->create([
+        return $this->userCertificationResourceRepository->store([
             'user_certification_id' => $userCertificationId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
@@ -127,11 +126,10 @@ class UserCertificationService
      * @param $userCertificationResourceId
      * @param $pathStorage
      * @return LengthAwarePaginator|Collection|mixed
-     * @throws ValidatorException
      */
     private function updateUserCertificationResource($attachment, $userCertificationResourceId, $pathStorage): mixed
     {
-        return $this->userCertificationResourceRepository->update([
+        return $this->userCertificationResourceRepository->updateUserCertificationResource([
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],

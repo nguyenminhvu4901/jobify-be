@@ -27,6 +27,46 @@ class UserCertificationResourceRepositoryEloquent extends BaseRepository impleme
         return $this->model->whereIn('id', $userCertificationResourceId)->get();
     }
 
+    public function store(array $attributes)
+    {
+        DB::beginTransaction();
+
+        try {
+            $userCertificationResource = $this->model->create($attributes);
+
+            DB::commit();
+
+            return $userCertificationResource;
+        }catch (Exception)
+        {
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
+    public function updateUserCertificationResource(
+        array $attributes, string|int $userCertificationResourceId
+    )
+    {
+        DB::beginTransaction();
+
+        try {
+            $userCertificationResource = $this->model->find($userCertificationResourceId);
+
+            $userCertificationResource->update($attributes);
+
+            DB::commit();
+
+            return $userCertificationResource;
+        }catch (Exception)
+        {
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
     /**
      * @param UserCertificationResource $userCertificationResource
      * @return UserCertificationResource|null
@@ -40,7 +80,7 @@ class UserCertificationResourceRepositoryEloquent extends BaseRepository impleme
 
             DB::commit();
 
-            return $userCertificationResource->fresh();
+            return $userCertificationResource;
         }catch (Exception)
         {
             DB::rollBack();

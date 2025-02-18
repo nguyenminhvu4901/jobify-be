@@ -53,6 +53,10 @@ class StoreUserCertificationHandle
                 }
             }
 
+            if($userCertification){
+                $userCertification->refresh();
+            }
+
             return [
                 'message' => __('messages.profile.user_update_profile_success'),
                 'userCertification' => UserCertificationResource::make($userCertification)

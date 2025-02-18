@@ -32,7 +32,7 @@ class UserCertificationRepositoryEloquent extends BaseRepository implements User
 
             DB::commit();
 
-            return $userCertification->refresh();
+            return $userCertification;
         }catch (Exception){
             DB::rollBack();
 
@@ -54,7 +54,7 @@ class UserCertificationRepositoryEloquent extends BaseRepository implements User
             DB::commit();
 
             return true;
-        }catch (\Exception $e)
+        }catch (Exception)
         {
             DB::rollBack();
 

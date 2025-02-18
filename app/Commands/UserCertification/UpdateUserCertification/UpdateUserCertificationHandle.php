@@ -11,12 +11,10 @@ class UpdateUserCertificationHandle
 {
     /**
      * @param UserCertificationRepository $userCertificationRepository
-     * @param UserCertificationResourceRepository $userCertificationResourceRepository
      * @param UserCertificationService $userCertificationService
      */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository,
-        protected UserCertificationResourceRepository $userCertificationResourceRepository,
         protected UserCertificationService $userCertificationService
     )
     {
@@ -44,6 +42,10 @@ class UpdateUserCertificationHandle
                 $this->userCertificationService->updateResourceAttachment(
                     $attachments, $userCertificationResource, $command->userCertificationId
                 );
+            }
+
+            if($userCertification){
+                $userCertification->refresh();
             }
 
             return [

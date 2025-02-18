@@ -35,6 +35,10 @@ class StoreUserEducationHandle
                 'description' => $command->description
             ]);
 
+            if($userEducation){
+                $userEducation->refresh();
+            }
+
             return [
                 'message' => __('messages.profile.user_update_profile_success'),
                 'userEducation' => UserEducationResource::make($userEducation)

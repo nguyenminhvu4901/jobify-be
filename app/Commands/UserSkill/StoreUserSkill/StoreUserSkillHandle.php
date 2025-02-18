@@ -31,6 +31,10 @@ class StoreUserSkillHandle
                 'description' => $command->description
             ]);
 
+            if($userSkill){
+                $userSkill->refresh();
+            }
+
             return [
                 'userSkill' => UserSkillResource::make($userSkill),
                 'message' => __('messages.profile.user_update_profile_success')
