@@ -2,6 +2,8 @@
 
 namespace App\Traits\CustomValidatorAfter;
 
+use App\Enums\DefaultContentType;
+
 trait ValidatesAttachmentsTrait
 {
     /**
@@ -122,5 +124,57 @@ trait ValidatesAttachmentsTrait
         }else{
             $this->validateVideo($attachment, $index, $validator);
         }
+    }
+
+    /**
+     * @param $validator
+     * @param string $routeNameCondition
+     * @return void
+     */
+    protected function processWithValidator($validator, string $routeNameCondition): void
+    {
+        $routeName = request()->route()->getName();
+
+        $validator->after(function ($validator) use ($routeName, $routeNameCondition) {
+
+            if ($this->has('attachments')) {
+                $attachments = $this->attachments;
+
+                foreach ($attachments as $index => $attachment) {
+                    $contentTypeId = $attachment['content_type_id'] ?? null;
+
+                    switch ($contentTypeId){
+                        case DefaultContentType::IMAGE->value:
+                            if($routeName == $routeNameCondition)
+                            {
+                                $this->validateImage($attachment, $index, $validator);
+                            }else{
+                                $this->validateImageUpdate($attachment, $index, $validator);
+                            }
+                            break;
+
+                        case DefaultContentType::URL->value:
+                            $this->validateUrl($attachment, $index, $validator);
+                            break;
+
+                        case DefaultContentType::VIDEO->value:
+                            if($routeName == $routeNameCondition)
+                            {
+                                $this->validateVideo($attachment, $index, $validator);
+                            }else{
+                                $this->validateVideoUpdate($attachment, $index, $validator);
+                            }
+                            break;
+
+                        default:
+                            $validator->errors()->add(
+                                "attachments.{$index}.content_type_id",
+                                __('validation.custom.invalid_content_type_value_please_choose_again')
+                            );
+                            break;
+                    }
+                }
+            }
+        });
     }
 }

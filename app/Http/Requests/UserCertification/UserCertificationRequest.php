@@ -87,48 +87,6 @@ class UserCertificationRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $routeName = request()->route()->getName();
-
-        $validator->after(function ($validator) use ($routeName) {
-
-            if ($this->has('attachments')) {
-                $attachments = $this->attachments;
-
-                foreach ($attachments as $index => $attachment) {
-                    $contentTypeId = $attachment['content_type_id'] ?? null;
-
-                    switch ($contentTypeId){
-                        case DefaultContentType::IMAGE->value:
-                            if($routeName == "profile.userCertification.store")
-                            {
-                                $this->validateImage($attachment, $index, $validator);
-                            }else{
-                                $this->validateImageUpdate($attachment, $index, $validator);
-                            }
-                            break;
-
-                        case DefaultContentType::URL->value:
-                            $this->validateUrl($attachment, $index, $validator);
-                            break;
-
-                        case DefaultContentType::VIDEO->value:
-                            if($routeName == "profile.userCertification.store")
-                            {
-                                $this->validateVideo($attachment, $index, $validator);
-                            }else{
-                                $this->validateVideoUpdate($attachment, $index, $validator);
-                            }
-                            break;
-
-                        default:
-                            $validator->errors()->add(
-                                "attachments.{$index}.content_type_id",
-                                __('validation.custom.invalid_content_type_value_please_choose_again')
-                            );
-                            break;
-                    }
-                }
-            }
-        });
+        $this->processWithValidator($validator, "profile.userCertification.store");
     }
 }
