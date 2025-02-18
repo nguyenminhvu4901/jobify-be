@@ -8,6 +8,10 @@ use App\Services\UserCourse\UserCourseService;
 
 class UpdateUserCourseHandle
 {
+    /**
+     * @param UserCourseRepository $userCourseRepository
+     * @param UserCourseService $userCourseService
+     */
     public function __construct(
         protected UserCourseRepository $userCourseRepository,
         protected UserCourseService $userCourseService
@@ -15,7 +19,11 @@ class UpdateUserCourseHandle
     {
     }
 
-    public function handle(UpdateUserCourseCommand $command)
+    /**
+     * @param UpdateUserCourseCommand $command
+     * @return array
+     */
+    public function handle(UpdateUserCourseCommand $command): array
     {
         try {
             $userCourse = $this->userCourseRepository->updateUserCourse([
@@ -30,8 +38,15 @@ class UpdateUserCourseHandle
                 $attachments = $command->attachments;
                 $userCourseResource = $userCourse->userCourseResources;
 
+                $this->userCourseService->updateResourceAttachment(
+                    attachments: $attachments,
+                    userCourseResource: $userCourseResource,
+                    userCourseId: $command->userCourseId
+                );
+            }
 
-
+            if ($userCourse) {
+                $userCourse->refresh();
             }
 
             return [

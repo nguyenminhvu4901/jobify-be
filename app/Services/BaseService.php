@@ -385,5 +385,4 @@ abstract class BaseService
         $this->newQuery()->eagerLoad();
         return $this->query->withTrashed()->findOrFail($id);
     }
-
 }

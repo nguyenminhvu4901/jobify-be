@@ -39,7 +39,7 @@ class UserExperienceResourceRepositoryEloquent extends BaseRepository implements
 
             DB::commit();
 
-            return $userExperienceResource->fresh();
+            return $userExperienceResource->refresh();
         }catch (Exception)
         {
             DB::rollBack();
@@ -69,7 +69,7 @@ class UserExperienceResourceRepositoryEloquent extends BaseRepository implements
 
             DB::commit();
 
-            return $userExperienceResource->fresh();
+            return $userExperienceResource->refresh();
         }catch (Exception)
         {
             DB::rollBack();
@@ -105,7 +105,7 @@ class UserExperienceResourceRepositoryEloquent extends BaseRepository implements
 
             DB::commit();
 
-            return $userExperienceResource->fresh();
+            return $userExperienceResource->refresh();
         }catch (Exception)
         {
             DB::rollBack();

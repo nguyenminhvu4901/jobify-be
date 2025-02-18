@@ -32,7 +32,7 @@ class UserCourseRepositoryEloquent extends BaseRepository implements UserCourseR
 
             DB::commit();
 
-            return $userCourse->refresh();
+            return $userCourse;
         }catch (Exception){
             DB::rollBack();
 
@@ -50,15 +50,36 @@ class UserCourseRepositoryEloquent extends BaseRepository implements UserCourseR
         DB::beginTransaction();
 
         try {
-            $userCourse = $this->findWithRelationships($userCourseId,
-                ['userCourseResources', 'user']);
+            $userCourse = $this->model->find($userCourseId);
 
             $userCourse->update($attributes);
 
             DB::commit();
 
-            return $userCourse->refresh();
+            return $userCourse;
         }catch (Exception){
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
+    /**
+     * @param UserCourse $userCourse
+     * @return UserCourse|null
+     */
+    public function destroy(UserCourse $userCourse): ?UserCourse
+    {
+        DB::beginTransaction();
+
+        try {
+            $userCourse->delete();
+
+            DB::commit();
+
+            return $userCourse;
+        }catch (Exception){
+
             DB::rollBack();
 
             return null;

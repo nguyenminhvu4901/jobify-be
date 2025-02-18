@@ -46,14 +46,18 @@ class UserCourseRequest extends FormRequest
             "profile.userCourse.detailListOfUserCourseByUserSlug" => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userCertification.store" => $commonRules,
-            "profile.userCertification.updateCourse" => [
+            "profile.userCourse.store" => $commonRules,
+            "profile.userCourse.updateCourse" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
                 'attachments.*.user_course_resource_id' => [
                     'bail', 'nullable', 'integer', 'exists:user_course_resources,id'
                 ]
+            ],
+            "profile.userCourse.destroy" => [
+                'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug']
             ],
             default => []
         };

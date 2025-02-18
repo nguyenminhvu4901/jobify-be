@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\Profile;
 
+use App\Commands\UserCourse\DestroyUserCourse\DestroyUserCourseCommand;
+use App\Commands\UserCourse\DestroyUserCourse\DestroyUserCourseHandle;
 use App\Commands\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseCommand;
 use App\Commands\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseHandle;
 use App\Commands\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseCommand;
@@ -12,6 +14,8 @@ use App\Commands\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserCom
 use App\Commands\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserHandle;
 use App\Commands\UserCourse\StoreUserCourse\StoreUserCourseCommand;
 use App\Commands\UserCourse\StoreUserCourse\StoreUserCourseHandle;
+use App\Commands\UserCourse\UpdateUserCourse\UpdateUserCourseCommand;
+use App\Commands\UserCourse\UpdateUserCourse\UpdateUserCourseHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCourse\UserCourseRequest;
 use Illuminate\Http\JsonResponse;
@@ -127,8 +131,40 @@ class UserCourseController extends Controller
         return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
-    public function update(UserCourseRequest $request)
+    /**
+     * @param UserCourseRequest $request
+     * @return JsonResponse
+     */
+    public function update(UserCourseRequest $request): JsonResponse
     {
+        $this->bus->addHandler(
+            UpdateUserCourseCommand::class,
+            UpdateUserCourseHandle::class
+        );
 
+        $result = $this->bus->dispatch(UpdateUserCourseCommand::withForm($request));
+
+        if(!empty($result['userCourse'])){
+            return $this->responseSuccess(data: $result['userCourse'], message: $result['message']);
+        }
+
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+    }
+
+    /**
+     * @param UserCourseRequest $request
+     * @return JsonResponse
+     */
+    public function destroy(UserCourseRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(DestroyUserCourseCommand::class, DestroyUserCourseHandle::class);
+
+        $result = $this->bus->dispatch(DestroyUserCourseCommand::withForm($request));
+
+        if($result['userCourseDestroy']){
+            return $this->responseSuccessWithNoData(message: $result['message']);
+        }
+
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 }

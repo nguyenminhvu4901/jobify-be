@@ -9,7 +9,6 @@ use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Prettus\Validator\Exceptions\ValidatorException;
 
 class UserExperienceService
 {
@@ -80,7 +79,6 @@ class UserExperienceService
      * @param $userExperienceResource
      * @param $userExperienceId
      * @return LengthAwarePaginator|Collection|mixed|null
-     * @throws ValidatorException
      */
     public function updateResourceAttachment(
         $attachments, $userExperienceResource, $userExperienceId

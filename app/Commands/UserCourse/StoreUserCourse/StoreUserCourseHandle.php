@@ -2,7 +2,6 @@
 
 namespace App\Commands\UserCourse\StoreUserCourse;
 
-use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Http\Resources\UserCourse\UserCourseResource;
 use App\Repositories\UserCourse\UserCourseRepository;
 use App\Services\UserCourse\UserCourseService;
@@ -52,6 +51,10 @@ class StoreUserCourseHandle
                         );
                     }
                 }
+            }
+
+            if ($userCourse) {
+                $userCourse->refresh();
             }
 
             return [
