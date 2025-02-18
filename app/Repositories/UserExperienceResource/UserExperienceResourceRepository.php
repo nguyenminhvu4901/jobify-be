@@ -6,16 +6,11 @@ use App\Entities\UserExperienceResource\UserExperienceResource;
 
 interface UserExperienceResourceRepository
 {
-    public function store(
-        array $attachment,
-        int|string $userExperienceId,
-        string $pathStorage
-    );
+    public function store(array $attributes);
 
     public function updateUserExperienceResource(
-        array $attachment,
-        int|string $userExperienceResourceId,
-        string $pathStorage
+        array $attributes,
+        int|string $userExperienceResourceId
     );
 
     public function destroy(UserExperienceResource $userExperienceResource);

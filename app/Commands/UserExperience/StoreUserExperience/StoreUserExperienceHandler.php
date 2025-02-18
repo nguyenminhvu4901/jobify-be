@@ -43,7 +43,7 @@ class StoreUserExperienceHandler
 
                 foreach ($attachments as $attachment)
                 {
-                    $pathStorage = $this->userExperienceService->processSaveAttachment($attachment);
+                    $pathStorage = $this->userExperienceService->saveAttachment($attachment);
 
                     if(!empty($pathStorage)){
                         $this->userExperienceService->storeUserExperienceResource(
