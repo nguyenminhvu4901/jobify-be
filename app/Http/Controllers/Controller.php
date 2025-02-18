@@ -120,17 +120,21 @@ abstract class Controller extends BaseController
         ], Response::HTTP_NOT_FOUND);
     }
 
+
     /**
      * @param string $message
+     * @param string $statusCode
      * @return JsonResponse
      */
-    public function responseSuccessWithNoData(string $message = 'OK'): JsonResponse
+    public function responseSuccessWithNoData(
+        string $message = 'OK',
+        string $statusCode = Response::HTTP_OK
+    ): JsonResponse
     {
         return response()->json([
-            'data' => [],
             'message' => $message,
-            'status_code' => Response::HTTP_OK
-        ], Response::HTTP_OK);
+            'status_code' => $statusCode
+        ], $statusCode);
     }
 
     /**

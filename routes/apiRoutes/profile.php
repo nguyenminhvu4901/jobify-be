@@ -111,5 +111,18 @@ Route::group(
 
             Route::get('/complete-list-user-course', [UserCourseController::class,
                 'getCompleteListOfUserCourse'])->name('completeListOfUserCourse');
+
+            Route::get('/detail-list-user-course', [UserCourseController::class,
+                'getDetailListOfUserCourse'])->name('detailListOfUserCourse');
+
+            Route::get('/detail-list-user-course-by-user-slug', [UserCourseController::class,
+                'getDetailListOfUserCourseByUserSlug'])->name('detailListOfUserCourseByUserSlug');
+
+            Route::post('/', [UserCourseController::class, 'store'])->name('store');
+
+            Route::post('/update-course', [UserCourseController::class, 'update'])
+                ->name('updateCourse');
+
+            Route::delete('/', [UserCourseController::class, 'destroy'])->name('destroy');
         });
 });

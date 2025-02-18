@@ -44,7 +44,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
 
             DB::commit();
 
-            return $user->refresh();
+            return $user;
         }catch (Exception){
             DB::rollBack();
 
@@ -70,7 +70,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             DB::commit();
 
             return $user;
-        }catch (\Exception $e){
+        }catch (Exception){
             DB::rollBack();
 
             return null;
@@ -93,7 +93,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
 
             DB::commit();
 
-            return $user->refresh();
+            return $user;
         }catch (Exception){
             DB::rollBack();
 

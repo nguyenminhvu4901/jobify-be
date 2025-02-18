@@ -21,7 +21,7 @@ class UserCourseNoUserDataResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'user_course_resource' => UserCourseAttachmentResource::collection(
-                $this->userCourseResource
+                $this->userCourseResources
             ),
         ];
     }

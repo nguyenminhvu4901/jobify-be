@@ -17,20 +17,20 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
     }
 
     /**
-     * @param array $data
+     * @param array $attributes
      * @return LengthAwarePaginator|Collection|mixed|null
      */
-    public function create(array $data): mixed
+    public function create(array $attributes): mixed
     {
         DB::beginTransaction();
 
         try {
-            $userExperience = $this->model->create($data);
+            $userExperience = $this->model->create($attributes);
 
             DB::commit();
 
-            return $userExperience->refresh();
-        }catch (\Exception $e){
+            return $userExperience;
+        }catch (Exception){
             DB::rollBack();
 
             return null;
@@ -48,14 +48,14 @@ class UserExperienceRepositoryEloquent extends BaseRepository implements UserExp
         DB::beginTransaction();
 
         try {
-            $userExperience = $this->findWithRelationships($userExperienceId, ['userExperienceResource']);
+            $userExperience = $this->model->find($userExperienceId);
 
             $userExperience->update($data);
 
             DB::commit();
 
-            return $userExperience->refresh();
-        }catch (\Exception $e){
+            return $userExperience;
+        }catch (Exception){
             DB::rollBack();
 
             return null;

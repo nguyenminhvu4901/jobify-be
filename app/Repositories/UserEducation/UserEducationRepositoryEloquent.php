@@ -32,7 +32,7 @@ class UserEducationRepositoryEloquent extends BaseRepository implements UserEduc
             DB::commit();
 
             return $userEducation;
-        }catch (\Exception $e){
+        }catch (Exception){
             DB::rollBack();
 
             return null;
@@ -55,8 +55,8 @@ class UserEducationRepositoryEloquent extends BaseRepository implements UserEduc
 
             DB::commit();
 
-            return $userEducation->refresh();
-        }catch (\Exception $e){
+            return $userEducation;
+        }catch (Exception){
             DB::rollBack();
 
             return null;

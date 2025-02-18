@@ -43,7 +43,7 @@ class RecruiterRegisterHandler
             $this->createCompanyAddress($command, $company->id);
 
             return [
-                'recruiter' => RecruiterRegisterResource::make($recruiter),
+                'recruiter' => RecruiterRegisterResource::make($recruiter->refresh()),
                 'message' => __('messages.authentication.user_register_success')
             ];
         }catch (\Exception $e){

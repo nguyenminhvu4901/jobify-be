@@ -18,8 +18,6 @@ use App\Commands\UserEducation\UpdateUserEducation\UpdateUserEducationCommand;
 use App\Commands\UserEducation\UpdateUserEducation\UpdateUserEducationHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserEducation\UserEducationRequest;
-use App\Http\Resources\UserEducation\CurrentUserEducationResource;
-use App\Http\Resources\UserEducation\UserEducationResource;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;

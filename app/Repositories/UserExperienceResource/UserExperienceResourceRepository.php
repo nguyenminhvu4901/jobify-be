@@ -19,4 +19,6 @@ interface UserExperienceResourceRepository
     );
 
     public function destroy(UserExperienceResource $userExperienceResource);
+
+    public function getListUserExperienceResourceByIds(array $userExperienceResourceId);
 }

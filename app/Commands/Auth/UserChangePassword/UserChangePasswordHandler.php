@@ -34,7 +34,7 @@ class UserChangePasswordHandler
             }
 
             return [
-                'user' => UserChangePasswordResource::make($user),
+                'user' => UserChangePasswordResource::make($user->refresh()),
                 'message' =>  __('messages.profile.user_change_password_success')
             ];
         }catch (\Exception $e){

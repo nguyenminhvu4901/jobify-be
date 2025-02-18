@@ -32,7 +32,7 @@ class UserSkillRepositoryEloquent extends BaseRepository implements UserSkillRep
 
             DB::commit();
 
-            return $userSkill->refresh();
+            return $userSkill;
         }catch (Exception){
             DB::rollBack();
 
@@ -43,9 +43,9 @@ class UserSkillRepositoryEloquent extends BaseRepository implements UserSkillRep
     /**
      * @param array $attributes
      * @param int $userSkillId
-     * @return null
+     * @return LengthAwarePaginator|Collection|mixed|null
      */
-    public function updateUserSkill(array $attributes, int $userSkillId)
+    public function updateUserSkill(array $attributes, int $userSkillId): mixed
     {
         DB::beginTransaction();
 
@@ -56,7 +56,7 @@ class UserSkillRepositoryEloquent extends BaseRepository implements UserSkillRep
 
             DB::commit();
 
-            return $userSkill->refresh();
+            return $userSkill;
         }catch (Exception){
             DB::rollBack();
 

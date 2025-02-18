@@ -11,12 +11,10 @@ class UpdateUserExperienceHandler
 {
     /**
      * @param UserExperienceRepository $userExperienceRepository
-     * @param UserExperienceResourceRepository $userExperienceResourceRepository
      * @param UserExperienceService $userExperienceService
      */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository,
-        protected UserExperienceResourceRepository $userExperienceResourceRepository,
         protected UserExperienceService $userExperienceService
     )
     {
@@ -45,6 +43,10 @@ class UpdateUserExperienceHandler
                 $this->userExperienceService->updateResourceAttachment(
                     $attachments, $userExperienceResource, $command->userExperienceId
                 );
+            }
+
+            if($userExperience){
+                $userExperience->refresh();
             }
 
             return [

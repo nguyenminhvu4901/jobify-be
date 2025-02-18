@@ -48,7 +48,7 @@ class UploadAvatarHandler
 
             if(!empty($userInfo)){
                 return [
-                    'user' => UserProfileResource::make($userInfo),
+                    'user' => UserProfileResource::make($userInfo->refresh()),
                     'message' => __('messages.profile.user_update_profile_success')
                 ];
             }

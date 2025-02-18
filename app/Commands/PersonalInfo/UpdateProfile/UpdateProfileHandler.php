@@ -49,7 +49,7 @@ class UpdateProfileHandler
 
             if(!empty($user)){
                 return [
-                    'user' => UserProfileResource::make($user),
+                    'user' => UserProfileResource::make($user->refresh()),
                     'message' => __('messages.profile.user_update_profile_success')
                 ];
             }
