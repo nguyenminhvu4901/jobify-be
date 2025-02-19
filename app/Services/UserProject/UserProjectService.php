@@ -1,53 +1,55 @@
 <?php
 
-namespace App\Services\UserCourse;
+namespace App\Services\UserProject;
 
 use App\Enums\DefaultContentType;
-use App\Repositories\UserCourseResource\UserCourseResourceRepository;
+use App\Repositories\UserProjectResource\UserProjectResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class UserCourseService
+class UserProjectService
 {
     use ImageHandler, VideoHandler;
 
     /**
      * @param AttachmentResourceService $attachmentResourceService
-     * @param UserCourseResourceRepository $userCourseResourceRepository
+     * @param UserProjectResourceRepository $userProjectResourceRepository
      */
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
-        protected UserCourseResourceRepository $userCourseResourceRepository
+        protected UserProjectResourceRepository $userProjectResourceRepository
     )
     {
     }
 
     /**
      * @param $attachment
-     * @return mixed
+     * @return void|null
      */
-    public function saveAttachment($attachment): mixed
+    public function saveAttachment($attachment)
     {
         return $this->attachmentResourceService->saveFileAttachment(
-            attachment: $attachment, lastFolderName: 'courses'
+            attachment: $attachment, lastFolderName: 'projects'
         );
     }
 
     /**
      * @param array $attachment
-     * @param string|int $userCourseId
+     * @param string|int $userProjectId
      * @param string|null $pathStorage
-     * @return LengthAwarePaginator|Collection|mixed
+     * @return mixed
      */
-    public function storeUserCourseResource(
-        array $attachment, string|int $userCourseId, string|null $pathStorage
+    public function storeUserProjectResource(
+        array $attachment,
+        string|int $userProjectId,
+        string|null $pathStorage
     ): mixed
     {
-        return $this->userCourseResourceRepository->store([
-            'user_course_id' => $userCourseId,
+        return $this->userProjectResourceRepository->store([
+            'user_project_id' => $userProjectId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
@@ -57,49 +59,49 @@ class UserCourseService
 
     /**
      * @param array $attachment
-     * @param string|int $userCourseResourceId
+     * @param string|int $userProjectResourceId
      * @param string|null $pathStorage
-     * @return LengthAwarePaginator|Collection|mixed
+     * @return mixed
      */
-    private function updateUserCourseResource(
-        array $attachment, string|int $userCourseResourceId, string|null $pathStorage
+    private function updateUserProjectResource(
+        array $attachment,
+        string|int $userProjectResourceId,
+        string|null $pathStorage
     ): mixed
     {
-        return $this->userCourseResourceRepository->updateUserCourseResource(
+        return $this->userProjectResourceRepository->updateUserProjectResource(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
                 'description' => $attachment['description'],
                 'content_type_id' => $attachment['content_type_id']
-            ],
-            $userCourseResourceId
-        );
+            ], $userProjectResourceId);
     }
-
 
     /**
      * @param $attachments
-     * @param $userCourseResource
-     * @param $userCourseId
+     * @param $userProjectResource
+     * @param $userProjectId
      * @return null
      */
     public function updateResourceAttachment(
-        $attachments, $userCourseResource, $userCourseId
+        $attachments, $userProjectResource, $userProjectId
     ): null
     {
-        $this->deleteUserCourseResourceAndAttachment(
-            attachments: $attachments, userCourseResource: $userCourseResource);
+        $this->deleteUserProjectResourceAndAttachment(
+            attachments: $attachments, userProjectResource: $userProjectResource);
 
         foreach ($attachments as $attachment)
         {
-            if(!empty($attachment['user_course_resource_id'])){
+            if(!empty($attachment['user_project_resource_id'])){
                 $this->processUpdateAttachment($attachment);
             }else{
+
                 $pathStorage = $this->saveAttachment($attachment);
 
-                 $this->storeUserCourseResource(
+                $this->storeUserProjectResource(
                     attachment: $attachment,
-                    userCourseId: $userCourseId,
+                    userProjectId: $userProjectId,
                     pathStorage: $pathStorage
                 );
             }
@@ -110,31 +112,30 @@ class UserCourseService
 
     /**
      * @param $attachments
-     * @param $userCourseResource
-     * @return mixed
+     * @param $userProjectResource
+     * @return null
      */
-    private function deleteUserCourseResourceAndAttachment($attachments, $userCourseResource): mixed
+    private function deleteUserProjectResourceAndAttachment($attachments, $userProjectResource): null
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
             attachments: $attachments,
-            userModelResource: $userCourseResource,
-            idName: 'user_course_resource_id'
+            userModelResource: $userProjectResource,
+            idName: 'user_project_resource_id'
         );
 
-        $listUserCourseResourceToDelete = $this->userCourseResourceRepository
-            ->getListUserCourseResourceByIds($listDelIds);
+        $listUserProjectResourceToDelete = $this->userProjectResourceRepository
+            ->getListUserProjectResourceByIds($listDelIds);
 
-        if(!empty($listUserCourseResourceToDelete)){
-            return $listUserCourseResourceToDelete->map(function ($eachUserCourseResource) {
+        if(!empty($listUserProjectResourceToDelete)){
+             $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
 
-                $this->attachmentResourceService->deleteFileAttachment($eachUserCourseResource);
-                $this->userCourseResourceRepository->destroy($eachUserCourseResource);
+                $this->attachmentResourceService->deleteFileAttachment($eachUserProjectResource);
+                $this->userProjectResourceRepository->destroy($eachUserProjectResource);
             });
         }
 
         return null;
     }
-
 
     /**
      * @param $attachment
@@ -142,8 +143,8 @@ class UserCourseService
      */
     public function processUpdateAttachment($attachment)
     {
-        $userCourseResource = $this->userCourseResourceRepository
-            ->find($attachment['user_course_resource_id']);
+        $userProjectResource = $this->userProjectResourceRepository
+            ->find($attachment['user_project_resource_id']);
 
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
@@ -151,20 +152,20 @@ class UserCourseService
             if(is_string($attachment['content'])){
                 return ;
             }else{
-                $this->attachmentResourceService->deleteFileAttachment($userCourseResource);
+                $this->attachmentResourceService->deleteFileAttachment($userProjectResource);
                 $pathStorage = $this->saveAttachment($attachment);
 
-                return $this->updateUserCourseResource(
+                return $this->updateUserProjectResource(
                     attachment: $attachment,
-                    userCourseResourceId: $userCourseResource->id,
+                    userProjectResourceId: $userProjectResource->id,
                     pathStorage: $pathStorage
                 );
             }
         } elseif ($attachment['content_type_id'] == DefaultContentType::URL->value) {
 
-            return $this->updateUserCourseResource(
+            return $this->updateUserProjectResource(
                 attachment: $attachment,
-                userCourseResourceId: $userCourseResource->id,
+                userProjectResourceId: $userProjectResource->id,
                 pathStorage: $attachment['content']
             );
         }else {

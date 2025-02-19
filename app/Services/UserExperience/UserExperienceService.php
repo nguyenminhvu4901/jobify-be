@@ -79,16 +79,15 @@ class UserExperienceService
             ], $userExperienceResourceId);
     }
 
-
     /**
      * @param $attachments
      * @param $userExperienceResource
      * @param $userExperienceId
-     * @return LengthAwarePaginator|Collection|mixed|null
+     * @return null
      */
     public function updateResourceAttachment(
         $attachments, $userExperienceResource, $userExperienceId
-    ): mixed
+    ): null
     {
         $this->deleteUserExperienceResourceAndAttachment(
             attachments: $attachments, userExperienceResource: $userExperienceResource);
@@ -97,11 +96,11 @@ class UserExperienceService
         {
             if(!empty($attachment['user_experience_resource_id'])){
 
-                return $this->processUpdateAttachment($attachment);
+                $this->processUpdateAttachment($attachment);
             }else{
                 $pathStorage = $this->saveAttachment($attachment);
 
-                return $this->storeUserExperienceResource(
+                 $this->storeUserExperienceResource(
                     attachment: $attachment,
                     userExperienceId: $userExperienceId,
                     pathStorage: $pathStorage

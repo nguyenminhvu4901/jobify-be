@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Profile\UserCertificationController;
 use App\Http\Controllers\API\Profile\UserCourseController;
 use App\Http\Controllers\API\Profile\UserEducationController;
 use App\Http\Controllers\API\Profile\UserExperienceController;
+use App\Http\Controllers\API\Profile\UserProjectController;
 use App\Http\Controllers\API\Profile\UserSkillController;
 use Illuminate\Support\Facades\Route;
 
@@ -126,10 +127,24 @@ Route::group(
             Route::delete('/', [UserCourseController::class, 'destroy'])->name('destroy');
         });
 
-        Route::group(['prefix' => 'user-project', 'as' => 'userProject'], function() {
-            Route::get('/list-course-current-user', [UserCourseController::class,
-                'getListCourseCurrentUser'])->name('listCourseCurrentUser');
+        Route::group(['prefix' => 'user-project', 'as' => 'userProject.'], function() {
+            Route::get('/list-project-current-user', [UserProjectController::class,
+                'getListProjectCurrentUser'])->name('listProjectCurrentUser');
 
+            Route::get('/complete-list-user-project', [UserProjectController::class,
+                'getCompleteListOfUserProject'])->name('completeListOfUserProject');
 
+            Route::get('/detail-list-user-project', [UserProjectController::class,
+                'getDetailListOfUserProject'])->name('detailListOfUserProject');
+
+            Route::get('/detail-list-user-project-by-user-slug', [UserProjectController::class,
+                'getDetailListOfUserProjectByUserSlug'])->name('detailListOfUserProjectByUserSlug');
+
+            Route::post('/', [UserProjectController::class, 'store'])->name('store');
+
+            Route::post('/update-project', [UserProjectController::class, 'update'])
+                ->name('updateProject');
+
+            Route::delete('/', [UserProjectController::class, 'destroy'])->name('destroy');
         });
 });

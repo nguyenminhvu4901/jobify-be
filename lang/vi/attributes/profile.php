@@ -23,5 +23,11 @@ return [
     'user_education_id' => 'Mã học vấn',
     'is_studying' => 'Đang học tại đây',
     'user_skill_id' => 'Mã kĩ năng',
-    'rate_id' => 'Đánh giá'
+    'rate_id' => 'Đánh giá',
+    'client' => 'Khách hàng',
+    'member' => 'Thành viên',
+    'mission' => 'Nhiệm vụ',
+    'technology' => 'Công nghệ sử dụng',
+    'user_course_id' => 'Mã khóa học',
+    'user_project_id' => 'Mã dự án'
 ];
