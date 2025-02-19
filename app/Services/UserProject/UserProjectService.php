@@ -82,11 +82,11 @@ class UserProjectService
      * @param $attachments
      * @param $userProjectResource
      * @param $userProjectId
-     * @return LengthAwarePaginator|Collection|mixed|null
+     * @return null
      */
     public function updateResourceAttachment(
         $attachments, $userProjectResource, $userProjectId
-    ): mixed
+    ): null
     {
         $this->deleteUserProjectResourceAndAttachment(
             attachments: $attachments, userProjectResource: $userProjectResource);
@@ -94,12 +94,12 @@ class UserProjectService
         foreach ($attachments as $attachment)
         {
             if(!empty($attachment['user_project_resource_id'])){
-
-                return $this->processUpdateAttachment($attachment);
+                $this->processUpdateAttachment($attachment);
             }else{
+
                 $pathStorage = $this->saveAttachment($attachment);
 
-                return $this->storeUserProjectResource(
+                $this->storeUserProjectResource(
                     attachment: $attachment,
                     userProjectId: $userProjectId,
                     pathStorage: $pathStorage
@@ -113,9 +113,9 @@ class UserProjectService
     /**
      * @param $attachments
      * @param $userProjectResource
-     * @return mixed
+     * @return null
      */
-    private function deleteUserProjectResourceAndAttachment($attachments, $userProjectResource): mixed
+    private function deleteUserProjectResourceAndAttachment($attachments, $userProjectResource): null
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
             attachments: $attachments,
@@ -127,7 +127,7 @@ class UserProjectService
             ->getListUserProjectResourceByIds($listDelIds);
 
         if(!empty($listUserProjectResourceToDelete)){
-            return $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
+             $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserProjectResource);
                 $this->userProjectResourceRepository->destroy($eachUserProjectResource);

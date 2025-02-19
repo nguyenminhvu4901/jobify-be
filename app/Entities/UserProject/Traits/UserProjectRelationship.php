@@ -2,7 +2,7 @@
 
 namespace App\Entities\UserProject\Traits;
 
-use App\Entities\UserProjectResource\Traits\UserProjectResourceRelationship;
+use App\Entities\UserProjectResource\UserProjectResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,6 +22,6 @@ trait UserProjectRelationship
      */
     public function userProjectResources(): HasMany
     {
-        return $this->hasMany(UserProjectResourceRelationship::class);
+        return $this->hasMany(UserProjectResource::class);
     }
 }

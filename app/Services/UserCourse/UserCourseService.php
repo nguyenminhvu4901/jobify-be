@@ -81,11 +81,11 @@ class UserCourseService
      * @param $attachments
      * @param $userCourseResource
      * @param $userCourseId
-     * @return mixed
+     * @return null
      */
     public function updateResourceAttachment(
         $attachments, $userCourseResource, $userCourseId
-    ): mixed
+    ): null
     {
         $this->deleteUserCourseResourceAndAttachment(
             attachments: $attachments, userCourseResource: $userCourseResource);
@@ -93,11 +93,11 @@ class UserCourseService
         foreach ($attachments as $attachment)
         {
             if(!empty($attachment['user_course_resource_id'])){
-                return $this->processUpdateAttachment($attachment);
+                $this->processUpdateAttachment($attachment);
             }else{
                 $pathStorage = $this->saveAttachment($attachment);
 
-                return $this->storeUserCourseResource(
+                 $this->storeUserCourseResource(
                     attachment: $attachment,
                     userCourseId: $userCourseId,
                     pathStorage: $pathStorage

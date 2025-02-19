@@ -32,6 +32,7 @@ class UpdateUserProjectHandle
             ], $command->userProjectId);
 
             if(!empty($command->attachments)){
+
                 $attachments = $command->attachments;
                 $userProjectResource = $userProject->userProjectResources;
 
