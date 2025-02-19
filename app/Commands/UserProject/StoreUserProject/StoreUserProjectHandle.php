@@ -55,7 +55,7 @@ class StoreUserProjectHandle
             }
 
             return [
-                'userExperience' => UserProjectResource::make($userProject),
+                'userProject' => UserProjectResource::make($userProject),
                 'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){

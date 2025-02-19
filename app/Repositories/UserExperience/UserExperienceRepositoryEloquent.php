@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class UserExperienceRepositoryEloquent extends BaseRepository implements UserExperienceRepository
 {
-    public function model()
+    /**
+     * @return string
+     */
+    public function model(): string
     {
         return UserExperience::class;
     }
