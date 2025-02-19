@@ -2,18 +2,39 @@
 
 namespace App\Commands\UserProject\GetCompleteListOfUserProject;
 
+use App\Http\Resources\UserProject\UserProjectResource;
 use App\Repositories\UserProject\UserProjectRepository;
 
 class GetCompleteListOfUserProjectHandle
 {
+    /**
+     * @param UserProjectRepository $userProjectRepository
+     */
     public function __construct(
         protected UserProjectRepository $userProjectRepository
     )
     {
     }
 
-    public function handle()
+    /**
+     * @return array
+     */
+    public function handle(): array
     {
+        try {
+            $userProjects = $this->userProjectRepository->getWithRelationship(
+                ['userProjectResources', 'user']
+            );
 
+            return [
+                'userProjects' => UserProjectResource::collection($userProjects),
+                'message' => __('messages.profile.user_get_profile_success')
+            ];
+        }catch (\Exception $e){
+            return [
+                'message' => __('messages.profile.user_get_profile_error'),
+                'error' => $e
+            ];
+        }
     }
 }

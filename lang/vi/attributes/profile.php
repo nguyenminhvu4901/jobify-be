@@ -27,5 +27,7 @@ return [
     'client' => 'Khách hàng',
     'member' => 'Thành viên',
     'mission' => 'Nhiệm vụ',
-    'technology' => 'Công nghệ sử dụng'
+    'technology' => 'Công nghệ sử dụng',
+    'user_course_id' => 'Mã khóa học',
+    'user_project_id' => 'Mã dự án'
 ];

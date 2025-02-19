@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\Profile;
 
+use App\Commands\UserProject\DestroyUserProject\DestroyUserProjectCommand;
+use App\Commands\UserProject\DestroyUserProject\DestroyUserProjectHandle;
 use App\Commands\UserProject\GetCompleteListOfUserProject\GetCompleteListOfUserProjectCommand;
 use App\Commands\UserProject\GetCompleteListOfUserProject\GetCompleteListOfUserProjectHandle;
 use App\Commands\UserProject\GetDetailListOfUserProject\GetDetailListOfUserProjectCommand;
@@ -10,6 +12,10 @@ use App\Commands\UserProject\GetDetailListOfUserProjectByUserSlug\GetDetailListO
 use App\Commands\UserProject\GetDetailListOfUserProjectByUserSlug\GetDetailListOfUserProjectByUserSlugHandle;
 use App\Commands\UserProject\GetListProjectCurrentUser\GetListProjectCurrentUserCommand;
 use App\Commands\UserProject\GetListProjectCurrentUser\GetListProjectCurrentUserHandle;
+use App\Commands\UserProject\StoreUserProject\StoreUserProjectCommand;
+use App\Commands\UserProject\StoreUserProject\StoreUserProjectHandle;
+use App\Commands\UserProject\UpdateUserProject\UpdateUserProjectCommand;
+use App\Commands\UserProject\UpdateUserProject\UpdateUserProjectHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProject\UserProjectRequest;
 use Illuminate\Http\JsonResponse;
@@ -104,18 +110,63 @@ class UserProjectController extends Controller
         return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
-    public function store(UserProjectRequest $request)
+    /**
+     * @param UserProjectRequest $request
+     * @return JsonResponse
+     */
+    public function store(UserProjectRequest $request): JsonResponse
     {
+        $this->bus->addHandler(
+            StoreUserProjectCommand::class,
+            StoreUserProjectHandle::class
+        );
 
+        $result = $this->bus->dispatch(StoreUserProjectCommand::withForm($request));
+
+        if(!empty($result['userProject'])){
+            return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
+        }
+
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
-    public function update(UserProjectRequest $request)
+    /**
+     * @param UserProjectRequest $request
+     * @return JsonResponse
+     */
+    public function update(UserProjectRequest $request): JsonResponse
     {
+        $this->bus->addHandler(
+            UpdateUserProjectCommand::class,
+            UpdateUserProjectHandle::class
+        );
 
+        $result = $this->bus->dispatch(UpdateUserProjectCommand::withForm($request));
+
+        if(!empty($result['userProject'])){
+            return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
+        }
+
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
-    public function destroy(UserProjectRequest $request)
+    /**
+     * @param UserProjectRequest $request
+     * @return JsonResponse
+     */
+    public function destroy(UserProjectRequest $request): JsonResponse
     {
+        $this->bus->addHandler(
+            DestroyUserProjectCommand::class,
+            DestroyUserProjectHandle::class
+        );
 
+        $result = $this->bus->dispatch(DestroyUserProjectCommand::withForm($request));
+
+        if($result['userCourseDestroy']){
+            return $this->responseSuccessWithNoData(message: $result['message']);
+        }
+
+        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 }

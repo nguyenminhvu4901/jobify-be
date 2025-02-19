@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Services\UserExperience;
+namespace App\Services\UserProject;
 
 use App\Enums\DefaultContentType;
-use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
+use App\Repositories\UserProjectResource\UserProjectResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class UserExperienceService
+class UserProjectService
 {
     use ImageHandler, VideoHandler;
 
     /**
      * @param AttachmentResourceService $attachmentResourceService
-     * @param UserExperienceResourceRepository $userExperienceResourceRepository
+     * @param UserProjectResourceRepository $userProjectResourceRepository
      */
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
-        protected UserExperienceResourceRepository $userExperienceResourceRepository,
+        protected UserProjectResourceRepository $userProjectResourceRepository
     )
-    {}
+    {
+    }
 
     /**
      * @param $attachment
@@ -31,25 +32,24 @@ class UserExperienceService
     public function saveAttachment($attachment)
     {
         return $this->attachmentResourceService->saveFileAttachment(
-            attachment: $attachment, lastFolderName: 'experiences'
+            attachment: $attachment, lastFolderName: 'projects'
         );
     }
 
-
     /**
      * @param array $attachment
-     * @param string|int $userExperienceId
+     * @param string|int $userProjectId
      * @param string|null $pathStorage
      * @return mixed
      */
-    public function storeUserExperienceResource(
+    public function storeUserProjectResource(
         array $attachment,
-        string|int $userExperienceId,
+        string|int $userProjectId,
         string|null $pathStorage
     ): mixed
     {
-        return $this->userExperienceResourceRepository->store([
-            'user_experience_id' => $userExperienceId,
+        return $this->userProjectResourceRepository->store([
+            'user_project_id' => $userProjectId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
@@ -57,52 +57,51 @@ class UserExperienceService
         ]);
     }
 
-
     /**
      * @param array $attachment
-     * @param string|int $userExperienceResourceId
+     * @param string|int $userProjectResourceId
      * @param string|null $pathStorage
      * @return mixed
      */
-    private function updateUserExperienceResource(
+    private function updateUserProjectResource(
         array $attachment,
-        string|int $userExperienceResourceId,
+        string|int $userProjectResourceId,
         string|null $pathStorage
     ): mixed
     {
-        return $this->userExperienceResourceRepository->updateUserExperienceResource(
+        return $this->userProjectResourceRepository->updateUserProjectResource(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
                 'description' => $attachment['description'],
                 'content_type_id' => $attachment['content_type_id']
-            ], $userExperienceResourceId);
+            ], $userProjectResourceId);
     }
 
     /**
      * @param $attachments
-     * @param $userExperienceResource
-     * @param $userExperienceId
+     * @param $userProjectResource
+     * @param $userProjectId
      * @return LengthAwarePaginator|Collection|mixed|null
      */
     public function updateResourceAttachment(
-        $attachments, $userExperienceResource, $userExperienceId
+        $attachments, $userProjectResource, $userProjectId
     ): mixed
     {
-        $this->deleteUserExperienceResourceAndAttachment(
-            attachments: $attachments, userExperienceResource: $userExperienceResource);
+        $this->deleteUserProjectResourceAndAttachment(
+            attachments: $attachments, userProjectResource: $userProjectResource);
 
         foreach ($attachments as $attachment)
         {
-            if(!empty($attachment['user_experience_resource_id'])){
+            if(!empty($attachment['user_project_resource_id'])){
 
                 return $this->processUpdateAttachment($attachment);
             }else{
                 $pathStorage = $this->saveAttachment($attachment);
 
-                return $this->storeUserExperienceResource(
+                return $this->storeUserProjectResource(
                     attachment: $attachment,
-                    userExperienceId: $userExperienceId,
+                    userProjectId: $userProjectId,
                     pathStorage: $pathStorage
                 );
             }
@@ -113,31 +112,30 @@ class UserExperienceService
 
     /**
      * @param $attachments
-     * @param $userExperienceResource
+     * @param $userProjectResource
      * @return mixed
      */
-    private function deleteUserExperienceResourceAndAttachment($attachments, $userExperienceResource): mixed
+    private function deleteUserProjectResourceAndAttachment($attachments, $userProjectResource): mixed
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
             attachments: $attachments,
-            userModelResource: $userExperienceResource,
-            idName: 'user_experience_resource_id'
+            userModelResource: $userProjectResource,
+            idName: 'user_project_resource_id'
         );
 
-        $listUserExperienceResourceToDelete = $this->userExperienceResourceRepository
-            ->getListUserExperienceResourceByIds($listDelIds);
+        $listUserProjectResourceToDelete = $this->userProjectResourceRepository
+            ->getListUserProjectResourceByIds($listDelIds);
 
-        if(!empty($listUserExperienceResourceToDelete)){
-            return $listUserExperienceResourceToDelete->map(function ($eachUserExperienceResource) {
+        if(!empty($listUserProjectResourceToDelete)){
+            return $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
 
-                $this->attachmentResourceService->deleteFileAttachment($eachUserExperienceResource);
-                $this->userExperienceResourceRepository->destroy($eachUserExperienceResource);
+                $this->attachmentResourceService->deleteFileAttachment($eachUserProjectResource);
+                $this->userProjectResourceRepository->destroy($eachUserProjectResource);
             });
         }
 
         return null;
     }
-
 
     /**
      * @param $attachment
@@ -145,8 +143,8 @@ class UserExperienceService
      */
     public function processUpdateAttachment($attachment)
     {
-        $userExperienceResource = $this->userExperienceResourceRepository
-            ->find($attachment['user_experience_resource_id']);
+        $userProjectResource = $this->userProjectResourceRepository
+            ->find($attachment['user_project_resource_id']);
 
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
@@ -154,20 +152,20 @@ class UserExperienceService
             if(is_string($attachment['content'])){
                 return ;
             }else{
-                $this->attachmentResourceService->deleteFileAttachment($userExperienceResource);
+                $this->attachmentResourceService->deleteFileAttachment($userProjectResource);
                 $pathStorage = $this->saveAttachment($attachment);
 
-                return $this->updateUserExperienceResource(
+                return $this->updateUserProjectResource(
                     attachment: $attachment,
-                    userExperienceResourceId: $userExperienceResource->id,
+                    userProjectResourceId: $userProjectResource->id,
                     pathStorage: $pathStorage
                 );
             }
         } elseif ($attachment['content_type_id'] == DefaultContentType::URL->value) {
 
-            return $this->updateUserExperienceResource(
+            return $this->updateUserProjectResource(
                 attachment: $attachment,
-                userExperienceResourceId: $userExperienceResource->id,
+                userProjectResourceId: $userProjectResource->id,
                 pathStorage: $attachment['content']
             );
         }else {

@@ -127,7 +127,7 @@ Route::group(
             Route::delete('/', [UserCourseController::class, 'destroy'])->name('destroy');
         });
 
-        Route::group(['prefix' => 'user-project', 'as' => 'userProject'], function() {
+        Route::group(['prefix' => 'user-project', 'as' => 'userProject.'], function() {
             Route::get('/list-project-current-user', [UserProjectController::class,
                 'getListProjectCurrentUser'])->name('listProjectCurrentUser');
 

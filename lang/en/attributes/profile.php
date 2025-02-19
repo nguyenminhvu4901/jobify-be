@@ -23,6 +23,12 @@ return [
     'user_education_id' => 'Education ID',
     'is_studying' => 'Currently studying here',
     'user_skill_id' => 'Skill ID',
-    'rate_id' => 'Rating'
+    'rate_id' => 'Rating',
+    'client' => 'Client',
+    'member' => 'Member',
+    'mission' => 'Mission',
+    'technology' => 'Technology',
+    'user_course_id' => 'Course ID',
+    'user_project_id' => 'Project ID'
 ];
 

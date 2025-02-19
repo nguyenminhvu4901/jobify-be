@@ -20,7 +20,7 @@ trait UserProjectRelationship
     /**
      * @return HasMany
      */
-    public function userProjectResource(): HasMany
+    public function userProjectResources(): HasMany
     {
         return $this->hasMany(UserProjectResourceRelationship::class);
     }
