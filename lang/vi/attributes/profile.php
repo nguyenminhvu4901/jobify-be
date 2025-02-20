@@ -29,5 +29,6 @@ return [
     'mission' => 'Nhiệm vụ',
     'technology' => 'Công nghệ sử dụng',
     'user_course_id' => 'Mã khóa học',
-    'user_project_id' => 'Mã dự án'
+    'user_project_id' => 'Mã dự án',
+    'user_prize_id' => 'Mã giải thưởng'
 ];

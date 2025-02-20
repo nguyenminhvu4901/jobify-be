@@ -16,10 +16,6 @@ use App\Commands\UserPrize\StoreUserPrize\StoreUserPrizeCommand;
 use App\Commands\UserPrize\StoreUserPrize\StoreUserPrizeHandle;
 use App\Commands\UserPrize\UpdateUserPrize\UpdateUserPrizeCommand;
 use App\Commands\UserPrize\UpdateUserPrize\UpdateUserPrizeHandle;
-use App\Commands\UserProject\GetDetailListOfUserProject\GetDetailListOfUserProjectCommand;
-use App\Commands\UserProject\GetDetailListOfUserProject\GetDetailListOfUserProjectHandle;
-use App\Commands\UserProject\StoreUserProject\StoreUserProjectCommand;
-use App\Commands\UserProject\StoreUserProject\StoreUserProjectHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserPrize\UserPrizeRequest;
 use Illuminate\Http\JsonResponse;
@@ -118,7 +114,7 @@ class UserPrizeController extends Controller
      * @param UserPrizeRequest $request
      * @return JsonResponse
      */
-    public function store(UserPrizeRequest $request)
+    public function store(UserPrizeRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             StoreUserPrizeCommand::class,

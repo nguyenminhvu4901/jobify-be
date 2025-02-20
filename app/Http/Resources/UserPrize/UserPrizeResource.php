@@ -19,8 +19,9 @@ class UserPrizeResource extends JsonResource
             'id' => $this->id,
             'user' => new UserResource($this->user),
             'name' => $this->name,
-            'organize' => $this->organize,
+            'organization' => $this->organization,
             'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
             'user_prize_resource' => UserPrizeAttachmentResource::collection($this->userPrizeResources)
         ];
     }

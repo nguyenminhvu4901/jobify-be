@@ -57,7 +57,7 @@ class UserPrizeRequest extends FormRequest
     {
         return [
             'name' => ['bail', 'required', 'string', 'max:255'],
-            'organization' => ['bail', 'required', 'string', 'max:255'],
+            'organization' => ['bail', 'nullable', 'string', 'max:255'],
             'start_date' => ['bail', 'required', 'date_format:Y-m-d'],
             'end_date' => ['bail', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
 
