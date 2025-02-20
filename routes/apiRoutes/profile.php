@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Profile\UserCertificationController;
 use App\Http\Controllers\API\Profile\UserCourseController;
 use App\Http\Controllers\API\Profile\UserEducationController;
 use App\Http\Controllers\API\Profile\UserExperienceController;
+use App\Http\Controllers\API\Profile\UserPrizeController;
 use App\Http\Controllers\API\Profile\UserProjectController;
 use App\Http\Controllers\API\Profile\UserSkillController;
 use Illuminate\Support\Facades\Route;
@@ -146,5 +147,26 @@ Route::group(
                 ->name('updateProject');
 
             Route::delete('/', [UserProjectController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group(['prefix' => 'user-prize', 'as' => 'userPrize.'], function() {
+            Route::get('/list-prize-current-user', [UserPrizeController::class,
+                'getListPrizeCurrentUser'])->name('listPrizeCurrentUser');
+
+            Route::get('/complete-list-user-prize', [UserPrizeController::class,
+                'getCompleteListOfUserPrize'])->name('completeListOfUserPrize');
+
+            Route::get('/detail-list-user-prize', [UserPrizeController::class,
+                'getDetailListOfUserPrize'])->name('detailListOfUserPrize');
+
+            Route::get('/detail-list-user-prize-by-user-slug', [UserPrizeController::class,
+                'getDetailListOfUserPrizeByUserSlug'])->name('detailListOfUserPrizeByUserSlug');
+
+            Route::post('/', [UserPrizeController::class, 'store'])->name('store');
+
+            Route::post('/update-prize', [UserPrizeController::class, 'update'])
+                ->name('updatePrize');
+
+            Route::delete('/', [UserPrizeController::class, 'destroy'])->name('destroy');
         });
 });

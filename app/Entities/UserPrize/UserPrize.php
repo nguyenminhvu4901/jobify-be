@@ -12,7 +12,7 @@ class UserPrize extends Model implements Transformable
 {
     use TransformableTrait, HasFactory, UserPrizeRelationship;
 
-    protected $table = 'UserPrize';
+    protected $table = 'user_prizes';
 
     protected $fillable = [
         'user_id',

@@ -12,7 +12,7 @@ trait UserPrizeRelationship
     /**
      * @return HasMany
      */
-    public function userCourseRelationship(): HasMany
+    public function userPrizeResources(): HasMany
     {
         return $this->hasMany(UserPrizeResource::class);
     }
