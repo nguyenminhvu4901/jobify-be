@@ -30,6 +30,15 @@ return [
     'technology' => 'Technology',
     'user_course_id' => 'Course ID',
     'user_project_id' => 'Project ID',
-    'user_prize_id' => 'Prize ID'
+    'user_prize_id' => 'Prize ID',
+    'category' => 'Category',
+    'finished_date' => 'Finished date',
+    'user_product_id' => 'Product ID',
+    'attachments.*.user_product_resource_id' => 'Product Resource',
+    'attachments.*.user_course_resource_id' => 'Course Resource',
+    'attachments.*.user_prize_resource_id' => 'Prize Resource',
+    'attachments.*.user_experience_resource_id' => 'Experience Resource',
+    'attachments.*.user_certification_resource_id' => 'Certification Resource',
+    'attachments.*.user_project_resource_id' => 'Project Resource',
 ];
 

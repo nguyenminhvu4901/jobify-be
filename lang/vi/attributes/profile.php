@@ -30,5 +30,14 @@ return [
     'technology' => 'Công nghệ sử dụng',
     'user_course_id' => 'Mã khóa học',
     'user_project_id' => 'Mã dự án',
-    'user_prize_id' => 'Mã giải thưởng'
+    'user_prize_id' => 'Mã giải thưởng',
+    'category' => 'Thể loại',
+    'finished_date' => 'Thời gian hoàn thành',
+    'user_product_id' => 'Mã sản phẩm',
+    'attachments.*.user_product_resource_id' => 'Tài nguyên sản phẩm',
+    'attachments.*.user_course_resource_id' => 'Tài nguyên khóa học',
+    'attachments.*.user_prize_resource_id' => 'Tài nguyên giải thưởng',
+    'attachments.*.user_experience_resource_id' => 'Tài nguyên kinh nghiệm',
+    'attachments.*.user_certification_resource_id' => 'Tài nguyên chứng chỉ',
+    'attachments.*.user_project_resource_id' => 'Tài nguyên dự án',
 ];

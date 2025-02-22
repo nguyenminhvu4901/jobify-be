@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Commands\UserProject\DestroyUserProject;
+namespace App\Commands\UserProduct\DestroyUserProduct;
 
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-readonly class DestroyUserProjectCommand implements CommandInterface
+readonly class DestroyUserProductCommand implements CommandInterface
 {
     /**
      * @param string $userSlug
-     * @param int $userProjectId
+     * @param int $userProductId
      */
     public function __construct(
         public string $userSlug,
-        public int    $userProjectId,
+        public int    $userProductId,
     )
     {
     }
@@ -26,7 +26,7 @@ readonly class DestroyUserProjectCommand implements CommandInterface
     {
         return new self(
             userSlug: $request->get('user_slug'),
-            userProjectId: $request->get('user_project_id')
+            userProductId: $request->get('user_product_id')
         );
     }
 }

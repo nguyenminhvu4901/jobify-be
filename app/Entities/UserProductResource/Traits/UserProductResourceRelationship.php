@@ -19,7 +19,7 @@ trait UserProductResourceRelationship
     /**
      * @return BelongsTo
      */
-    public function userProduct(): BelongsTo
+    public function userProducts(): BelongsTo
     {
         return $this->belongsTo(UserProduct::class, 'user_product_id', 'id');
     }

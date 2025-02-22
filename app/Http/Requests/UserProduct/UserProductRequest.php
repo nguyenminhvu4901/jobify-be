@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\UserProject;
+namespace App\Http\Requests\UserProduct;
 
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
@@ -8,7 +8,7 @@ use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserProjectRequest extends FormRequest
+class UserProductRequest extends FormRequest
 {
     use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
     /**
@@ -31,40 +31,34 @@ class UserProjectRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userProject.detailListOfUserProject" => [
-                'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id']
+            "profile.userProduct.detailListOfUserProduct" => [
+                'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id']
             ],
-            "profile.userProject.detailListOfUserProjectByUserSlug" => [
+            "profile.userProduct.detailListOfUserProductByUserSlug" => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userProject.store" => $commonRules,
-            "profile.userProject.updateProject" => [
+            "profile.userProduct.store" => $commonRules,
+            "profile.userProduct.updateProduct" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
-                'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
-                'attachments.*.user_project_resource_id' => [
-                    'bail', 'nullable', 'integer', 'exists:user_project_resources,id'
+                'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
+                'attachments.*.user_product_resource_id' => [
+                    'bail', 'nullable', 'integer', 'exists:user_product_resources,id'
                 ]
             ],
-            "profile.userProject.destroy" => [
-                'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
+            "profile.userProduct.destroy" => [
+                'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
         };
     }
 
-    public function getCommonRules(): array
+    private function getCommonRules(): array
     {
         return [
             'name' => ['bail', 'required', 'string', 'max:255'],
-            'client' => ['bail', 'required', 'string', 'max:255'],
-            'member' => ['bail', 'required', 'integer', 'gte:0'],
-            'position' => ['bail', 'required', 'string', 'max:512'],
-            'mission' => ['bail', 'required', 'string', 'max:512'],
-            'technology' => ['bail', 'nullable', 'string', 'max:512'],
-            'is_working' => ['bail', 'required', 'boolean'],
-            'start_date' => ['bail', 'required', 'date_format:Y-m-d'],
-            'end_date' => ['bail', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
+            'category' => ['bail', 'required', 'string', 'max:255'],
+            'finished_date' => ['bail', 'required', 'date_format:Y-m-d'],
             'description' => ['bail', 'nullable', 'string'],
 
             'attachments' => ['bail', 'nullable', 'array', 'max:10'],
@@ -79,7 +73,7 @@ class UserProjectRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        $this->normalizeDateFields(['start_date', 'end_date']);
+        $this->normalizeDateFields(['finished_date']);
     }
 
     /**
@@ -87,6 +81,6 @@ class UserProjectRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userProject.store");
+        $this->processWithValidator($validator, "profile.userProduct.store");
     }
 }

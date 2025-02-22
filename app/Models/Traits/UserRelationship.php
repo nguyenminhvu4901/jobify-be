@@ -10,6 +10,7 @@ use App\Entities\UserCourse\UserCourse;
 use App\Entities\UserEducation\UserEducation;
 use App\Entities\UserExperience\UserExperience;
 use App\Entities\UserPrize\UserPrize;
+use App\Entities\UserProduct\UserProduct;
 use App\Entities\UserProfile\UserProfile;
 use App\Entities\UserProject\UserProject;
 use App\Entities\UserSkill\UserSkill;
@@ -105,5 +106,13 @@ trait UserRelationship
     public function userPrizes(): HasMany
     {
         return $this->hasMany(UserPrize::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function userProducts(): HasMany
+    {
+        return $this->hasMany(UserProduct::class);
     }
 }

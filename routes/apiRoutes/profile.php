@@ -6,6 +6,7 @@ use App\Http\Controllers\API\Profile\UserCourseController;
 use App\Http\Controllers\API\Profile\UserEducationController;
 use App\Http\Controllers\API\Profile\UserExperienceController;
 use App\Http\Controllers\API\Profile\UserPrizeController;
+use App\Http\Controllers\API\Profile\UserProductController;
 use App\Http\Controllers\API\Profile\UserProjectController;
 use App\Http\Controllers\API\Profile\UserSkillController;
 use Illuminate\Support\Facades\Route;
@@ -168,5 +169,26 @@ Route::group(
                 ->name('updatePrize');
 
             Route::delete('/', [UserPrizeController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group(['prefix' => 'user-product', 'as' => 'userProduct.'], function() {
+            Route::get('/list-product-current-user', [UserProductController::class,
+                'getListProductCurrentUser'])->name('listProductCurrentUser');
+
+            Route::get('/complete-list-user-product', [UserProductController::class,
+                'getCompleteListOfUserProduct'])->name('completeListOfUserProduct');
+
+            Route::get('/detail-list-user-product', [UserProductController::class,
+                'getDetailListOfUserProduct'])->name('detailListOfUserProduct');
+
+            Route::get('/detail-list-user-product-by-user-slug', [UserProductController::class,
+                'getDetailListOfUserProductByUserSlug'])->name('detailListOfUserProductByUserSlug');
+
+            Route::post('/', [UserProductController::class, 'store'])->name('store');
+
+            Route::post('/update-product', [UserProductController::class, 'update'])
+                ->name('updateProduct');
+
+            Route::delete('/', [UserProductController::class, 'destroy'])->name('destroy');
         });
 });

@@ -26,6 +26,10 @@ use App\Repositories\UserPrize\UserPrizeRepository;
 use App\Repositories\UserPrize\UserPrizeRepositoryEloquent;
 use App\Repositories\UserPrizeResource\UserPrizeResourceRepository;
 use App\Repositories\UserPrizeResource\UserPrizeResourceRepositoryEloquent;
+use App\Repositories\UserProduct\UserProductRepository;
+use App\Repositories\UserProduct\UserProductRepositoryEloquent;
+use App\Repositories\UserProductResource\UserProductResourceRepository;
+use App\Repositories\UserProductResource\UserProductResourceRepositoryEloquent;
 use App\Repositories\UserProfile\UserProfileRepository;
 use App\Repositories\UserProfile\UserProfileRepositoryEloquent;
 use App\Repositories\UserProject\UserProjectRepository;
@@ -54,6 +58,8 @@ class RepositoryServiceProvider extends ServiceProvider
         UserProjectRepository::class => UserProjectRepositoryEloquent::class,
         UserProjectResourceRepository::class => UserProjectResourceRepositoryEloquent::class,
         UserPrizeRepository::class => UserPrizeRepositoryEloquent::class,
-        UserPrizeResourceRepository::class => UserPrizeResourceRepositoryEloquent::class
+        UserPrizeResourceRepository::class => UserPrizeResourceRepositoryEloquent::class,
+        UserProductRepository::class => UserProductRepositoryEloquent::class,
+        UserProductResourceRepository::class => UserProductResourceRepositoryEloquent::class
     ];
 }
