@@ -11,7 +11,7 @@ readonly class StoreUserProductCommand implements CommandInterface
     public function __construct(
         public string $name,
         public string $category,
-        public string $finished_date,
+        public string $finishedDate,
         public string|null $description,
         public array|null  $attachments
     )
@@ -25,7 +25,7 @@ readonly class StoreUserProductCommand implements CommandInterface
        return new self(
            name: $request->get('name'),
            category: $request->get('category'),
-           finished_date: $request->get('finished_at'),
+           finishedDate: $request->get('finished_date'),
            description: $request->get('description'),
            attachments: $attachments
        );

@@ -2,7 +2,6 @@
 
 namespace App\Commands\UserProduct\GetDetailListOfUserProductByUserSlug;
 
-use App\Commands\UserProject\GetDetailListOfUserProjectByUserSlug\GetDetailListOfUserProjectByUserSlugCommand;
 use App\Http\Resources\UserProduct\UserProductResource;
 use App\Repositories\UserProduct\UserProductRepository;
 
@@ -17,11 +16,7 @@ class GetDetailListOfUserProductByUserSlugHandle
     {
     }
 
-    /**
-     * @param GetDetailListOfUserProjectByUserSlugCommand $command
-     * @return array
-     */
-    public function handle(GetDetailListOfUserProjectByUserSlugCommand $command): array
+    public function handle(GetDetailListOfUserProductByUserSlugCommand $command): array
     {
         try {
             $userProduct = $this->userProductRepository->getByRelationshipUserSlug(

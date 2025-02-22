@@ -2,7 +2,7 @@
 
 namespace App\Entities\UserProduct\Traits;
 
-use App\Http\Resources\UserProduct\UserProductResource;
+use App\Entities\UserProductResource\UserProductResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;

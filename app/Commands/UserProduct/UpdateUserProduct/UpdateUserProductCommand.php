@@ -13,7 +13,7 @@ readonly class UpdateUserProductCommand implements CommandInterface
         public string|int $userProductId,
         public string $name,
         public string $category,
-        public string $finished_date,
+        public string $finishedDate,
         public string|null $description,
         public array|null  $attachments
     )
@@ -29,7 +29,7 @@ readonly class UpdateUserProductCommand implements CommandInterface
             userProductId: $request->get('user_product_id'),
             name: $request->get('name'),
             category: $request->get('category'),
-            finished_date: $request->get('finished_at'),
+            finishedDate: $request->get('finished_date'),
             description: $request->get('description'),
             attachments: $attachments
         );

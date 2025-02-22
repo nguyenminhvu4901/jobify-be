@@ -29,7 +29,7 @@ class UpdateUserProductHandle
             $userProduct = $this->userProductRepository->updateUserProduct([
                 'name' => $command->name,
                 'category' => $command->category,
-                'finished_date' => $command->finished_date,
+                'finished_date' => $command->finishedDate,
                 'description' => $command->description
             ], $command->userProductId);
 
@@ -51,7 +51,7 @@ class UpdateUserProductHandle
 
             return [
                 'message' => __('messages.profile.user_update_profile_success'),
-                'userProject' => UserProductResource::make($userProduct)
+                'userProduct' => UserProductResource::make($userProduct)
             ];
         }catch (\Exception $e){
 

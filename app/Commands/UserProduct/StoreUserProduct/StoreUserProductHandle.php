@@ -3,7 +3,6 @@
 namespace App\Commands\UserProduct\StoreUserProduct;
 
 use App\Http\Resources\UserProduct\UserProductResource;
-use App\Http\Resources\UserProject\UserProjectResource;
 use App\Repositories\UserProduct\UserProductRepository;
 use App\Services\UserProduct\UserProductService;
 
@@ -25,7 +24,7 @@ class StoreUserProductHandle
                 'user_id' => $userId,
                 'name' => $command->name,
                 'category' => $command->category,
-                'finished_date' => $command->finished_date,
+                'finished_date' => $command->finishedDate,
                 'description' => $command->description
             ]);
 
@@ -48,11 +47,11 @@ class StoreUserProductHandle
             }
 
             if($userProduct){
-                $userProduct->refresh();
+                $userProduct->load(['userProductResources', 'user']);
             }
 
             return [
-                'userProject' => UserProductResource::make($userProduct),
+                'userProduct' => UserProductResource::make($userProduct),
                 'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){

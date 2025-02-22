@@ -42,8 +42,8 @@ class UserProjectRequest extends FormRequest
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
-                'attachments.*.user_course_resource_id' => [
-                    'bail', 'nullable', 'integer', 'exists:user_course_resources,id'
+                'attachments.*.user_project_resource_id' => [
+                    'bail', 'nullable', 'integer', 'exists:user_project_resources,id'
                 ]
             ],
             "profile.userProject.destroy" => [
