@@ -20,7 +20,7 @@ class StoreUserProjectHandle
         try {
             $userId = auth()->user()->id;
 
-            $userProject = $this->userProjectRepository->create([
+            $userProject = $this->userProjectRepository->store([
                 'user_id' => $userId,
                 'name' => $command->name,
                 'client' => $command->client,

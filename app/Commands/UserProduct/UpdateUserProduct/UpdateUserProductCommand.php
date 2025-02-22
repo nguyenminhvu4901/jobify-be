@@ -3,16 +3,35 @@
 namespace App\Commands\UserProduct\UpdateUserProduct;
 
 use App\Commands\CommandInterface;
+use App\Services\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserProductCommand implements CommandInterface
+readonly class UpdateUserProductCommand implements CommandInterface
 {
-    public function __construct()
+    public function __construct(
+        public string $userSlug,
+        public string|int $userProductId,
+        public string $name,
+        public string $category,
+        public string $finished_date,
+        public string|null $description,
+        public array|null  $attachments
+    )
     {
     }
 
     public static function withForm(FormRequest $request): CommandInterface
     {
-        return new self();
+        $attachments = AttachmentResourceService::handleAttachments($request, 'user_product_resource_id');
+
+        return new self(
+            userSlug: $request->get('user_slug'),
+            userProductId: $request->get('user_product_id'),
+            name: $request->get('name'),
+            category: $request->get('category'),
+            finished_date: $request->get('finished_at'),
+            description: $request->get('description'),
+            attachments: $attachments
+        );
     }
 }

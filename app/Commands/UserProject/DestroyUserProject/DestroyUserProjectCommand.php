@@ -7,6 +7,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class DestroyUserProjectCommand implements CommandInterface
 {
+    /**
+     * @param string $userSlug
+     * @param int $userProjectId
+     */
     public function __construct(
         public string $userSlug,
         public int    $userProjectId,
@@ -14,6 +18,10 @@ readonly class DestroyUserProjectCommand implements CommandInterface
     {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(

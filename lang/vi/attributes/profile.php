@@ -30,5 +30,7 @@ return [
     'technology' => 'Công nghệ sử dụng',
     'user_course_id' => 'Mã khóa học',
     'user_project_id' => 'Mã dự án',
-    'user_prize_id' => 'Mã giải thưởng'
+    'user_prize_id' => 'Mã giải thưởng',
+    'category' => 'Thể loại',
+    'finished_date' => 'Thời gian hoàn thành'
 ];

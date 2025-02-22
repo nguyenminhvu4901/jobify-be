@@ -30,6 +30,8 @@ return [
     'technology' => 'Technology',
     'user_course_id' => 'Course ID',
     'user_project_id' => 'Project ID',
-    'user_prize_id' => 'Prize ID'
+    'user_prize_id' => 'Prize ID',
+    'category' => 'Category',
+    'finished_date' => 'Finished date'
 ];
 
