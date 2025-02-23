@@ -13,6 +13,15 @@ class UserActivityResourceRepositoryEloquent extends BaseRepository implements U
         return UserActivityResource::class;
     }
 
+    /**
+     * @param array $userActivityResourceId
+     * @return mixed
+     */
+    public function getListUserActivityResourceByIds(array $userActivityResourceId): mixed
+    {
+        return $this->model->whereIn('id', $userActivityResourceId)->get();
+    }
+
     public function store(array $attributes)
     {
         // TODO: Implement store() method.
