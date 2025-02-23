@@ -3,6 +3,7 @@
 namespace App\Commands\UserEducation\DestroyUserEducation;
 
 use App\Repositories\UserEducation\UserEducationRepository;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserEducationHandle
@@ -34,11 +35,15 @@ class DestroyUserEducationHandle
                 ];
             }
 
+            DB::beginTransaction();
+
             $userEducationDelete = $this->userEducationRepository->destroy($userEducation);
+
+            DB::commit();
 
             if ($userEducationDelete) {
                 return [
-                    'userEducation' => $userEducation,
+                    'userEducationDelete' => true,
                     'message' => __('messages.profile.user_destroy_profile_success')
                 ];
             }
@@ -48,6 +53,8 @@ class DestroyUserEducationHandle
                 'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
         }catch (\Exception $e){
+            DB::rollBack();
+
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $e,

@@ -25,7 +25,7 @@ class GetDetailListOfUserProductHandle
         try {
             $userProduct = $this->userProductRepository->findWithRelationships(
                 $command->userProductId,
-                ['user', 'userProductResources']
+                ['user', 'userProductResources.contentType']
             );
 
             return [

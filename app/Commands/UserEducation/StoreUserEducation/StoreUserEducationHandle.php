@@ -36,7 +36,7 @@ class StoreUserEducationHandle
             ]);
 
             if($userEducation){
-                $userEducation->refresh();
+                $userEducation->load('user');
             }
 
             return [

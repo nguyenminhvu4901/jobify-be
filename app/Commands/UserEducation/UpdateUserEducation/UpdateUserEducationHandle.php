@@ -33,7 +33,7 @@ class UpdateUserEducationHandle
             ], $command->userEducationId);
 
             if($userEducation){
-                $userEducation->refresh();
+                $userEducation->load('user');
             }
 
             return [

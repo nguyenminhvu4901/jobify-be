@@ -139,7 +139,7 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserSkillCommand::withForm($request));
 
-        if(!empty($result['userSkill'])){
+        if(!empty($result['userSkillDelete'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

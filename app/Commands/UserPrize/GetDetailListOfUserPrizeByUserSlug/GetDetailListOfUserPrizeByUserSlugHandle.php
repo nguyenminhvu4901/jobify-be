@@ -25,7 +25,7 @@ class GetDetailListOfUserPrizeByUserSlugHandle
         try {
             $userPrize = $this->userPrizeRepository->getByRelationshipUserSlug(
                 $command->userSlug,
-                ['userPrizeResources', 'user']
+                ['userPrizeResources.contentType', 'user']
             );
 
             return [

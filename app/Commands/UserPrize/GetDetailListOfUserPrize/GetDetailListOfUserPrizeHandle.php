@@ -25,7 +25,7 @@ class GetDetailListOfUserPrizeHandle
         try {
             $userPrize = $this->userPrizeRepository->findWithRelationships(
                 $command->userPrizeId,
-                ['user', 'userPrizeResources']
+                ['user', 'userPrizeResources.contentType']
             );
 
             return [

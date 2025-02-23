@@ -5,7 +5,6 @@ namespace App\Commands\UserCertification\StoreUserCertification;
 use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Services\UserCertification\UserCertificationService;
-use Prettus\Validator\Exceptions\ValidatorException;
 
 class StoreUserCertificationHandle
 {
@@ -37,29 +36,37 @@ class StoreUserCertificationHandle
                 'end_date' => $command->endDate
             ]);
 
-            if(!empty($command->attachments))
-            {
-                $attachments = $command->attachments;
-
-                foreach ($attachments as $attachment)
+            if($userCertification){
+                if(!empty($command->attachments))
                 {
-                    $pathStorage = $this->userCertificationService->saveAttachment($attachment);
+                    $attachments = $command->attachments;
 
-                    if(!empty($pathStorage)){
-                        $this->userCertificationService->storeUserCertificationResource(
-                            $attachment, $userCertification->id, $pathStorage
-                        );
+                    foreach ($attachments as $attachment)
+                    {
+                        $pathStorage = $this->userCertificationService->saveAttachment($attachment);
+
+                        if(!empty($pathStorage)){
+                            $this->userCertificationService->storeUserCertificationResource(
+                                attachment: $attachment,
+                                userCertificationId: $userCertification->id,
+                                pathStorage: $pathStorage
+                            );
+                        }
                     }
                 }
-            }
 
-            if($userCertification){
-                $userCertification->refresh();
+                $userCertification->load([
+                    'user', 'userCertificationResources.contentType'
+                ]);
+
+                return [
+                    'message' => __('messages.profile.user_update_profile_success'),
+                    'userCertification' => UserCertificationResource::make($userCertification)
+                ];
             }
 
             return [
-                'message' => __('messages.profile.user_update_profile_success'),
-                'userCertification' => UserCertificationResource::make($userCertification)
+                'message' => __('messages.profile.user_update_profile_error'),
             ];
         }catch (\Exception $e){
 

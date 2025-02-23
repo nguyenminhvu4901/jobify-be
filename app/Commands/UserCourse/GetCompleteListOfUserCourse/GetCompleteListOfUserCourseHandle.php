@@ -24,7 +24,7 @@ class GetCompleteListOfUserCourseHandle
     {
         try {
             $userCourses = $this->userCourseRepository->getWithRelationship(
-                ['userCourseResources', 'user']
+                ['userCourseResources.contentType', 'user']
             );
 
             return [

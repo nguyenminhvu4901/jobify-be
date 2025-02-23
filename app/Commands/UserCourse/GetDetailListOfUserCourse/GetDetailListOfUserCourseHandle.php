@@ -25,7 +25,7 @@ class GetDetailListOfUserCourseHandle
         try {
             $userCourse = $this->userCourseRepository->findWithRelationships(
                 $command->userCourseId,
-                ['user', 'userCourseResources']
+                ['user', 'userCourseResources.contentType']
             );
 
             return [

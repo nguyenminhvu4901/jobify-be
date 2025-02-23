@@ -26,7 +26,7 @@ class GetListCertificationCurrentUserHandle
 
             $userCertification =  $this->userRepository->findWithRelationships(
                 $user->id,
-                'userCertifications',
+                'userCertifications.userCertificationResources.contentType',
                 [
                     'userCertifications' => function ($query) {
                         return $query->orderByDesc('id');

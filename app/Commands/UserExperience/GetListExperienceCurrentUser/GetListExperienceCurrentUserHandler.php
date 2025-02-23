@@ -25,7 +25,7 @@ class GetListExperienceCurrentUserHandler
 
             $userExperience = $this->userRepository->findWithRelationships(
                 $user->id,
-                'userExperiences.userExperienceResource',
+                'userExperiences.userExperienceResource.contentType',
                 [
                     'userExperiences' => function ($query) {
                         return $query->orderByDesc('id');

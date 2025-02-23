@@ -23,7 +23,7 @@ class GetCompleteListOfUserExperienceHandler
     {
         try {
             $userExperiences = $this->userExperienceRepository->getWithRelationship(
-                ['userExperienceResource', 'user']
+                ['userExperienceResource.contentType', 'user']
             );
 
             return [

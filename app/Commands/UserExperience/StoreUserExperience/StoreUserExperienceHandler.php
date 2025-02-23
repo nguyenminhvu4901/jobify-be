@@ -37,29 +37,37 @@ class StoreUserExperienceHandler
                 'end_date' => $command->endDate
             ]);
 
-            if(!empty($command->attachments))
-            {
-                $attachments = $command->attachments;
-
-                foreach ($attachments as $attachment)
+            if($userExperience){
+                if(!empty($command->attachments))
                 {
-                    $pathStorage = $this->userExperienceService->saveAttachment($attachment);
+                    $attachments = $command->attachments;
 
-                    if(!empty($pathStorage)){
-                        $this->userExperienceService->storeUserExperienceResource(
-                            $attachment, $userExperience->id, $pathStorage
-                        );
+                    foreach ($attachments as $attachment)
+                    {
+                        $pathStorage = $this->userExperienceService->saveAttachment($attachment);
+
+                        if(!empty($pathStorage)){
+                            $this->userExperienceService->storeUserExperienceResource(
+                                attachment: $attachment,
+                                userExperienceId: $userExperience->id,
+                                pathStorage: $pathStorage
+                            );
+                        }
                     }
                 }
-            }
 
-            if($userExperience){
-                $userExperience->refresh();
+                $userExperience->load([
+                    'user', 'userExperienceResource.contentType'
+                ]);
+
+                return [
+                    'userExperience' => UserExperienceResource::make($userExperience),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
             }
 
             return [
-                'userExperience' => UserExperienceResource::make($userExperience),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error')
             ];
         }catch (\Exception $e){
 

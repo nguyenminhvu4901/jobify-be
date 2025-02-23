@@ -25,7 +25,7 @@ class GetDetailListOfUserCertificationHandle
         try {
             $userCertification = $this->userCertificationRepository->findWithRelationships(
                 $command->userCertificationId,
-                ['user', 'userCertificationResources']
+                ['user', 'userCertificationResources.contentType']
             );
 
             return [

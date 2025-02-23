@@ -4,7 +4,6 @@ namespace App\Commands\UserCertification\UpdateUserCertification;
 
 use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
-use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
 use App\Services\UserCertification\UserCertificationService;
 
 class UpdateUserCertificationHandle
@@ -35,22 +34,28 @@ class UpdateUserCertificationHandle
                 'end_date' => $command->endDate
             ], $command->userCertificationId);
 
-            if(!empty($command->attachments)){
-                $attachments = $command->attachments;
-                $userCertificationResource = $userCertification->userCertificationResources;
-
-                $this->userCertificationService->updateResourceAttachment(
-                    $attachments, $userCertificationResource, $command->userCertificationId
-                );
-            }
-
             if($userCertification){
-                $userCertification->refresh();
+                if(!empty($command->attachments)){
+
+                    $this->userCertificationService->updateResourceAttachment(
+                        attachments: $command->attachments,
+                        userCertificationResource: $userCertification?->userCertificationResources,
+                        userCertificationId: $command->userCertificationId
+                    );
+                }
+
+                $userCertification->load([
+                    'user', 'userCertificationResources.contentType'
+                ]);
+
+                return [
+                    'userCertification' => UserCertificationResource::make($userCertification),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
             }
 
             return [
-                'userCertification' => UserCertificationResource::make($userCertification),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error')
             ];
         }catch (\Exception $e){
 

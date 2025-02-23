@@ -23,7 +23,7 @@ class GetCompleteListOfUserProductHandle
     {
         try {
             $userProducts = $this->userProductRepository->getWithRelationship(
-                ['userProductResources', 'user']
+                ['userProductResources.contentType', 'user']
             );
 
             return [

@@ -36,33 +36,36 @@ class StoreUserPrizeHandle
                 'end_date' => $command->endDate
             ]);
 
-            if(!empty($command->attachments))
-            {
-                $attachments = $command->attachments;
-
-                foreach ($attachments as $attachment)
+            if($userPrize){
+                if(!empty($command->attachments))
                 {
-                    $pathStorage = $this->userPrizeService->saveAttachment($attachment);
+                    $attachments = $command->attachments;
 
-                    if(!empty($pathStorage)){
+                    foreach ($attachments as $attachment)
+                    {
+                        $pathStorage = $this->userPrizeService->saveAttachment($attachment);
 
-                         $this->userPrizeService->storeUserPrizeResource(
-                            attachment: $attachment,
-                            userPrizeId: $userPrize->id,
-                            pathStorage: $pathStorage
-                        );
+                        if(!empty($pathStorage)){
+
+                            $this->userPrizeService->storeUserPrizeResource(
+                                attachment: $attachment,
+                                userPrizeId: $userPrize->id,
+                                pathStorage: $pathStorage
+                            );
+                        }
                     }
                 }
-            }
 
+                $userPrize->load(['userPrizeResources.contentType', 'user']);
 
-            if($userPrize){
-                $userPrize->refresh();
+                return [
+                    'userPrize' => UserPrizeResource::make($userPrize),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
             }
 
             return [
-                'userPrize' => UserPrizeResource::make($userPrize),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error'),
             ];
         }catch (\Exception $e){
 

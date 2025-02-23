@@ -191,4 +191,25 @@ Route::group(
 
             Route::delete('/', [UserProductController::class, 'destroy'])->name('destroy');
         });
+
+    Route::group(['prefix' => 'user-activity', 'as' => 'userActivity.'], function() {
+        Route::get('/list-activity-current-user', [UserProductController::class,
+            'getListActivityCurrentUser'])->name('listActivityCurrentUser');
+
+        Route::get('/complete-list-user-activity', [UserProductController::class,
+            'getCompleteListOfUserActivity'])->name('completeListOfUserActivity');
+
+        Route::get('/detail-list-user-activity', [UserProductController::class,
+            'getDetailListOfUserActivity'])->name('detailListOfUserActivity');
+
+        Route::get('/detail-list-user-activity-by-user-slug', [UserProductController::class,
+            'getDetailListOfUserActivityByUserSlug'])->name('detailListOfUserActivityByUserSlug');
+
+        Route::post('/', [UserProductController::class, 'store'])->name('store');
+
+        Route::post('/update-activity', [UserProductController::class, 'update'])
+            ->name('updateActivity');
+
+        Route::delete('/', [UserProductController::class, 'destroy'])->name('destroy');
+    });
 });

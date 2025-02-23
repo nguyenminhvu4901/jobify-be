@@ -33,25 +33,26 @@ class UpdateUserPrizeHandle
                 'end_date' => $command->endDate
             ], $command->userPrizeId);
 
-            if(!empty($command->attachments)){
+            if($userPrize){
+                if(!empty($command->attachments)){
 
-                $attachments = $command->attachments;
-                $userPrizeResource = $userPrize->userPrizeResources;
+                    $this->userPrizeService->updateResourceAttachment(
+                        attachments: $command->attachments,
+                        userPrizeResource: $userPrize->userPrizeResources,
+                        userPrizeId: $command->userPrizeId
+                    );
+                }
 
-                $this->userPrizeService->updateResourceAttachment(
-                    attachments: $attachments,
-                    userPrizeResource: $userPrizeResource,
-                    userPrizeId: $command->userPrizeId
-                );
-            }
+                $userPrize->load(['userPrizeResources.contentType', 'user']);
 
-            if ($userPrize) {
-                $userPrize->refresh();
+                return [
+                    'message' => __('messages.profile.user_update_profile_success'),
+                    'userPrize' => UserPrizeResource::make($userPrize)
+                ];
             }
 
             return [
-                'message' => __('messages.profile.user_update_profile_success'),
-                'userPrize' => UserPrizeResource::make($userPrize)
+                'message' => __('messages.profile.user_update_profile_error'),
             ];
         }catch (\Exception $e){
 

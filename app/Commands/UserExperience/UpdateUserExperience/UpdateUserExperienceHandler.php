@@ -4,7 +4,6 @@ namespace App\Commands\UserExperience\UpdateUserExperience;
 
 use App\Http\Resources\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
-use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
 use App\Services\UserExperience\UserExperienceService;
 
 class UpdateUserExperienceHandler
@@ -35,23 +34,31 @@ class UpdateUserExperienceHandler
                 'end_date' => $command->endDate
             ], $command->userExperienceId);
 
-            if(!empty($command->attachments))
-            {
-                $attachments = $command->attachments;
-                $userExperienceResource = $userExperience->userExperienceResource;
-
-                $this->userExperienceService->updateResourceAttachment(
-                    $attachments, $userExperienceResource, $command->userExperienceId
-                );
-            }
-
             if($userExperience){
-                $userExperience->refresh();
+                if(!empty($command->attachments))
+                {
+                    $attachments = $command->attachments;
+                    $userExperienceResource = $userExperience->userExperienceResource;
+
+                    $this->userExperienceService->updateResourceAttachment(
+                        attachments: $attachments,
+                        userExperienceResource: $userExperienceResource,
+                        userExperienceId: $command->userExperienceId
+                    );
+                }
+
+                $userExperience->load([
+                    'user', 'userExperienceResource.contentType'
+                ]);
+
+                return [
+                    'userExperience' => UserExperienceResource::make($userExperience),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
             }
 
             return [
-                'userExperience' => UserExperienceResource::make($userExperience),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error')
             ];
         }catch (\Exception $e){
 

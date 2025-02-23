@@ -23,7 +23,7 @@ class GetCompleteListOfUserPrizeHandle
     {
         try {
             $userPrizes = $this->userPrizeRepository->getWithRelationship(
-                ['userPrizeResources', 'user']
+                ['userPrizeResources.contentType', 'user']
             );
 
             return [

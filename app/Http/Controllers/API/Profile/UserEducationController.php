@@ -594,7 +594,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserEducationCommand::withForm($request));
 
-        if(!empty($result['userEducation'])){
+        if(!empty($result['userEducationDelete'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

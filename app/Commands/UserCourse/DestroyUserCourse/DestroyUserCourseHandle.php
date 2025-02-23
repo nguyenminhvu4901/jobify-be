@@ -5,6 +5,8 @@ namespace App\Commands\UserCourse\DestroyUserCourse;
 use App\Repositories\UserCourse\UserCourseRepository;
 use App\Repositories\UserCourseResource\UserCourseResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserCourseHandle
 {
@@ -29,14 +31,19 @@ class DestroyUserCourseHandle
     {
         try {
             $userCourse = $this->userCourseRepository->findByRelationshipUserSlugAndColumnDetailId(
-                $command->userSlug, $command->userCourseId, 'userCourseResources'
+                userSlug: $command->userSlug,
+                idColumn: $command->userCourseId,
+                relationship: 'userCourseResources'
             );
 
             if (!$userCourse) {
                 return [
-                    'message' => __('messages.profile.user_destroy_profile_error')
+                    'message' => __('messages.response.resource_not_found'),
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
                 ];
             }
+
+            DB::beginTransaction();
 
             $userCourse->userCourseResources?->each(function ($eachUserExperienceResource) {
                 $this->attachmentResourceService->deleteFileAttachment($eachUserExperienceResource);
@@ -46,17 +53,22 @@ class DestroyUserCourseHandle
             $userCourseDestroy = $this->userCourseRepository->destroy($userCourse);
 
             if($userCourseDestroy){
+                DB::commit();
+
                 return [
                     'userCourseDestroy' => true,
                     'message' => __('messages.profile.user_destroy_profile_success')
                 ];
             }
 
+            DB::rollBack();
+
             return [
                 'message' => __('messages.profile.user_destroy_profile_error')
             ];
 
         }catch (\Exception $e){
+            DB::rollBack();
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
