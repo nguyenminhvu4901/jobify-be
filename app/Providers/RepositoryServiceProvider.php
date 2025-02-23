@@ -8,6 +8,10 @@ use App\Repositories\CompanyAddress\CompanyAddressRepository;
 use App\Repositories\CompanyAddress\CompanyAddressRepositoryEloquent;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryEloquent;
+use App\Repositories\UserActivity\UserActivityRepository;
+use App\Repositories\UserActivity\UserActivityRepositoryEloquent;
+use App\Repositories\UserActivityResource\UserActivityResourceRepository;
+use App\Repositories\UserActivityResource\UserActivityResourceRepositoryEloquent;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Repositories\UserCertification\UserCertificationRepositoryEloquent;
 use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
@@ -60,6 +64,8 @@ class RepositoryServiceProvider extends ServiceProvider
         UserPrizeRepository::class => UserPrizeRepositoryEloquent::class,
         UserPrizeResourceRepository::class => UserPrizeResourceRepositoryEloquent::class,
         UserProductRepository::class => UserProductRepositoryEloquent::class,
-        UserProductResourceRepository::class => UserProductResourceRepositoryEloquent::class
+        UserProductResourceRepository::class => UserProductResourceRepositoryEloquent::class,
+        UserActivityRepository::class => UserActivityRepositoryEloquent::class,
+        UserActivityResourceRepository::class => UserActivityResourceRepositoryEloquent::class
     ];
 }
