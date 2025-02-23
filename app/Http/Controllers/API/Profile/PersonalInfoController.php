@@ -86,7 +86,11 @@ class PersonalInfoController extends Controller
            return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -191,8 +195,11 @@ class PersonalInfoController extends Controller
             return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
-
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -262,6 +269,10 @@ class PersonalInfoController extends Controller
             return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 }

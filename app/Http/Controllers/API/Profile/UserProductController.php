@@ -48,7 +48,11 @@ class UserProductController extends Controller
             return $this->responseSuccess(data: $result['userProducts'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -67,7 +71,11 @@ class UserProductController extends Controller
             return $this->responseSuccess(data: $result['userProducts'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -87,7 +95,11 @@ class UserProductController extends Controller
             return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -107,7 +119,11 @@ class UserProductController extends Controller
             return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -127,7 +143,11 @@ class UserProductController extends Controller
             return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -147,7 +167,11 @@ class UserProductController extends Controller
             return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -167,6 +191,10 @@ class UserProductController extends Controller
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 }

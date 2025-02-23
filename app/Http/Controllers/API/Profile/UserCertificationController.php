@@ -97,7 +97,11 @@ class UserCertificationController extends Controller
                 message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -237,7 +241,11 @@ class UserCertificationController extends Controller
             return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -278,7 +286,11 @@ class UserCertificationController extends Controller
             return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -298,7 +310,11 @@ class UserCertificationController extends Controller
             return $this->responseSuccess(data: $result['userCertifications'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -318,7 +334,11 @@ class UserCertificationController extends Controller
             return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**

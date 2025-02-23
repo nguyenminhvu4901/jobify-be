@@ -48,7 +48,11 @@ class UserProjectController extends Controller
             return $this->responseSuccess(data: $result['userProjects'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -67,7 +71,11 @@ class UserProjectController extends Controller
             return $this->responseSuccess(data: $result['userProjects'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -87,7 +95,11 @@ class UserProjectController extends Controller
             return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -107,7 +119,11 @@ class UserProjectController extends Controller
             return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -127,7 +143,11 @@ class UserProjectController extends Controller
             return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -147,7 +167,11 @@ class UserProjectController extends Controller
             return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -167,6 +191,10 @@ class UserProjectController extends Controller
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 }

@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserProduct\DestroyUserProduct\DestroyUserProductCommand;
-use App\Commands\UserProduct\DestroyUserProduct\DestroyUserProductHandle;
-use App\Commands\UserProduct\GetCompleteListOfUserProduct\GetCompleteListOfUserProductCommand;
-use App\Commands\UserProduct\GetCompleteListOfUserProduct\GetCompleteListOfUserProductHandle;
-use App\Commands\UserProduct\GetDetailListOfUserProduct\GetDetailListOfUserProductCommand;
-use App\Commands\UserProduct\GetDetailListOfUserProduct\GetDetailListOfUserProductHandle;
-use App\Commands\UserProduct\GetDetailListOfUserProductByUserSlug\GetDetailListOfUserProductByUserSlugCommand;
-use App\Commands\UserProduct\GetDetailListOfUserProductByUserSlug\GetDetailListOfUserProductByUserSlugHandle;
-use App\Commands\UserProduct\GetListProductCurrentUser\GetListProductCurrentUserCommand;
-use App\Commands\UserProduct\GetListProductCurrentUser\GetListProductCurrentUserHandle;
-use App\Commands\UserProduct\StoreUserProduct\StoreUserProductCommand;
-use App\Commands\UserProduct\StoreUserProduct\StoreUserProductHandle;
-use App\Commands\UserProduct\UpdateUserProduct\UpdateUserProductCommand;
-use App\Commands\UserProduct\UpdateUserProduct\UpdateUserProductHandle;
+use App\Commands\UserActivity\DestroyUserActivity\DestroyUserActivityCommand;
+use App\Commands\UserActivity\DestroyUserActivity\DestroyUserActivityHandle;
+use App\Commands\UserActivity\GetCompleteListOfUserActivity\GetCompleteListOfUserActivityCommand;
+use App\Commands\UserActivity\GetCompleteListOfUserActivity\GetCompleteListOfUserActivityHandle;
+use App\Commands\UserActivity\GetDetailListOfUserActivity\GetDetailListOfUserActivityCommand;
+use App\Commands\UserActivity\GetDetailListOfUserActivity\GetDetailListOfUserActivityHandle;
+use App\Commands\UserActivity\GetDetailListOfUserActivityByUserSlug\GetDetailListOfUserActivityByUserSlugCommand;
+use App\Commands\UserActivity\GetDetailListOfUserActivityByUserSlug\GetDetailListOfUserActivityByUserSlugHandle;
+use App\Commands\UserActivity\GetListActivityCurrentUser\GetListActivityCurrentUserCommand;
+use App\Commands\UserActivity\GetListActivityCurrentUser\GetListActivityCurrentUserHandle;
+use App\Commands\UserActivity\StoreUserActivity\StoreUserActivityCommand;
+use App\Commands\UserActivity\StoreUserActivity\StoreUserActivityHandle;
+use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityCommand;
+use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityHandle;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserActivity\UserActivityRequest;
 use App\Http\Requests\UserProduct\UserProductRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
@@ -32,99 +33,119 @@ class UserActivityController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getListProductCurrentUser(): JsonResponse
+    public function getListActivityCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(
-            GetListProductCurrentUserCommand::class,
-            GetListProductCurrentUserHandle::class
+            GetListActivityCurrentUserCommand::class,
+            GetListActivityCurrentUserHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetListProductCurrentUserCommand());
+        $result = $this->bus->dispatch(new GetListActivityCurrentUserCommand());
 
-        if(!empty($result['userProducts'])){
-            return $this->responseSuccess(data: $result['userProducts'], message: $result['message']);
+        if(!empty($result['userActivities'])){
+            return $this->responseSuccess(data: $result['userActivities'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
      * @return JsonResponse
      */
-    public function getCompleteListOfUserProduct(): JsonResponse
+    public function getCompleteListOfUserActivity(): JsonResponse
     {
         $this->bus->addHandler(
-            GetCompleteListOfUserProductCommand::class,
-            GetCompleteListOfUserProductHandle::class
+            GetCompleteListOfUserActivityCommand::class,
+            GetCompleteListOfUserActivityHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserProductCommand());
+        $result = $this->bus->dispatch(new GetCompleteListOfUserActivityCommand());
 
-        if(!empty($result['userProducts'])){
-            return $this->responseSuccess(data: $result['userProducts'], message: $result['message']);
+        if(!empty($result['userActivities'])){
+            return $this->responseSuccess(data: $result['userActivities'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
-     * @param UserProductRequest $request
+     * @param UserActivityRequest $request
      * @return JsonResponse
      */
-    public function getDetailListOfUserProduct(UserProductRequest $request): JsonResponse
+    public function getDetailListOfUserActivity(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            GetDetailListOfUserProductCommand::class,
-            GetDetailListOfUserProductHandle::class
+            GetDetailListOfUserActivityCommand::class,
+            GetDetailListOfUserActivityHandle::class
         );
 
-        $result = $this->bus->dispatch(GetDetailListOfUserProductCommand::withForm($request));
+        $result = $this->bus->dispatch(GetDetailListOfUserActivityCommand::withForm($request));
 
-        if(!empty($result['userProduct'])){
-            return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
+        if(!empty($result['userActivity'])){
+            return $this->responseSuccess(data: $result['userActivity'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
-     * @param UserProductRequest $request
+     * @param UserActivityRequest $request
      * @return JsonResponse
      */
-    public function getDetailListOfUserProductByUserSlug(UserProductRequest $request): JsonResponse
+    public function getDetailListOfUserActivityByUserSlug(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            GetDetailListOfUserProductByUserSlugCommand::class,
-            GetDetailListOfUserProductByUserSlugHandle::class
+            GetDetailListOfUserActivityByUserSlugCommand::class,
+            GetDetailListOfUserActivityByUserSlugHandle::class
         );
 
-        $result = $this->bus->dispatch(GetDetailListOfUserProductByUserSlugCommand::withForm($request));
+        $result = $this->bus->dispatch(GetDetailListOfUserActivityByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userProduct'])){
-            return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
+        if(!empty($result['userActivity'])){
+            return $this->responseSuccess(data: $result['userActivity'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
-     * @param UserProductRequest $request
+     * @param UserActivityRequest $request
      * @return JsonResponse
      */
-    public function store(UserProductRequest $request): JsonResponse
+    public function store(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            StoreUserProductCommand::class,
-            StoreUserProductHandle::class
+            StoreUserActivityCommand::class,
+            StoreUserActivityHandle::class
         );
 
-        $result = $this->bus->dispatch(StoreUserProductCommand::withForm($request));
+        $result = $this->bus->dispatch(StoreUserActivityCommand::withForm($request));
 
-        if(!empty($result['userProduct'])){
-            return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
+        if(!empty($result['userActivity'])){
+            return $this->responseSuccess(data: $result['userActivity'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -134,17 +155,21 @@ class UserActivityController extends Controller
     public function update(UserProductRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            UpdateUserProductCommand::class,
-            UpdateUserProductHandle::class
+            UpdateUserActivityCommand::class,
+            UpdateUserActivityHandle::class
         );
 
-        $result = $this->bus->dispatch(UpdateUserProductCommand::withForm($request));
+        $result = $this->bus->dispatch(UpdateUserActivityCommand::withForm($request));
 
-        if(!empty($result['userProduct'])){
-            return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
+        if(!empty($result['userActivity'])){
+            return $this->responseSuccess(data: $result['userActivity'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -154,16 +179,20 @@ class UserActivityController extends Controller
     public function destroy(UserProductRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            DestroyUserProductCommand::class,
-            DestroyUserProductHandle::class
+            DestroyUserActivityCommand::class,
+            DestroyUserActivityHandle::class
         );
 
-        $result = $this->bus->dispatch(DestroyUserProductCommand::withForm($request));
+        $result = $this->bus->dispatch(DestroyUserActivityCommand::withForm($request));
 
-        if($result['userProductDestroy']){
+        if($result['userActivityDestroy']){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 }
