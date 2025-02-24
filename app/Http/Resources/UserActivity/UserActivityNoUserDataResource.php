@@ -14,6 +14,15 @@ class UserActivityNoUserDataResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'name' => $this->name,
+            'position' => $this->position,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'description' => $this->description,
+            'user_activity_resource' => UserActivityAttachmentResource::collection($this->userActivityResources)
+        ];
     }
 }

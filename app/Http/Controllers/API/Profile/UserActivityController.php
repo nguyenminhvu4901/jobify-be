@@ -49,7 +49,7 @@ class UserActivityController extends Controller
         return $this->responseError(
             message: $result['message'],
             error: $result['error'] ?? null,
-            statusCode: $result['status_code'] ?? null
+            statusCode: $result['status_code'] ?? null,
         );
     }
 
@@ -149,10 +149,10 @@ class UserActivityController extends Controller
     }
 
     /**
-     * @param UserProductRequest $request
+     * @param UserActivityRequest $request
      * @return JsonResponse
      */
-    public function update(UserProductRequest $request): JsonResponse
+    public function update(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             UpdateUserActivityCommand::class,
@@ -173,10 +173,10 @@ class UserActivityController extends Controller
     }
 
     /**
-     * @param UserProductRequest $request
+     * @param UserActivityRequest $request
      * @return JsonResponse
      */
-    public function destroy(UserProductRequest $request): JsonResponse
+    public function destroy(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             DestroyUserActivityCommand::class,

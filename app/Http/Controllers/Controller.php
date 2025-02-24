@@ -54,13 +54,13 @@ abstract class Controller extends BaseController
     /**
      * @param string $message
      * @param mixed $error
-     * @param string|int $statusCode
+     * @param mixed $statusCode
      * @return JsonResponse
      */
     public function responseError(
         string $message = "",
         mixed $error = "",
-        string|int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
+        mixed $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
     ): JsonResponse
     {
         if (!empty($error)) {

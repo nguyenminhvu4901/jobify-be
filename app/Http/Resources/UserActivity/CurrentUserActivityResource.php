@@ -2,11 +2,14 @@
 
 namespace App\Http\Resources\UserActivity;
 
+use App\Http\Resources\Role\RoleResource;
+use App\Traits\Resources\UserResourceTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CurrentUserActivityResource extends JsonResource
 {
+    use UserResourceTrait;
     /**
      * Transform the resource into an array.
      *
@@ -14,6 +17,10 @@ class CurrentUserActivityResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            ...$this->userData(),
+            'roles' => RoleResource::collection($this->roles),
+            'activities' => UserActivityNoUserDataResource::collection($this->userActivities)
+        ];
     }
 }

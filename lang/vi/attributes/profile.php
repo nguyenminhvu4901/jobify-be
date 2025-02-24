@@ -34,6 +34,7 @@ return [
     'category' => 'Thể loại',
     'finished_date' => 'Thời gian hoàn thành',
     'user_product_id' => 'Mã sản phẩm',
+    'user_activity_id' => 'Mã hoạt động',
     'attachments.*.user_product_resource_id' => 'Tài nguyên sản phẩm',
     'attachments.*.user_course_resource_id' => 'Tài nguyên khóa học',
     'attachments.*.user_prize_resource_id' => 'Tài nguyên giải thưởng',

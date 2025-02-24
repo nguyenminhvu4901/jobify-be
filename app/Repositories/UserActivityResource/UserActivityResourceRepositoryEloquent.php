@@ -4,10 +4,15 @@ namespace App\Repositories\UserActivityResource;
 
 use App\Entities\UserActivityResource\UserActivityResource;
 use App\Repositories\BaseRepository;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class UserActivityResourceRepositoryEloquent extends BaseRepository implements UserActivityResourceRepository
 {
 
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return UserActivityResource::class;
@@ -22,18 +27,72 @@ class UserActivityResourceRepositoryEloquent extends BaseRepository implements U
         return $this->model->whereIn('id', $userActivityResourceId)->get();
     }
 
-    public function store(array $attributes)
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function store(array $attributes): mixed
     {
-        // TODO: Implement store() method.
+        DB::beginTransaction();
+
+        try {
+            $userActivityResource = $this->model->create($attributes);
+
+            DB::commit();
+
+            return $userActivityResource;
+        }catch (Exception)
+        {
+            DB::rollBack();
+
+            return null;
+        }
     }
 
-    public function updateUserActivityResource(array $attributes, int|string $userActivityResourceId)
+    /**
+     * @param array $attributes
+     * @param int|string $userActivityResourceId
+     * @return mixed
+     */
+    public function updateUserActivityResource(array $attributes, int|string $userActivityResourceId): mixed
     {
-        // TODO: Implement updateUserActivityResource() method.
+        DB::beginTransaction();
+
+        try {
+            $userActivityResource = $this->model->find($userActivityResourceId);
+
+            $userActivityResource->update($attributes);
+
+            DB::commit();
+
+            return $userActivityResource;
+        }catch (Exception)
+        {
+            DB::rollBack();
+
+            return null;
+        }
     }
 
-    public function destroy(UserActivityResource $userActivityResource)
+    /**
+     * @param UserActivityResource $userActivityResource
+     * @return UserActivityResource|null
+     */
+    public function destroy(UserActivityResource $userActivityResource): ?UserActivityResource
     {
-        // TODO: Implement destroy() method.
+        DB::beginTransaction();
+
+        try {
+            $userActivityResource->delete();
+
+            DB::commit();
+
+            return $userActivityResource;
+        }catch (Exception)
+        {
+            DB::rollBack();
+
+            return null;
+        }
     }
 }

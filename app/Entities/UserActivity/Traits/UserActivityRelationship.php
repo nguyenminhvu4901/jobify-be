@@ -20,7 +20,7 @@ trait UserActivityRelationship
     /**
      * @return HasMany
      */
-    public function userActivityResource(): HasMany
+    public function userActivityResources(): HasMany
     {
         return $this->hasMany(UserActivityResource::class);
     }

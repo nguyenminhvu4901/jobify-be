@@ -4,27 +4,84 @@ namespace App\Repositories\UserActivity;
 
 use App\Entities\UserActivity\UserActivity;
 use App\Repositories\BaseRepository;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class UserActivityRepositoryEloquent extends BaseRepository implements UserActivityRepository
 {
 
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return UserActivity::class;
     }
 
-    public function store(array $attributes)
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function store(array $attributes): mixed
     {
-        // TODO: Implement store() method.
+        DB::beginTransaction();
+
+        try {
+            $userActivity = $this->model->create($attributes);
+
+            DB::commit();
+
+            return $userActivity;
+        }catch (Exception){
+            DB::rollBack();
+
+            return null;
+        }
     }
 
-    public function updateUserActivity(array $attributes, int $userActivityId)
+    /**
+     * @param array $attributes
+     * @param int $userActivityId
+     * @return mixed|null
+     */
+    public function updateUserActivity(array $attributes, int $userActivityId): mixed
     {
-        // TODO: Implement updateUserActivity() method.
+        DB::beginTransaction();
+
+        try {
+            $userActivity = $this->findWithRelationships($userActivityId, 'userActivityResources');
+
+            $userActivity->update($attributes);
+
+            DB::commit();
+
+            return $userActivity;
+        }catch (Exception){
+            DB::rollBack();
+
+            return null;
+        }
     }
 
-    public function destroy(UserActivity $userActivity)
+    /**
+     * @param UserActivity $userActivity
+     * @return bool
+     */
+    public function destroy(UserActivity $userActivity): bool
     {
-        // TODO: Implement destroy() method.
+        DB::beginTransaction();
+
+        try {
+            $userActivity->delete();
+
+            DB::commit();
+
+            return true;
+        }catch (Exception)
+        {
+            DB::rollBack();
+
+            return false;
+        }
     }
 }

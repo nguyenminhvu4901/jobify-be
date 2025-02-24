@@ -34,6 +34,7 @@ return [
     'category' => 'Category',
     'finished_date' => 'Finished date',
     'user_product_id' => 'Product ID',
+    'user_activity_id' => 'Activity ID',
     'attachments.*.user_product_resource_id' => 'Product Resource',
     'attachments.*.user_course_resource_id' => 'Course Resource',
     'attachments.*.user_prize_resource_id' => 'Prize Resource',
