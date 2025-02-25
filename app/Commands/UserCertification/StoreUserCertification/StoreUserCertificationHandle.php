@@ -25,48 +25,43 @@ class StoreUserCertificationHandle
     public function handle(StoreUserCertificationCommand $command): array
     {
         try {
-            $userId = auth()->user()->id;
+            $result = $this->userCertificationRepository->create(
+                $this->prepareUserActivityData($command)
+            );
 
-            $userCertification = $this->userCertificationRepository->create([
-                'user_id' => $userId,
-                'name' => $command->name,
-                'organization' => $command->organization,
-                'is_no_expiration' => $command->isNoExpiration,
-                'start_date'=> $command->startDate,
-                'end_date' => $command->endDate
-            ]);
-
-            if($userCertification){
-                if(!empty($command->attachments))
-                {
-                    $attachments = $command->attachments;
-
-                    foreach ($attachments as $attachment)
-                    {
-                        $pathStorage = $this->userCertificationService->saveAttachment($attachment);
-
-                        if(!empty($pathStorage)){
-                            $this->userCertificationService->storeUserCertificationResource(
-                                attachment: $attachment,
-                                userCertificationId: $userCertification->id,
-                                pathStorage: $pathStorage
-                            );
-                        }
-                    }
-                }
-
-                $userCertification->load([
-                    'user', 'userCertificationResources.contentType'
-                ]);
+            if(!$result['success']){
 
                 return [
-                    'message' => __('messages.profile.user_update_profile_success'),
-                    'userCertification' => UserCertificationResource::make($userCertification)
+                    'message' => __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments))
+            {
+                $attachments = $command->attachments;
+
+                foreach ($attachments as $attachment)
+                {
+                    $pathStorage = $this->userCertificationService->saveAttachment($attachment);
+
+                    if(!empty($pathStorage)){
+                        $this->userCertificationService->storeUserCertificationResource(
+                            attachment: $attachment,
+                            userCertificationId: $result['data']->id,
+                            pathStorage: $pathStorage
+                        );
+                    }
+                }
+            }
+
+            $result['data']->load([
+                'user', 'userCertificationResources.contentType'
+            ]);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error'),
+                'data' => UserCertificationResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -75,5 +70,21 @@ class StoreUserCertificationHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param StoreUserCertificationCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(StoreUserCertificationCommand $command): array
+    {
+        return [
+            'user_id' => auth()->user()->id,
+            'name' => $command->name,
+            'organization' => $command->organization,
+            'is_no_expiration' => $command->isNoExpiration,
+            'start_date'=> $command->startDate,
+            'end_date' => $command->endDate
+        ];
     }
 }

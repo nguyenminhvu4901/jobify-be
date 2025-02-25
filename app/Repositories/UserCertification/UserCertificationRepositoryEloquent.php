@@ -5,8 +5,6 @@ namespace App\Repositories\UserCertification;
 use App\Entities\UserCertification\UserCertification;
 use App\Repositories\BaseRepository;
 use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class UserCertificationRepositoryEloquent extends BaseRepository implements UserCertificationRepository
@@ -21,68 +19,98 @@ class UserCertificationRepositoryEloquent extends BaseRepository implements User
 
     /**
      * @param array $attributes
-     * @return LengthAwarePaginator|Collection|mixed|null
+     * @return array
      */
-    public function create(array $attributes): mixed
+    public function create(array $attributes): array
     {
         DB::beginTransaction();
 
         try {
             $userCertification = $this->model->create($attributes);
 
-            DB::commit();
+            if(!$userCertification){
+                DB::rollBack();
 
-            return $userCertification;
-        }catch (Exception){
-            DB::rollBack();
-
-            return null;
-        }
-    }
-
-    /**
-     * @param $userCertification
-     * @return bool
-     */
-    public function destroy($userCertification): bool
-    {
-        DB::beginTransaction();
-
-        try {
-            $userCertification->delete();
+                return [
+                    'success' => false
+                ];
+            }
 
             DB::commit();
 
-            return true;
-        }catch (Exception)
-        {
+            return [
+                'success' => true,
+                'data' => $userCertification
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return false;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
     /**
      * @param array $attributes
      * @param int $userCertificationId
-     * @return mixed|null
+     * @return array
      */
-    public function updateUserCertification(array $attributes, int $userCertificationId): mixed
+    public function updateUserCertification(array $attributes, int $userCertificationId): array
     {
         DB::beginTransaction();
 
         try {
             $userCertification = $this->findWithRelationships($userCertificationId, 'userCertificationResources');
 
+            if(!$userCertification){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.resource_not_found'),
+                ];
+            }
+
             $userCertification->update($attributes);
 
             DB::commit();
 
-            return  $userCertification;
-        }catch (Exception){
+            return [
+                'success' => true,
+                'data' => $userCertification->refresh()
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
+        }
+    }
+
+    public function destroy($userCertification)
+    {
+        DB::beginTransaction();
+
+        try {
+            $isDeleted = $userCertification->delete();
+
+            DB::commit();
+
+            return [
+                'success' => (bool) $isDeleted
+            ];
+        }catch (Exception $e)
+        {
+            DB::rollBack();
+
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 }

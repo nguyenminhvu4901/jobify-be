@@ -20,9 +20,9 @@ class UserActivityRepositoryEloquent extends BaseRepository implements UserActiv
 
     /**
      * @param array $attributes
-     * @return mixed
+     * @return array
      */
-    public function store(array $attributes): mixed
+    public function store(array $attributes): array
     {
         DB::beginTransaction();
 

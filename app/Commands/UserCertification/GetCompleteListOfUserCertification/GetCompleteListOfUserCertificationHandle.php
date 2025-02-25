@@ -27,7 +27,7 @@ class GetCompleteListOfUserCertificationHandle
             );
 
             return [
-                'userCertifications' => UserCertificationResource::collection($userCertifications),
+                'data' => UserCertificationResource::collection($userCertifications),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){
