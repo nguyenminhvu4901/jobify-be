@@ -3,7 +3,6 @@
 namespace App\Commands\UserActivity\GetListActivityCurrentUser;
 
 use App\Http\Resources\UserActivity\CurrentUserActivityResource;
-use App\Http\Resources\UserProduct\CurrentUserProductResource;
 use App\Repositories\User\UserRepository;
 
 class GetListActivityCurrentUserHandle
@@ -23,10 +22,8 @@ class GetListActivityCurrentUserHandle
     public function handle(): array
     {
         try {
-            $user = auth()->user();
-
             $userActivities = $this->userRepository->findWithRelationships(
-                $user->id,
+                auth()->user()->id,
                 'userActivities.userActivityResources.contentType',
                 [
                     'userProducts' => function ($query) {
@@ -35,8 +32,14 @@ class GetListActivityCurrentUserHandle
                 ]
             );
 
+            if(empty($userActivities)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userActivities' => CurrentUserActivityResource::make($userActivities),
+                'data' => CurrentUserActivityResource::make($userActivities),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

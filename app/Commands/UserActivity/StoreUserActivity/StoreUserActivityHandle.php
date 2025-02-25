@@ -59,7 +59,7 @@ class StoreUserActivityHandle
             $result['data']->load(['userActivityResources.contentType', 'user']);
 
             return [
-                'userActivity' => UserActivityResource::make($result['data']),
+                'data' => UserActivityResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){

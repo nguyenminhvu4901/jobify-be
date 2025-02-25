@@ -51,7 +51,7 @@ class UpdateUserActivityHandle
 
             return [
                 'message' => __('messages.profile.user_update_profile_success'),
-                'userActivity' => UserActivityResource::make($result['data'])
+                'data' => UserActivityResource::make($result['data'])
             ];
         }catch (\Exception $e){
 

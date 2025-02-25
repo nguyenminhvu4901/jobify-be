@@ -22,7 +22,7 @@ class GetDetailListOfUserActivityByUserSlugHandle
             );
 
             return [
-                'userActivity' => UserActivityResource::collection($userActivity),
+                'data' => UserActivityResource::collection($userActivity),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){
