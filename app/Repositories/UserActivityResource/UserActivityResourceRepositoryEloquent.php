@@ -29,23 +29,37 @@ class UserActivityResourceRepositoryEloquent extends BaseRepository implements U
 
     /**
      * @param array $attributes
-     * @return mixed
+     * @return array
      */
-    public function store(array $attributes): mixed
+    public function store(array $attributes): array
     {
         DB::beginTransaction();
 
         try {
             $userActivityResource = $this->model->create($attributes);
 
+            if(!$userActivityResource){
+                DB::rollBack();
+
+                return [
+                    'success' => false
+                ];
+            }
+
             DB::commit();
 
-            return $userActivityResource;
-        }catch (Exception)
+            return [
+                'success' => true,
+                'data' => $userActivityResource
+            ];
+        }catch (Exception $e)
         {
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
@@ -61,38 +75,56 @@ class UserActivityResourceRepositoryEloquent extends BaseRepository implements U
         try {
             $userActivityResource = $this->model->find($userActivityResourceId);
 
+            if(!$userActivityResource){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.resource_not_found'),
+                ];
+            }
+
             $userActivityResource->update($attributes);
 
             DB::commit();
 
-            return $userActivityResource;
-        }catch (Exception)
-        {
+            return [
+                'success' => true,
+                'userActivity' => $userActivityResource->refresh()
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
     /**
      * @param UserActivityResource $userActivityResource
-     * @return UserActivityResource|null
+     * @return array
      */
-    public function destroy(UserActivityResource $userActivityResource): ?UserActivityResource
+    public function destroy(UserActivityResource $userActivityResource): array
     {
         DB::beginTransaction();
 
         try {
-            $userActivityResource->delete();
+            $isDeleted = $userActivityResource->delete();
 
             DB::commit();
 
-            return $userActivityResource;
-        }catch (Exception)
-        {
+            return [
+                'success' => (bool) $isDeleted
+            ];
+        }catch (Exception $e) {
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 }

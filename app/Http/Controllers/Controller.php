@@ -60,7 +60,7 @@ abstract class Controller extends BaseController
     public function responseError(
         string $message = "",
         mixed $error = "",
-        mixed $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
+        mixed $statusCode = null
     ): JsonResponse
     {
         if (!empty($error)) {
@@ -74,8 +74,8 @@ abstract class Controller extends BaseController
 
         return response()->json([
             'message' => $message,
-            'status_code' => $statusCode
-        ], $statusCode);
+            'status_code' => $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR
+        ], $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**

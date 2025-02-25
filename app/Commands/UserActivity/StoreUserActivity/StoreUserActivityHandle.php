@@ -26,45 +26,41 @@ class StoreUserActivityHandle
     public function handle(StoreUserActivityCommand $command): array
     {
         try {
-            $userId = auth()->user()->id;
+            $result = $this->userActivityRepository->store(
+                $this->prepareUserActivityData($command)
+            );
 
-            $userActivity = $this->userActivityRepository->store([
-                'user_id' => $userId,
-                'name' => $command->name,
-                'position' => $command->position,
-                'start_date' => $command->startDate,
-                'end_date' => $command->endDate,
-                'description' => $command->description
-            ]);
-
-            if($userActivity){
-                if(!empty($command->attachments))
-                {
-                    $attachments = $command->attachments;
-
-                    foreach ($attachments as $attachment)
-                    {
-                        $pathStorage = $this->userActivityService->saveAttachment($attachment);
-
-                        if(!empty($pathStorage)){
-                            $this->userActivityService->storeUserActivityResource(
-                                attachment: $attachment,
-                                userActivityId: $userActivity->id,
-                                pathStorage: $pathStorage
-                            );
-                        }
-                    }
-                }
-
-                $userActivity->load(['userActivityResources.contentType', 'user']);
+            if(!$result['success']){
 
                 return [
-                    'userActivity' => UserActivityResource::make($userActivity),
-                    'message' => __('messages.profile.user_update_profile_success')
+                    'message' => __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
+
+            if(!empty($command->attachments))
+            {
+                $attachments = $command->attachments;
+
+                foreach ($attachments as $attachment)
+                {
+                    $pathStorage = $this->userActivityService->saveAttachment($attachment);
+
+                    if(!empty($pathStorage)){
+                        $this->userActivityService->storeUserActivityResource(
+                            attachment: $attachment,
+                            userActivityId: $result['data']->id,
+                            pathStorage: $pathStorage
+                        );
+                    }
+                }
+            }
+
+            $result['data']->load(['userActivityResources.contentType', 'user']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'userActivity' => UserActivityResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -73,5 +69,21 @@ class StoreUserActivityHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param StoreUserActivityCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(StoreUserActivityCommand $command): array
+    {
+        return [
+            'user_id' => auth()->user()->id,
+            'name' => $command->name,
+            'position' => $command->position,
+            'start_date' => $command->startDate,
+            'end_date' => $command->endDate,
+            'description' => $command->description,
+        ];
     }
 }

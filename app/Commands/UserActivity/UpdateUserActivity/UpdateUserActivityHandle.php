@@ -3,7 +3,6 @@
 namespace App\Commands\UserActivity\UpdateUserActivity;
 
 use App\Http\Resources\UserActivity\UserActivityResource;
-use App\Http\Resources\UserProduct\UserProductResource;
 use App\Repositories\UserActivity\UserActivityRepository;
 use App\Services\UserActivity\UserActivityService;
 
@@ -27,37 +26,32 @@ class UpdateUserActivityHandle
     public function handle(UpdateUserActivityCommand $command): array
     {
         try {
-            $userId = auth()->user()->id;
+            $result = $this->userActivityRepository->updateUserActivity(
+                $this->prepareUserActivityData($command),
+                $command->userActivityId
+            );
 
-            $userActivity = $this->userActivityRepository->updateUserActivity([
-                'user_id' => $userId,
-                'name' => $command->name,
-                'position' => $command->position,
-                'start_date' => $command->startDate,
-                'end_date' => $command->endDate,
-                'description' => $command->description
-            ], $command->userActivityId);
-
-            if($userActivity){
-                if(!empty($command->attachments)){
-
-                    $this->userActivityService->updateResourceAttachment(
-                        attachments: $command->attachments,
-                        userActivityResource: $userActivity->userActivityResources,
-                        userActivityId: $command->userActivityId
-                    );
-                }
-
-                $userActivity->load(['userActivityResources.contentType', 'user']);
-
+            if(!$result['success']){
                 return [
-                    'message' => __('messages.profile.user_update_profile_success'),
-                    'userActivity' => UserActivityResource::make($userActivity)
+                    'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments)){
+
+                $this->userActivityService->updateResourceAttachment(
+                    attachments: $command->attachments,
+                    userActivityResource: $result['data']->userActivityResources,
+                    userActivityId: $command->userActivityId
+                );
+            }
+
+            $result['data']->load(['userActivityResources.contentType', 'user']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'message' => __('messages.profile.user_update_profile_success'),
+                'userActivity' => UserActivityResource::make($result['data'])
             ];
         }catch (\Exception $e){
 
@@ -66,5 +60,21 @@ class UpdateUserActivityHandle
                 'error' => $e
             ];
         }
+    }
+
+
+    /**
+     * @param UpdateUserActivityCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(UpdateUserActivityCommand $command): array
+    {
+        return [
+            'name' => $command->name,
+            'position' => $command->position,
+            'start_date' => $command->startDate,
+            'end_date' => $command->endDate,
+            'description' => $command->description,
+        ];
     }
 }

@@ -29,59 +29,92 @@ class UserActivityRepositoryEloquent extends BaseRepository implements UserActiv
         try {
             $userActivity = $this->model->create($attributes);
 
+            if(!$userActivity){
+                DB::rollBack();
+
+                return [
+                    'success' => false
+                ];
+            }
+
             DB::commit();
 
-            return $userActivity;
-        }catch (Exception){
+            return [
+                'success' => true,
+                'data' => $userActivity
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
     /**
      * @param array $attributes
      * @param int $userActivityId
-     * @return mixed|null
+     * @return array
      */
-    public function updateUserActivity(array $attributes, int $userActivityId): mixed
+    public function updateUserActivity(array $attributes, int $userActivityId): array
     {
         DB::beginTransaction();
 
         try {
             $userActivity = $this->findWithRelationships($userActivityId, 'userActivityResources');
 
+            if(!$userActivity){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.resource_not_found'),
+                ];
+            }
+
             $userActivity->update($attributes);
 
             DB::commit();
 
-            return $userActivity;
-        }catch (Exception){
+            return [
+                'success' => true,
+                'data' => $userActivity->refresh()
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
     /**
      * @param UserActivity $userActivity
-     * @return bool
+     * @return array
      */
-    public function destroy(UserActivity $userActivity): bool
+    public function destroy(UserActivity $userActivity): array
     {
         DB::beginTransaction();
 
         try {
-            $userActivity->delete();
+            $isDeleted = $userActivity->delete();
 
             DB::commit();
 
-            return true;
-        }catch (Exception)
-        {
+            return [
+                'success' => (bool) $isDeleted
+            ];
+        }catch (Exception $e) {
             DB::rollBack();
 
-            return false;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 }
