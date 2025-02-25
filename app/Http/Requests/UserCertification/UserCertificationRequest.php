@@ -3,6 +3,7 @@
 namespace App\Http\Requests\UserCertification;
 
 use App\Enums\DefaultContentType;
+use App\Rules\ExistsInResourceRelation;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -38,7 +39,14 @@ class UserCertificationRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
                 'attachments.*.user_certification_resource_id' => [
-                        'bail', 'nullable', 'integer', 'exists:user_certification_resources,id'
+                        'bail', 'nullable', 'integer', 'exists:user_certification_resources,id',
+                    new ExistsInResourceRelation(
+                        $this->input('user_certification_id'),
+                        'user_certifications',
+                        'user_certification_resources',
+                        'user_certification_id',
+                        'id'
+                    )
                 ]
             ],
             "profile.userCertification.detailListOfUserCertification" => [

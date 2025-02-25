@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserProject;
 
+use App\Rules\ExistsInResourceRelation;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -43,7 +44,14 @@ class UserProjectRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
                 'attachments.*.user_project_resource_id' => [
-                    'bail', 'nullable', 'integer', 'exists:user_project_resources,id'
+                    'bail', 'nullable', 'integer', 'exists:user_project_resources,id',
+                    new ExistsInResourceRelation(
+                        $this->input('user_project_id'),
+                        'user_projects',
+                        'user_project_resources',
+                        'user_project_id',
+                        'id'
+                    )
                 ]
             ],
             "profile.userProject.destroy" => [

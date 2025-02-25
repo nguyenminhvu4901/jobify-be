@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserPrize;
 
+use App\Rules\ExistsInResourceRelation;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -43,7 +44,14 @@ class UserPrizeRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
                 'attachments.*.user_prize_resource_id' => [
-                    'bail', 'nullable', 'integer', 'exists:user_prize_resources,id'
+                    'bail', 'nullable', 'integer', 'exists:user_prize_resources,id',
+                    new ExistsInResourceRelation(
+                        $this->input('user_prize_id'),
+                        'user_prizes',
+                        'user_prize_resources',
+                        'user_prize_id',
+                        'id'
+                    )
                 ]
             ],
             "profile.userPrize.destroy" => [

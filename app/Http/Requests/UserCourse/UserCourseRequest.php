@@ -3,6 +3,7 @@
 namespace App\Http\Requests\UserCourse;
 
 use App\Enums\DefaultContentType;
+use App\Rules\ExistsInResourceRelation;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -52,7 +53,14 @@ class UserCourseRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
                 'attachments.*.user_course_resource_id' => [
-                    'bail', 'nullable', 'integer', 'exists:user_course_resources,id'
+                    'bail', 'nullable', 'integer', 'exists:user_course_resources,id',
+                    new ExistsInResourceRelation(
+                        $this->input('user_course_id'),
+                        'user_courses',
+                        'user_course_resources',
+                        'user_course_id',
+                        'id'
+                    )
                 ]
             ],
             "profile.userCourse.destroy" => [
