@@ -18,7 +18,6 @@ use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityCommand;
 use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserActivity\UserActivityRequest;
-use App\Http\Requests\UserProduct\UserProductRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 

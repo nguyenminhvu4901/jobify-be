@@ -3,6 +3,7 @@
 namespace App\Http\Requests\UserExperience;
 
 use App\Enums\DefaultContentType;
+use App\Rules\ExistsInResourceRelation;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -33,12 +34,19 @@ class UserExperienceRequest extends FormRequest
 
         return match ($routeName) {
             "profile.userExperience.store" => $commonRules,
-            "profile.userExperience.updateExperience" => [
+            "profile.userExperience.updateUserExperience" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
                 'attachments.*.user_experience_resource_id' => [
-                        'bail', 'nullable', 'integer', 'exists:user_experience_resources,id'
+                        'bail', 'nullable', 'integer', 'exists:user_experience_resources,id',
+                    new ExistsInResourceRelation(
+                        $this->input('user_experience_id'),
+                        'user_experiences',
+                        'user_experience_resources',
+                        'user_experience_id',
+                        'id'
+                    )
                 ]
             ],
             "profile.userExperience.destroy" => [
