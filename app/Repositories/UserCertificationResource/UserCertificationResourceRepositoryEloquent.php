@@ -27,65 +27,107 @@ class UserCertificationResourceRepositoryEloquent extends BaseRepository impleme
         return $this->model->whereIn('id', $userCertificationResourceId)->get();
     }
 
-    public function store(array $attributes)
+    /**
+     * @param array $attributes
+     * @return array
+     */
+    public function store(array $attributes): array
     {
         DB::beginTransaction();
 
         try {
             $userCertificationResource = $this->model->create($attributes);
 
+            if(!$userCertificationResource){
+                DB::rollBack();
+
+                return [
+                    'success' => false
+                ];
+            }
+
             DB::commit();
 
-            return $userCertificationResource;
-        }catch (Exception)
+            return [
+                'success' => true,
+                'data' => $userCertificationResource
+            ];
+        }catch (Exception $e)
         {
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
+    /**
+     * @param array $attributes
+     * @param string|int $userCertificationResourceId
+     * @return array
+     */
     public function updateUserCertificationResource(
         array $attributes, string|int $userCertificationResourceId
-    )
+    ): array
     {
         DB::beginTransaction();
 
         try {
             $userCertificationResource = $this->model->find($userCertificationResourceId);
 
+            if(!$userCertificationResource){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.resource_not_found'),
+                ];
+            }
+
             $userCertificationResource->update($attributes);
 
             DB::commit();
 
-            return $userCertificationResource;
-        }catch (Exception)
-        {
+            return [
+                'success' => true,
+                'userCertificationResource' => $userCertificationResource->refresh()
+            ];
+        }catch (Exception $e) {
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
+
     /**
      * @param UserCertificationResource $userCertificationResource
-     * @return UserCertificationResource|null
+     * @return array|bool[]
      */
-    public function destroy(UserCertificationResource $userCertificationResource): ?UserCertificationResource
+    public function destroy(UserCertificationResource $userCertificationResource): array
     {
         DB::beginTransaction();
 
         try {
-            $userCertificationResource->delete();
+            $isDeleted = $userCertificationResource->delete();
 
             DB::commit();
 
-            return $userCertificationResource;
-        }catch (Exception)
-        {
+            return [
+                'success' => (bool) $isDeleted
+            ];
+        }catch (Exception $e) {
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 

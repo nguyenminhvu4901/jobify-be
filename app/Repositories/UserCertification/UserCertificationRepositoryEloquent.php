@@ -91,7 +91,11 @@ class UserCertificationRepositoryEloquent extends BaseRepository implements User
         }
     }
 
-    public function destroy($userCertification)
+    /**
+     * @param $userCertification
+     * @return array|bool[]
+     */
+    public function destroy($userCertification): array
     {
         DB::beginTransaction();
 

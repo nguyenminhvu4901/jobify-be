@@ -26,34 +26,30 @@ class UpdateUserCourseHandle
     public function handle(UpdateUserCourseCommand $command): array
     {
         try {
-            $userCourse = $this->userCourseRepository->updateUserCourse([
-                'name' => $command->name,
-                'organization' => $command->organization,
-                'start_date'=> $command->startDate,
-                'end_date' => $command->endDate,
-                'description' => $command->description,
-            ], $command->userCourseId);
+            $result = $this->userCourseRepository->updateUserCourse(
+                $this->prepareUserActivityData($command), $command->userCourseId);
 
-            if($userCourse){
-                if(!empty($command->attachments)){
-
-                    $this->userCourseService->updateResourceAttachment(
-                        attachments: $command->attachments,
-                        userCourseResource: $userCourse?->userCourseResources,
-                        userCourseId: $command->userCourseId
-                    );
-                }
-
-                $userCourse->load(['userCourseResources.contentType', 'user']);
-
+            if(!$result['success']){
                 return [
-                    'message' => __('messages.profile.user_update_profile_success'),
-                    'userCourse' => UserCourseResource::make($userCourse)
+                    'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments)){
+
+                $this->userCourseService->updateResourceAttachment(
+                    attachments: $command->attachments,
+                    userCourseResource: $result['data']->userCourseResources,
+                    userCourseId: $command->userCourseId
+                );
+            }
+
+            $result['data']->load(['userCourseResources.contentType', 'user']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error'),
+                'data' => UserCourseResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -62,5 +58,20 @@ class UpdateUserCourseHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param UpdateUserCourseCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(UpdateUserCourseCommand $command): array
+    {
+        return [
+            'name' => $command->name,
+            'organization' => $command->organization,
+            'start_date'=> $command->startDate,
+            'end_date' => $command->endDate,
+            'description' => $command->description
+        ];
     }
 }

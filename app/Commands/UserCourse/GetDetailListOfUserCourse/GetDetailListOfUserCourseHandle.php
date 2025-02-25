@@ -28,8 +28,14 @@ class GetDetailListOfUserCourseHandle
                 ['user', 'userCourseResources.contentType']
             );
 
+            if(empty($userCourse)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userCourse' => UserCourseResource::make($userCourse),
+                'data' => UserCourseResource::make($userCourse),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

@@ -5,7 +5,6 @@ namespace App\Commands\UserCertification\DestroyUserCertification;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserCertificationHandle

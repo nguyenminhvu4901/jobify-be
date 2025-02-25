@@ -21,68 +21,103 @@ class UserCourseRepositoryEloquent extends BaseRepository implements UserCourseR
 
     /**
      * @param array $attributes
-     * @return LengthAwarePaginator|Collection|mixed|null
+     * @return array
      */
-    public function create(array $attributes): mixed
+    public function store(array $attributes): array
     {
         DB::beginTransaction();
 
         try {
             $userCourse = $this->model->create($attributes);
 
+            if(!$userCourse){
+                DB::rollBack();
+
+                return [
+                    'success' => false
+                ];
+            }
+
             DB::commit();
 
-            return $userCourse;
-        }catch (Exception){
+            return [
+                'success' => true,
+                'data' => $userCourse
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
     /**
      * @param array $attributes
      * @param int|string $userCourseId
-     * @return mixed
+     * @return array
      */
-    public function updateUserCourse(array $attributes, int|string $userCourseId): mixed
+    public function updateUserCourse(array $attributes, int|string $userCourseId): array
     {
         DB::beginTransaction();
 
         try {
             $userCourse = $this->model->find($userCourseId);
 
+            if(!$userCourse){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.resource_not_found'),
+                ];
+            }
+
             $userCourse->update($attributes);
 
             DB::commit();
 
-            return $userCourse;
-        }catch (Exception){
+            return [
+                'success' => true,
+                'data' => $userCourse->refresh()
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
+
     /**
      * @param UserCourse $userCourse
-     * @return UserCourse|null
+     * @return array|bool[]
      */
-    public function destroy(UserCourse $userCourse): ?UserCourse
+    public function destroy(UserCourse $userCourse): array
     {
         DB::beginTransaction();
 
         try {
-            $userCourse->delete();
+            $isDeleted = $userCourse->delete();
 
             DB::commit();
 
-            return $userCourse;
-        }catch (Exception){
+            return [
+                'success' => (bool) $isDeleted
+            ];
+        }catch (Exception $e){
 
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 }

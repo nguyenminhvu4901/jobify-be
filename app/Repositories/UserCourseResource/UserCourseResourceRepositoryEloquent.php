@@ -19,70 +19,101 @@ class UserCourseResourceRepositoryEloquent extends BaseRepository implements Use
 
     /**
      * @param array $attributes
-     * @return mixed
+     * @return array
      */
-    public function store(array $attributes): mixed
+    public function store(array $attributes): array
     {
         DB::beginTransaction();
 
         try {
             $userCourseResource = $this->model->create($attributes);
 
+            if(!$userCourseResource){
+                DB::rollBack();
+
+                return [
+                    'success' => false
+                ];
+            }
+
             DB::commit();
 
-            return $userCourseResource->refresh();
-        }catch (Exception){
-
+            return [
+                'success' => true,
+                'data' => $userCourseResource
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
     /**
      * @param array $attributes
      * @param int|string $userCourseResourceId
-     * @return mixed
+     * @return array
      */
-    public function updateUserCourseResource(array $attributes, int|string $userCourseResourceId): mixed
+    public function updateUserCourseResource(array $attributes, int|string $userCourseResourceId): array
     {
         DB::beginTransaction();
 
         try {
             $userCourseResource = $this->model->find($userCourseResourceId);
 
+            if(!$userCourseResource){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.resource_not_found'),
+                ];
+            }
+
             $userCourseResource->update($attributes);
 
             DB::commit();
 
-            return $userCourseResource->refresh();
-        }catch (Exception){
-
+            return [
+                'success' => true,
+                'userCourseResource' => $userCourseResource->refresh()
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 
     /**
      * @param UserCourseResource $userCourseResource
-     * @return UserCourseResource|null
+     * @return array
      */
-    public function destroy(UserCourseResource $userCourseResource): ?UserCourseResource
+    public function destroy(UserCourseResource $userCourseResource): array
     {
         DB::beginTransaction();
 
         try {
-            $userCourseResource->delete();
+            $isDeleted = $userCourseResource->delete();
 
             DB::commit();
 
-            return $userCourseResource->refresh();
-        }catch (Exception){
-
+            return [
+                'success' => (bool) $isDeleted
+            ];
+        }catch (Exception $e){
             DB::rollBack();
 
-            return null;
+            return [
+                'success' => false,
+                'error' => $e
+            ];
         }
     }
 

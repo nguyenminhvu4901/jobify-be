@@ -90,7 +90,7 @@ class UserActivityResourceRepositoryEloquent extends BaseRepository implements U
 
             return [
                 'success' => true,
-                'userActivity' => $userActivityResource->refresh()
+                'userActivityResource' => $userActivityResource->refresh()
             ];
         }catch (Exception $e){
             DB::rollBack();
