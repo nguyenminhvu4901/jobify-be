@@ -42,6 +42,7 @@ class UpdateUserCertificationHandle
                         userCertificationResource: $userCertification?->userCertificationResources,
                         userCertificationId: $command->userCertificationId
                     );
+
                 }
 
                 $userCertification->load([
@@ -53,6 +54,7 @@ class UpdateUserCertificationHandle
                     'message' => __('messages.profile.user_update_profile_success')
                 ];
             }
+
 
             return [
                 'message' => __('messages.profile.user_update_profile_error')

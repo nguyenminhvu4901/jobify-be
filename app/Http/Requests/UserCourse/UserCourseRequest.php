@@ -48,7 +48,7 @@ class UserCourseRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
             "profile.userCourse.store" => $commonRules,
-            "profile.userCourse.updateCourse" => [
+            "profile.userCourse.updateUserCourse" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],

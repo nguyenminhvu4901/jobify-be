@@ -39,7 +39,7 @@ class UserProductRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
             "profile.userProduct.store" => $commonRules,
-            "profile.userProduct.updateProduct" => [
+            "profile.userProduct.updateUserProduct" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],

@@ -36,7 +36,7 @@ class UserSkillRequest extends FormRequest
             'profile.userSkill.detailListOfUserSkillByUserSlug' => [
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
-           'profile.userSkill.updateSkill' => [
+           'profile.userSkill.updateUserSkill' => [
                ...$commonRules,
                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
            ],

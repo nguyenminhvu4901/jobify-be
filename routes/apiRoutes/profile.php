@@ -43,7 +43,7 @@ Route::group(
                 'getDetailListOfUserExperienceByUserSlug'])->name('detailListOfUserExperienceByUserSlug');
 
             Route::post('/update-experience', [UserExperienceController::class, 'update'])
-                ->name('updateExperience');
+                ->name('updateUserExperience');
 
             Route::delete('/', [UserExperienceController::class, 'destroy'])->name('destroy');
         });
@@ -64,7 +64,7 @@ Route::group(
                 'getDetailListOfUserCertificationByUserSlug'])->name('detailListOfUserCertificationByUserSlug');
 
             Route::post('/update-certification', [UserCertificationController::class, 'update'])
-                ->name('updateCertification');
+                ->name('updateUserCertification');
 
             Route::delete('/', [UserCertificationController::class, 'destroy'])->name('destroy');
         });
@@ -84,7 +84,7 @@ Route::group(
             Route::get('/detail-list-user-education-by-user-slug', [UserEducationController::class,
                 'getDetailListOfUserEducationByUserSlug'])->name('detailListOfUserEducationByUserSlug');
 
-            Route::put('/', [UserEducationController::class, 'update'])->name('updateEducation');
+            Route::put('/', [UserEducationController::class, 'update'])->name('updateUserEducation');
 
             Route::delete('/', [UserEducationController::class, 'destroy'])->name('destroy');
         });
@@ -104,7 +104,7 @@ Route::group(
             Route::get('/detail-list-user-skill-by-user-slug', [UserSkillController::class,
                 'getDetailListOfUserSkillByUserSlug'])->name('detailListOfUserSkillByUserSlug');
 
-            Route::put('/', [UserSkillController::class, 'update'])->name('updateSkill');
+            Route::put('/', [UserSkillController::class, 'update'])->name('updateUserSkill');
 
             Route::delete('/', [UserSkillController::class, 'destroy'])->name('destroy');
         });
@@ -125,7 +125,7 @@ Route::group(
             Route::post('/', [UserCourseController::class, 'store'])->name('store');
 
             Route::post('/update-course', [UserCourseController::class, 'update'])
-                ->name('updateCourse');
+                ->name('updateUserCourse');
 
             Route::delete('/', [UserCourseController::class, 'destroy'])->name('destroy');
         });
@@ -146,7 +146,7 @@ Route::group(
             Route::post('/', [UserProjectController::class, 'store'])->name('store');
 
             Route::post('/update-project', [UserProjectController::class, 'update'])
-                ->name('updateProject');
+                ->name('updateUserProject');
 
             Route::delete('/', [UserProjectController::class, 'destroy'])->name('destroy');
         });
@@ -167,7 +167,7 @@ Route::group(
             Route::post('/', [UserPrizeController::class, 'store'])->name('store');
 
             Route::post('/update-prize', [UserPrizeController::class, 'update'])
-                ->name('updatePrize');
+                ->name('updateUserPrize');
 
             Route::delete('/', [UserPrizeController::class, 'destroy'])->name('destroy');
         });
@@ -188,7 +188,7 @@ Route::group(
             Route::post('/', [UserProductController::class, 'store'])->name('store');
 
             Route::post('/update-product', [UserProductController::class, 'update'])
-                ->name('updateProduct');
+                ->name('updateUserProduct');
 
             Route::delete('/', [UserProductController::class, 'destroy'])->name('destroy');
         });
@@ -209,7 +209,7 @@ Route::group(
         Route::post('/', [UserActivityController::class, 'store'])->name('store');
 
         Route::post('/update-activity', [UserActivityController::class, 'update'])
-            ->name('updateActivity');
+            ->name('updateUserActivity');
 
         Route::delete('/', [UserActivityController::class, 'destroy'])->name('destroy');
     });

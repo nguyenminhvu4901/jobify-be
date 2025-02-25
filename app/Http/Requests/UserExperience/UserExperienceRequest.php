@@ -34,7 +34,7 @@ class UserExperienceRequest extends FormRequest
 
         return match ($routeName) {
             "profile.userExperience.store" => $commonRules,
-            "profile.userExperience.updateExperience" => [
+            "profile.userExperience.updateUserExperience" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],

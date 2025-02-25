@@ -39,7 +39,7 @@ class UserPrizeRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
             "profile.userPrize.store" => $commonRules,
-            "profile.userPrize.updatePrize" => [
+            "profile.userPrize.updateUserPrize" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],

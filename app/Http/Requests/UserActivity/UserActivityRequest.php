@@ -34,7 +34,7 @@ class UserActivityRequest extends FormRequest
 
         return match ($routeName) {
             "profile.userActivity.store" => $commonRules,
-            "profile.userActivity.updateActivity" => [
+            "profile.userActivity.updateUserActivity" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],

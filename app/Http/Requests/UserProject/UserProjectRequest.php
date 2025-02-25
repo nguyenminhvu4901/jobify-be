@@ -39,7 +39,7 @@ class UserProjectRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
             "profile.userProject.store" => $commonRules,
-            "profile.userProject.updateProject" => [
+            "profile.userProject.updateUserProject" => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
