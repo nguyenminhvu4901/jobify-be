@@ -26,7 +26,7 @@ class GetListProductCurrentUserHandle
 
             $userProducts = $this->userRepository->findWithRelationships(
                 $user->id,
-                'userProducts.userProductResources',
+                'userProducts.userProductResources.contentType',
                 [
                     'userProducts' => function ($query) {
                         return $query->orderByDesc('id');

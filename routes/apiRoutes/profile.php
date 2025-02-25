@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Profile\PersonalInfoController;
+use App\Http\Controllers\API\Profile\UserActivityController;
 use App\Http\Controllers\API\Profile\UserCertificationController;
 use App\Http\Controllers\API\Profile\UserCourseController;
 use App\Http\Controllers\API\Profile\UserEducationController;
@@ -191,4 +192,25 @@ Route::group(
 
             Route::delete('/', [UserProductController::class, 'destroy'])->name('destroy');
         });
+
+    Route::group(['prefix' => 'user-activity', 'as' => 'userActivity.'], function() {
+        Route::get('/list-activity-current-user', [UserActivityController::class,
+            'getListActivityCurrentUser'])->name('listActivityCurrentUser');
+
+        Route::get('/complete-list-user-activity', [UserActivityController::class,
+            'getCompleteListOfUserActivity'])->name('completeListOfUserActivity');
+
+        Route::get('/detail-list-user-activity', [UserActivityController::class,
+            'getDetailListOfUserActivity'])->name('detailListOfUserActivity');
+
+        Route::get('/detail-list-user-activity-by-user-slug', [UserActivityController::class,
+            'getDetailListOfUserActivityByUserSlug'])->name('detailListOfUserActivityByUserSlug');
+
+        Route::post('/', [UserActivityController::class, 'store'])->name('store');
+
+        Route::post('/update-activity', [UserActivityController::class, 'update'])
+            ->name('updateActivity');
+
+        Route::delete('/', [UserActivityController::class, 'destroy'])->name('destroy');
+    });
 });

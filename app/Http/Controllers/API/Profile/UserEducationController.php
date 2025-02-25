@@ -205,7 +205,11 @@ class UserEducationController extends Controller
             return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -266,7 +270,11 @@ class UserEducationController extends Controller
             return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -335,7 +343,11 @@ class UserEducationController extends Controller
             return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -404,7 +416,11 @@ class UserEducationController extends Controller
             return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -517,7 +533,11 @@ class UserEducationController extends Controller
             return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -594,7 +614,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserEducationCommand::withForm($request));
 
-        if(!empty($result['userEducation'])){
+        if(!empty($result['userEducationDelete'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

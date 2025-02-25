@@ -18,7 +18,7 @@ class GetDetailListOfUserProjectByUserSlugHandle
         try {
             $userProject = $this->userProjectRepository->getByRelationshipUserSlug(
                 $command->userSlug,
-                ['userProjectResources', 'user']
+                ['userProjectResources.contentType', 'user']
             );
 
             return [

@@ -23,7 +23,7 @@ class GetCompleteListOfUserProjectHandle
     {
         try {
             $userProjects = $this->userProjectRepository->getWithRelationship(
-                ['userProjectResources', 'user']
+                ['userProjectResources.contentType', 'user']
             );
 
             return [

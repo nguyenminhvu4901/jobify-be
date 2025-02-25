@@ -33,25 +33,26 @@ class UpdateUserProductHandle
                 'description' => $command->description
             ], $command->userProductId);
 
-            if(!empty($command->attachments)){
+            if($userProduct){
+                if(!empty($command->attachments)){
 
-                $attachments = $command->attachments;
-                $userProductResource = $userProduct->userProductResources;
+                    $this->userProductService->updateResourceAttachment(
+                        attachments: $command->attachments,
+                        userProductResource: $userProduct->userProductResources,
+                        userProductId: $command->userProductId
+                    );
+                }
 
-                $this->userProductService->updateResourceAttachment(
-                    attachments: $attachments,
-                    userProductResource: $userProductResource,
-                    userProductId: $command->userProductId
-                );
-            }
+                $userProduct->load(['userProductResources.contentType', 'user']);
 
-            if ($userProduct) {
-                $userProduct->refresh();
+                return [
+                    'message' => __('messages.profile.user_update_profile_success'),
+                    'userProduct' => UserProductResource::make($userProduct)
+                ];
             }
 
             return [
-                'message' => __('messages.profile.user_update_profile_success'),
-                'userProduct' => UserProductResource::make($userProduct)
+                'message' => __('messages.profile.user_update_profile_error')
             ];
         }catch (\Exception $e){
 

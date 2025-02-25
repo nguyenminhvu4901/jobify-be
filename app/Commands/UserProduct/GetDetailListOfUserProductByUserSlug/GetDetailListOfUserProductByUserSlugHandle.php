@@ -21,7 +21,7 @@ class GetDetailListOfUserProductByUserSlugHandle
         try {
             $userProduct = $this->userProductRepository->getByRelationshipUserSlug(
                 $command->userSlug,
-                ['userProductResources', 'user']
+                ['userProductResources.contentType', 'user']
             );
 
             return [

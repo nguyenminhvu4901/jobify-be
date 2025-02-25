@@ -5,6 +5,7 @@ namespace App\Models\Traits;
 use App\Entities\Company\Company;
 use App\Entities\DefaultGender\DefaultGender;
 use App\Entities\DefaultStatus\DefaultStatus;
+use App\Entities\UserActivity\UserActivity;
 use App\Entities\UserCertification\UserCertification;
 use App\Entities\UserCourse\UserCourse;
 use App\Entities\UserEducation\UserEducation;
@@ -114,5 +115,13 @@ trait UserRelationship
     public function userProducts(): HasMany
     {
         return $this->hasMany(UserProduct::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function userActivities(): HasMany
+    {
+        return $this->hasMany(UserActivity::class);
     }
 }

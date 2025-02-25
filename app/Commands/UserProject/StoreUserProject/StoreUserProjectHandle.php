@@ -8,6 +8,10 @@ use App\Services\UserProject\UserProjectService;
 
 class StoreUserProjectHandle
 {
+    /**
+     * @param UserProjectRepository $userProjectRepository
+     * @param UserProjectService $userProjectService
+     */
     public function __construct(
         protected UserProjectRepository $userProjectRepository,
         protected UserProjectService $userProjectService
@@ -15,6 +19,10 @@ class StoreUserProjectHandle
     {
     }
 
+    /**
+     * @param StoreUserProjectCommand $command
+     * @return array
+     */
     public function handle(StoreUserProjectCommand $command): array
     {
         try {
@@ -34,29 +42,36 @@ class StoreUserProjectHandle
                 'description' => $command->description
             ]);
 
-            if(!empty($command->attachments))
-            {
-                $attachments = $command->attachments;
-
-                foreach ($attachments as $attachment)
+            if($userProject){
+                if(!empty($command->attachments))
                 {
-                    $pathStorage = $this->userProjectService->saveAttachment($attachment);
+                    $attachments = $command->attachments;
 
-                    if(!empty($pathStorage)){
-                        $this->userProjectService->storeUserProjectResource(
-                            $attachment, $userProject->id, $pathStorage
-                        );
+                    foreach ($attachments as $attachment)
+                    {
+                        $pathStorage = $this->userProjectService->saveAttachment($attachment);
+
+                        if(!empty($pathStorage)){
+
+                            $this->userProjectService->storeUserProjectResource(
+                                attachment: $attachment,
+                                userProjectId: $userProject->id,
+                                pathStorage: $pathStorage
+                            );
+                        }
                     }
                 }
-            }
 
-            if($userProject){
-                $userProject->refresh();
+                $userProject->load(['userProjectResources.contentType', 'user']);
+
+                return [
+                    'userProject' => UserProjectResource::make($userProject),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
             }
 
             return [
-                'userProject' => UserProjectResource::make($userProject),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error')
             ];
         }catch (\Exception $e){
 

@@ -32,12 +32,16 @@ class StoreUserSkillHandle
             ]);
 
             if($userSkill){
-                $userSkill->refresh();
+                $userSkill->load(['user', 'rate']);
+
+                return [
+                    'userSkill' => UserSkillResource::make($userSkill),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
             }
 
             return [
-                'userSkill' => UserSkillResource::make($userSkill),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error')
             ];
         }catch (\Exception $e){
 

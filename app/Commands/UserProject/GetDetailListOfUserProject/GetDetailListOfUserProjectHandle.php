@@ -18,7 +18,7 @@ class GetDetailListOfUserProjectHandle
         try {
             $userProject = $this->userProjectRepository->findWithRelationships(
                 $command->userProjectId,
-                ['user', 'userProjectResources']
+                ['user', 'userProjectResources.contentType']
             );
 
             return [

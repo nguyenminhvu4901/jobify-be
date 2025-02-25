@@ -31,25 +31,26 @@ class UpdateUserProjectHandle
                 'description' => $command->description
             ], $command->userProjectId);
 
-            if(!empty($command->attachments)){
+            if($userProject){
+                if(!empty($command->attachments)){
 
-                $attachments = $command->attachments;
-                $userProjectResource = $userProject->userProjectResources;
+                    $this->userProjectService->updateResourceAttachment(
+                        attachments: $command->attachments,
+                        userProjectResource: $userProject->userProjectResources,
+                        userProjectId: $command->userProjectId
+                    );
+                }
 
-                $this->userProjectService->updateResourceAttachment(
-                    attachments: $attachments,
-                    userProjectResource: $userProjectResource,
-                    userProjectId: $command->userProjectId
-                );
-            }
+                $userProject->load(['userProjectResources.contentType', 'user']);
 
-            if ($userProject) {
-                $userProject->refresh();
+                return [
+                    'message' => __('messages.profile.user_update_profile_success'),
+                    'userProject' => UserProjectResource::make($userProject)
+                ];
             }
 
             return [
-                'message' => __('messages.profile.user_update_profile_success'),
-                'userProject' => UserProjectResource::make($userProject)
+                'message' => __('messages.profile.user_update_profile_error')
             ];
         }catch (\Exception $e){
 

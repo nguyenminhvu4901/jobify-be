@@ -34,24 +34,26 @@ class UpdateUserCourseHandle
                 'description' => $command->description,
             ], $command->userCourseId);
 
-            if(!empty($command->attachments)){
-                $attachments = $command->attachments;
-                $userCourseResource = $userCourse->userCourseResources;
+            if($userCourse){
+                if(!empty($command->attachments)){
 
-                $this->userCourseService->updateResourceAttachment(
-                    attachments: $attachments,
-                    userCourseResource: $userCourseResource,
-                    userCourseId: $command->userCourseId
-                );
-            }
+                    $this->userCourseService->updateResourceAttachment(
+                        attachments: $command->attachments,
+                        userCourseResource: $userCourse?->userCourseResources,
+                        userCourseId: $command->userCourseId
+                    );
+                }
 
-            if ($userCourse) {
-                $userCourse->refresh();
+                $userCourse->load(['userCourseResources.contentType', 'user']);
+
+                return [
+                    'message' => __('messages.profile.user_update_profile_success'),
+                    'userCourse' => UserCourseResource::make($userCourse)
+                ];
             }
 
             return [
-                'message' => __('messages.profile.user_update_profile_success'),
-                'userCourse' => UserCourseResource::make($userCourse)
+                'message' => __('messages.profile.user_update_profile_error'),
             ];
         }catch (\Exception $e){
 

@@ -5,6 +5,7 @@ namespace App\Commands\UserCertification\DestroyUserCertification;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserCertificationHandle
@@ -40,32 +41,33 @@ class DestroyUserCertificationHandle
                 ];
             }
 
-            if(!empty($userCertification)){
+            DB::beginTransaction();
 
-                $userCertificationResource = $userCertification->userCertificationResources;
+            $userCertification->userCertificationResources?->each(function ($eachUserCertificationResource) {
+                $this->attachmentResourceService->deleteFileAttachment($eachUserCertificationResource);
+                $this->userCertificationResourceRepository->destroy($eachUserCertificationResource);
+            });
 
-                if(!empty($userCertificationResource)){
-                    $userCertificationResource->map(function ($eachUserCertificationResource) {
-                        $this->attachmentResourceService->deleteFileAttachment($eachUserCertificationResource);
-                        $this->userCertificationResourceRepository->destroy($eachUserCertificationResource);
-                    });
-                }
+            $userCertificationDelete = $this->userCertificationRepository->destroy($userCertification);
 
-                $userCertificationDelete = $this->userCertificationRepository->destroy($userCertification);
+            if ($userCertificationDelete) {
+                DB::commit();
 
-                if (!empty($userCertificationDelete)) {
-                    return [
-                        'userCertificationDelete' => $userCertificationDelete,
-                        'message' => __('messages.profile.user_destroy_profile_success')
-                    ];
-                }
+                return [
+                    'userCertificationDelete' => true,
+                    'message' => __('messages.profile.user_destroy_profile_success'),
+                ];
             }
+
+            DB::rollBack();
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
         }catch (\Exception $e){
+            DB::rollBack();
+
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $e,

@@ -25,7 +25,7 @@ class GetDetailListOfUserCertificationByUserSlugHandle
         try {
             $userCertifications =  $this->userCertificationRepository->getByRelationshipUserSlug(
                 $command->userSlug,
-                ['userCertificationResources', 'user']
+                ['userCertificationResources.contentType', 'user']
             );
 
             return [

@@ -26,7 +26,7 @@ class GetListProjectCurrentUserHandle
 
             $userProjects = $this->userRepository->findWithRelationships(
                 $user->id,
-                'userProjects.userProjectResources',
+                'userProjects.userProjectResources.contentType',
                 [
                     'userProjects' => function ($query) {
                         return $query->orderByDesc('id');

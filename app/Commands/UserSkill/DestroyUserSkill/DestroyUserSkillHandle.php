@@ -34,11 +34,11 @@ class DestroyUserSkillHandle
                 ];
             }
 
-            $userEducationDelete = $this->userSkillRepository->destroy($userSkill);
+            $userSkillDelete = $this->userSkillRepository->destroy($userSkill);
 
-            if ($userEducationDelete) {
+            if ($userSkillDelete) {
                 return [
-                    'userSkill' => $userSkill,
+                    'userSkillDelete' => true,
                     'message' => __('messages.profile.user_destroy_profile_success')
                 ];
             }

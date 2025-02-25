@@ -42,7 +42,11 @@ class UserSkillController extends Controller
             return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -59,7 +63,11 @@ class UserSkillController extends Controller
             return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -78,7 +86,11 @@ class UserSkillController extends Controller
             return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     public function getDetailListOfUserSkill(UserSkillRequest $request): JsonResponse
@@ -94,7 +106,11 @@ class UserSkillController extends Controller
             return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -114,7 +130,11 @@ class UserSkillController extends Controller
             return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     public function update(UserSkillRequest $request): JsonResponse
@@ -130,7 +150,11 @@ class UserSkillController extends Controller
             return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
         }
 
-        return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     public function destroy(UserSkillRequest $request): JsonResponse
@@ -139,7 +163,7 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserSkillCommand::withForm($request));
 
-        if(!empty($result['userSkill'])){
+        if(!empty($result['userSkillDelete'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

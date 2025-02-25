@@ -8,7 +8,7 @@ if (!function_exists('getFilterCollectionIds')) {
      * @param string $pluck
      * @return Collection
      */
-    function getFilterCollectionIds($collection, string $pluck = 'id'): Collection
+    function getFilterCollectionIds($collection = null, string $pluck = 'id'): Collection
     {
         return collect($collection)->pluck($pluck)->filter();
     }

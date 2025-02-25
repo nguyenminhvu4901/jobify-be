@@ -28,31 +28,35 @@ class StoreUserProductHandle
                 'description' => $command->description
             ]);
 
-            if(!empty($command->attachments))
-            {
-                $attachments = $command->attachments;
-
-                foreach ($attachments as $attachment)
+            if($userProduct){
+                if(!empty($command->attachments))
                 {
-                    $pathStorage = $this->userProductService->saveAttachment($attachment);
+                    $attachments = $command->attachments;
 
-                    if(!empty($pathStorage)){
-                        $this->userProductService->storeUserProductResource(
-                            attachment: $attachment,
-                            userProductId: $userProduct->id,
-                            pathStorage: $pathStorage
-                        );
+                    foreach ($attachments as $attachment)
+                    {
+                        $pathStorage = $this->userProductService->saveAttachment($attachment);
+
+                        if(!empty($pathStorage)){
+                            $this->userProductService->storeUserProductResource(
+                                attachment: $attachment,
+                                userProductId: $userProduct->id,
+                                pathStorage: $pathStorage
+                            );
+                        }
                     }
                 }
-            }
 
-            if($userProduct){
-                $userProduct->load(['userProductResources', 'user']);
+                $userProduct->load(['userProductResources.contentType', 'user']);
+
+                return [
+                    'userProduct' => UserProductResource::make($userProduct),
+                    'message' => __('messages.profile.user_update_profile_success')
+                ];
             }
 
             return [
-                'userProduct' => UserProductResource::make($userProduct),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_error')
             ];
         }catch (\Exception $e){
 

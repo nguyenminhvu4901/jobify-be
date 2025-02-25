@@ -25,7 +25,7 @@ class DetailListOfUserExperienceByUserSlugHandle
         try {
             $userExperiences = $this->userExperienceRepository->getByRelationshipUserSlug(
                 $command->userSlug,
-                ['userExperienceResource', 'user']
+                ['userExperienceResource.contentType', 'user']
             );
 
             return [

@@ -25,7 +25,7 @@ class GetDetailListOfUserCourseByUserSlugHandle
         try {
             $userCourses =  $this->userCourseRepository->getByRelationshipUserSlug(
                 $command->userSlug,
-                ['userCourseResources', 'user']
+                ['userCourseResources.contentType', 'user']
             );
 
             return [

@@ -5,6 +5,8 @@ namespace App\Commands\UserProduct\DestroyUserProduct;
 use App\Repositories\UserProduct\UserProductRepository;
 use App\Repositories\UserProductResource\UserProductResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserProductHandle
 {
@@ -36,9 +38,12 @@ class DestroyUserProductHandle
 
             if (!$userProduct) {
                 return [
-                    'message' => __('messages.profile.user_destroy_profile_error')
+                    'message' => __('messages.response.resource_not_found'),
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
                 ];
             }
+
+            DB::beginTransaction();
 
             $userProduct->userProductResources?->each(function ($eachUserProductResource) {
                 $this->attachmentResourceService->deleteFileAttachment($eachUserProductResource);
@@ -48,17 +53,22 @@ class DestroyUserProductHandle
             $userProductDestroy = $this->userProductRepository->destroy($userProduct);
 
             if($userProductDestroy){
+                DB::commit();
+
                 return [
                     'userProductDestroy' => true,
                     'message' => __('messages.profile.user_destroy_profile_success')
                 ];
             }
 
+            DB::rollBack();
+
             return [
                 'message' => __('messages.profile.user_destroy_profile_error')
             ];
 
         }catch (\Exception $e){
+            DB::rollBack();
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),

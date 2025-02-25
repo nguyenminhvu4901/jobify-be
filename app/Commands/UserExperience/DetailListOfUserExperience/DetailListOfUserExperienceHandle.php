@@ -18,7 +18,7 @@ class DetailListOfUserExperienceHandle
         try {
             $userExperience = $this->userExperienceRepository->findWithRelationships(
                 $command->userExperienceId,
-                ['user', 'userExperienceResource']
+                ['user', 'userExperienceResource.contentType']
             );
 
             return [

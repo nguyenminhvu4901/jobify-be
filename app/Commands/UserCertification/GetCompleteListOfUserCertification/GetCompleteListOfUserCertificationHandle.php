@@ -23,7 +23,7 @@ class GetCompleteListOfUserCertificationHandle
     {
         try {
             $userCertifications = $this->userCertificationRepository->getWithRelationship(
-                ['userCertificationResources', 'user']
+                ['userCertificationResources.contentType', 'user']
             );
 
             return [

@@ -26,7 +26,7 @@ class GetListPrizeCurrentUserHandle
 
             $userPrizes = $this->userRepository->findWithRelationships(
                 $user->id,
-                'userPrizes.userPrizeResources',
+                'userPrizes.userPrizeResources.contentType',
                 [
                     'userPrizes' => function ($query) {
                         return $query->orderByDesc('id');

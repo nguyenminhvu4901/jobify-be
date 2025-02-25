@@ -37,30 +37,35 @@ class StoreUserCourseHandle
                 'description' => $command->description,
             ]);
 
-            if(!empty($command->attachments)){
-                $attachments = $command->attachments;
+            if($userCourse){
+                if(!empty($command->attachments)){
+                    $attachments = $command->attachments;
 
-                foreach ($attachments as $attachment){
-                    $pathStorage = $this->userCourseService->saveAttachment($attachment);
+                    foreach ($attachments as $attachment){
+                        $pathStorage = $this->userCourseService->saveAttachment($attachment);
 
-                    if(!empty($pathStorage)){
-                        $this->userCourseService->storeUserCourseResource(
-                            attachment: $attachment,
-                            userCourseId: $userCourse->id,
-                            pathStorage: $pathStorage
-                        );
+                        if(!empty($pathStorage)){
+                            $this->userCourseService->storeUserCourseResource(
+                                attachment: $attachment,
+                                userCourseId: $userCourse->id,
+                                pathStorage: $pathStorage
+                            );
+                        }
                     }
                 }
-            }
 
-            if ($userCourse) {
-                $userCourse->refresh();
+                $userCourse->load(['userCourseResources.contentType', 'user']);
+
+                return [
+                    'message' => __('messages.profile.user_update_profile_success'),
+                    'userCourse' => UserCourseResource::make($userCourse)
+                ];
             }
 
             return [
-                'message' => __('messages.profile.user_update_profile_success'),
-                'userCourse' => UserCourseResource::make($userCourse)
+                'message' => __('messages.profile.user_update_profile_error'),
             ];
+
         }catch (\Exception $e){
 
             return [
