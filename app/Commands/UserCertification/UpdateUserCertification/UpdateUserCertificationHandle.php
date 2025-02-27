@@ -26,7 +26,7 @@ class UpdateUserCertificationHandle
     public function handle(UpdateUserCertificationCommand $command): array
     {
         try {
-            $result = $this->userCertificationRepository->updateUserCertification(
+            $result = $this->userCertificationRepository->updateDataWithTransaction(
                 $this->prepareUserActivityData($command),
                 $command->userCertificationId
             );

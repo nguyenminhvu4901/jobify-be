@@ -26,48 +26,43 @@ class StoreUserExperienceHandler
     public function handle(StoreUserExperienceCommand $command): array
     {
         try {
-            $userId = auth()->user()->id;
+            $result = $this->userExperienceRepository->storeDataWithTransaction(
+                $this->prepareUserActivityData($command)
+            );
 
-            $userExperience = $this->userExperienceRepository->create([
-                'user_id' => $userId,
-                'name' => $command->name,
-                'position' => $command->position,
-                'is_working' => $command->isWorking,
-                'start_date'=> $command->startDate,
-                'end_date' => $command->endDate
-            ]);
-
-            if($userExperience){
-                if(!empty($command->attachments))
-                {
-                    $attachments = $command->attachments;
-
-                    foreach ($attachments as $attachment)
-                    {
-                        $pathStorage = $this->userExperienceService->saveAttachment($attachment);
-
-                        if(!empty($pathStorage)){
-                            $this->userExperienceService->storeUserExperienceResource(
-                                attachment: $attachment,
-                                userExperienceId: $userExperience->id,
-                                pathStorage: $pathStorage
-                            );
-                        }
-                    }
-                }
-
-                $userExperience->load([
-                    'user', 'userExperienceResource.contentType'
-                ]);
+            if(!$result['success']){
 
                 return [
-                    'userExperience' => UserExperienceResource::make($userExperience),
-                    'message' => __('messages.profile.user_update_profile_success')
+                    'message' => __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments))
+            {
+                $attachments = $command->attachments;
+
+                foreach ($attachments as $attachment)
+                {
+                    $pathStorage = $this->userExperienceService->saveAttachment($attachment);
+
+                    if(!empty($pathStorage)){
+                        $this->userExperienceService->storeUserExperienceResource(
+                            attachment: $attachment,
+                            userExperienceId: $result['data']->id,
+                            pathStorage: $pathStorage
+                        );
+                    }
+                }
+            }
+
+            $result['data']->load([
+                'user', 'userExperienceResource.contentType'
+            ]);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'data' => UserExperienceResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -76,5 +71,21 @@ class StoreUserExperienceHandler
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param StoreUserExperienceCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(StoreUserExperienceCommand $command): array
+    {
+        return [
+            'user_id' => auth()->user()->id,
+            'name' => $command->name,
+            'position' => $command->position,
+            'is_working' => $command->isWorking,
+            'start_date'=> $command->startDate,
+            'end_date' => $command->endDate
+        ];
     }
 }

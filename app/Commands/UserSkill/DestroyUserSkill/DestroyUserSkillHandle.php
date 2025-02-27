@@ -24,7 +24,8 @@ class DestroyUserSkillHandle
     {
         try {
             $userSkill = $this->userSkillRepository->findByRelationshipUserSlugAndColumnDetailId(
-                $command->userSlug, $command->userSkillId
+                userSlug: $command->userSlug,
+                idColumn: $command->userSkillId
             );
 
             if (!$userSkill) {
@@ -34,17 +35,18 @@ class DestroyUserSkillHandle
                 ];
             }
 
-            $userSkillDelete = $this->userSkillRepository->destroy($userSkill);
+            $result = $this->userSkillRepository->destroyDataWithTransaction($userSkill->id);
 
-            if ($userSkillDelete) {
+            if ($result['success']) {
                 return [
-                    'userSkillDelete' => true,
+                    'userSkillDestroy' => $result['success'],
                     'message' => __('messages.profile.user_destroy_profile_success')
                 ];
             }
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
+                'error' => $result['error'] ?? null,
                 'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
         }catch (\Exception $e){

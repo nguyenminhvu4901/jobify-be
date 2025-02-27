@@ -2,13 +2,12 @@
 
 namespace App\Repositories\UserProductResource;
 
-use App\Entities\UserProductResource\UserProductResource;
-
 interface UserProductResourceRepository
 {
-    public function store(array $attributes);
+    public function getByIds(array $userActivityResourceIds);
+    public function storeDataWithTransaction(array $attributes);
 
-    public function updateUserProductResource(array $attributes, $userProductResourceId);
+    public function updateDataWithTransaction(array $attributes, string|int $userProductResourceId);
 
-    public function destroy(UserProductResource $userProductResource);
+    public function destroyDataWithTransaction(int|string $userProductResourceId);
 }

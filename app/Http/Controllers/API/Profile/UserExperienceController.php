@@ -41,8 +41,8 @@ class UserExperienceController extends Controller
 
         $result = $this->bus->dispatch(StoreUserExperienceCommand::withForm($request));
 
-        if(!empty($result['userExperience'])){
-            return $this->responseSuccess(data: $result['userExperience'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -62,8 +62,8 @@ class UserExperienceController extends Controller
 
         $result = $this->bus->dispatch(new GetListExperienceCurrentUserCommand());
 
-        if(!empty($result['userExperience'])){
-            return $this->responseSuccess(data: $result['userExperience'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -101,8 +101,8 @@ class UserExperienceController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserExperienceCommand());
 
-        if(!empty($result['userExperiences'])){
-            return $this->responseSuccess(data: $result['userExperiences'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -123,8 +123,8 @@ class UserExperienceController extends Controller
 
         $result = $this->bus->dispatch(DetailListOfUserExperienceCommand::withForm($request));
 
-        if(!empty($result['userExperience'])){
-            return $this->responseSuccess(data: $result['userExperience'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -145,8 +145,8 @@ class UserExperienceController extends Controller
 
         $result = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userExperiences'])){
-            return $this->responseSuccess(data: $result['userExperiences'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -166,8 +166,8 @@ class UserExperienceController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserExperienceCommand::withForm($request));
 
-        if(!empty($result['userExperience'])){
-            return $this->responseSuccess(data: $result['userExperience'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(

@@ -27,7 +27,7 @@ class GetCompleteListOfUserProjectHandle
             );
 
             return [
-                'userProjects' => UserProjectResource::collection($userProjects),
+                'data' => UserProjectResource::collection($userProjects),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

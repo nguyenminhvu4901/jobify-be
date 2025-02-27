@@ -44,8 +44,8 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(new GetListProjectCurrentUserCommand());
 
-        if(!empty($result['userProjects'])){
-            return $this->responseSuccess(data: $result['userProjects'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -67,8 +67,8 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserProjectCommand());
 
-        if(!empty($result['userProjects'])){
-            return $this->responseSuccess(data: $result['userProjects'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -91,8 +91,8 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserProjectCommand::withForm($request));
 
-        if(!empty($result['userProject'])){
-            return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -115,8 +115,8 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserProjectByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userProject'])){
-            return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -139,8 +139,8 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(StoreUserProjectCommand::withForm($request));
 
-        if(!empty($result['userProject'])){
-            return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -163,8 +163,8 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserProjectCommand::withForm($request));
 
-        if(!empty($result['userProject'])){
-            return $this->responseSuccess(data: $result['userProject'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(

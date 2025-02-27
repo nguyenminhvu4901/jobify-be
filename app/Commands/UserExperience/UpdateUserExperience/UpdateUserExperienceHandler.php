@@ -26,39 +26,32 @@ class UpdateUserExperienceHandler
     public function handle(UpdateUserExperienceCommand $command): array
     {
         try {
-            $userExperience = $this->userExperienceRepository->updateUserExperience([
-                'name' => $command->name,
-                'position' => $command->position,
-                'is_working' => $command->isWorking,
-                'start_date' => $command->startDate,
-                'end_date' => $command->endDate
-            ], $command->userExperienceId);
+            $result = $this->userExperienceRepository->updateDataWithTransaction(
+                $this->prepareUserActivityData($command), $command->userExperienceId);
 
-            if($userExperience){
-                if(!empty($command->attachments))
-                {
-                    $attachments = $command->attachments;
-                    $userExperienceResource = $userExperience->userExperienceResource;
-
-                    $this->userExperienceService->updateResourceAttachment(
-                        attachments: $attachments,
-                        userExperienceResource: $userExperienceResource,
-                        userExperienceId: $command->userExperienceId
-                    );
-                }
-
-                $userExperience->load([
-                    'user', 'userExperienceResource.contentType'
-                ]);
-
+            if(!$result['success']){
                 return [
-                    'userExperience' => UserExperienceResource::make($userExperience),
-                    'message' => __('messages.profile.user_update_profile_success')
+                    'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments))
+            {
+                $this->userExperienceService->updateResourceAttachment(
+                    attachments: $command->attachments,
+                    userExperienceResource: $result['data']->userExperienceResource,
+                    userExperienceId: $command->userExperienceId
+                );
+            }
+
+            $result['data']->load([
+                'user', 'userExperienceResource.contentType'
+            ]);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'data' => UserExperienceResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -67,5 +60,20 @@ class UpdateUserExperienceHandler
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param UpdateUserExperienceCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(UpdateUserExperienceCommand $command): array
+    {
+        return [
+            'name' => $command->name,
+            'position' => $command->position,
+            'is_working' => $command->isWorking,
+            'start_date' => $command->startDate,
+            'end_date' => $command->endDate
+        ];
     }
 }

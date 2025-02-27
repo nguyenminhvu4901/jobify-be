@@ -27,7 +27,7 @@ class GetCompleteListOfUserProductHandle
             );
 
             return [
-                'userProducts' => UserProductResource::collection($userProducts),
+                'data' => UserProductResource::collection($userProducts),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

@@ -48,7 +48,7 @@ class UserProjectService
         string|null $pathStorage
     ): mixed
     {
-        return $this->userProjectResourceRepository->store([
+        return $this->userProjectResourceRepository->storeDataWithTransaction([
             'user_project_id' => $userProjectId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
@@ -69,7 +69,7 @@ class UserProjectService
         string|null $pathStorage
     ): mixed
     {
-        return $this->userProjectResourceRepository->updateUserProjectResource(
+        return $this->userProjectResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
@@ -124,13 +124,13 @@ class UserProjectService
         );
 
         $listUserProjectResourceToDelete = $this->userProjectResourceRepository
-            ->getListUserProjectResourceByIds($listDelIds);
+            ->getByIds($listDelIds);
 
         if(!empty($listUserProjectResourceToDelete)){
              $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserProjectResource);
-                $this->userProjectResourceRepository->destroy($eachUserProjectResource);
+                $this->userProjectResourceRepository->destroyDataWithTransaction($eachUserProjectResource);
             });
         }
 

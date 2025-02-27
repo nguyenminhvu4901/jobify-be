@@ -5,7 +5,6 @@ namespace App\Commands\UserProject\DestroyUserProject;
 use App\Repositories\UserProject\UserProjectRepository;
 use App\Repositories\UserProjectResource\UserProjectResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserProjectHandle
@@ -44,36 +43,34 @@ class DestroyUserProjectHandle
                 ];
             }
 
-            DB::beginTransaction();
+            if($userProject->userProjectResources->isNotEmpty()){
+                foreach ($userProject->userProjectResources as $resource){
+                    $this->attachmentResourceService->deleteFileAttachment($resource);
+                    $this->userProjectResourceRepository->destroyDataWithTransaction($resource->id);
+                }
+            }
 
-            $userProject->userProjectResources?->each(function ($eachUserProjectResource) {
-                $this->attachmentResourceService->deleteFileAttachment($eachUserProjectResource);
-                $this->userProjectResourceRepository->destroy($eachUserProjectResource);
-            });
+            $result = $this->userProjectRepository->destroyDataWithTransaction($userProject->id);
 
-            $userProjectDestroy = $this->userProjectRepository->destroy($userProject);
-
-            if($userProjectDestroy){
-                DB::commit();
+            if($result['success']){
 
                 return [
-                    'userProjectDestroy' => true,
+                    'userProjectDestroy' => $result['success'],
                     'message' => __('messages.profile.user_destroy_profile_success')
                 ];
             }
 
-            DB::rollBack();
-
             return [
-                'message' => __('messages.profile.user_destroy_profile_error')
+                'message' => __('messages.profile.user_destroy_profile_error'),
+                'error' => $result['error'] ?? null,
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
-
         }catch (\Exception $e){
-            DB::rollBack();
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
-                'error' => $e
+                'error' => $e,
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
         }
     }

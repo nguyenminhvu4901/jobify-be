@@ -45,11 +45,11 @@ class DestroyUserCourseHandle
             if($userCourse->userCourseResources->isNotEmpty()){
                 foreach ($userCourse->userCourseResources as $resource){
                     $this->attachmentResourceService->deleteFileAttachment($resource);
-                    $this->userCourseResourceRepository->destroy($resource);
+                    $this->userCourseResourceRepository->destroyDataWithTransaction($resource->id);
                 }
             }
 
-            $result = $this->userCourseRepository->destroy($userCourse);
+            $result = $this->userCourseRepository->destroyDataWithTransaction($userCourse->id);
 
             if($result['success']){
 

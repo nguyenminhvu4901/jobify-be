@@ -26,7 +26,7 @@ class UpdateUserCourseHandle
     public function handle(UpdateUserCourseCommand $command): array
     {
         try {
-            $result = $this->userCourseRepository->updateUserCourse(
+            $result = $this->userCourseRepository->updateDataWithTransaction(
                 $this->prepareUserActivityData($command), $command->userCourseId);
 
             if(!$result['success']){

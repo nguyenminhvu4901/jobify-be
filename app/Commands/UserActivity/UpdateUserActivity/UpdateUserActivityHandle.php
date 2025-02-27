@@ -62,7 +62,6 @@ class UpdateUserActivityHandle
         }
     }
 
-
     /**
      * @param UpdateUserActivityCommand $command
      * @return array

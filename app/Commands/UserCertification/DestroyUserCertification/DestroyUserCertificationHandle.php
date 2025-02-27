@@ -45,15 +45,15 @@ class DestroyUserCertificationHandle
             if($userCertification->userCertificationResources->isNotEmpty()){
                 foreach ($userCertification->userCertificationResources as $resource){
                     $this->attachmentResourceService->deleteFileAttachment($resource);
-                    $this->userCertificationResourceRepository->destroy($resource);
+                    $this->userCertificationResourceRepository->destroyDataWithTransaction($resource->id);
                 }
             }
 
-            $result = $this->userCertificationRepository->destroy($userCertification);
+            $result = $this->userCertificationRepository->destroyDataWithTransaction($userCertification->id);
 
             if ($result['success']) {
                 return [
-                    'userCertificationDelete' => $result['success'],
+                    'userCertificationDestroy' => $result['success'],
                     'message' => __('messages.profile.user_destroy_profile_success'),
                 ];
             }

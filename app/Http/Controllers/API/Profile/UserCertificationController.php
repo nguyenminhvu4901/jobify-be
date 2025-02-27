@@ -354,7 +354,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserCertificationCommand::withForm($request));
 
-        if(!empty($result['userCertificationDelete'])){
+        if(!empty($result['userCertificationDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

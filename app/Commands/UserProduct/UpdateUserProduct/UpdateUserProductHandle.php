@@ -26,33 +26,30 @@ class UpdateUserProductHandle
     public function handle(UpdateUserProductCommand $command): array
     {
         try {
-            $userProduct = $this->userProductRepository->updateUserProduct([
-                'name' => $command->name,
-                'category' => $command->category,
-                'finished_date' => $command->finishedDate,
-                'description' => $command->description
-            ], $command->userProductId);
+            $result = $this->userProductRepository->updateDataWithTransaction(
+                $this->prepareUserActivityData($command), $command->userProductId);
 
-            if($userProduct){
-                if(!empty($command->attachments)){
-
-                    $this->userProductService->updateResourceAttachment(
-                        attachments: $command->attachments,
-                        userProductResource: $userProduct->userProductResources,
-                        userProductId: $command->userProductId
-                    );
-                }
-
-                $userProduct->load(['userProductResources.contentType', 'user']);
-
+            if(!$result['success']){
                 return [
-                    'message' => __('messages.profile.user_update_profile_success'),
-                    'userProduct' => UserProductResource::make($userProduct)
+                    'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments)){
+
+                $this->userProductService->updateResourceAttachment(
+                    attachments: $command->attachments,
+                    userProductResource: $result['data']->userProductResources,
+                    userProductId: $command->userProductId
+                );
+            }
+
+            $result['data']->load(['userProductResources.contentType', 'user']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'data' => UserProductResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -61,5 +58,19 @@ class UpdateUserProductHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param UpdateUserProductCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(UpdateUserProductCommand $command): array
+    {
+        return [
+            'name' => $command->name,
+            'category' => $command->category,
+            'finished_date' => $command->finishedDate,
+            'description' => $command->description
+        ];
     }
 }

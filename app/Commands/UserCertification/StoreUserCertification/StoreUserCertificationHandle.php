@@ -25,7 +25,7 @@ class StoreUserCertificationHandle
     public function handle(StoreUserCertificationCommand $command): array
     {
         try {
-            $result = $this->userCertificationRepository->create(
+            $result = $this->userCertificationRepository->storeDataWithTransaction(
                 $this->prepareUserActivityData($command)
             );
 
@@ -55,9 +55,7 @@ class StoreUserCertificationHandle
                 }
             }
 
-            $result['data']->load([
-                'user', 'userCertificationResources.contentType'
-            ]);
+            $result['data']->load(['user', 'userCertificationResources.contentType']);
 
             return [
                 'data' => UserCertificationResource::make($result['data']),

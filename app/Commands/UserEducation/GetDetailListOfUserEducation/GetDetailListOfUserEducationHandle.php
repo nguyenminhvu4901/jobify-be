@@ -28,8 +28,14 @@ class GetDetailListOfUserEducationHandle
                 'user'
             );
 
+            if(empty($userEducation)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userEducation' => UserEducationResource::make($userEducation),
+                'data' => UserEducationResource::make($userEducation),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

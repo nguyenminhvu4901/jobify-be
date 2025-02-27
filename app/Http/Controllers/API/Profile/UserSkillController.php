@@ -38,8 +38,8 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(new GetListSkillCurrentUserCommand());
 
-        if(!empty($result['userSkills'])){
-            return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -59,8 +59,8 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(StoreUserSkillCommand::withForm($request));
 
-        if(!empty($result['userSkill'])){
-            return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -82,8 +82,8 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserSkillCommand());
 
-        if(!empty($result['userSkills'])){
-            return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -102,8 +102,8 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserSkillCommand::withForm($request));
 
-        if(!empty($result['userSkill'])){
-            return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -126,8 +126,8 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserSkillByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userSkills'])){
-            return $this->responseSuccess(data: $result['userSkills'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -146,8 +146,8 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserSkillCommand::withForm($request));
 
-        if(!empty($result['userSkill'])){
-            return $this->responseSuccess(data: $result['userSkill'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -163,7 +163,7 @@ class UserSkillController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserSkillCommand::withForm($request));
 
-        if(!empty($result['userSkillDelete'])){
+        if(!empty($result['userSkillDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

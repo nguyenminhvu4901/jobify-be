@@ -22,10 +22,8 @@ class GetListPrizeCurrentUserHandle
     public function handle(): array
     {
         try {
-            $user = auth()->user();
-
             $userPrizes = $this->userRepository->findWithRelationships(
-                $user->id,
+                auth()->user()->id,
                 'userPrizes.userPrizeResources.contentType',
                 [
                     'userPrizes' => function ($query) {
@@ -34,8 +32,14 @@ class GetListPrizeCurrentUserHandle
                 ]
             );
 
+            if(empty($userPrizes)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userPrizes' => CurrentUserPrizeResource::make($userPrizes),
+                'data' => CurrentUserPrizeResource::make($userPrizes),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

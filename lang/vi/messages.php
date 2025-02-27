@@ -46,6 +46,12 @@ return [
 
     'response' => [
         'resource_not_found' => 'Không tìm thấy tài nguyên yêu cầu',
+        'create_resource_success' => 'Thêm tài nguyên thành công',
+        'update_resource_success' => 'Cập nhật tài nguyên thành công',
+        'delete_resource_success' => 'Xóa tài nguyên thành công',
+        'create_resource_failed' => 'Thêm tài nguyên thất bại!',
+        'update_resource_failed' => 'Cập nhật tài nguyên thất bại!',
+        'delete_resource_failed' => 'Xóa tài nguyên thất bại!',
         'validation_error' => 'Lỗi xác thực',
         'unauthorized' => 'Không được phép',
         'server_error' => 'Lỗi máy chủ',

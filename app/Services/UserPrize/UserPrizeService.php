@@ -44,7 +44,7 @@ class UserPrizeService
         string|null $pathStorage
     ): mixed
     {
-        return $this->userPrizeResourceRepository->store([
+        return $this->userPrizeResourceRepository->storeDataWithTransaction([
             'user_prize_id' => $userPrizeId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
@@ -65,7 +65,7 @@ class UserPrizeService
         string|null $pathStorage
     ): mixed
     {
-        return $this->userPrizeResourceRepository->updateUserPrizeResource(
+        return $this->userPrizeResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
@@ -120,13 +120,13 @@ class UserPrizeService
         );
 
         $listUserPrizeResourceToDelete = $this->userPrizeResourceRepository
-            ->getListUserPrizeResourceByIds($listDelIds);
+            ->getByIds($listDelIds);
 
         if(!empty($listUserPrizeResourceToDelete)){
             $listUserPrizeResourceToDelete->map(function ($eachUserPrizeResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserPrizeResource);
-                $this->userPrizeResourceRepository->destroy($eachUserPrizeResource);
+                $this->userPrizeResourceRepository->destroyDataWithTransaction($eachUserPrizeResource->id);
             });
         }
 

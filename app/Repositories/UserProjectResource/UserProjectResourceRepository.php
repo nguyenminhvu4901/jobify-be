@@ -2,13 +2,12 @@
 
 namespace App\Repositories\UserProjectResource;
 
-use App\Entities\UserProjectResource\UserProjectResource;
-
 interface UserProjectResourceRepository
 {
-    public function store(array $attributes);
+    public function getByIds(array $userActivityResourceIds);
+    public function storeDataWithTransaction(array $attributes);
 
-    public function updateUserProjectResource(array $attributes, int|string $userProjectResourceId);
+    public function updateDataWithTransaction(array $attributes, string|int $userProjectResourceId);
 
-    public function destroy(UserProjectResource $userProjectResource);
+    public function destroyDataWithTransaction(int|string $userProjectResourceId);
 }

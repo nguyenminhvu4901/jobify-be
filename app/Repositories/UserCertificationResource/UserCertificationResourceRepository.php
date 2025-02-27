@@ -2,13 +2,12 @@
 
 namespace App\Repositories\UserCertificationResource;
 
-use App\Entities\UserCertificationResource\UserCertificationResource;
-
 interface UserCertificationResourceRepository
 {
-    public function store(array $attributes);
+    public function getByIds(array $userCertificationResourceIds);
+    public function storeDataWithTransaction(array $attributes);
 
-    public function updateUserCertificationResource(array $attributes, string|int $userCertificationResourceId);
+    public function updateDataWithTransaction(array $attributes, string|int $userCertificationResourceId);
 
-    public function destroy(UserCertificationResource $userCertificationResource);
+    public function destroyDataWithTransaction(int|string $userCertificationResourceId);
 }

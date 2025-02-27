@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\UserCertification;
 
-use App\Enums\DefaultContentType;
-use App\Rules\ExistsInResourceRelation;
+use App\Rules\Resource\ExistsInResourceRelation;
+use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -40,6 +40,7 @@ class UserCertificationRequest extends FormRequest
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
                 'attachments.*.user_certification_resource_id' => [
                         'bail', 'nullable', 'integer', 'exists:user_certification_resources,id',
+                    new UniqueArrayValues('attachments.*.user_certification_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_certification_id'),
                         'user_certifications',

@@ -25,7 +25,7 @@ class GetDetailListOfUserProductByUserSlugHandle
             );
 
             return [
-                'userProduct' => UserProductResource::collection($userProduct),
+                'data' => UserProductResource::collection($userProduct),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

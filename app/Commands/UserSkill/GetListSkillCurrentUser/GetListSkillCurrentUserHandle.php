@@ -22,15 +22,19 @@ class GetListSkillCurrentUserHandle
     public function handle(): array
     {
         try {
-            $userId = auth()->user()->id;
-
             $userSkills = $this->userRepository->findWithRelationships(
-                $userId,
+                auth()->user()->id,
                 ['userSkills.rate']
             );
 
+            if(empty($userSkills)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userSkills' => CurrentUserSkillResource::make($userSkills),
+                'data' => CurrentUserSkillResource::make($userSkills),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

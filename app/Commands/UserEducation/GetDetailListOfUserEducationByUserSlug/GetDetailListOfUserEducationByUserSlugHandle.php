@@ -29,7 +29,7 @@ class GetDetailListOfUserEducationByUserSlugHandle
             );
 
             return [
-                'userEducation' => UserEducationResource::collection($userEducation),
+                'data' => UserEducationResource::collection($userEducation),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

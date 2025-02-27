@@ -29,7 +29,7 @@ class GetDetailListOfUserPrizeByUserSlugHandle
             );
 
             return [
-                'userPrize' => UserPrizeResource::collection($userPrize),
+                'data' => UserPrizeResource::collection($userPrize),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

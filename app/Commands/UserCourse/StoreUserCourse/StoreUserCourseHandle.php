@@ -26,7 +26,7 @@ class StoreUserCourseHandle
     public function handle(StoreUserCourseCommand $command): array
     {
         try {
-            $result = $this->userCourseRepository->store(
+            $result = $this->userCourseRepository->storeDataWithTransaction(
                 $this->prepareUserActivityData($command)
             );
 

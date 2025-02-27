@@ -22,26 +22,23 @@ class StoreUserSkillHandle
     public function handle(StoreUserSkillCommand $command): array
     {
         try {
-            $userId = auth()->user()->id;
+            $result = $this->userSkillRepository->storeDataWithTransaction(
+                $this->prepareUserActivityData($command)
+            );
 
-            $userSkill = $this->userSkillRepository->create([
-                'user_id' => $userId,
-                'name' => $command->name,
-                'rate_id' => $command->rateId,
-                'description' => $command->description
-            ]);
-
-            if($userSkill){
-                $userSkill->load(['user', 'rate']);
+            if(!$result['success']){
 
                 return [
-                    'userSkill' => UserSkillResource::make($userSkill),
-                    'message' => __('messages.profile.user_update_profile_success')
+                    'message' => __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            $result['data']->load(['user', 'rate']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'data' => UserSkillResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -50,5 +47,19 @@ class StoreUserSkillHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param StoreUserSkillCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(StoreUserSkillCommand $command): array
+    {
+        return [
+            'user_id' => auth()->user()->id,
+            'name' => $command->name,
+            'rate_id' => $command->rateId,
+            'description' => $command->description
+        ];
     }
 }

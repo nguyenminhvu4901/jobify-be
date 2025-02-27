@@ -44,7 +44,7 @@ class UserCertificationService
      */
     public function storeUserCertificationResource($attachment, $userCertificationId, $pathStorage): mixed
     {
-        return $this->userCertificationResourceRepository->store([
+        return $this->userCertificationResourceRepository->storeDataWithTransaction([
             'user_certification_id' => $userCertificationId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
@@ -127,7 +127,7 @@ class UserCertificationService
      */
     private function updateUserCertificationResource($attachment, $userCertificationResourceId, $pathStorage): mixed
     {
-        return $this->userCertificationResourceRepository->updateUserCertificationResource([
+        return $this->userCertificationResourceRepository->updateDataWithTransaction([
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
@@ -149,13 +149,13 @@ class UserCertificationService
         );
 
         $listUserCertificationResourceToDelete = $this->userCertificationResourceRepository
-                                                    ->getListUserCertificationResourceByIds($listDelIds);
+                                                    ->getByIds($listDelIds);
 
         if(!empty($listUserCertificationResourceToDelete)){
             return $listUserCertificationResourceToDelete->map(function ($eachUserCertificationResource) {
 
                $this->attachmentResourceService->deleteFileAttachment($eachUserCertificationResource);
-               $this->userCertificationResourceRepository->destroy($eachUserCertificationResource);
+               $this->userCertificationResourceRepository->destroyDataWithTransaction($eachUserCertificationResource);
             });
         }
 

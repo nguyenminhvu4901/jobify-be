@@ -2,13 +2,23 @@
 
 namespace App\Repositories\UserProject;
 
-use App\Entities\UserProject\UserProject;
+use Illuminate\Database\Eloquent\Collection;
 
 interface UserProjectRepository
 {
-    public function store(array $attributes);
+    public function getWithRelationship(array|string $relationship = []): Collection;
 
-    public function updateUserProject(array $attributes, $userProjectId);
+    public function findWithRelationships(
+        int|string $id,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = []
+    ): mixed;
 
-    public function destroy(UserProject $userProject);
+    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed;
+
+    public function storeDataWithTransaction(array $attributes);
+
+    public function updateDataWithTransaction(array $attributes, int $userProjectId);
+
+    public function destroyDataWithTransaction(int|string $userProjectId);
 }

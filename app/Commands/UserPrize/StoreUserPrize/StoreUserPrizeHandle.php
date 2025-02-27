@@ -26,46 +26,42 @@ class StoreUserPrizeHandle
     public function handle(StoreUserPrizeCommand $command): array
     {
         try {
-            $userId = auth()->user()->id;
+            $result = $this->userPrizeRepository->storeDataWithTransaction(
+                $this->prepareUserActivityData($command)
+            );
 
-            $userPrize = $this->userPrizeRepository->store([
-                'user_id' => $userId,
-                'name' => $command->name,
-                'organization' => $command->organization,
-                'start_date'=> $command->startDate,
-                'end_date' => $command->endDate
-            ]);
-
-            if($userPrize){
-                if(!empty($command->attachments))
-                {
-                    $attachments = $command->attachments;
-
-                    foreach ($attachments as $attachment)
-                    {
-                        $pathStorage = $this->userPrizeService->saveAttachment($attachment);
-
-                        if(!empty($pathStorage)){
-
-                            $this->userPrizeService->storeUserPrizeResource(
-                                attachment: $attachment,
-                                userPrizeId: $userPrize->id,
-                                pathStorage: $pathStorage
-                            );
-                        }
-                    }
-                }
-
-                $userPrize->load(['userPrizeResources.contentType', 'user']);
+            if(!$result['success']){
 
                 return [
-                    'userPrize' => UserPrizeResource::make($userPrize),
-                    'message' => __('messages.profile.user_update_profile_success')
+                    'message' => __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments))
+            {
+                $attachments = $command->attachments;
+
+                foreach ($attachments as $attachment)
+                {
+                    $pathStorage = $this->userPrizeService->saveAttachment($attachment);
+
+                    if(!empty($pathStorage)){
+
+                        $this->userPrizeService->storeUserPrizeResource(
+                            attachment: $attachment,
+                            userPrizeId: $result['data']->id,
+                            pathStorage: $pathStorage
+                        );
+                    }
+                }
+            }
+
+            $result['data']->load(['userPrizeResources.contentType', 'user']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error'),
+                'data' => UserPrizeResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -74,5 +70,20 @@ class StoreUserPrizeHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param StoreUserPrizeCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(StoreUserPrizeCommand $command): array
+    {
+        return [
+            'user_id' => auth()->user()->id,
+            'name' => $command->name,
+            'organization' => $command->organization,
+            'start_date'=> $command->startDate,
+            'end_date' => $command->endDate
+        ];
     }
 }
