@@ -48,6 +48,12 @@ return [
 
     'response' => [
         'resource_not_found' => 'Resource Not Found!',
+        'create_resource_success' => 'Resource added successfully.',
+        'update_resource_success' => 'Resource updated successfully.',
+        'delete_resource_success' => 'Resource deleted successfully.',
+        'create_resource_failed' => 'Failed to add resource!',
+        'update_resource_failed' => 'Failed to update resource!',
+        'delete_resource_failed' => 'Failed to delete resource!',
         'validation_error' => 'Validation Error',
         'unauthorized' => 'Unauthorized',
         'server_error' => 'Server Error',

@@ -177,7 +177,11 @@ return [
             'rule-name' => 'custom-message',
         ],
 
-        "invalid_content_type_value_please_choose_again" =>"Invalid content type value, please choose again."
+        'the_password_field_is_required_when_type_is_standard' => 'The password field is required when the type is standard.',
+        'the_name_field_is_required_when_type_is_standard' => 'The name field is required when the type is standard.',
+        'invalid_content_type_value_please_choose_again' => 'Invalid content type value, please choose again.',
+        'invalid_attachment' => 'Invalid attachment, please choose again.',
+        'invalid_attachment_duplicate' => 'Duplicate attachment value, please choose again.',
     ],
 
     /*
