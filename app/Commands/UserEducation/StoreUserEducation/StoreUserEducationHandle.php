@@ -23,7 +23,7 @@ class StoreUserEducationHandle
     public function handle(StoreUserEducationCommand $command): array
     {
         try {
-            $result =  $this->userEducationRepository->storeDataWithTransaction(
+            $result = $this->userEducationRepository->storeDataWithTransaction(
                 $this->prepareUserActivityData($command)
             );
 
@@ -31,7 +31,7 @@ class StoreUserEducationHandle
 
                 return [
                     'message' => __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null
+                    'error' => $result['error'] ?? null,
                 ];
             }
 

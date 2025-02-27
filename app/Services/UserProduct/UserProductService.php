@@ -126,7 +126,7 @@ class UserProductService
             $listUserProductResourceToDelete->map(function ($eachUserProductResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserProductResource);
-                $this->userProductResourceRepository->destroyDataWithTransaction($eachUserProductResource);
+                $this->userProductResourceRepository->destroyDataWithTransaction($eachUserProductResource->id);
             });
         }
 

@@ -67,9 +67,9 @@ abstract class Controller extends BaseController
             return response()->json([
                 'message' => $message,
                 'error' => config('app.debug') && is_object($error) && method_exists($error, 'getMessage') ?
-                    $error->getMessage() : $error,
-                'status_code' => $statusCode
-            ], $statusCode);
+                    $error->getMessage() : null,
+                'status_code' => $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR
+            ], $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return response()->json([

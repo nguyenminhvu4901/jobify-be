@@ -155,7 +155,7 @@ class UserCertificationService
             return $listUserCertificationResourceToDelete->map(function ($eachUserCertificationResource) {
 
                $this->attachmentResourceService->deleteFileAttachment($eachUserCertificationResource);
-               $this->userCertificationResourceRepository->destroyDataWithTransaction($eachUserCertificationResource);
+               $this->userCertificationResourceRepository->destroyDataWithTransaction($eachUserCertificationResource->id);
             });
         }
 

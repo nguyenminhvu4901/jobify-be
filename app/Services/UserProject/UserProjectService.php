@@ -130,7 +130,7 @@ class UserProjectService
              $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserProjectResource);
-                $this->userProjectResourceRepository->destroyDataWithTransaction($eachUserProjectResource);
+                $this->userProjectResourceRepository->destroyDataWithTransaction($eachUserProjectResource->id);
             });
         }
 

@@ -36,8 +36,8 @@ class DestroyUserExperienceHandler
                 ];
             }
 
-            if($userExperience->userCourseResources->isNotEmpty()){
-                foreach ($userExperience->userCourseResources as $resource){
+            if($userExperience?->userExperienceResource->isNotEmpty()){
+                foreach ($userExperience->userExperienceResource as $resource){
                     $this->attachmentResourceService->deleteFileAttachment($resource);
                     $this->userExperienceResourceRepository->destroyDataWithTransaction($resource->id);
                 }

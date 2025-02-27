@@ -31,7 +31,6 @@ class GetListEducationCurrentUserHandle
                     }
                 ]
             );
-
             if(empty($userEducation)){
 
                 return [
@@ -40,7 +39,7 @@ class GetListEducationCurrentUserHandle
             }
 
             return [
-                'user' => CurrentUserEducationResource::make($userEducation),
+                'data' => CurrentUserEducationResource::make($userEducation),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

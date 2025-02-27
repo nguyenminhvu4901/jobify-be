@@ -43,8 +43,8 @@ class DestroyUserPrizeHandle
                 ];
             }
 
-            if($userPrize->userCourseResources->isNotEmpty()){
-                foreach ($userPrize->userCourseResources as $resource){
+            if($userPrize->userPrizeResources->isNotEmpty()){
+                foreach ($userPrize->userPrizeResources as $resource){
                     $this->attachmentResourceService->deleteFileAttachment($resource);
                     $this->userPrizeResourceRepository->destroyDataWithTransaction($resource->id);
                 }
