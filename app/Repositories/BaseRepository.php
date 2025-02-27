@@ -251,4 +251,9 @@ abstract class BaseRepository extends Repository
             ];
         }
     }
+
+    public function getByIds(array $ids)
+    {
+        return $this->model->whereIn('id', $ids)->cursor();
+    }
 }

@@ -7,9 +7,6 @@ use App\Repositories\UserActivityResource\UserActivityResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-/**
- *
- */
 class DestroyUserActivityHandle
 {
     /**
@@ -48,11 +45,11 @@ class DestroyUserActivityHandle
             if ($userActivity->userActivityResources?->isNotEmpty()) {
                 foreach ($userActivity->userActivityResources as $resource) {
                     $this->attachmentResourceService->deleteFileAttachment($resource);
-                    $this->userActivityResourceRepository->destroy($resource);
+                    $this->userActivityResourceRepository->destroyDataWithTransaction($resource->id);
                 }
             }
 
-            $result = $this->userActivityRepository->destroy($userActivity);
+            $result = $this->userActivityRepository->destroyDataWithTransaction($userActivity->id);
 
             if ($result['success']) {
                 return [
@@ -62,7 +59,7 @@ class DestroyUserActivityHandle
             }
 
             return [
-                'message' => __('messages.profile.user_destroy_profile_error'),
+                'message' => $result['message'] ?? __('messages.profile.user_destroy_profile_error'),
                 'error' => $result['error'] ?? null,
                 'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];

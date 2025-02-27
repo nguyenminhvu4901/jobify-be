@@ -40,7 +40,7 @@ class UserActivityService
      */
     public function storeUserActivityResource($attachment, $userActivityId, $pathStorage): mixed
     {
-        return $this->userActivityResourceRepository->store([
+        return $this->userActivityResourceRepository->storeDataWithTransaction([
             'user_activity_id' => $userActivityId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
@@ -53,11 +53,11 @@ class UserActivityService
      * @param $attachment
      * @param $userActivityResourceId
      * @param $pathStorage
-     * @return LengthAwarePaginator|Collection|mixed
+     * @return array
      */
-    private function updateUserActivityResource($attachment, $userActivityResourceId, $pathStorage): mixed
+    private function updateUserActivityResource($attachment, $userActivityResourceId, $pathStorage): array
     {
-        return $this->userActivityResourceRepository->updateUserActivityResource([
+        return $this->userActivityResourceRepository->updateDataWithTransaction([
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
@@ -95,7 +95,7 @@ class UserActivityService
 
     /**
      * @param $attachment
-     * @return LengthAwarePaginator|Collection|mixed|void|null
+     * @return array|void|null
      */
     private function processUpdateAttachment($attachment)
     {
@@ -144,13 +144,13 @@ class UserActivityService
         );
 
         $listUserActivityResourceToDelete = $this->userActivityResourceRepository
-            ->getListUserActivityResourceByIds($listDelIds);
+            ->getByIds($listDelIds);
 
         if(!empty($listUserActivityResourceToDelete)){
             return $listUserActivityResourceToDelete->map(function ($eachUserActivityResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserActivityResource);
-                $this->userActivityResourceRepository->destroy($eachUserActivityResource);
+                $this->userActivityResourceRepository->destroyDataWithTransaction($eachUserActivityResource->id);
             });
         }
 

@@ -26,7 +26,7 @@ class UpdateUserActivityHandle
     public function handle(UpdateUserActivityCommand $command): array
     {
         try {
-            $result = $this->userActivityRepository->updateUserActivity(
+            $result = $this->userActivityRepository->updateDataWithTransaction(
                 $this->prepareUserActivityData($command),
                 $command->userActivityId
             );
@@ -50,8 +50,8 @@ class UpdateUserActivityHandle
             $result['data']->load(['userActivityResources.contentType', 'user']);
 
             return [
-                'message' => __('messages.profile.user_update_profile_success'),
-                'data' => UserActivityResource::make($result['data'])
+                'data' => UserActivityResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 

@@ -2,13 +2,12 @@
 
 namespace App\Repositories\UserActivityResource;
 
-use App\Entities\UserActivityResource\UserActivityResource;
-
 interface UserActivityResourceRepository
 {
-    public function store(array $attributes);
+    public function getByIds(array $userActivityResourceIds);
+    public function storeDataWithTransaction(array $attributes);
 
-    public function updateUserActivityResource(array $attributes, string|int $userActivityResourceId);
+    public function updateDataWithTransaction(array $attributes, string|int $userActivityResourceId);
 
-    public function destroy(UserActivityResource $userActivityResource);
+    public function destroyDataWithTransaction(int|string $userActivityResourceId);
 }

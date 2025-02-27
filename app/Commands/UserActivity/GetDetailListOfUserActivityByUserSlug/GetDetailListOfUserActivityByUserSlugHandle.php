@@ -7,12 +7,19 @@ use App\Repositories\UserActivity\UserActivityRepository;
 
 class GetDetailListOfUserActivityByUserSlugHandle
 {
+    /**
+     * @param UserActivityRepository $userActivityRepository
+     */
     public function __construct(
         protected UserActivityRepository $userActivityRepository
     )
     {
     }
 
+    /**
+     * @param GetDetailListOfUserActivityByUserSlugCommand $command
+     * @return array
+     */
     public function handle(GetDetailListOfUserActivityByUserSlugCommand $command): array
     {
         try {

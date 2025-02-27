@@ -26,7 +26,7 @@ class StoreUserActivityHandle
     public function handle(StoreUserActivityCommand $command): array
     {
         try {
-            $result = $this->userActivityRepository->store(
+            $result = $this->userActivityRepository->storeDataWithTransaction(
                 $this->prepareUserActivityData($command)
             );
 

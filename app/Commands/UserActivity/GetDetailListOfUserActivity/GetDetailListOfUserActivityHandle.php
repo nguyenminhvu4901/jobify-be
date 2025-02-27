@@ -39,6 +39,7 @@ class GetDetailListOfUserActivityHandle
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){
+
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
                 'error' => $e
