@@ -23,22 +23,23 @@ class UpdateUserEducationHandle
     public function handle(UpdateUserEducationCommand $command): array
     {
         try {
-            $userEducation = $this->userEducationRepository->updateUserEducation([
-                'name' => $command->name,
-                'major' => $command->major,
-                'is_studying' => $command->isStudying,
-                'start_date' => $command->startDate,
-                'end_date' => $command->endDate,
-                'description' => $command->description
-            ], $command->userEducationId);
+            $result = $this->userEducationRepository->updateDataWithTransaction(
+                $this->prepareUserActivityData($command),
+                $command->userEducationId
+            );
 
-            if($userEducation){
-                $userEducation->load('user');
+            if(!$result['success']){
+                return [
+                    'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
+                ];
             }
 
+            $result['data']->load('user');
+
             return [
-                'message' => __('messages.profile.user_update_profile_success'),
-                'userEducation' => UserEducationResource::make($userEducation)
+                'data' => UserEducationResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -47,5 +48,21 @@ class UpdateUserEducationHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param UpdateUserEducationCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(UpdateUserEducationCommand $command): array
+    {
+        return [
+            'name' => $command->name,
+            'major' => $command->major,
+            'is_studying' => $command->isStudying,
+            'start_date' => $command->startDate,
+            'end_date' => $command->endDate,
+            'description' => $command->description
+        ];
     }
 }

@@ -21,10 +21,8 @@ class GetListExperienceCurrentUserHandler
     public function handle(): array
     {
         try {
-            $user = auth()->user();
-
             $userExperience = $this->userRepository->findWithRelationships(
-                $user->id,
+                auth()->user()->id,
                 'userExperiences.userExperienceResource.contentType',
                 [
                     'userExperiences' => function ($query) {
@@ -33,8 +31,14 @@ class GetListExperienceCurrentUserHandler
                 ]
             );
 
+            if(empty($userExperience)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userExperience' => CurrentUserExperienceResource::make($userExperience),
+                'data' => CurrentUserExperienceResource::make($userExperience),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

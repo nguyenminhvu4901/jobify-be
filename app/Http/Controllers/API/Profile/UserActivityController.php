@@ -41,8 +41,8 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(new GetListActivityCurrentUserCommand());
 
-        if(!empty($result['userActivities'])){
-            return $this->responseSuccess(data: $result['userActivities'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -64,8 +64,8 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserActivityCommand());
 
-        if(!empty($result['userActivities'])){
-            return $this->responseSuccess(data: $result['userActivities'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -88,8 +88,8 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserActivityCommand::withForm($request));
 
-        if(!empty($result['userActivity'])){
-            return $this->responseSuccess(data: $result['userActivity'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -112,8 +112,8 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserActivityByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userActivity'])){
-            return $this->responseSuccess(data: $result['userActivity'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -136,8 +136,8 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(StoreUserActivityCommand::withForm($request));
 
-        if(!empty($result['userActivity'])){
-            return $this->responseSuccess(data: $result['userActivity'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -160,8 +160,8 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserActivityCommand::withForm($request));
 
-        if(!empty($result['userActivity'])){
-            return $this->responseSuccess(data: $result['userActivity'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(

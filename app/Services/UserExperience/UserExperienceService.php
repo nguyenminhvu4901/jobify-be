@@ -48,7 +48,7 @@ class UserExperienceService
         string|null $pathStorage
     ): mixed
     {
-        return $this->userExperienceResourceRepository->store([
+        return $this->userExperienceResourceRepository->storeDataWithTransaction([
             'user_experience_id' => $userExperienceId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
@@ -70,7 +70,7 @@ class UserExperienceService
         string|null $pathStorage
     ): mixed
     {
-        return $this->userExperienceResourceRepository->updateUserExperienceResource(
+        return $this->userExperienceResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
@@ -125,13 +125,13 @@ class UserExperienceService
         );
 
         $listUserExperienceResourceToDelete = $this->userExperienceResourceRepository
-            ->getListUserExperienceResourceByIds($listDelIds);
+            ->getByIds($listDelIds);
 
         if(!empty($listUserExperienceResourceToDelete)){
             return $listUserExperienceResourceToDelete->map(function ($eachUserExperienceResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserExperienceResource);
-                $this->userExperienceResourceRepository->destroy($eachUserExperienceResource);
+                $this->userExperienceResourceRepository->destroyDataWithTransaction($eachUserExperienceResource->id);
             });
         }
 

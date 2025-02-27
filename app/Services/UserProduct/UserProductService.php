@@ -44,7 +44,7 @@ class UserProductService
         string|null $pathStorage
     ): mixed
     {
-        return $this->userProductResourceRepository->store([
+        return $this->userProductResourceRepository->storeDataWithTransaction([
             'user_product_id' => $userProductId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
@@ -65,7 +65,7 @@ class UserProductService
         string|null $pathStorage
     ): mixed
     {
-        return $this->userProductResourceRepository->updateUserProductResource(
+        return $this->userProductResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
@@ -120,13 +120,13 @@ class UserProductService
         );
 
         $listUserProductResourceToDelete = $this->userProductResourceRepository
-            ->getListUserProductResourceByIds($listDelIds);
+            ->getByIds($listDelIds);
 
         if(!empty($listUserProductResourceToDelete)){
             $listUserProductResourceToDelete->map(function ($eachUserProductResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserProductResource);
-                $this->userProductResourceRepository->destroy($eachUserProductResource);
+                $this->userProductResourceRepository->destroyDataWithTransaction($eachUserProductResource->id);
             });
         }
 

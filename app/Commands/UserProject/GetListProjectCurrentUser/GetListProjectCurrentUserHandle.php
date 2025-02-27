@@ -22,10 +22,8 @@ class GetListProjectCurrentUserHandle
     public function handle(): array
     {
         try {
-            $user = auth()->user();
-
             $userProjects = $this->userRepository->findWithRelationships(
-                $user->id,
+                auth()->user()->id,
                 'userProjects.userProjectResources.contentType',
                 [
                     'userProjects' => function ($query) {
@@ -34,8 +32,14 @@ class GetListProjectCurrentUserHandle
                 ]
             );
 
+            if(empty($userProjects)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userProjects' => CurrentUserProjectResource::make($userProjects),
+                'data' => CurrentUserProjectResource::make($userProjects),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

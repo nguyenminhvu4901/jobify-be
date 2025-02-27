@@ -28,8 +28,14 @@ class GetDetailListOfUserProductHandle
                 ['user', 'userProductResources.contentType']
             );
 
+            if(empty($userProduct)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userProduct' => UserProductResource::make($userProduct),
+                'data' => UserProductResource::make($userProduct),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

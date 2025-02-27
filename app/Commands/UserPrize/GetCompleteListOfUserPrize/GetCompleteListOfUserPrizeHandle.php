@@ -27,7 +27,7 @@ class GetCompleteListOfUserPrizeHandle
             );
 
             return [
-                'userPrizes' => UserPrizeResource::collection($userPrizes),
+                'data' => UserPrizeResource::collection($userPrizes),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

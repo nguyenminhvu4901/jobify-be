@@ -22,10 +22,8 @@ class GetListProductCurrentUserHandle
     public function handle(): array
     {
         try {
-            $user = auth()->user();
-
             $userProducts = $this->userRepository->findWithRelationships(
-                $user->id,
+                auth()->user()->id,
                 'userProducts.userProductResources.contentType',
                 [
                     'userProducts' => function ($query) {
@@ -34,8 +32,14 @@ class GetListProductCurrentUserHandle
                 ]
             );
 
+            if(empty($userProducts)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userProducts' => CurrentUserProductResource::make($userProducts),
+                'data' => CurrentUserProductResource::make($userProducts),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

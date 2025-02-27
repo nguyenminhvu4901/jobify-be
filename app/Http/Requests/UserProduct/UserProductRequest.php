@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\UserProduct;
 
-use App\Rules\ExistsInResourceRelation;
+use App\Rules\Resource\ExistsInResourceRelation;
+use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -45,6 +46,7 @@ class UserProductRequest extends FormRequest
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
                 'attachments.*.user_product_resource_id' => [
                     'bail', 'nullable', 'integer', 'exists:user_product_resources,id',
+                    new UniqueArrayValues('attachments.*.user_product_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_product_id'),
                         'user_products',

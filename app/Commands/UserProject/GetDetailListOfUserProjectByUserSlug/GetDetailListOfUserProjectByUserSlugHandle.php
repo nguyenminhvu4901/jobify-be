@@ -7,12 +7,19 @@ use App\Repositories\UserProject\UserProjectRepository;
 
 class GetDetailListOfUserProjectByUserSlugHandle
 {
+    /**
+     * @param UserProjectRepository $userProjectRepository
+     */
     public function __construct(
         protected UserProjectRepository $userProjectRepository
     )
     {
     }
 
+    /**
+     * @param GetDetailListOfUserProjectByUserSlugCommand $command
+     * @return array
+     */
     public function handle(GetDetailListOfUserProjectByUserSlugCommand $command): array
     {
         try {
@@ -22,7 +29,7 @@ class GetDetailListOfUserProjectByUserSlugHandle
             );
 
             return [
-                'userProject' => UserProjectResource::collection($userProject),
+                'data' => UserProjectResource::collection($userProject),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

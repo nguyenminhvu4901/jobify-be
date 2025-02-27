@@ -44,8 +44,8 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(new GetListPrizeCurrentUserCommand());
 
-        if(!empty($result['userPrizes'])){
-            return $this->responseSuccess(data: $result['userPrizes'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -67,8 +67,8 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserPrizeCommand());
 
-        if(!empty($result['userPrizes'])){
-            return $this->responseSuccess(data: $result['userPrizes'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -91,8 +91,8 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserPrizeCommand::withForm($request));
 
-        if(!empty($result['userPrize'])){
-            return $this->responseSuccess(data: $result['userPrize'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -115,8 +115,8 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserPrizeByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userPrize'])){
-            return $this->responseSuccess(data: $result['userPrize'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -139,8 +139,8 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(StoreUserPrizeCommand::withForm($request));
 
-        if(!empty($result['userPrize'])){
-            return $this->responseSuccess(data: $result['userPrize'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -163,8 +163,8 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserPrizeCommand::withForm($request));
 
-        if(!empty($result['userPrize'])){
-            return $this->responseSuccess(data: $result['userPrize'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(

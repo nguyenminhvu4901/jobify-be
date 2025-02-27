@@ -167,6 +167,7 @@ return [
         'the_name_field_is_required_when_type_is_standard' => 'Trường name không được bỏ trống khi trường type là standard.',
         "invalid_content_type_value_please_choose_again" => 'Sai giá trị trường Content type, vui lòng chọn lại.',
         "invalid_attachment" => 'Sai giá trị trường tài nguyên, vui lòng chọn lại.',
+        "invalid_attachment_duplicate" => 'Giá trị trường tài nguyên đang bị trùng, vui lòng chọn lại.',
     ],
 
     /*

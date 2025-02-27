@@ -2,18 +2,12 @@
 
 namespace App\Repositories\UserCourseResource;
 
-use App\Entities\UserCourseResource\UserCourseResource;
-
 interface UserCourseResourceRepository
 {
-    public function store(array $attributes);
+    public function getByIds(array $userActivityResourceIds);
+    public function storeDataWithTransaction(array $attributes);
 
-    public function updateUserCourseResource(
-        array $attributes,
-        int|string $userCourseResourceId,
-    );
+    public function updateDataWithTransaction(array $attributes, string|int $userCourseResourceId);
 
-    public function destroy(UserCourseResource $userCourseResource);
-
-    public function getListUserCourseResourceByIds(array $userCourseResourceId);
+    public function destroyDataWithTransaction(int|string $userCourseResourceId);
 }

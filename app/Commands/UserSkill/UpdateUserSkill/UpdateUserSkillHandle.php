@@ -21,23 +21,22 @@ class UpdateUserSkillHandle
     public function handle(UpdateUserSkillCommand $command): array
     {
         try {
-            $userSkill = $this->userSkillRepository->updateUserSkill([
-                'name' => $command->name,
-                'rate_id' => $command->rateId,
-                'description' => $command->description
-            ], $command->userSkillId);
+            $result = $this->userSkillRepository->updateDataWithTransaction(
+                $this->prepareUserActivityData($command), $command->userSkillId
+            );
 
-            if($userSkill){
-                $userSkill->load(['user', 'rate']);
-
+            if(!$result['success']){
                 return [
-                    'userSkill' => UserSkillResource::make($userSkill),
-                    'message' => __('messages.profile.user_update_profile_success')
+                    'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            $result['data']->load(['user', 'rate']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'data' => UserSkillResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -46,5 +45,17 @@ class UpdateUserSkillHandle
                 'error' => $e
             ];
         }
+    }
+    /**
+     * @param UpdateUserSkillCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(UpdateUserSkillCommand $command): array
+    {
+        return [
+            'name' => $command->name,
+            'rate_id' => $command->rateId,
+            'description' => $command->description
+        ];
     }
 }

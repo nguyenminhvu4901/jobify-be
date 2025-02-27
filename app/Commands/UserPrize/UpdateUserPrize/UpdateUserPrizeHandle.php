@@ -26,33 +26,30 @@ class UpdateUserPrizeHandle
     public function handle(UpdateUserPrizeCommand $command): array
     {
         try {
-            $userPrize = $this->userPrizeRepository->updateUserPrize([
-                'name' => $command->name,
-                'organization' => $command->organization,
-                'start_date'=> $command->startDate,
-                'end_date' => $command->endDate
-            ], $command->userPrizeId);
+            $result = $this->userPrizeRepository->updateDataWithTransaction(
+                $this->prepareUserActivityData($command), $command->userPrizeId);
 
-            if($userPrize){
-                if(!empty($command->attachments)){
-
-                    $this->userPrizeService->updateResourceAttachment(
-                        attachments: $command->attachments,
-                        userPrizeResource: $userPrize->userPrizeResources,
-                        userPrizeId: $command->userPrizeId
-                    );
-                }
-
-                $userPrize->load(['userPrizeResources.contentType', 'user']);
-
+            if(!$result['success']){
                 return [
-                    'message' => __('messages.profile.user_update_profile_success'),
-                    'userPrize' => UserPrizeResource::make($userPrize)
+                    'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments)){
+
+                $this->userPrizeService->updateResourceAttachment(
+                    attachments: $command->attachments,
+                    userPrizeResource: $result['data']->userPrizeResources,
+                    userPrizeId: $command->userPrizeId
+                );
+            }
+
+            $result['data']->load(['userPrizeResources.contentType', 'user']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error'),
+                'data' => UserPrizeResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -61,5 +58,19 @@ class UpdateUserPrizeHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param UpdateUserPrizeCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(UpdateUserPrizeCommand $command): array
+    {
+        return [
+            'name' => $command->name,
+            'organization' => $command->organization,
+            'start_date'=> $command->startDate,
+            'end_date' => $command->endDate
+        ];
     }
 }

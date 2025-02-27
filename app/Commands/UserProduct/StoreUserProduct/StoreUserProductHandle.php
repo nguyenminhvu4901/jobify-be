@@ -18,45 +18,41 @@ class StoreUserProductHandle
     public function handle(StoreUserProductCommand $command): array
     {
         try {
-            $userId = auth()->user()->id;
+            $result = $this->userProductRepository->storeDataWithTransaction(
+                $this->prepareUserActivityData($command)
+            );
 
-            $userProduct = $this->userProductRepository->store([
-                'user_id' => $userId,
-                'name' => $command->name,
-                'category' => $command->category,
-                'finished_date' => $command->finishedDate,
-                'description' => $command->description
-            ]);
-
-            if($userProduct){
-                if(!empty($command->attachments))
-                {
-                    $attachments = $command->attachments;
-
-                    foreach ($attachments as $attachment)
-                    {
-                        $pathStorage = $this->userProductService->saveAttachment($attachment);
-
-                        if(!empty($pathStorage)){
-                            $this->userProductService->storeUserProductResource(
-                                attachment: $attachment,
-                                userProductId: $userProduct->id,
-                                pathStorage: $pathStorage
-                            );
-                        }
-                    }
-                }
-
-                $userProduct->load(['userProductResources.contentType', 'user']);
+            if(!$result['success']){
 
                 return [
-                    'userProduct' => UserProductResource::make($userProduct),
-                    'message' => __('messages.profile.user_update_profile_success')
+                    'message' => __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
+            if(!empty($command->attachments))
+            {
+                $attachments = $command->attachments;
+
+                foreach ($attachments as $attachment)
+                {
+                    $pathStorage = $this->userProductService->saveAttachment($attachment);
+
+                    if(!empty($pathStorage)){
+                        $this->userProductService->storeUserProductResource(
+                            attachment: $attachment,
+                            userProductId: $result['data']->id,
+                            pathStorage: $pathStorage
+                        );
+                    }
+                }
+            }
+
+            $result['data']->load(['userProductResources.contentType', 'user']);
+
             return [
-                'message' => __('messages.profile.user_update_profile_error')
+                'data' => UserProductResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
         }catch (\Exception $e){
 
@@ -65,5 +61,20 @@ class StoreUserProductHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param StoreUserProductCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(StoreUserProductCommand $command): array
+    {
+        return [
+            'user_id' => auth()->user()->id,
+            'name' => $command->name,
+            'category' => $command->category,
+            'finished_date' => $command->finishedDate,
+            'description' => $command->description
+        ];
     }
 }

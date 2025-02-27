@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\UserPrize;
 
-use App\Rules\ExistsInResourceRelation;
+use App\Rules\Resource\ExistsInResourceRelation;
+use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -45,6 +46,7 @@ class UserPrizeRequest extends FormRequest
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
                 'attachments.*.user_prize_resource_id' => [
                     'bail', 'nullable', 'integer', 'exists:user_prize_resources,id',
+                    new UniqueArrayValues('attachments.*.user_prize_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_prize_id'),
                         'user_prizes',

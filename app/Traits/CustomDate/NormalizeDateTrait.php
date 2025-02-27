@@ -16,6 +16,7 @@ trait NormalizeDateTrait
     {
         foreach ($fields as $field) {
             if ($this->has($field)) {
+
                 $this->merge([
                     $field => $this->normalizeDate($this->input($field)),
                 ]);
@@ -31,10 +32,28 @@ trait NormalizeDateTrait
      */
     private function normalizeDate(?string $date): ?string
     {
-        try {
-            return $date ? Carbon::parse($date)->format('Y-m-d') : null;
-        } catch (\Exception $e) {
+        if (!$date) {
+            return null;
+        }
+
+        $parts = explode('-', $date);
+
+        if (count($parts) !== 3) {
             return $date;
         }
+
+        [$year, $month, $day] = $parts;
+
+        $year = (int) $year;
+        $month = (int) $month;
+        $day = (int) $day;
+
+        if (!checkdate($month, $day, $year)) {
+            return $date;
+        }
+
+        return Carbon::createFromDate($year, $month, $day)->format('Y-m-d');
     }
+
+
 }

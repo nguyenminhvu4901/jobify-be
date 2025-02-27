@@ -2,18 +2,12 @@
 
 namespace App\Repositories\UserExperienceResource;
 
-use App\Entities\UserExperienceResource\UserExperienceResource;
-
 interface UserExperienceResourceRepository
 {
-    public function store(array $attributes);
+    public function getByIds(array $userActivityResourceIds);
+    public function storeDataWithTransaction(array $attributes);
 
-    public function updateUserExperienceResource(
-        array $attributes,
-        int|string $userExperienceResourceId
-    );
+    public function updateDataWithTransaction(array $attributes, string|int $userActivityResourceId);
 
-    public function destroy(UserExperienceResource $userExperienceResource);
-
-    public function getListUserExperienceResourceByIds(array $userExperienceResourceId);
+    public function destroyDataWithTransaction(int|string $userActivityResourceId);
 }

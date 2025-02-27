@@ -94,8 +94,8 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(new GetListEducationCurrentUserCommand());
 
-        if(!empty($result['user'])){
-            return $this->responseSuccess(data: $result['user'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
@@ -201,8 +201,8 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(StoreUserEducationCommand::withForm($request));
 
-        if(!empty($result['userEducation'])){
-            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -265,9 +265,9 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserEducationCommand());
 
-        if(!empty($result['userEducation'])){
+        if(!empty($result['data'])){
 
-            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -339,8 +339,8 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserEducationCommand::withForm($request));
 
-        if(!empty($result['userEducation'])){
-            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -412,8 +412,8 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserEducationByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userEducation'])){
-            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -529,8 +529,8 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserEducationCommand::withForm($request));
 
-        if(!empty($result['userEducation'])){
-            return $this->responseSuccess(data: $result['userEducation'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -614,7 +614,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserEducationCommand::withForm($request));
 
-        if(!empty($result['userEducationDelete'])){
+        if(!empty($result['userEducationDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

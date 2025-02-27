@@ -28,11 +28,18 @@ class GetDetailListOfUserActivityHandle
                 ['user', 'userActivityResources.contentType']
             );
 
+            if(empty($userActivity)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userActivity' => UserActivityResource::make($userActivity),
+                'data' => UserActivityResource::make($userActivity),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){
+
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
                 'error' => $e

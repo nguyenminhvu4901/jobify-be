@@ -42,8 +42,8 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(new GetListCourseCurrentUserCommand());
 
-        if(!empty($result['userCourses'])){
-            return $this->responseSuccess(data: $result['userCourses'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -65,9 +65,9 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserCourseCommand());
 
-        if(!empty($result['userCourses'])){
+        if(!empty($result['data'])){
 
-            return $this->responseSuccess(data: $result['userCourses'], message: $result['message']);
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -90,9 +90,9 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserCourseCommand::withForm($request));
 
-        if(!empty($result['userCourse'])){
+        if(!empty($result['data'])){
 
-            return $this->responseSuccess(data: $result['userCourse'], message: $result['message']);
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -115,9 +115,9 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserCourseByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userCourses'])){
+        if(!empty($result['data'])){
 
-            return $this->responseSuccess(data: $result['userCourses'], message: $result['message']);
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -140,8 +140,8 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(StoreUserCourseCommand::withForm($request));
 
-        if(!empty($result['userCourse'])){
-            return $this->responseSuccess(data: $result['userCourse'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -164,8 +164,8 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserCourseCommand::withForm($request));
 
-        if(!empty($result['userCourse'])){
-            return $this->responseSuccess(data: $result['userCourse'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(

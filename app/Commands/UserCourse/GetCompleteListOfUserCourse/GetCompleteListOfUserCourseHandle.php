@@ -28,7 +28,7 @@ class GetCompleteListOfUserCourseHandle
             );
 
             return [
-                'userCourses' => UserCourseResource::collection($userCourses),
+                'data' => UserCourseResource::collection($userCourses),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (Exception $e){

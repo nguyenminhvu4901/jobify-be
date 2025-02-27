@@ -27,7 +27,7 @@ class GetCompleteListOfUserExperienceHandler
             );
 
             return [
-                'userExperiences' => UserExperienceResource::collection($userExperiences),
+                'data' => UserExperienceResource::collection($userExperiences),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

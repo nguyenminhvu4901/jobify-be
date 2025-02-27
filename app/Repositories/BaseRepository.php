@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository as Repository;
 
 abstract class BaseRepository extends Repository
@@ -115,5 +116,144 @@ abstract class BaseRepository extends Repository
         }
 
         return $query->find($id);
+    }
+
+    /**
+     * @param array $attributes
+     * @return array|false[]
+     */
+    public function storeDataWithTransaction(array $attributes = []): array
+    {
+        DB::beginTransaction();
+
+        try {
+            $data = $this->model->create($attributes);
+
+            if(!$data){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.create_resource_failed'),
+                ];
+            }
+
+            DB::commit();
+
+            return [
+                'success' => true,
+                'message' => __('messages.response.create_resource_success'),
+                'data' => $data->refresh(),
+            ];
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => __('messages.response.create_resource_failed'),
+                'error' => $e
+            ];
+        }
+    }
+
+    /**
+     * @param array $attributes
+     * @param int|string $id
+     * @return array
+     */
+    public function updateDataWithTransaction(array $attributes, int|string $id): array
+    {
+        DB::beginTransaction();
+
+        try {
+            $data = $this->model->find($id);
+
+            if(!$data){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.resource_not_found'),
+                ];
+            }
+
+            $isUpdated = $data->update($attributes);
+
+            if(!$isUpdated){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.update_resource_failed'),
+                ];
+            }
+
+            DB::commit();
+
+            return [
+                'success' => true,
+                'message' => __('messages.response.update_resource_success'),
+                'data' => $data->refresh(),
+            ];
+        }catch (\Exception $e){
+            DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => __('messages.response.update_resource_failed'),
+                'error' => $e
+            ];
+        }
+    }
+
+    public function destroyDataWithTransaction(int|string $id): array
+    {
+        DB::beginTransaction();
+
+        try {
+            $data = $this->model->find($id);
+
+            if(!$data){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.resource_not_found'),
+                ];
+            }
+
+            $isDeleted = $data->delete();
+
+            if(!$isDeleted){
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.delete_resource_failed'),
+                ];
+            }
+
+            DB::commit();
+
+            return [
+                'success' => true,
+                'message' => __('messages.response.delete_resource_success'),
+                'data' => $data
+            ];
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => __('messages.response.delete_resource_failed'),
+                'error' => $e
+            ];
+        }
+    }
+
+    public function getByIds(array $ids)
+    {
+        return $this->model->whereIn('id', $ids)->get();
     }
 }

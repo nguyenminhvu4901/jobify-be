@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\UserExperience;
 
-use App\Enums\DefaultContentType;
-use App\Rules\ExistsInResourceRelation;
+use App\Rules\Resource\ExistsInResourceRelation;
+use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -40,6 +40,7 @@ class UserExperienceRequest extends FormRequest
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
                 'attachments.*.user_experience_resource_id' => [
                         'bail', 'nullable', 'integer', 'exists:user_experience_resources,id',
+                    new UniqueArrayValues('attachments.*.user_experience_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_experience_id'),
                         'user_experiences',

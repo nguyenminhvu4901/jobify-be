@@ -2,13 +2,23 @@
 
 namespace App\Repositories\UserPrize;
 
-use App\Entities\UserPrize\UserPrize;
+use Illuminate\Database\Eloquent\Collection;
 
 interface UserPrizeRepository
 {
-    public function store(array $attributes);
+    public function getWithRelationship(array|string $relationship = []): Collection;
 
-    public function updateUserPrize(array $attributes, int|string $userPrizeId);
+    public function findWithRelationships(
+        int|string $id,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = []
+    ): mixed;
 
-    public function destroy(UserPrize $userPrize);
+    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed;
+
+    public function storeDataWithTransaction(array $attributes);
+
+    public function updateDataWithTransaction(array $attributes, int $userPrizeId);
+
+    public function destroyDataWithTransaction(int|string $userPrizeId);
 }

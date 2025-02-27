@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\UserProject;
 
-use App\Rules\ExistsInResourceRelation;
+use App\Rules\Resource\ExistsInResourceRelation;
+use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
 use App\Traits\FailedValidation;
@@ -45,6 +46,7 @@ class UserProjectRequest extends FormRequest
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
                 'attachments.*.user_project_resource_id' => [
                     'bail', 'nullable', 'integer', 'exists:user_project_resources,id',
+                    new UniqueArrayValues('attachments.*.user_project_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_project_id'),
                         'user_projects',

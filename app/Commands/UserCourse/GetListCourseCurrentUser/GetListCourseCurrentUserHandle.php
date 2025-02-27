@@ -22,10 +22,8 @@ class GetListCourseCurrentUserHandle
     public function handle(): array
     {
         try {
-            $user = auth()->user();
-
-            $userCourses = $this->userRepository->findWithRelationships(
-                $user->id,
+            $userCourse = $this->userRepository->findWithRelationships(
+                auth()->user()->id,
                 'userCourses.userCourseResources.contentType',
                 [
                     'userCourses' => function ($query) {
@@ -34,8 +32,15 @@ class GetListCourseCurrentUserHandle
                 ]
             );
 
+            if(empty($userCourse)){
+
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userCourses' => CurrentUserCourseResource::make($userCourses),
+                'data' => CurrentUserCourseResource::make($userCourse),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

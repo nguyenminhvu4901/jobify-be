@@ -2,13 +2,23 @@
 
 namespace App\Repositories\UserProduct;
 
-use App\Entities\UserProduct\UserProduct;
+use Illuminate\Database\Eloquent\Collection;
 
 interface UserProductRepository
 {
-    public function store(array $attributes);
+    public function getWithRelationship(array|string $relationship = []): Collection;
 
-    public function updateUserProduct(array $attributes, $userProductId);
+    public function findWithRelationships(
+        int|string $id,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = []
+    ): mixed;
 
-    public function destroy(UserProduct $userProduct);
+    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed;
+
+    public function storeDataWithTransaction(array $attributes);
+
+    public function updateDataWithTransaction(array $attributes, int $userProductId);
+
+    public function destroyDataWithTransaction(int|string $userProductId);
 }

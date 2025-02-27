@@ -22,10 +22,8 @@ class GetListCertificationCurrentUserHandle
     public function handle(): array
     {
         try {
-            $user = auth()->user();
-
             $userCertification =  $this->userRepository->findWithRelationships(
-                $user->id,
+                auth()->user()->id,
                 'userCertifications.userCertificationResources.contentType',
                 [
                     'userCertifications' => function ($query) {
@@ -34,8 +32,14 @@ class GetListCertificationCurrentUserHandle
                 ]
             );
 
+            if(empty($userCertification)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userCertification' => CurrentUserCertificationResource::make($userCertification),
+                'data' => CurrentUserCertificationResource::make($userCertification),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

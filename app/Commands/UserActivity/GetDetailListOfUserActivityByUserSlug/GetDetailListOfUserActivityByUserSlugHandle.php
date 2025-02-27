@@ -7,12 +7,19 @@ use App\Repositories\UserActivity\UserActivityRepository;
 
 class GetDetailListOfUserActivityByUserSlugHandle
 {
+    /**
+     * @param UserActivityRepository $userActivityRepository
+     */
     public function __construct(
         protected UserActivityRepository $userActivityRepository
     )
     {
     }
 
+    /**
+     * @param GetDetailListOfUserActivityByUserSlugCommand $command
+     * @return array
+     */
     public function handle(GetDetailListOfUserActivityByUserSlugCommand $command): array
     {
         try {
@@ -22,7 +29,7 @@ class GetDetailListOfUserActivityByUserSlugHandle
             );
 
             return [
-                'userActivity' => UserActivityResource::collection($userActivity),
+                'data' => UserActivityResource::collection($userActivity),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

@@ -91,9 +91,9 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(new GetListCertificationCurrentUserCommand());
 
-        if(!empty($result['userCertification'])){
+        if(!empty($result['data'])){
             return $this->responseSuccess(
-                data: $result['userCertification'],
+                data: $result['data'],
                 message: $result['message']);
         }
 
@@ -237,8 +237,8 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(StoreUserCertificationCommand::withForm($request));
 
-        if(!empty($result['userCertification'])){
-            return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -262,8 +262,8 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserCertificationCommand());
 
-        if(!empty($result['userCertifications'])){
-            return $this->responseSuccess(data: $result['userCertifications'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
@@ -282,8 +282,8 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserCertificationCommand::withForm($request));
 
-        if(!empty($result['userCertification'])){
-            return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -306,8 +306,8 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserCertificationByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userCertifications'])){
-            return $this->responseSuccess(data: $result['userCertifications'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -330,8 +330,8 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserCertificationCommand::withForm($request));
 
-        if(!empty($result['userCertification'])){
-            return $this->responseSuccess(data: $result['userCertification'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -354,7 +354,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserCertificationCommand::withForm($request));
 
-        if(!empty($result['userCertificationDelete'])){
+        if(!empty($result['userCertificationDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

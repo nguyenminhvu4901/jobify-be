@@ -2,13 +2,23 @@
 
 namespace App\Repositories\UserActivity;
 
-use App\Entities\UserActivity\UserActivity;
+use Illuminate\Database\Eloquent\Collection;
 
 interface UserActivityRepository
 {
-    public function store(array $attributes);
+    public function getWithRelationship(array|string $relationship = []): Collection;
 
-    public function updateUserActivity(array $attributes, int $userActivityId);
+    public function findWithRelationships(
+        int|string $id,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = []
+    ): mixed;
 
-    public function destroy(UserActivity $userActivity);
+    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed;
+
+    public function storeDataWithTransaction(array $attributes);
+
+    public function updateDataWithTransaction(array $attributes, int $userActivityId);
+
+    public function destroyDataWithTransaction(int|string $userActivityId);
 }

@@ -28,8 +28,14 @@ class GetDetailListOfUserCertificationHandle
                 ['user', 'userCertificationResources.contentType']
             );
 
+            if(empty($userCertification)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userCertification' => UserCertificationResource::make($userCertification),
+                'data' => UserCertificationResource::make($userCertification),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

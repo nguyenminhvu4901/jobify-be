@@ -29,11 +29,18 @@ class GetDetailListOfUserSkillHandle
                 ['user', 'rate']
             );
 
+            if(empty($userSkill)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userSkill' => UserSkillResource::make($userSkill),
+                'data' => UserSkillResource::make($userSkill),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){
+
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
                 'error' => $e,

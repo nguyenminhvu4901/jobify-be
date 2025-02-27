@@ -29,7 +29,7 @@ class GetDetailListOfUserSkillByUserSlugHandle
             );
 
             return [
-                'userSkills' => UserSkillResource::collection($userSkills),
+                'data' => UserSkillResource::collection($userSkills),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

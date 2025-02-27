@@ -39,6 +39,7 @@ class UserEducationRequest extends FormRequest
             ],
             "profile.userEducation.updateUserEducation" => [
                 ...$commonRule,
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
             "profile.userEducation.destroy" => [

@@ -2,13 +2,23 @@
 
 namespace App\Repositories\UserCertification;
 
-use App\Entities\UserCertification\UserCertification;
+use Illuminate\Database\Eloquent\Collection;
 
 interface UserCertificationRepository
 {
-    public function create(array $attributes);
+    public function getWithRelationship(array|string $relationship = []): Collection;
 
-    public function updateUserCertification(array $attributes, int $userCertificationId);
+    public function findWithRelationships(
+        int|string $id,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = []
+    ): mixed;
 
-    public function destroy(UserCertification $userCertification);
+    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed;
+
+    public function storeDataWithTransaction(array $attributes);
+
+    public function updateDataWithTransaction(array $attributes, string|int $userCertificationResourceId);
+
+    public function destroyDataWithTransaction(int|string $userCertificationResourceId);
 }

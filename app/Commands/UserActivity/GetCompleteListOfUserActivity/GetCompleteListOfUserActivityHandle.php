@@ -27,7 +27,7 @@ class GetCompleteListOfUserActivityHandle
             );
 
             return [
-                'userActivities' => UserActivityResource::collection($userActivities),
+                'data' => UserActivityResource::collection($userActivities),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

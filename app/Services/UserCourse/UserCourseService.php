@@ -46,7 +46,7 @@ class UserCourseService
         array $attachment, string|int $userCourseId, string|null $pathStorage
     ): mixed
     {
-        return $this->userCourseResourceRepository->store([
+        return $this->userCourseResourceRepository->storeDataWithTransaction([
             'user_course_id' => $userCourseId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
@@ -65,7 +65,7 @@ class UserCourseService
         array $attachment, string|int $userCourseResourceId, string|null $pathStorage
     ): mixed
     {
-        return $this->userCourseResourceRepository->updateUserCourseResource(
+        return $this->userCourseResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
@@ -122,13 +122,13 @@ class UserCourseService
         );
 
         $listUserCourseResourceToDelete = $this->userCourseResourceRepository
-            ->getListUserCourseResourceByIds($listDelIds);
+            ->getByIds($listDelIds);
 
         if(!empty($listUserCourseResourceToDelete)){
             return $listUserCourseResourceToDelete->map(function ($eachUserCourseResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserCourseResource);
-                $this->userCourseResourceRepository->destroy($eachUserCourseResource);
+                $this->userCourseResourceRepository->destroyDataWithTransaction($eachUserCourseResource->id);
             });
         }
 

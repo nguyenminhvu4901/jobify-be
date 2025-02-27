@@ -28,8 +28,14 @@ class GetDetailListOfUserPrizeHandle
                 ['user', 'userPrizeResources.contentType']
             );
 
+            if(empty($userPrize)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userPrize' => UserPrizeResource::make($userPrize),
+                'data' => UserPrizeResource::make($userPrize),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

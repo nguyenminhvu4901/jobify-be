@@ -44,8 +44,8 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(new GetListProductCurrentUserCommand());
 
-        if(!empty($result['userProducts'])){
-            return $this->responseSuccess(data: $result['userProducts'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -67,8 +67,8 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(new GetCompleteListOfUserProductCommand());
 
-        if(!empty($result['userProducts'])){
-            return $this->responseSuccess(data: $result['userProducts'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -91,8 +91,8 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserProductCommand::withForm($request));
 
-        if(!empty($result['userProduct'])){
-            return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -115,8 +115,8 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserProductByUserSlugCommand::withForm($request));
 
-        if(!empty($result['userProduct'])){
-            return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -139,8 +139,8 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(StoreUserProductCommand::withForm($request));
 
-        if(!empty($result['userProduct'])){
-            return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(
@@ -163,8 +163,8 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserProductCommand::withForm($request));
 
-        if(!empty($result['userProduct'])){
-            return $this->responseSuccess(data: $result['userProduct'], message: $result['message']);
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
         return $this->responseError(

@@ -22,10 +22,8 @@ class GetListEducationCurrentUserHandle
     public function handle(): array
     {
         try {
-            $userId = auth()->user()->id;
-
-            $user = $this->userRepository->findWithRelationships(
-                $userId,
+            $userEducation = $this->userRepository->findWithRelationships(
+                auth()->user()->id,
                 'userEducations',
                 [
                     'userEducations' => function ($query) {
@@ -33,9 +31,15 @@ class GetListEducationCurrentUserHandle
                     }
                 ]
             );
+            if(empty($userEducation)){
+
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
 
             return [
-                'user' => new CurrentUserEducationResource($user),
+                'data' => CurrentUserEducationResource::make($userEducation),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){

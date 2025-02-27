@@ -26,46 +26,40 @@ class StoreUserCourseHandle
     public function handle(StoreUserCourseCommand $command): array
     {
         try {
-            $userId = auth()->user()->id;
+            $result = $this->userCourseRepository->storeDataWithTransaction(
+                $this->prepareUserActivityData($command)
+            );
 
-            $userCourse = $this->userCourseRepository->create([
-                'user_id' => $userId,
-                'name' => $command->name,
-                'organization' => $command->organization,
-                'start_date'=> $command->startDate,
-                'end_date' => $command->endDate,
-                'description' => $command->description,
-            ]);
-
-            if($userCourse){
-                if(!empty($command->attachments)){
-                    $attachments = $command->attachments;
-
-                    foreach ($attachments as $attachment){
-                        $pathStorage = $this->userCourseService->saveAttachment($attachment);
-
-                        if(!empty($pathStorage)){
-                            $this->userCourseService->storeUserCourseResource(
-                                attachment: $attachment,
-                                userCourseId: $userCourse->id,
-                                pathStorage: $pathStorage
-                            );
-                        }
-                    }
-                }
-
-                $userCourse->load(['userCourseResources.contentType', 'user']);
+            if(!$result['success']){
 
                 return [
-                    'message' => __('messages.profile.user_update_profile_success'),
-                    'userCourse' => UserCourseResource::make($userCourse)
+                    'message' => __('messages.profile.user_update_profile_error'),
+                    'error' => $result['error'] ?? null
                 ];
             }
 
-            return [
-                'message' => __('messages.profile.user_update_profile_error'),
-            ];
+            if(!empty($command->attachments)){
+                $attachments = $command->attachments;
 
+                foreach ($attachments as $attachment){
+                    $pathStorage = $this->userCourseService->saveAttachment($attachment);
+
+                    if(!empty($pathStorage)){
+                        $this->userCourseService->storeUserCourseResource(
+                            attachment: $attachment,
+                            userCourseId: $result['data']->id,
+                            pathStorage: $pathStorage
+                        );
+                    }
+                }
+            }
+
+            $result['data']->load(['userCourseResources.contentType', 'user']);
+
+            return [
+                'data' => UserCourseResource::make($result['data']),
+                'message' => __('messages.profile.user_update_profile_success'),
+            ];
         }catch (\Exception $e){
 
             return [
@@ -73,5 +67,21 @@ class StoreUserCourseHandle
                 'error' => $e
             ];
         }
+    }
+
+    /**
+     * @param StoreUserCourseCommand $command
+     * @return array
+     */
+    private function prepareUserActivityData(StoreUserCourseCommand $command): array
+    {
+        return [
+            'user_id' => auth()->user()->id,
+            'name' => $command->name,
+            'organization' => $command->organization,
+            'start_date'=> $command->startDate,
+            'end_date' => $command->endDate,
+            'description' => $command->description,
+        ];
     }
 }

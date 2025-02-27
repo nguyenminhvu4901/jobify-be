@@ -21,8 +21,14 @@ class DetailListOfUserExperienceHandle
                 ['user', 'userExperienceResource.contentType']
             );
 
+            if(empty($userExperience)){
+                return [
+                    'message' => __('messages.profile.user_get_profile_error')
+                ];
+            }
+
             return [
-                'userExperience' => UserExperienceResource::make($userExperience),
+                'data' => UserExperienceResource::make($userExperience),
                 'message' => __('messages.profile.user_get_profile_success')
             ];
         }catch (\Exception $e){
