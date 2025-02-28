@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\Company1\Company1Repository;
+use App\Repositories\Company1\Company1RepositoryEloquent;
+
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\Company\CompanyRepositoryEloquent;
 use App\Repositories\CompanyAddress\CompanyAddressRepository;

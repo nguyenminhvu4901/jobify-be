@@ -1,0 +1,182 @@
+<?php
+
+namespace App\Http\Controllers\API\Profile;
+
+use App\Commands\UserSkill\DestroyUserSkill\DestroyUserSkillCommand;
+use App\Commands\UserSkill\DestroyUserSkill\DestroyUserSkillHandle;
+use App\Commands\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillCommand;
+use App\Commands\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillHandle;
+use App\Commands\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillCommand;
+use App\Commands\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillHandle;
+use App\Commands\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugCommand;
+use App\Commands\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugHandle;
+use App\Commands\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserCommand;
+use App\Commands\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserHandle;
+use App\Commands\UserSkill\StoreUserSkill\StoreUserSkillCommand;
+use App\Commands\UserSkill\StoreUserSkill\StoreUserSkillHandle;
+use App\Commands\UserSkill\UpdateUserSkill\UpdateUserSkillCommand;
+use App\Commands\UserSkill\UpdateUserSkill\UpdateUserSkillHandle;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserLocation\UserLocationRequest;
+use App\Http\Requests\UserSkill\UserSkillRequest;
+use Illuminate\Http\JsonResponse;
+use Joselfonseca\LaravelTactician\CommandBusInterface;
+
+class UserLocationController extends Controller
+{
+    public function __construct(
+        protected CommandBusInterface $bus
+    )
+    {
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getListLocationCurrentUser(): JsonResponse
+    {
+        $this->bus->addHandler(GetListSkillCurrentUserCommand::class, GetListSkillCurrentUserHandle::class);
+
+        $result = $this->bus->dispatch(new GetListSkillCurrentUserCommand());
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    /**
+     * @param UserLocationRequest $request
+     * @return JsonResponse
+     */
+    public function store(UserLocationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(StoreUserSkillCommand::class, StoreUserSkillHandle::class);
+
+        $result = $this->bus->dispatch(StoreUserSkillCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getCompleteListOfUserLocation(): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetCompleteListOfUserSkillCommand::class,
+            GetCompleteListOfUserSkillHandle::class
+        );
+
+        $result = $this->bus->dispatch(new GetCompleteListOfUserSkillCommand());
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    public function getDetailListOfUserLocation(UserLocationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetDetailListOfUserSkillCommand::class,
+            GetDetailListOfUserSkillHandle::class
+        );
+
+        $result = $this->bus->dispatch(GetDetailListOfUserSkillCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    /**
+     * @param UserSkillRequest $request
+     * @return JsonResponse
+     */
+    public function getDetailListOfUserLocationByUserSlug(UserLocationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetDetailListOfUserSkillByUserSlugCommand::class,
+            GetDetailListOfUserSkillByUserSlugHandle::class
+        );
+
+        $result = $this->bus->dispatch(GetDetailListOfUserSkillByUserSlugCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    public function getDetailListOfLocationByUserSlug(UserLocationRequest $request)
+    {
+
+    }
+
+    public function update(UserLocationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateUserSkillCommand::class,
+            UpdateUserSkillHandle::class
+        );
+
+        $result = $this->bus->dispatch(UpdateUserSkillCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    public function destroy(UserLocationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(DestroyUserSkillCommand::class, DestroyUserSkillHandle::class);
+
+        $result = $this->bus->dispatch(DestroyUserSkillCommand::withForm($request));
+
+        if(!empty($result['userSkillDestroy'])){
+            return $this->responseSuccessWithNoData(message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+}

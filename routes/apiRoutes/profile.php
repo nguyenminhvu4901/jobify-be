@@ -6,6 +6,7 @@ use App\Http\Controllers\API\Profile\UserCertificationController;
 use App\Http\Controllers\API\Profile\UserCourseController;
 use App\Http\Controllers\API\Profile\UserEducationController;
 use App\Http\Controllers\API\Profile\UserExperienceController;
+use App\Http\Controllers\API\Profile\UserLocationController;
 use App\Http\Controllers\API\Profile\UserPrizeController;
 use App\Http\Controllers\API\Profile\UserProductController;
 use App\Http\Controllers\API\Profile\UserProjectController;
@@ -24,6 +25,7 @@ Route::group(
 
         Route::post('update-personal-info', [PersonalInfoController::class, 'updateProfile'])
             ->name('updateProfile');
+
         Route::post('upload-avatar', [PersonalInfoController::class, 'uploadAvatar'])
             ->name('uploadAvatar');
 
@@ -212,5 +214,29 @@ Route::group(
             ->name('updateUserActivity');
 
         Route::delete('/', [UserActivityController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group(['prefix' => 'user-location', 'as' => 'userLocation.'], function(){
+        Route::get('/list-location-current-user', [UserLocationController::class,
+            'getListLocationCurrentUser'])->name('listLocationCurrentUser');
+
+        Route::get('/complete-list-user-location', [UserLocationController::class,
+            'getCompleteListOfUserLocation'])->name('completeListOfUserLocation');
+
+        Route::get('/detail-list-user-location', [UserLocationController::class,
+            'getDetailListOfUserLocation'])->name('detailListOfUserLocation');
+
+        Route::get('/detail-list-location-by-user-slug', [UserLocationController::class,
+            'getDetailListOfUserLocationByUserSlug'])->name('detailListOfUserLocationByUserSlug');
+
+        Route::get('/detail-list-user-location-by-user-slug', [UserLocationController::class,
+            'getDetailListOfLocationByUserSlug'])->name('detailListOfLocationByUserSlug');
+
+        Route::post('/', [UserLocationController::class, 'store'])->name('store');
+
+        Route::post('/update-location', [UserLocationController::class, 'update'])
+            ->name('updateUserLocation');
+
+        Route::delete('/', [UserLocationController::class, 'destroy'])->name('destroy');
     });
 });
