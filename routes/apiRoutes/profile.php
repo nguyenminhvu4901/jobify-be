@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\RouteNames\Profile\UserActivity;
 use App\Http\Controllers\API\Profile\PersonalInfoController;
 use App\Http\Controllers\API\Profile\UserActivityController;
 use App\Http\Controllers\API\Profile\UserCertificationController;
@@ -193,24 +194,31 @@ Route::group(
             Route::delete('/', [UserProductController::class, 'destroy'])->name('destroy');
         });
 
-    Route::group(['prefix' => 'user-activity', 'as' => 'userActivity.'], function() {
-        Route::get('/list-activity-current-user', [UserActivityController::class,
-            'getListActivityCurrentUser'])->name('listActivityCurrentUser');
+        Route::group(['prefix' => 'user-activity', 'as' => 'userActivity.'], function() {
 
-        Route::get('/complete-list-user-activity', [UserActivityController::class,
-            'getCompleteListOfUserActivity'])->name('completeListOfUserActivity');
+            Route::get('/list-activity-current-user', [UserActivityController::class,
+                'getListActivityCurrentUser'])
+                ->name(UserActivity::LIST_ACTIVITY_CURRENT_USER->value);
 
-        Route::get('/detail-list-user-activity', [UserActivityController::class,
-            'getDetailListOfUserActivity'])->name('detailListOfUserActivity');
+            Route::get('/complete-list-user-activity', [UserActivityController::class,
+                'getCompleteListOfUserActivity'])
+                ->name(UserActivity::COMPLETE_LIST_USER_ACTIVITY->value);
 
-        Route::get('/detail-list-user-activity-by-user-slug', [UserActivityController::class,
-            'getDetailListOfUserActivityByUserSlug'])->name('detailListOfUserActivityByUserSlug');
+            Route::get('/detail-list-user-activity', [UserActivityController::class,
+                'getDetailListOfUserActivity'])
+                ->name(UserActivity::DETAIL_LIST_USER_ACTIVITY->value);
 
-        Route::post('/', [UserActivityController::class, 'store'])->name('store');
+            Route::get('/detail-list-user-activity-by-user-slug', [UserActivityController::class,
+                'getDetailListOfUserActivityByUserSlug'])
+                ->name(UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value);
 
-        Route::post('/update-activity', [UserActivityController::class, 'update'])
-            ->name('updateUserActivity');
+            Route::post('/', [UserActivityController::class, 'store'])
+                ->name(UserActivity::STORE->value);
 
-        Route::delete('/', [UserActivityController::class, 'destroy'])->name('destroy');
-    });
+            Route::post('/update-activity', [UserActivityController::class, 'update'])
+                ->name(UserActivity::UPDATE->value);
+
+            Route::delete('/', [UserActivityController::class, 'destroy'])
+                ->name(UserActivity::DESTROY->value);
+        });
 });

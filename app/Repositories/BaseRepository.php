@@ -145,6 +145,7 @@ abstract class BaseRepository extends Repository
                 'message' => __('messages.response.create_resource_success'),
                 'data' => $data->refresh(),
             ];
+
         }catch (\Exception $e){
             DB::rollBack();
 
