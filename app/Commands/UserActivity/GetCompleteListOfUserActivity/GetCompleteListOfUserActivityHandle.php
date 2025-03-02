@@ -31,12 +31,9 @@ class GetCompleteListOfUserActivityHandle
             $userActivities = Cache::tags([UserActivity::TAG_NAME->value])->remember(
                 UserActivity::COMPLETE_LIST_USER_ACTIVITY->value,
                 CacheTTL::REMEMBER->value,
-                function (){
-
-                    return $this->userActivityRepository->getWithRelationship(
+                fn() => $this->userActivityRepository->getWithRelationship(
                         ['userActivityResources.contentType', 'user']
-                    );
-                }
+                )
             );
 
             return [
