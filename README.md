@@ -29,15 +29,25 @@ cp env-example .env
 PHP_VERSION=8.3
 APP_CODE_PATH_HOST=../jobify-be
 COMPOSE_PROJECT_NAME=Jobify
+
 WORKSPACE_INSTALL_NODE=true
 WORKSPACE_INSTALL_YARN=true
-
+PHP_FPM_INSTALL_PHPREDIS=true
+WORKSPACE_INSTALL_MONGO=true
 PHP_FPM_INSTALL_MYSQLI=true
+PHP_FPM_INSTALL_MONGO=true
 
 MYSQL_VERSION=latest
 MYSQL_DATABASE=default
 MYSQL_USER=default
 MYSQL_PASSWORD=secret
+
+REDIS_PORT=6379
+REDIS_PASSWORD=secret_redis
+
+MONGODB_PORT=27017
+MONGO_USERNAME=root
+MONGO_PASSWORD=example
 ```
 
 ```sh .env in php8.3.ini in php-fpm
@@ -60,7 +70,7 @@ cp .env.example .env
 Run docker:
 ```sh
 cd laradock
-docker compose up -d mysql nginx phpmyadmin workspace
+docker compose up -d mysql nginx phpmyadmin workspace redis mongo
 ```
 
 Open workspace:
