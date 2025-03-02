@@ -58,7 +58,7 @@ class UserActivityRequest extends FormRequest
             "profile.userActivity." . UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userActivity.destroy" . UserActivity::DESTROY->value => [
+            "profile.userActivity." . UserActivity::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
             ],
