@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserActivity;
 
+use App\Enums\RouteNames\Profile\UserActivity;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -34,8 +35,8 @@ class UserActivityRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userActivity.store" => $commonRules,
-            "profile.userActivity.updateUserActivity" => [
+            "profile.userActivity." . UserActivity::STORE->value => $commonRules,
+            "profile.userActivity." . UserActivity::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
@@ -51,13 +52,13 @@ class UserActivityRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userActivity.detailListOfUserActivity" => [
+            "profile.userActivity." . UserActivity::DETAIL_LIST_USER_ACTIVITY->value => [
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id']
             ],
-            "profile.userActivity.detailListOfUserActivityByUserSlug" => [
+            "profile.userActivity." . UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userActivity.destroy" => [
+            "profile.userActivity.destroy" . UserActivity::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
             ],
@@ -97,6 +98,6 @@ class UserActivityRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userCertification.store");
+        $this->processWithValidator($validator, "profile.userActivity." . UserActivity::STORE->value);
     }
 }

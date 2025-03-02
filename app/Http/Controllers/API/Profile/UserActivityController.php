@@ -19,6 +19,7 @@ use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserActivity\UserActivityRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserActivityController extends Controller
@@ -42,7 +43,11 @@ class UserActivityController extends Controller
         $result = $this->bus->dispatch(new GetListActivityCurrentUserCommand());
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -65,7 +70,11 @@ class UserActivityController extends Controller
         $result = $this->bus->dispatch(new GetCompleteListOfUserActivityCommand());
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -89,7 +98,12 @@ class UserActivityController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserActivityCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -113,7 +127,11 @@ class UserActivityController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserActivityByUserSlugCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(

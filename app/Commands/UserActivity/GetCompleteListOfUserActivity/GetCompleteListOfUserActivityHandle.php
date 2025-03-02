@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserActivity\GetCompleteListOfUserActivity;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserActivity;
 use App\Http\Resources\UserActivity\UserActivityResource;
 use App\Repositories\UserActivity\UserActivityRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserActivityHandle
 {
@@ -22,13 +25,24 @@ class GetCompleteListOfUserActivityHandle
     public function handle(): array
     {
         try {
-            $userActivities = $this->userActivityRepository->getWithRelationship(
-                ['userActivityResources.contentType', 'user']
+            $cache = Cache::tags([UserActivity::TAG_NAME->value])
+                ->has(UserActivity::COMPLETE_LIST_USER_ACTIVITY->value);
+
+            $userActivities = Cache::tags([UserActivity::TAG_NAME->value])->remember(
+                UserActivity::COMPLETE_LIST_USER_ACTIVITY->value,
+                CacheTTL::REMEMBER->value,
+                function (){
+
+                    return $this->userActivityRepository->getWithRelationship(
+                        ['userActivityResources.contentType', 'user']
+                    );
+                }
             );
 
             return [
                 'data' => UserActivityResource::collection($userActivities),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
             return [
