@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
     [
-        'middleware' => ['api', 'auth'],
+        'middleware' => ['api', 'auth', 'throttle:rateLimit'],
         'prefix' => 'profile',
         'as' => 'profile.'
     ], function () {
