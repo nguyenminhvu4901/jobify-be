@@ -17,7 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append([
-           \App\Http\Middleware\Language::class
+           \App\Http\Middleware\Language::class,
+            \App\Http\Middleware\SetContextUrl::class
         ]);
         $middleware->alias([
             'auth' => Authenticate::class,

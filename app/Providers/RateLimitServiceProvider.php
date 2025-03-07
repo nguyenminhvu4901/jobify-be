@@ -24,9 +24,8 @@ class RateLimitServiceProvider extends ServiceProvider
     {
         RateLimiter::for('rateLimit', function (Request $request) {
             return Limit::perMinute(100)->by(
-                auth()?->user()?->id ?? $request?->ip()
+                auth()?->user()?->id ?? $request?->ip() ?? 'guest'
             );
         });
-
     }
 }
