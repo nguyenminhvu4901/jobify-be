@@ -41,6 +41,8 @@ MYSQL_VERSION=latest
 MYSQL_DATABASE=default
 MYSQL_USER=default
 MYSQL_PASSWORD=secret
+MYSQL_PORT=3306
+MYSQL_ROOT_PASSWORD=root
 
 REDIS_PORT=6379
 REDIS_PASSWORD=secret_redis
@@ -89,6 +91,48 @@ composer dump-autoload
 php artisan storage:link
 php artisan l5-swagger:generate
 ```
+
+```install supervisor into workspace bash (macos)
+cd /
+apt update
+sudo apt install supervisor
+supervisord --version
+sudo nano /etc/supervisor/conf.d/laravel-worker.conf (File để chạy supervisor, có thể không tạo vì dự án đã có sẵn rồi)
+cấu hình file nếu muốn tạo
+
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/artisan queue:work --sleep=3 --tries=3 --max-time=3600
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=www-data
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/var/www/storage/logs/worker.log
+stderr_logfile=/var/www/storage/logs/worker-error.log
+stopwaitsecs=3600
+
+tiếp tục thoát file và chạy các câu lệnh 
+cd /etc/supervisor
+
+truy cập vào file cấu hình của supervisor
+nano supervisord.conf
+
+thêm path file conf để chạy tiến trình, ở cuối file có [include]
+thêm dường dẫn đến file conf
+ví dụ:
+[include]
+files = /etc/supervisor/conf.d/*.conf /var/www/laravel-worker.conf /var/www/laravel-schedule.conf
+
+tiếp tục chạy các câu lệnh
+supervisorctl reread
+supervisorctl update
+supervisorctl start all
+supervisorctl status
+```
+
 Notice
 ```
 Mỗi khi chạy seed sẽ chạy hết các lệnh seed đã lưu ở trên
