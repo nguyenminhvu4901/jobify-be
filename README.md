@@ -92,6 +92,7 @@ php artisan storage:link
 php artisan l5-swagger:generate
 ```
 
+Build supervisor (For macos)
 ```install supervisor into workspace bash (macos)
 cd /
 apt update
