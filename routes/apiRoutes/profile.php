@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RouteNames\Profile\UserActivity;
+use App\Enums\RouteNames\Profile\UserCertification;
 use App\Http\Controllers\API\Profile\PersonalInfoController;
 use App\Http\Controllers\API\Profile\UserActivityController;
 use App\Http\Controllers\API\Profile\UserCertificationController;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
     [
-        'middleware' => ['api', 'auth'],
+        'middleware' => ['api', 'auth', 'throttle:rateLimit'],
         'prefix' => 'profile',
         'as' => 'profile.'
     ], function () {
@@ -51,23 +52,29 @@ Route::group(
 
         Route::group(['prefix' => 'user-certification', 'as' => 'userCertification.'], function (){
             Route::get('/list-certification-current-user', [UserCertificationController::class,
-                'getListCertificationCurrentUser']);
+                'getListCertificationCurrentUser'])
+                ->name(UserCertification::LIST_CERTIFICATION_CURRENT_USER->value);
 
-            Route::post('/', [UserCertificationController::class, 'store'])->name('store');
+            Route::post('/', [UserCertificationController::class, 'store'])
+                ->name(UserCertification::STORE->value);
 
             Route::get('/complete-list-user-certification', [UserCertificationController::class,
-                'getCompleteListOfUserCertification']);
+                'getCompleteListOfUserCertification'])
+                ->name(UserCertification::COMPLETE_LIST_USER_CERTIFICATION->value);
 
             Route::get('/detail-list-user-certification', [UserCertificationController::class,
-                'getDetailListOfUserCertification'])->name('detailListOfUserCertification');
+                'getDetailListOfUserCertification'])
+                ->name(UserCertification::DETAIL_LIST_USER_CERTIFICATION->value);
 
             Route::get('/detail-list-user-certification-by-user-slug', [UserCertificationController::class,
-                'getDetailListOfUserCertificationByUserSlug'])->name('detailListOfUserCertificationByUserSlug');
+                'getDetailListOfUserCertificationByUserSlug'])
+                ->name(UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value);
 
             Route::post('/update-certification', [UserCertificationController::class, 'update'])
-                ->name('updateUserCertification');
+                ->name(UserCertification::UPDATE->value);
 
-            Route::delete('/', [UserCertificationController::class, 'destroy'])->name('destroy');
+            Route::delete('/', [UserCertificationController::class, 'destroy'])
+                ->name(UserCertification::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-education', 'as' => 'userEducation.'], function() {

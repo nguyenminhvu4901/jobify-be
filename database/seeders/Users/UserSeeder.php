@@ -6,6 +6,7 @@ use App\Enums\DefaultRole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -21,7 +22,7 @@ class UserSeeder extends Seeder
         $userAdmin = User::create([
             'full_name' => 'User Admin',
             'email' => 'admin@example.com',
-            'password' => bcrypt('Admin@12'),
+            'password' => Hash::make('Admin@12'),
             'phone_number' => '0912345678',
             'current_role' => DefaultRole::ADMIN
         ]);

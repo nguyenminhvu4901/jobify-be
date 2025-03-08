@@ -4,6 +4,7 @@ namespace App\Commands\Auth\RecruiterRegister;
 
 use App\Enums\DefaultRole;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
+use App\Notifications\UserRegisteredNotification;
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\CompanyAddress\CompanyAddressRepository;
 use App\Repositories\User\UserRepository;
@@ -41,6 +42,8 @@ class RecruiterRegisterHandler
             $company = $this->createCompany($command, $recruiter->id);
 
             $this->createCompanyAddress($command, $company->id);
+
+            $recruiter->notify(new UserRegisteredNotification());
 
             return [
                 'recruiter' => RecruiterRegisterResource::make($recruiter->refresh()),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserCertification;
 
+use App\Enums\RouteNames\Profile\UserCertification;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -33,8 +34,8 @@ class UserCertificationRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userCertification.store" => $commonRules,
-            "profile.userCertification.updateUserCertification" => [
+            "profile.userCertification." . UserCertification::STORE->value => $commonRules,
+            "profile.userCertification." . UserCertification::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
@@ -50,13 +51,13 @@ class UserCertificationRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userCertification.detailListOfUserCertification" => [
+            "profile.userCertification." . UserCertification::DETAIL_LIST_USER_CERTIFICATION->value => [
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
             ],
-            "profile.userCertification.detailListOfUserCertificationByUserSlug" => [
+            "profile.userCertification." . UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value  => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userCertification.destroy" => [
+            "profile.userCertification." .UserCertification::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
             ],
@@ -96,6 +97,6 @@ class UserCertificationRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userCertification.store");
+        $this->processWithValidator($validator, "profile.userCertification." . UserCertification::STORE->value);
     }
 }

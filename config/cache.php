@@ -17,6 +17,8 @@ return [
 
     'default' => env('CACHE_STORE', 'redis'),
 
+    'limiter' => 'redis',
+
     /*
     |--------------------------------------------------------------------------
     | Cache Stores

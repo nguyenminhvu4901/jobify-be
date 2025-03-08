@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Enums\QueryConstant;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository as Repository;
@@ -40,8 +42,7 @@ abstract class BaseRepository extends Repository
             });
 
         if (!empty($relationship)) {
-            $relationship = is_array($relationship) ? $relationship : [$relationship];
-            $query->with($relationship);
+            $query->with($this->loadRelationship($relationship));
         }
 
         return $query->get();
@@ -62,8 +63,7 @@ abstract class BaseRepository extends Repository
             });
 
         if (!empty($relationship)) {
-            $relationship = is_array($relationship) ? $relationship : [$relationship];
-            $query->with($relationship);
+            $query->with($this->loadRelationship($relationship));
         }
 
         return $query->firstOrFail();
@@ -78,11 +78,36 @@ abstract class BaseRepository extends Repository
         $query = $this->model->newQuery();
 
         if(!empty($relationship)){
-            $relationship = is_array($relationship) ? $relationship : [$relationship];
-            $query->with($relationship);
+            $query->with($this->loadRelationship($relationship));
         }
 
         return $query->get();
+    }
+
+
+    /**
+     * @param array|string $relationship
+     * @param $limit
+     * @return LengthAwarePaginator
+     */
+    public function paginateWithRelationship(array|string $relationship = [], $limit = null): LengthAwarePaginator
+    {
+        $query = $this->model->newQuery();
+
+        if(!empty($relationship)){
+            $query->with($this->loadRelationship($relationship));
+        }
+
+        return $query->paginate($limit ?? QueryConstant::PAGINATE_DEFAULT->value);
+    }
+
+    /**
+     * @param $relationship
+     * @return array
+     */
+    private function loadRelationship($relationship): array
+    {
+        return is_array($relationship) ? $relationship : [$relationship];
     }
 
     /**
@@ -100,7 +125,7 @@ abstract class BaseRepository extends Repository
         $query = $this->model->newQuery();
 
         if(!empty($relationship)){
-            $relationship = is_array($relationship) ? $relationship : [$relationship];
+            $relationship = $this->loadRelationship($relationship);
 
             if (!empty($relationshipCallbacksToFilter)) {
                 foreach ($relationship as $rel) {
@@ -207,6 +232,10 @@ abstract class BaseRepository extends Repository
         }
     }
 
+    /**
+     * @param int|string $id
+     * @return array
+     */
     public function destroyDataWithTransaction(int|string $id): array
     {
         DB::beginTransaction();
@@ -253,7 +282,11 @@ abstract class BaseRepository extends Repository
         }
     }
 
-    public function getByIds(array $ids)
+    /**
+     * @param array $ids
+     * @return mixed
+     */
+    public function getByIds(array $ids): mixed
     {
         return $this->model->whereIn('id', $ids)->get();
     }

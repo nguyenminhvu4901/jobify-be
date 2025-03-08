@@ -4,6 +4,7 @@ namespace App\Commands\Auth\JobSeekerRegister;
 
 use App\Enums\DefaultRole;
 use App\Http\Resources\Auth\JobSeekerRegisterResource;
+use App\Notifications\UserRegisteredNotification;
 use App\Repositories\User\UserRepository;
 
 class JobSeekerRegisterHandler
@@ -31,6 +32,7 @@ class JobSeekerRegisterHandler
             ]);
 
             if(!empty($jobSeeker)){
+                $jobSeeker->notify(new UserRegisteredNotification());
 
                 return [
                     'jobSeeker' => JobSeekerRegisterResource::make($jobSeeker->refresh()),

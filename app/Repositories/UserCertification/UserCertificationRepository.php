@@ -2,11 +2,14 @@
 
 namespace App\Repositories\UserCertification;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface UserCertificationRepository
 {
     public function getWithRelationship(array|string $relationship = []): Collection;
+
+    public function paginateWithRelationship(array|string $relationship = [], $limit = null): LengthAwarePaginator;
 
     public function findWithRelationships(
         int|string $id,

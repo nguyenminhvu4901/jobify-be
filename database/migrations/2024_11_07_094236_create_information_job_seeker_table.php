@@ -21,9 +21,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('gender_id')->references('id')->on('default_genders')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
         });
 
         Schema::create('user_educations', function (Blueprint $table) {
@@ -39,7 +39,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')
-                ->on('users')->onDelete('set null')->onUpdate('cascade');
+                ->on('users')->nullOnDelete()->cascadeOnUpdate();
         });
 
         Schema::create('user_products', function (Blueprint $table) {
@@ -52,7 +52,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
         });
 
         Schema::create('user_product_resources', function (Blueprint $table) {
@@ -64,9 +64,9 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id')->nullable();
 
             $table->foreign('user_product_id')->references('id')->on('user_products')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('content_type_id')->references('id')->on('default_content_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -79,9 +79,9 @@ return new class extends Migration
             $table->text('description')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('rate_id')->references('id')->on('default_rates')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -97,7 +97,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -111,9 +111,9 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id')->nullable();
 
             $table->foreign('user_certification_id')->references('id')->on('user_certifications')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('content_type_id')->references('id')->on('default_content_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -129,7 +129,7 @@ return new class extends Migration
             $table->date('end_date')->nullable()->comment('Ngày kết thúc');
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
 
@@ -142,9 +142,9 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id')->nullable();
 
             $table->foreign('user_experience_id')->references('id')->on('user_experiences')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('content_type_id')->references('id')->on('default_content_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -159,7 +159,7 @@ return new class extends Migration
             $table->text('description')->nullable()->comment('Mô tả chi tiết');
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -173,9 +173,9 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id')->nullable();
 
             $table->foreign('user_activity_id')->references('id')->on('user_activities')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('content_type_id')->references('id')->on('default_content_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -196,7 +196,7 @@ return new class extends Migration
             $table->text('description')->nullable()->comment('Mô tả chi tiết');
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -210,9 +210,9 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id')->nullable();
 
             $table->foreign('user_project_id')->references('id')->on('user_projects')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('content_type_id')->references('id')->on('default_content_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -227,7 +227,7 @@ return new class extends Migration
             $table->text('description')->nullable()->comment('Mô tả chi tiết');
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -241,9 +241,9 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id')->nullable();
 
             $table->foreign('user_course_id')->references('id')->on('user_courses')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('content_type_id')->references('id')->on('default_content_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -257,7 +257,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -271,9 +271,9 @@ return new class extends Migration
             $table->unsignedBigInteger('content_type_id')->nullable();
 
             $table->foreign('user_prize_id')->references('id')->on('user_prizes')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('content_type_id')->references('id')->on('default_content_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -287,7 +287,7 @@ return new class extends Migration
             $table->string('address', 512)->nullable()->comment('Địa chỉ');
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
