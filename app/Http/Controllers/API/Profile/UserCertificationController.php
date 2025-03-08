@@ -18,7 +18,9 @@ use App\Commands\UserCertification\UpdateUserCertification\UpdateUserCertificati
 use App\Commands\UserCertification\UpdateUserCertification\UpdateUserCertificationHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCertification\UserCertificationRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
 use Symfony\Component\Routing\Attribute\Route;
@@ -250,25 +252,22 @@ class UserCertificationController extends Controller
         );
     }
 
-    /**
-     *
-     *
-     * @return JsonResponse
-     */
-    public function getCompleteListOfUserCertification(): JsonResponse
+
+    public function getCompleteListOfUserCertification(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetCompleteListOfUserCertificationCommand::class,
             GetCompleteListOfUserCertificationHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserCertificationCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserCertificationCommand::withForm($request));
 
         if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
-                cache: $result['cache'] ?? null
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
             );
         }
 

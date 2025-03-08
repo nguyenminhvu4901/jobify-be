@@ -2,11 +2,14 @@
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckGuest;
+use App\Http\Middleware\Language;
+use App\Http\Middleware\SetContextUrl;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
+use Illuminate\Session\Middleware\StartSession;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,12 +20,15 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append([
-           \App\Http\Middleware\Language::class,
-            \App\Http\Middleware\SetContextUrl::class
+            Language::class,
+            SetContextUrl::class
         ]);
         $middleware->alias([
             'auth' => Authenticate::class,
             'guest' => CheckGuest::class
+        ]);
+        $middleware->group('api', [
+            StartSession::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

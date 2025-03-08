@@ -101,27 +101,27 @@ return new class extends Migration
             $table->unsignedBigInteger('view')->default(0);
 
             $table->foreign('company_id')->references('id')->on('companies')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('gender_id')->references('id')->on('default_genders')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('active_status_id')->references('id')
                 ->on('default_statuses')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('approval_status_id')->references('id')
                 ->on('approval_statuses')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('job_salary_id')->references('id')
                 ->on('job_salaries')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('job_type_id')->references('id')
                 ->on('job_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('job_level_id')->references('id')
                 ->on('job_levels')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('job_experience_id')->references('id')
                 ->on('job_experiences')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
 
@@ -138,7 +138,7 @@ return new class extends Migration
 
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -150,10 +150,10 @@ return new class extends Migration
 
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('position_id')->references('id')
                 ->on('positions')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -167,7 +167,7 @@ return new class extends Migration
 
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });

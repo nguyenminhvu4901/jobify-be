@@ -38,6 +38,7 @@ abstract class Controller extends BaseController
      * @param string $message
      * @param string $statusCode
      * @param mixed|null $cache
+     * @param mixed $pagination
      * @return JsonResponse
      */
     public function responseSuccess(
@@ -45,14 +46,24 @@ abstract class Controller extends BaseController
         string $message = 'OK',
         string $statusCode = Response::HTTP_OK,
         mixed $cache = null,
+        mixed $pagination = []
     ): JsonResponse
     {
-        return response()->json([
+        $response = [
             'data' => $data,
             'message' => $message,
-            'status_code' => $statusCode,
-            'cache' => config('app.debug') && !empty($cache) ? $cache : false
-        ], Response::HTTP_OK);
+            'status_code' => $statusCode
+        ];
+
+        if(!empty($pagination)){
+            $response['pagination'] = $pagination;
+        }
+
+        if(config('app.debug') && !empty($cache)) {
+            $response['cache'] = $cache;
+        }
+
+        return response()->json($response, $statusCode);
     }
 
     /**
