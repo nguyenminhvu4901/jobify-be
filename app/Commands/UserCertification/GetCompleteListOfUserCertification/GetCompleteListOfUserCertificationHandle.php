@@ -43,7 +43,8 @@ class GetCompleteListOfUserCertificationHandle
                 ),
                 CacheTTL::REMEMBER->value,
                 fn() => $this->userCertificationRepository->paginateWithRelationship(
-                    ['userCertificationResources.contentType', 'user'], $command->limit
+                    relationship: ['userCertificationResources.contentType', 'user'],
+                    limit:  $command->limit
                 )
             );
 

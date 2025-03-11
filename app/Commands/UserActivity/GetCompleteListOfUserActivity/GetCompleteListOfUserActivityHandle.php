@@ -19,20 +19,27 @@ class GetCompleteListOfUserActivityHandle
     {
     }
 
-    /**
-     * @return array
-     */
-    public function handle(): array
+
+    public function handle(GetCompleteListOfUserActivityCommand $command): array
     {
         try {
             $cache = Cache::tags([UserActivity::TAG_NAME->value])
-                ->has(UserActivity::COMPLETE_LIST_USER_ACTIVITY->value);
+                ->has(
+                    generateCacheName(
+                        UserActivity::COMPLETE_LIST_USER_ACTIVITY->value,
+                        $command
+                    )
+                );
 
             $userActivities = Cache::tags([UserActivity::TAG_NAME->value])->remember(
-                UserActivity::COMPLETE_LIST_USER_ACTIVITY->value,
+                generateCacheName(
+                    UserActivity::COMPLETE_LIST_USER_ACTIVITY->value,
+                    $command
+                ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userActivityRepository->getWithRelationship(
-                        ['userActivityResources.contentType', 'user']
+                fn() => $this->userActivityRepository->paginateWithRelationship(
+                    relationship: ['userActivityResources.contentType', 'user'],
+                    limit: $command->limit
                 )
             );
 

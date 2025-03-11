@@ -35,11 +35,17 @@ class GetListActivityCurrentUserHandle
                     function() {
 
                         return $this->userRepository->findWithRelationships(
-                            auth()->user()->id,
-                            'userActivities.userActivityResources.contentType',
-                            [
-                                'userProducts' => function ($query) {
-                                    return $query->orderByDesc('id');
+                            id: auth()->user()->id,
+                            relationship: 'userActivities.userActivityResources.contentType',
+                            relationshipCallbacksToFilter: [
+                                'userActivities' => function ($query) {
+                                    $query->orderByDesc('id')
+                                    ->with([
+                                        'userActivityResources' => function ($query) {
+                                            $query->orderByDesc('id')
+                                            ->with('contentType');
+                                        }
+                                    ]);
                                 }
                             ]
                         );

@@ -27,15 +27,22 @@ class GetDetailListOfUserActivityHandle
     {
         try {
             $cache = Cache::tags([UserActivity::TAG_NAME->value])->has(
-                UserActivity::DETAIL_LIST_USER_ACTIVITY->value . $command->userActivityId);
+                generateCacheName(
+                    UserActivity::DETAIL_LIST_USER_ACTIVITY->value,
+                    $command
+                )
+            );
 
             $userActivity = Cache::tags([UserActivity::TAG_NAME->value])->remember(
-                UserActivity::DETAIL_LIST_USER_ACTIVITY->value . $command->userActivityId,
+                generateCacheName(
+                    UserActivity::DETAIL_LIST_USER_ACTIVITY->value,
+                    $command
+                ),
                 CacheTTL::REMEMBER->value, function () use($command){
 
                 return $this->userActivityRepository->findWithRelationships(
-                    $command->userActivityId,
-                    ['user', 'userActivityResources.contentType']
+                    id: $command->userActivityId,
+                    relationship: ['user', 'userActivityResources.contentType']
                 );
             });
 
