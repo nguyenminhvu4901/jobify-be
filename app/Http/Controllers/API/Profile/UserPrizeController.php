@@ -18,6 +18,7 @@ use App\Commands\UserPrize\UpdateUserPrize\UpdateUserPrizeCommand;
 use App\Commands\UserPrize\UpdateUserPrize\UpdateUserPrizeHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserPrize\UserPrizeRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -60,22 +61,24 @@ class UserPrizeController extends Controller
     }
 
     /**
+     * @param FormRequest $request
      * @return JsonResponse
      */
-    public function getCompleteListOfUserPrize(): JsonResponse
+    public function getCompleteListOfUserPrize(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetCompleteListOfUserPrizeCommand::class,
             GetCompleteListOfUserPrizeHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserPrizeCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserPrizeCommand::withForm($request));
 
         if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
-                cache: $result['cache'] ?? null
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
             );
         }
 

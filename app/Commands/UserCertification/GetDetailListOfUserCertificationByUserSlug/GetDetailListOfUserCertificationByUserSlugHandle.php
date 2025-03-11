@@ -37,13 +37,12 @@ class GetDetailListOfUserCertificationByUserSlugHandle
                     UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value,
                     $command
                 ),
-                CacheTTL::REMEMBER->value, function () use($command) {
-
-                    return $this->userCertificationRepository->getByRelationshipUserSlug(
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userCertificationRepository->getByRelationshipUserSlug(
                         $command->userSlug,
                         ['userCertificationResources.contentType', 'user']
-                    );
-            });
+                    )
+            );
 
             return [
                 'data' => UserCertificationResource::collection($userCertifications),

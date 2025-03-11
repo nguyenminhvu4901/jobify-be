@@ -2,8 +2,12 @@
 
 namespace App\Commands\UserPrize\GetCompleteListOfUserPrize;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserPrize;
+use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\UserPrize\UserPrizeResource;
 use App\Repositories\UserPrize\UserPrizeRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserPrizeHandle
 {
@@ -17,18 +21,36 @@ class GetCompleteListOfUserPrizeHandle
     }
 
     /**
+     * @param GetCompleteListOfUserPrizeCommand $command
      * @return array
      */
-    public function handle(): array
+    public function handle(GetCompleteListOfUserPrizeCommand $command): array
     {
         try {
-            $userPrizes = $this->userPrizeRepository->getWithRelationship(
-                ['userPrizeResources.contentType', 'user']
+            $cache = Cache::tags([UserPrize::TAG_NAME->value])
+                ->has(
+                    generateCacheName(
+                        UserPrize::COMPLETE_LIST_USER_PRIZE->value,
+                        $command
+                    )
+                );
+
+            $userPrizes = Cache::tags([UserPrize::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserPrize::COMPLETE_LIST_USER_PRIZE->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userPrizeRepository->getWithRelationship(
+                    ['userPrizeResources.contentType', 'user']
+                )
             );
 
             return [
                 'data' => UserPrizeResource::collection($userPrizes),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache,
+                'pagination' => PaginationHelper::formatPaginationData($userPrizes) ?? []
             ];
         }catch (\Exception $e){
             return [
