@@ -41,7 +41,8 @@ class GetDetailListOfUserActivityByUserSlugHandle
                 fn() => $this->userActivityRepository->getByRelationshipUserSlug(
                     userSlug: $command->userSlug,
                     relationship: ['userActivityResources.contentType', 'user']
-                ));
+                )
+            );
 
             return [
                 'data' => UserActivityResource::collection($userActivity),

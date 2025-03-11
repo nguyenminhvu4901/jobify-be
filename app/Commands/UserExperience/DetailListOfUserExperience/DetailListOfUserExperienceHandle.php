@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserExperience\DetailListOfUserExperience;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserExperience;
 use App\Http\Resources\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
+use Illuminate\Support\Facades\Cache;
 
 class DetailListOfUserExperienceHandle
 {
@@ -16,9 +19,23 @@ class DetailListOfUserExperienceHandle
     public function handle(DetailListOfUserExperienceCommand $command): array
     {
         try {
-            $userExperience = $this->userExperienceRepository->findWithRelationships(
-                $command->userExperienceId,
-                ['user', 'userExperienceResource.contentType']
+            $cache = Cache::tags([UserExperience::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserExperience::DETAIL_LIST_USER_EXPERIENCE->value,
+                    $command
+                )
+            );
+
+            $userExperience = Cache::tags([UserExperience::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserExperience::DETAIL_LIST_USER_EXPERIENCE->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userExperienceRepository->findWithRelationships(
+                    id: $command->userExperienceId,
+                    relationship: ['user', 'userExperienceResource.contentType']
+                )
             );
 
             if(empty($userExperience)){
@@ -29,7 +46,8 @@ class DetailListOfUserExperienceHandle
 
             return [
                 'data' => UserExperienceResource::make($userExperience),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
 

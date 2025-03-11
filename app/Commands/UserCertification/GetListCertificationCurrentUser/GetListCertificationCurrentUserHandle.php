@@ -30,21 +30,20 @@ class GetListCertificationCurrentUserHandle
             $cache = Cache::tags([UserCertification::TAG_NAME->value])->has(
                 UserCertification::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id);
 
-            $userCertification = Cache::tags([UserCertification::TAG_NAME->value])->remember(
+            $userCertification = Cache::tags([UserCertification::TAG_NAME->value])
+                ->remember(
                 UserCertification::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id,
                 CacheTTL::REMEMBER->value,
-                function () {
-
-                    return $this->userRepository->findWithRelationships(
-                        auth()->user()->id,
-                        'userCertifications.userCertificationResources.contentType',
-                        [
-                            'userCertifications' => function ($query) {
-                                return $query->orderByDesc('id');
-                            }
-                        ]
-                    );
-                }
+                fn() => $this->userRepository->findWithRelationships
+                (
+                    auth()->user()->id,
+                    'userCertifications.userCertificationResources.contentType',
+                    [
+                        'userCertifications' => function ($query) {
+                            return $query->orderByDesc('id');
+                        }
+                    ]
+                )
             );
 
             if(empty($userCertification)){

@@ -38,13 +38,12 @@ class GetDetailListOfUserActivityHandle
                     UserActivity::DETAIL_LIST_USER_ACTIVITY->value,
                     $command
                 ),
-                CacheTTL::REMEMBER->value, function () use($command){
-
-                return $this->userActivityRepository->findWithRelationships(
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userActivityRepository->findWithRelationships(
                     id: $command->userActivityId,
                     relationship: ['user', 'userActivityResources.contentType']
-                );
-            });
+                )
+            );
 
 
             if(empty($userActivity)){
