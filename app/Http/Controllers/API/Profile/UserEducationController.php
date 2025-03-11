@@ -18,6 +18,7 @@ use App\Commands\UserEducation\UpdateUserEducation\UpdateUserEducationCommand;
 use App\Commands\UserEducation\UpdateUserEducation\UpdateUserEducationHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserEducation\UserEducationRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
@@ -258,23 +259,25 @@ class UserEducationController extends Controller
      *     )
      * )
      *
+     * @param FormRequest $request
      * @return JsonResponse
      */
-    public function getCompleteListOfUserEducation(): JsonResponse
+    public function getCompleteListOfUserEducation(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetCompleteListOfUserEducationCommand::class,
             GetCompleteListOfUserEducationHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserEducationCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserEducationCommand::withForm($request));
 
         if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
-                cache: $result['cache'] ?? null
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
             );
         }
 

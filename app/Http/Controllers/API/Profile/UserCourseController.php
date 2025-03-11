@@ -59,6 +59,7 @@ class UserCourseController extends Controller
     }
 
     /**
+     * @param FormRequest $request
      * @return JsonResponse
      */
     public function getCompleteListOfUserCourse(FormRequest $request): JsonResponse
@@ -75,7 +76,8 @@ class UserCourseController extends Controller
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
-                cache: $result['cache'] ?? null
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
             );
         }
 

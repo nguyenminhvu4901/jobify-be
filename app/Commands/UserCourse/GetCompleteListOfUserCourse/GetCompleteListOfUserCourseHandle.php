@@ -4,6 +4,7 @@ namespace App\Commands\UserCourse\GetCompleteListOfUserCourse;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCourse;
+use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\UserCourse\UserCourseResource;
 use App\Repositories\UserCourse\UserCourseRepository;
 use Exception;
@@ -50,7 +51,8 @@ class GetCompleteListOfUserCourseHandle
             return [
                 'data' => UserCourseResource::collection($userCourses),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
+                'pagination' => PaginationHelper::formatPaginationData($userCourses) ?? []
             ];
         }catch (Exception $e){
             return [

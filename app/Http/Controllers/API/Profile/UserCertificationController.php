@@ -256,6 +256,10 @@ class UserCertificationController extends Controller
     }
 
 
+    /**
+     * @param FormRequest $request
+     * @return JsonResponse
+     */
     public function getCompleteListOfUserCertification(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(

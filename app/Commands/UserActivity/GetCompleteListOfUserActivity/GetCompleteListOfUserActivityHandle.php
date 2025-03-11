@@ -4,6 +4,7 @@ namespace App\Commands\UserActivity\GetCompleteListOfUserActivity;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserActivity;
+use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\UserActivity\UserActivityResource;
 use App\Repositories\UserActivity\UserActivityRepository;
 use Illuminate\Support\Facades\Cache;
@@ -50,7 +51,8 @@ class GetCompleteListOfUserActivityHandle
             return [
                 'data' => UserActivityResource::collection($userActivities),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
+                'pagination' => PaginationHelper::formatPaginationData($userActivities) ?? []
             ];
         }catch (\Exception $e){
             return [

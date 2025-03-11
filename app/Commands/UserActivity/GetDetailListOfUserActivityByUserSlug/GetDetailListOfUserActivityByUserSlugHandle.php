@@ -37,13 +37,11 @@ class GetDetailListOfUserActivityByUserSlugHandle
                     UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value,
                     $command
                 ),
-                CacheTTL::REMEMBER->value, function () use($command){
-
-                return $this->userActivityRepository->getByRelationshipUserSlug(
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userActivityRepository->getByRelationshipUserSlug(
                     userSlug: $command->userSlug,
                     relationship: ['userActivityResources.contentType', 'user']
-                );
-            });
+                ));
 
             return [
                 'data' => UserActivityResource::collection($userActivity),
