@@ -242,7 +242,10 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(StoreUserCertificationCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message']
+            );
         }
 
         return $this->responseError(

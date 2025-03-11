@@ -95,7 +95,11 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(new GetListEducationCurrentUserCommand());
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
@@ -267,7 +271,11 @@ class UserEducationController extends Controller
 
         if(!empty($result['data'])){
 
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -340,7 +348,11 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserEducationCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -413,7 +425,11 @@ class UserEducationController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserEducationByUserSlugCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
