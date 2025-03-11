@@ -7,9 +7,16 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface UserCertificationRepository
 {
-    public function getWithRelationship(array|string $relationship = []): Collection;
+    public function getWithRelationship(
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): Collection;
 
-    public function paginateWithRelationship(array|string $relationship = [], $limit = null): LengthAwarePaginator;
+    public function paginateWithRelationship(
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+                     $limit = null
+    ): LengthAwarePaginator;
 
     public function findWithRelationships(
         int|string $id,
@@ -17,7 +24,18 @@ interface UserCertificationRepository
         array $relationshipCallbacksToFilter = []
     ): mixed;
 
-    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed;
+    public function getByRelationshipUserSlug(
+        $userSlug,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): mixed;
+
+    public function findByRelationshipUserSlugAndColumnDetailId(
+        $userSlug,
+        $idColumn,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): mixed;
 
     public function storeDataWithTransaction(array $attributes);
 

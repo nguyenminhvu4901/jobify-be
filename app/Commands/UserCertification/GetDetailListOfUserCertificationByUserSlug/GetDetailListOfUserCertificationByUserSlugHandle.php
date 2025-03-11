@@ -27,11 +27,18 @@ class GetDetailListOfUserCertificationByUserSlugHandle
     {
         try {
             $cache = Cache::tags([UserCertification::TAG_NAME->value])->has(
-                UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value . $command->userSlug);
+                generateCacheName(
+                    UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value,
+                    $command
+                ));
 
             $userCertifications = Cache::tags([UserCertification::TAG_NAME->value])->remember(
-                UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value . $command->userSlug,
+                generateCacheName(
+                    UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value,
+                    $command
+                ),
                 CacheTTL::REMEMBER->value, function () use($command) {
+
                     return $this->userCertificationRepository->getByRelationshipUserSlug(
                         $command->userSlug,
                         ['userCertificationResources.contentType', 'user']

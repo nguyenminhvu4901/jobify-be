@@ -27,10 +27,17 @@ class GetDetailListOfUserCertificationHandle
     {
         try {
             $cache = Cache::tags([UserCertification::TAG_NAME->value])->has(
-                UserCertification::DETAIL_LIST_USER_CERTIFICATION->value . $command->userCertificationId);
+                generateCacheName(
+                    UserCertification::DETAIL_LIST_USER_CERTIFICATION->value,
+                    $command
+                ));
 
             $userCertification = Cache::tags([UserCertification::TAG_NAME->value])
-                ->remember(UserCertification::DETAIL_LIST_USER_CERTIFICATION->value . $command->userCertificationId,
+                ->remember(
+                    generateCacheName(
+                        UserCertification::DETAIL_LIST_USER_CERTIFICATION->value,
+                        $command
+                    ),
                     CacheTTL::REMEMBER->value, function () use($command) {
 
                         return $this->userCertificationRepository->findWithRelationships(
