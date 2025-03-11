@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserSkill;
 
+use App\Enums\RouteNames\Profile\UserSkill;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,19 +30,19 @@ class UserSkillRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
        return match ($routeName){
-            'profile.userSkill.store' => $commonRules,
-            'profile.userSkill.detailListOfUserSkill' => [
+            'profile.userSkill.' . UserSkill::STORE->value => $commonRules,
+            'profile.userSkill.' . UserSkill::DETAIL_LIST_USER_SKILL->value => [
                 "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
             ],
-            'profile.userSkill.detailListOfUserSkillByUserSlug' => [
+            'profile.userSkill.' . UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value => [
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
-           'profile.userSkill.updateUserSkill' => [
+           'profile.userSkill.' . UserSkill::UPDATE->value => [
                ...$commonRules,
                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
            ],
-           'profile.userSkill.destroy' => [
+           'profile.userSkill.' . UserSkill::DESTROY->value => [
                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id'],
                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
            ],

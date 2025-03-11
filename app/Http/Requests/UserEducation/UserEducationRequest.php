@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserEducation;
 
+use App\Enums\RouteNames\Profile\UserEducation;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -30,19 +31,19 @@ class UserEducationRequest extends FormRequest
         $commonRule = $this->defineCommonRule();
 
         return match ($routeName){
-            "profile.userEducation.store" => $commonRule,
-            "profile.userEducation.detailListOfUserEducation" => [
+            "profile.userEducation." . UserEducation::STORE->value => $commonRule,
+            "profile.userEducation." . UserEducation::DETAIL_LIST_USER_EDUCATION->value => [
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            "profile.userEducation.detailListOfUserEducationByUserSlug" => [
+            "profile.userEducation." . UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value => [
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
-            "profile.userEducation.updateUserEducation" => [
+            "profile.userEducation." . UserEducation::UPDATE->value => [
                 ...$commonRule,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            "profile.userEducation.destroy" => [
+            "profile.userEducation." . UserEducation::DESTROY->value => [
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id'],
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
