@@ -2,7 +2,9 @@
 
 namespace App\Observers\Profile;
 
-class UserCourseObserver
+use App\Enums\RouteNames\Profile\UserCourse;
+
+class UserCourseObserver extends BaseProfileObserver
 {
-    //
+    protected string $cacheTag = UserCourse::TAG_NAME->value;
 }
