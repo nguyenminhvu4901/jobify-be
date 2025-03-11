@@ -20,6 +20,10 @@ class GetCompleteListOfUserActivityHandle
     }
 
 
+    /**
+     * @param GetCompleteListOfUserActivityCommand $command
+     * @return array
+     */
     public function handle(GetCompleteListOfUserActivityCommand $command): array
     {
         try {

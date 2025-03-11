@@ -18,6 +18,7 @@ use App\Commands\UserCourse\UpdateUserCourse\UpdateUserCourseCommand;
 use App\Commands\UserCourse\UpdateUserCourse\UpdateUserCourseHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCourse\UserCourseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -60,14 +61,14 @@ class UserCourseController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getCompleteListOfUserCourse(): JsonResponse
+    public function getCompleteListOfUserCourse(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetCompleteListOfUserCourseCommand::class,
             GetCompleteListOfUserCourseHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserCourseCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserCourseCommand::withForm($request));
 
         if(!empty($result['data'])){
 
