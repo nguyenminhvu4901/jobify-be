@@ -2,6 +2,9 @@
 
 use App\Enums\RouteNames\Profile\UserActivity;
 use App\Enums\RouteNames\Profile\UserCertification;
+use App\Enums\RouteNames\Profile\UserCourse;
+use App\Enums\RouteNames\Profile\UserEducation;
+use App\Enums\RouteNames\Profile\UserExperience;
 use App\Http\Controllers\API\Profile\PersonalInfoController;
 use App\Http\Controllers\API\Profile\UserActivityController;
 use App\Http\Controllers\API\Profile\UserCertificationController;
@@ -30,24 +33,27 @@ Route::group(
             ->name('uploadAvatar');
 
         Route::group(['prefix' => 'user-experience', 'as' => 'userExperience.'], function() {
-            Route::post('/', [UserExperienceController::class, 'store'])->name('store');
+            Route::post('/', [UserExperienceController::class, 'store'])
+                ->name(UserExperience::STORE);
 
             Route::get('/list-experience-current-user', [UserExperienceController::class,
-                'getListExperienceCurrentUser']);
+                'getListExperienceCurrentUser'])->name(UserExperience::LIST_EXPERIENCE_CURRENT_USER->value);
 
             Route::get('/complete-list-user-experience', [UserExperienceController::class,
-                'getCompleteListOfUserExperience']);
+                'getCompleteListOfUserExperience'])->name(UserExperience::COMPLETE_LIST_USER_EXPERIENCE->value);
 
             Route::get('/detail-list-user-experience', [UserExperienceController::class,
-                'getDetailListOfUserExperience'])->name('detailListOfUserExperience');
+                'getDetailListOfUserExperience'])->name(UserExperience::DETAIL_LIST_USER_EXPERIENCE->value);
 
             Route::get('/detail-list-user-experience-by-user-slug', [UserExperienceController::class,
-                'getDetailListOfUserExperienceByUserSlug'])->name('detailListOfUserExperienceByUserSlug');
+                'getDetailListOfUserExperienceByUserSlug'])
+                ->name(UserExperience::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value);
 
             Route::post('/update-experience', [UserExperienceController::class, 'update'])
-                ->name('updateUserExperience');
+                ->name(UserExperience::UPDATE->value);
 
-            Route::delete('/', [UserExperienceController::class, 'destroy'])->name('destroy');
+            Route::delete('/', [UserExperienceController::class, 'destroy'])
+                ->name(UserExperience::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-certification', 'as' => 'userCertification.'], function (){
@@ -79,22 +85,28 @@ Route::group(
 
         Route::group(['prefix' => 'user-education', 'as' => 'userEducation.'], function() {
             Route::get('/list-education-current-user', [UserEducationController::class,
-                'getListEducationCurrentUser'])->name('listEducationCurrentUser');
+                'getListEducationCurrentUser'])->name(UserEducation::LIST_EDUCATION_CURRENT_USER->value);
 
-            Route::post('/', [UserEducationController::class, 'store'])->name('store');
+            Route::post('/', [UserEducationController::class, 'store'])
+                ->name(UserEducation::STORE->value);
 
             Route::get('/complete-list-user-education', [UserEducationController::class,
-                'getCompleteListOfUserEducation']);
+                'getCompleteListOfUserEducation'])
+                ->name(UserEducation::COMPLETE_LIST_USER_EDUCATION->value);
 
             Route::get('/detail-list-user-education', [UserEducationController::class,
-                'getDetailListOfUserEducation'])->name('detailListOfUserEducation');
+                'getDetailListOfUserEducation'])
+                ->name(UserEducation::DETAIL_LIST_USER_EDUCATION->value);
 
             Route::get('/detail-list-user-education-by-user-slug', [UserEducationController::class,
-                'getDetailListOfUserEducationByUserSlug'])->name('detailListOfUserEducationByUserSlug');
+                'getDetailListOfUserEducationByUserSlug'])
+                ->name(UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value);
 
-            Route::put('/', [UserEducationController::class, 'update'])->name('updateUserEducation');
+            Route::put('/', [UserEducationController::class, 'update'])
+                ->name(UserEducation::UPDATE->value);
 
-            Route::delete('/', [UserEducationController::class, 'destroy'])->name('destroy');
+            Route::delete('/', [UserEducationController::class, 'destroy'])
+                ->name(UserEducation::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-skill', 'as' => 'userSkill.'], function() {
@@ -119,23 +131,23 @@ Route::group(
 
         Route::group(['prefix' => 'user-course', 'as' => 'userCourse.'], function () {
             Route::get('/list-course-current-user', [UserCourseController::class,
-                'getListCourseCurrentUser'])->name('listCourseCurrentUser');
+                'getListCourseCurrentUser'])->name(UserCourse::LIST_COURSE_CURRENT_USER->value);
 
             Route::get('/complete-list-user-course', [UserCourseController::class,
-                'getCompleteListOfUserCourse'])->name('completeListOfUserCourse');
+                'getCompleteListOfUserCourse'])->name(UserCourse::COMPLETE_LIST_USER_COURSE->value);
 
             Route::get('/detail-list-user-course', [UserCourseController::class,
-                'getDetailListOfUserCourse'])->name('detailListOfUserCourse');
+                'getDetailListOfUserCourse'])->name(UserCourse::DETAIL_LIST_USER_COURSE->value);
 
             Route::get('/detail-list-user-course-by-user-slug', [UserCourseController::class,
-                'getDetailListOfUserCourseByUserSlug'])->name('detailListOfUserCourseByUserSlug');
+                'getDetailListOfUserCourseByUserSlug'])->name(UserCourse::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value);
 
-            Route::post('/', [UserCourseController::class, 'store'])->name('store');
+            Route::post('/', [UserCourseController::class, 'store'])->name(UserCourse::STORE->value);
 
             Route::post('/update-course', [UserCourseController::class, 'update'])
-                ->name('updateUserCourse');
+                ->name(UserCourse::UPDATE->value);
 
-            Route::delete('/', [UserCourseController::class, 'destroy'])->name('destroy');
+            Route::delete('/', [UserCourseController::class, 'destroy'])->name(UserCourse::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-project', 'as' => 'userProject.'], function() {
