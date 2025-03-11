@@ -38,13 +38,11 @@ class GetDetailListOfUserCertificationHandle
                         UserCertification::DETAIL_LIST_USER_CERTIFICATION->value,
                         $command
                     ),
-                    CacheTTL::REMEMBER->value, function () use($command) {
-
-                        return $this->userCertificationRepository->findWithRelationships(
+                    CacheTTL::REMEMBER->value,
+                    fn() => $this->userCertificationRepository->findWithRelationships(
                             $command->userCertificationId,
                             ['user', 'userCertificationResources.contentType']
-                        );
-                    }
+                    )
                 );
 
             if(empty($userCertification)){

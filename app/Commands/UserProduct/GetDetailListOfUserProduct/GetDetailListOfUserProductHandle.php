@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserProduct\GetDetailListOfUserProduct;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserProduct;
 use App\Http\Resources\UserProduct\UserProductResource;
 use App\Repositories\UserProduct\UserProductRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserProductHandle
 {
@@ -23,10 +26,25 @@ class GetDetailListOfUserProductHandle
     public function handle(GetDetailListOfUserProductCommand $command): array
     {
         try {
-            $userProduct = $this->userProductRepository->findWithRelationships(
-                $command->userProductId,
-                ['user', 'userProductResources.contentType']
+            $cache = Cache::tags([UserProduct::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserProduct::DETAIL_LIST_USER_PRODUCT->value,
+                    $command
+                )
             );
+
+            $userProduct = Cache::tags([UserProduct::TAG_NAME->value])
+                ->remember(
+                    generateCacheName(
+                        UserProduct::DETAIL_LIST_USER_PRODUCT->value,
+                        $command
+                    ),
+                    CacheTTL::REMEMBER->value,
+                    fn() => $this->userProductRepository->findWithRelationships(
+                        $command->userProductId,
+                        ['user', 'userProductResources.contentType']
+                    )
+                );
 
             if(empty($userProduct)){
                 return [
@@ -36,7 +54,8 @@ class GetDetailListOfUserProductHandle
 
             return [
                 'data' => UserProductResource::make($userProduct),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
             return [
