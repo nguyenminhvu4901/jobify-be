@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserActivity\GetDetailListOfUserActivity;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserActivity;
 use App\Http\Resources\UserActivity\UserActivityResource;
 use App\Repositories\UserActivity\UserActivityRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserActivityHandle
 {
@@ -23,10 +26,25 @@ class GetDetailListOfUserActivityHandle
     public function handle(GetDetailListOfUserActivityCommand $command): array
     {
         try {
-            $userActivity = $this->userActivityRepository->findWithRelationships(
-                $command->userActivityId,
-                ['user', 'userActivityResources.contentType']
+            $cache = Cache::tags([UserActivity::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserActivity::DETAIL_LIST_USER_ACTIVITY->value,
+                    $command
+                )
             );
+
+            $userActivity = Cache::tags([UserActivity::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserActivity::DETAIL_LIST_USER_ACTIVITY->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userActivityRepository->findWithRelationships(
+                    id: $command->userActivityId,
+                    relationship: ['user', 'userActivityResources.contentType']
+                )
+            );
+
 
             if(empty($userActivity)){
                 return [
@@ -36,7 +54,8 @@ class GetDetailListOfUserActivityHandle
 
             return [
                 'data' => UserActivityResource::make($userActivity),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
 

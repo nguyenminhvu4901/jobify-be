@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserPrize;
 
+use App\Enums\RouteNames\Profile\UserPrize;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -33,14 +34,14 @@ class UserPrizeRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userPrize.detailListOfUserPrize" => [
+            "profile.userPrize." . UserPrize::DETAIL_LIST_USER_PRIZE->value => [
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id']
             ],
-            "profile.userPrize.detailListOfUserPrizeByUserSlug" => [
+            "profile.userPrize." . UserPrize::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userPrize.store" => $commonRules,
-            "profile.userPrize.updateUserPrize" => [
+            "profile.userPrize." . UserPrize::STORE->value => $commonRules,
+            "profile.userPrize." . UserPrize::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
@@ -56,7 +57,7 @@ class UserPrizeRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userPrize.destroy" => [
+            "profile.userPrize." . UserPrize::DESTROY->value => [
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -92,6 +93,6 @@ class UserPrizeRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userPrize.store");
+        $this->processWithValidator($validator, "profile.userPrize." . UserPrize::STORE->value);
     }
 }

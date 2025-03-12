@@ -13,6 +13,7 @@ trait UserResourceTrait
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'full_name' => $this->full_name,
             'slug' => $this->slug,
             'email' => $this->email,

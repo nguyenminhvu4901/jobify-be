@@ -33,13 +33,13 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')
                 ->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('application_status_id')->references('id')
                 ->on('application_statuses')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -52,7 +52,7 @@ return new class extends Migration
 
             $table->foreign('job_application_id')->references('id')
                 ->on('job_applications')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });

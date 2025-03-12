@@ -18,6 +18,7 @@ use App\Commands\UserExperience\UpdateUserExperience\UpdateUserExperienceCommand
 use App\Commands\UserExperience\UpdateUserExperience\UpdateUserExperienceHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserExperience\UserExperienceRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
@@ -63,7 +64,11 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(new GetListExperienceCurrentUserCommand());
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -92,17 +97,23 @@ class UserExperienceController extends Controller
      *         description="Unauthorized"
      *     )
      * )
+     * @param FormRequest $request
      * @return JsonResponse
      */
-    public function getCompleteListOfUserExperience(): JsonResponse
+    public function getCompleteListOfUserExperience(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(GetCompleteListOfUserExperienceCommand::class,
             GetCompleteListOfUserExperienceHandler::class);
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserExperienceCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserExperienceCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -124,7 +135,11 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(DetailListOfUserExperienceCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -146,7 +161,11 @@ class UserExperienceController extends Controller
         $result = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(

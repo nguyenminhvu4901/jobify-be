@@ -57,9 +57,22 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
+            'timezone' => '+07:00',
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+        ],
+
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('MONGO_DB_HOST', '127.0.0.1'),
+            'port' => env('MONGO_DB_PORT', 27017),
+            'database' => env('MONGO_DB_DATABASE'),
+            'username' => env('MONGO_DB_USERNAME', ''),
+            'password' => env('MONGO_DB_PASSWORD', ''),
+            'options'  => [
+                'database' => env('DB_AUTH_DATABASE', 'admin')
+            ]
         ],
 
         'mariadb' => [
@@ -143,7 +156,7 @@ return [
 
     'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+        'client' => env('REDIS_CLIENT', 'predis'),
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
@@ -157,6 +170,7 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_DB', '0'),
+            'read_write_timeout' => 60,
         ],
 
         'cache' => [

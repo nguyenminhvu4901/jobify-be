@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserSkill\GetDetailListOfUserSkill;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserSkill;
 use App\Http\Resources\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class GetDetailListOfUserSkillHandle
@@ -24,10 +27,25 @@ class GetDetailListOfUserSkillHandle
     public function handle(GetDetailListOfUserSkillCommand $command): array
     {
         try {
-            $userSkill = $this->userSkillRepository->findWithRelationships(
-                $command->userSkillId,
-                ['user', 'rate']
+            $cache = Cache::tags([UserSkill::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserSkill::DETAIL_LIST_USER_SKILL->value,
+                    $command
+                )
             );
+
+            $userSkill = Cache::tags([UserSkill::TAG_NAME->value])
+                ->remember(
+                    generateCacheName(
+                        UserSkill::DETAIL_LIST_USER_SKILL->value,
+                        $command
+                    ),
+                    CacheTTL::REMEMBER->value,
+                    fn() => $this->userSkillRepository->findWithRelationships(
+                        $command->userSkillId,
+                        ['user', 'rate']
+                    )
+                );
 
             if(empty($userSkill)){
                 return [
@@ -37,7 +55,8 @@ class GetDetailListOfUserSkillHandle
 
             return [
                 'data' => UserSkillResource::make($userSkill),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
 

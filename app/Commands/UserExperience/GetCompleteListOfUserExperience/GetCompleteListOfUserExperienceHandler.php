@@ -2,8 +2,12 @@
 
 namespace App\Commands\UserExperience\GetCompleteListOfUserExperience;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserExperience;
+use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserExperienceHandler
 {
@@ -17,18 +21,37 @@ class GetCompleteListOfUserExperienceHandler
     }
 
     /**
+     * @param GetCompleteListOfUserExperienceCommand $command
      * @return array
      */
-    public function handle(): array
+    public function handle(GetCompleteListOfUserExperienceCommand $command): array
     {
         try {
-            $userExperiences = $this->userExperienceRepository->getWithRelationship(
-                ['userExperienceResource.contentType', 'user']
+            $cache = Cache::tags([UserExperience::TAG_NAME->value])
+                ->has(
+                    generateCacheName(
+                        UserExperience::COMPLETE_LIST_USER_EXPERIENCE->value,
+                        $command
+                    )
+                );
+
+            $userExperiences = Cache::tags([UserExperience::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserExperience::COMPLETE_LIST_USER_EXPERIENCE->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userExperienceRepository->paginateWithRelationship(
+                    relationship: ['userExperienceResource.contentType', 'user'],
+                    limit: $command->limit
+                )
             );
 
             return [
                 'data' => UserExperienceResource::collection($userExperiences),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache,
+                'pagination' => PaginationHelper::formatPaginationData($userExperiences) ?? []
             ];
         }catch (\Exception $e){
 

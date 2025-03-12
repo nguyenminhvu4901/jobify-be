@@ -18,7 +18,9 @@ use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityCommand;
 use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserActivity\UserActivityRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserActivityController extends Controller
@@ -42,7 +44,11 @@ class UserActivityController extends Controller
         $result = $this->bus->dispatch(new GetListActivityCurrentUserCommand());
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -53,19 +59,25 @@ class UserActivityController extends Controller
     }
 
     /**
+     * @param FormRequest $request
      * @return JsonResponse
      */
-    public function getCompleteListOfUserActivity(): JsonResponse
+    public function getCompleteListOfUserActivity(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetCompleteListOfUserActivityCommand::class,
             GetCompleteListOfUserActivityHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserActivityCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserActivityCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -89,7 +101,12 @@ class UserActivityController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserActivityCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -113,7 +130,11 @@ class UserActivityController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserActivityByUserSlugCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(

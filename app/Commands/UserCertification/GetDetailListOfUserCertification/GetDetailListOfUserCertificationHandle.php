@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserCertification\GetDetailListOfUserCertification;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserCertification;
 use App\Http\Resources\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserCertificationHandle
 {
@@ -23,10 +26,24 @@ class GetDetailListOfUserCertificationHandle
     public function handle(GetDetailListOfUserCertificationCommand $command): array
     {
         try {
-            $userCertification = $this->userCertificationRepository->findWithRelationships(
-                $command->userCertificationId,
-                ['user', 'userCertificationResources.contentType']
-            );
+            $cache = Cache::tags([UserCertification::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserCertification::DETAIL_LIST_USER_CERTIFICATION->value,
+                    $command
+                ));
+
+            $userCertification = Cache::tags([UserCertification::TAG_NAME->value])
+                ->remember(
+                    generateCacheName(
+                        UserCertification::DETAIL_LIST_USER_CERTIFICATION->value,
+                        $command
+                    ),
+                    CacheTTL::REMEMBER->value,
+                    fn() => $this->userCertificationRepository->findWithRelationships(
+                            $command->userCertificationId,
+                            ['user', 'userCertificationResources.contentType']
+                    )
+                );
 
             if(empty($userCertification)){
                 return [
@@ -36,7 +53,8 @@ class GetDetailListOfUserCertificationHandle
 
             return [
                 'data' => UserCertificationResource::make($userCertification),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
             return [

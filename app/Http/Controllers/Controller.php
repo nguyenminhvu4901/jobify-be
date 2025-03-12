@@ -32,23 +32,38 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+
     /**
      * @param mixed $data
      * @param string $message
      * @param string $statusCode
+     * @param mixed|null $cache
+     * @param mixed $pagination
      * @return JsonResponse
      */
     public function responseSuccess(
         mixed $data = [],
         string $message = 'OK',
-        string $statusCode = Response::HTTP_OK
+        string $statusCode = Response::HTTP_OK,
+        mixed $cache = null,
+        mixed $pagination = []
     ): JsonResponse
     {
-        return response()->json([
+        $response = [
             'data' => $data,
             'message' => $message,
             'status_code' => $statusCode
-        ], Response::HTTP_OK);
+        ];
+
+        if(!empty($pagination)){
+            $response['pagination'] = $pagination;
+        }
+
+        if(config('app.debug') && !empty($cache)) {
+            $response['cache'] = $cache;
+        }
+
+        return response()->json($response, $statusCode);
     }
 
     /**

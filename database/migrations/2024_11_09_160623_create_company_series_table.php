@@ -34,11 +34,11 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('company_scale_id')->references('id')->on('company_scales')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('gender_id')->references('id')->on('default_genders')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
         });
 
         Schema::create('company_address', function (Blueprint $table) {
@@ -79,9 +79,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('operation_type_id')->references('id')->on('operation_types')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
         });
 
         Schema::create('company_business_sector', function (Blueprint $table) {
@@ -92,9 +92,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('business_sector_id')->references('id')->on('business_sectors')
-                ->onDelete('set null')->onUpdate('cascade');
+                 ->nullOnDelete()->cascadeOnUpdate();
         });
     }
 

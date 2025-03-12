@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserProduct;
 
+use App\Enums\RouteNames\Profile\UserProduct;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -33,14 +34,14 @@ class UserProductRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userProduct.detailListOfUserProduct" => [
+            "profile.userProduct." . UserProduct::DETAIL_LIST_USER_PRODUCT->value => [
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id']
             ],
-            "profile.userProduct.detailListOfUserProductByUserSlug" => [
+            "profile.userProduct." . UserProduct::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userProduct.store" => $commonRules,
-            "profile.userProduct.updateUserProduct" => [
+            "profile.userProduct." . UserProduct::STORE->value => $commonRules,
+            "profile.userProduct." . UserProduct::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
@@ -56,7 +57,7 @@ class UserProductRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userProduct.destroy" => [
+            "profile.userProduct." . UserProduct::DESTROY->value => [
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -91,6 +92,6 @@ class UserProductRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userProduct.store");
+        $this->processWithValidator($validator, "profile.userProduct." . UserProduct::STORE->value);
     }
 }
