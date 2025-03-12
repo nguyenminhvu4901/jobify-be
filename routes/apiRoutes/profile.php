@@ -271,30 +271,30 @@ Route::group(
             Route::delete('/', [UserActivityController::class, 'destroy'])
                 ->name(UserActivity::DESTROY->value);
         });
-        Route::delete('/', [UserActivityController::class, 'destroy'])->name('destroy');
-    });
 
-    Route::group(['prefix' => 'user-location', 'as' => 'userLocation.'], function(){
-        Route::get('/list-location-current-user', [UserLocationController::class,
-            'getListLocationCurrentUser'])->name('listLocationCurrentUser');
+        Route::group(['prefix' => 'user-location', 'as' => 'userLocation.'], function(){
+            Route::get('/list-location-current-user', [UserLocationController::class,
+                'getListLocationCurrentUser'])->name('listLocationCurrentUser');
 
-        Route::get('/complete-list-user-location', [UserLocationController::class,
-            'getCompleteListOfUserLocation'])->name('completeListOfUserLocation');
+            Route::get('/complete-list-user-location', [UserLocationController::class,
+                'getCompleteListOfUserLocation'])->name('completeListOfUserLocation');
 
-        Route::get('/detail-list-user-location', [UserLocationController::class,
-            'getDetailListOfUserLocation'])->name('detailListOfUserLocation');
+            Route::get('/detail-list-user-location', [UserLocationController::class,
+                'getDetailListOfUserLocation'])->name('detailListOfUserLocation');
 
-        Route::get('/detail-list-location-by-user-slug', [UserLocationController::class,
-            'getDetailListOfUserLocationByUserSlug'])->name('detailListOfUserLocationByUserSlug');
+            Route::get('/detail-list-location-by-user-slug', [UserLocationController::class,
+                'getDetailListOfUserLocationByUserSlug'])->name('detailListOfUserLocationByUserSlug');
 
-        Route::get('/detail-list-user-location-by-user-slug', [UserLocationController::class,
-            'getDetailListOfLocationByUserSlug'])->name('detailListOfLocationByUserSlug');
+            Route::get('/detail-list-user-location-by-user-slug', [UserLocationController::class,
+                'getDetailListOfLocationByUserSlug'])->name('detailListOfLocationByUserSlug');
 
-        Route::post('/', [UserLocationController::class, 'store'])->name('store');
+            Route::post('/', [UserLocationController::class, 'store'])->name('store');
 
-        Route::post('/update-location', [UserLocationController::class, 'update'])
-            ->name('updateUserLocation');
+            Route::post('/update-location', [UserLocationController::class, 'update'])
+                ->name('updateUserLocation');
 
-        Route::delete('/', [UserLocationController::class, 'destroy'])->name('destroy');
-    });
+            Route::delete('/', [UserLocationController::class, 'destroy'])->name('destroy');
+        });
 });
+
+
