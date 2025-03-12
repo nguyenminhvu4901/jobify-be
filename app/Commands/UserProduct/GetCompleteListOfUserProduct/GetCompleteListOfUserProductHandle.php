@@ -2,8 +2,12 @@
 
 namespace App\Commands\UserProduct\GetCompleteListOfUserProduct;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserProduct;
+use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\UserProduct\UserProductResource;
 use App\Repositories\UserProduct\UserProductRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserProductHandle
 {
@@ -17,18 +21,37 @@ class GetCompleteListOfUserProductHandle
     }
 
     /**
+     * @param GetCompleteListOfUserProductCommand $command
      * @return array
      */
-    public function handle(): array
+    public function handle(GetCompleteListOfUserProductCommand $command): array
     {
         try {
-            $userProducts = $this->userProductRepository->getWithRelationship(
-                ['userProductResources.contentType', 'user']
+            $cache = Cache::tags([UserProduct::TAG_NAME->value])
+                ->has(
+                    generateCacheName(
+                        UserProduct::COMPLETE_LIST_USER_PRODUCT->value,
+                        $command
+                    )
+                );
+
+            $userProducts = Cache::tags([UserProduct::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserProduct::COMPLETE_LIST_USER_PRODUCT->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userProductRepository->paginateWithRelationship(
+                    relationship: ['userProductResources.contentType', 'user'],
+                    limit: $command->limit
+                )
             );
 
             return [
                 'data' => UserProductResource::collection($userProducts),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache,
+                'pagination' => PaginationHelper::formatPaginationData($userProducts) ?? []
             ];
         }catch (\Exception $e){
             return [

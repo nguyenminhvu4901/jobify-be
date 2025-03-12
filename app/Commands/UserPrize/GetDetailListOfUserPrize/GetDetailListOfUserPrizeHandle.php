@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserPrize\GetDetailListOfUserPrize;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserPrize;
 use App\Http\Resources\UserPrize\UserPrizeResource;
 use App\Repositories\UserPrize\UserPrizeRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserPrizeHandle
 {
@@ -23,10 +26,25 @@ class GetDetailListOfUserPrizeHandle
     public function handle(GetDetailListOfUserPrizeCommand $command): array
     {
         try {
-            $userPrize = $this->userPrizeRepository->findWithRelationships(
-                $command->userPrizeId,
-                ['user', 'userPrizeResources.contentType']
+            $cache = Cache::tags([UserPrize::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserPrize::DETAIL_LIST_USER_PRIZE->value,
+                    $command
+                )
             );
+
+            $userPrize = Cache::tags([UserPrize::TAG_NAME->value])
+                ->remember(
+                    generateCacheName(
+                        UserPrize::DETAIL_LIST_USER_PRIZE->value,
+                        $command
+                    ),
+                    CacheTTL::REMEMBER->value,
+                    fn() => $this->userPrizeRepository->findWithRelationships(
+                        $command->userPrizeId,
+                        ['user', 'userPrizeResources.contentType']
+                    )
+                );
 
             if(empty($userPrize)){
                 return [
@@ -36,7 +54,8 @@ class GetDetailListOfUserPrizeHandle
 
             return [
                 'data' => UserPrizeResource::make($userPrize),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
             return [

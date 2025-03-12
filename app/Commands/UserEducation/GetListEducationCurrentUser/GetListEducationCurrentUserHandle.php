@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserEducation\GetListEducationCurrentUser;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserEducation;
 use App\Http\Resources\UserEducation\CurrentUserEducationResource;
 use App\Repositories\User\UserRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetListEducationCurrentUserHandle
 {
@@ -22,15 +25,25 @@ class GetListEducationCurrentUserHandle
     public function handle(): array
     {
         try {
-            $userEducation = $this->userRepository->findWithRelationships(
-                auth()->user()->id,
-                'userEducations',
-                [
-                    'userEducations' => function ($query) {
-                        return $query->orderByDesc('id');
-                    }
-                ]
+            $cache = Cache::tags([UserEducation::TAG_NAME->value])->has(
+                UserEducation::LIST_EDUCATION_CURRENT_USER->value . auth()->user()->id
             );
+
+            $userEducation = Cache::tags([UserEducation::TAG_NAME->value])
+                ->remember(
+                    UserEducation::LIST_EDUCATION_CURRENT_USER->value . auth()->user()->id,
+                    CacheTTL::REMEMBER->value,
+                    fn() => $this->userRepository->findWithRelationships(
+                        id: auth()->user()->id,
+                        relationship: 'userEducations',
+                        relationshipCallbacksToFilter: [
+                            'userEducations' => function ($query) {
+                                return $query->orderByDesc('id');
+                            }
+                        ]
+                    )
+                );
+
             if(empty($userEducation)){
 
                 return [
@@ -40,7 +53,8 @@ class GetListEducationCurrentUserHandle
 
             return [
                 'data' => CurrentUserEducationResource::make($userEducation),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
 

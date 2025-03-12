@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserEducation\GetDetailListOfUserEducationByUserSlug;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserEducation;
 use App\Http\Resources\UserEducation\UserEducationResource;
 use App\Repositories\UserEducation\UserEducationRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserEducationByUserSlugHandle
 {
@@ -23,14 +26,27 @@ class GetDetailListOfUserEducationByUserSlugHandle
     public function handle(GetDetailListOfUserEducationByUserSlugCommand $command): array
     {
         try {
-            $userEducation = $this->userEducationRepository->getByRelationshipUserSlug(
-                $command->userSlug,
-                'user'
-            );
+            $cache = Cache::tags([UserEducation::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value,
+                    $command
+                ));
+
+            $userEducation = Cache::tags([UserEducation::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() =>  $this->userEducationRepository->getByRelationshipUserSlug(
+                    userSlug: $command->userSlug,
+                    relationship: 'user'
+                ));
 
             return [
                 'data' => UserEducationResource::collection($userEducation),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
 

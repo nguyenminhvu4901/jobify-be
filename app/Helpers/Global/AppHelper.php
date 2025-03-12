@@ -49,8 +49,11 @@ if (!function_exists('generateCacheName')) {
     {
         if(!empty($params)){
             $paramVars = get_object_vars($params);
+            $paramString = implode('-', array_map(
+                fn($key, $value) => "{$key}:{$value}", array_keys($paramVars), $paramVars
+            ));
 
-            return $routeName . '-' . implode('-', $paramVars);
+            return $routeName . '-' . $paramString;
         }
 
         return $routeName;

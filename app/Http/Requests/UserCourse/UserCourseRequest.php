@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserCourse;
 
+use App\Enums\RouteNames\Profile\UserCourse;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -41,14 +42,14 @@ class UserCourseRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName){
-            "profile.userCourse.detailListOfUserCourse" => [
+            "profile.userCourse." . UserCourse::DETAIL_LIST_USER_COURSE->value => [
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id']
             ],
-            "profile.userCourse.detailListOfUserCourseByUserSlug" => [
+            "profile.userCourse." . UserCourse::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userCourse.store" => $commonRules,
-            "profile.userCourse.updateUserCourse" => [
+            "profile.userCourse." . UserCourse::STORE->value => $commonRules,
+            "profile.userCourse." . UserCourse::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
@@ -64,7 +65,7 @@ class UserCourseRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userCourse.destroy" => [
+            "profile.userCourse." . UserCourse::DESTROY->value => [
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug']
             ],
@@ -96,6 +97,6 @@ class UserCourseRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userCourse.store");
+        $this->processWithValidator($validator, "profile.userCourse." . UserCourse::STORE->value);
     }
 }

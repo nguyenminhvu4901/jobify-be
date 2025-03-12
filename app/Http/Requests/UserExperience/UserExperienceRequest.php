@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserExperience;
 
+use App\Enums\RouteNames\Profile\UserExperience;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -33,8 +34,8 @@ class UserExperienceRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userExperience.store" => $commonRules,
-            "profile.userExperience.updateUserExperience" => [
+            "profile.userExperience." . UserExperience::STORE->value => $commonRules,
+            "profile.userExperience." . UserExperience::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
@@ -50,14 +51,14 @@ class UserExperienceRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userExperience.destroy" => [
+            "profile.userExperience." . UserExperience::DESTROY->value => [
                     'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
-            "profile.userExperience.detailListOfUserExperienceByUserSlug" => [
+            "profile.userExperience." . UserExperience::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userExperience.detailListOfUserExperience" => [
+            "profile.userExperience." . UserExperience::DETAIL_LIST_USER_EXPERIENCE->value => [
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
             default => [],
@@ -93,6 +94,6 @@ class UserExperienceRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userExperience.store");
+        $this->processWithValidator($validator, "profile.userExperience." . UserExperience::STORE->value);
     }
 }

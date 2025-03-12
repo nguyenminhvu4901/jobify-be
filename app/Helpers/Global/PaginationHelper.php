@@ -12,7 +12,7 @@ class PaginationHelper
      */
     public static function formatPaginationData($data): array
     {
-        if ($data instanceof LengthAwarePaginator) {
+        if ($data instanceof LengthAwarePaginator && !empty($data->total())) {
             return [
                 "current_page" => $data->currentPage(),
                 "total" => $data->total(),

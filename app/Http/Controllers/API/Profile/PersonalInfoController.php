@@ -83,7 +83,10 @@ class PersonalInfoController extends Controller
         $result = $this->bus->dispatch(new GetCurrentUserCommand());
 
         if(!empty($result['user'])){
-           return $this->responseSuccess(data: $result['user'], message: $result['message']);
+           return $this->responseSuccess(
+               data: $result['user'],
+               message: $result['message']
+           );
         }
 
         return $this->responseError(

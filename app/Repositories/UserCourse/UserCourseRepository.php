@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface UserCourseRepository
 {
-    public function getWithRelationship(array|string $relationship = []): Collection;
+    public function getWithRelationship(
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): Collection;
 
     public function findWithRelationships(
         int|string $id,
@@ -14,7 +17,11 @@ interface UserCourseRepository
         array $relationshipCallbacksToFilter = []
     ): mixed;
 
-    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed;
+    public function getByRelationshipUserSlug(
+        $userSlug,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): mixed;
 
     public function storeDataWithTransaction(array $attributes);
 

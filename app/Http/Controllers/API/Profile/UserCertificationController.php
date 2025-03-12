@@ -242,7 +242,10 @@ class UserCertificationController extends Controller
         $result = $this->bus->dispatch(StoreUserCertificationCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message']
+            );
         }
 
         return $this->responseError(
@@ -253,6 +256,10 @@ class UserCertificationController extends Controller
     }
 
 
+    /**
+     * @param FormRequest $request
+     * @return JsonResponse
+     */
     public function getCompleteListOfUserCertification(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(

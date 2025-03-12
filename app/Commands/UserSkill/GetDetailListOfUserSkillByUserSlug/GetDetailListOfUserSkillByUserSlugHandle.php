@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserSkill\GetDetailListOfUserSkillByUserSlug;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserSkill;
 use App\Http\Resources\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserSkillByUserSlugHandle
 {
@@ -23,14 +26,29 @@ class GetDetailListOfUserSkillByUserSlugHandle
     public function handle(GetDetailListOfUserSkillByUserSlugCommand $command): array
     {
         try {
-            $userSkills = $this->userSkillRepository->getByRelationshipUserSlug(
-                $command->userSlug,
-                ['user', 'rate']
-            );
+            $cache = Cache::tags([UserSkill::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value,
+                    $command
+                ));
+
+            $userSkills = Cache::tags([UserSkill::TAG_NAME->value])
+                ->remember(
+                    generateCacheName(
+                        UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value,
+                        $command
+                    ),
+                    CacheTTL::REMEMBER->value,
+                    fn() => $this->userSkillRepository->getByRelationshipUserSlug(
+                        $command->userSlug,
+                        ['user', 'rate']
+                    )
+                );
 
             return [
                 'data' => UserSkillResource::collection($userSkills),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
 

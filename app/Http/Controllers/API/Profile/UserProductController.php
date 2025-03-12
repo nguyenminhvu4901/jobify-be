@@ -18,6 +18,7 @@ use App\Commands\UserProduct\UpdateUserProduct\UpdateUserProductCommand;
 use App\Commands\UserProduct\UpdateUserProduct\UpdateUserProductHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProduct\UserProductRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -45,7 +46,11 @@ class UserProductController extends Controller
         $result = $this->bus->dispatch(new GetListProductCurrentUserCommand());
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -56,19 +61,25 @@ class UserProductController extends Controller
     }
 
     /**
+     * @param FormRequest $request
      * @return JsonResponse
      */
-    public function getCompleteListOfUserProduct(): JsonResponse
+    public function getCompleteListOfUserProduct(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetCompleteListOfUserProductCommand::class,
             GetCompleteListOfUserProductHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserProductCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserProductCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -92,7 +103,11 @@ class UserProductController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserProductCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -116,7 +131,11 @@ class UserProductController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserProductByUserSlugCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(

@@ -18,6 +18,7 @@ use App\Commands\UserProject\UpdateUserProject\UpdateUserProjectCommand;
 use App\Commands\UserProject\UpdateUserProject\UpdateUserProjectHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProject\UserProjectRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -45,7 +46,11 @@ class UserProjectController extends Controller
         $result = $this->bus->dispatch(new GetListProjectCurrentUserCommand());
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -56,19 +61,25 @@ class UserProjectController extends Controller
     }
 
     /**
+     * @param FormRequest $request
      * @return JsonResponse
      */
-    public function getCompleteListOfUserProject(): JsonResponse
+    public function getCompleteListOfUserProject(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetCompleteListOfUserProjectCommand::class,
             GetCompleteListOfUserProjectHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserProjectCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserProjectCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -92,7 +103,11 @@ class UserProjectController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserProjectCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -116,7 +131,11 @@ class UserProjectController extends Controller
         $result = $this->bus->dispatch(GetDetailListOfUserProjectByUserSlugCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(

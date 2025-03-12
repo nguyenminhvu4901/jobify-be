@@ -2,8 +2,13 @@
 
 namespace App\Commands\UserEducation\GetCompleteListOfUserEducation;
 
+use App\Commands\HandleInterface;
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserEducation;
+use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\UserEducation\UserEducationResource;
 use App\Repositories\UserEducation\UserEducationRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserEducationHandle
 {
@@ -17,16 +22,37 @@ class GetCompleteListOfUserEducationHandle
     }
 
     /**
+     * @param GetCompleteListOfUserEducationCommand $command
      * @return array
      */
-    public function handle(): array
+    public function handle(GetCompleteListOfUserEducationCommand $command): array
     {
         try {
-            $userEducation = $this->userEducationRepository->getWithRelationship('user');
+            $cache = Cache::tags([UserEducation::TAG_NAME->value])
+                ->has(
+                    generateCacheName(
+                        UserEducation::COMPLETE_LIST_USER_EDUCATION->value,
+                        $command
+                    )
+                );
+
+            $userEducation = Cache::tags([UserEducation::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserEducation::COMPLETE_LIST_USER_EDUCATION->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userEducationRepository->paginateWithRelationship(
+                    relationship: ['user'],
+                    limit: $command->limit
+                )
+            );
 
             return [
                 'data' => UserEducationResource::collection($userEducation),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache,
+                'pagination' => PaginationHelper::formatPaginationData($userEducation) ?? []
             ];
         }catch (\Exception $e){
 

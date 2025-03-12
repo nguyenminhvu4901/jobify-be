@@ -32,20 +32,67 @@ abstract class BaseRepository extends Repository
     /**
      * @param $userSlug
      * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
      * @return mixed
      */
-    public function getByRelationshipUserSlug($userSlug, array|string $relationship = []): mixed
+    public function getByRelationshipUserSlug(
+        $userSlug,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): mixed
+    {
+        $query = $this->queryByUserSlug($userSlug, $relationship, $relationshipCallbacksToFilter);
+
+        return $query->get();
+    }
+
+    /**
+     * @param $userSlug
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @param null $limit
+     * @return LengthAwarePaginator
+     */
+    public function paginateByRelationshipUserSlug(
+        $userSlug,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+        $limit = null
+    ): LengthAwarePaginator
+    {
+        $query = $this->queryByUserSlug($userSlug, $relationship, $relationshipCallbacksToFilter);
+
+        return $query->paginate($limit ?? QueryConstant::PAGINATE_DEFAULT->value);
+    }
+
+    /**
+     * @param $userSlug
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @return mixed
+     */
+    private function queryByUserSlug(
+        $userSlug,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): mixed
     {
         $query = $this->model
             ->whereHas('user', function ($query) use ($userSlug) {
                 return $query->where('slug', $userSlug);
             });
 
-        if (!empty($relationship)) {
-            $query->with($this->loadRelationship($relationship));
+        if(!empty($relationship)){
+            $relationship = $this->loadRelationship($relationship);
+
+            if(!empty($relationshipCallbacksToFilter)){
+                $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
+            }else{
+                $query->with($relationship);
+            }
         }
 
-        return $query->get();
+        return $query;
     }
 
 
@@ -53,17 +100,29 @@ abstract class BaseRepository extends Repository
      * @param $userSlug
      * @param $idColumn
      * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
      * @return mixed
      */
-    public function findByRelationshipUserSlugAndColumnDetailId($userSlug, $idColumn, array|string $relationship = []): mixed
+    public function findByRelationshipUserSlugAndColumnDetailId(
+        $userSlug,
+        $idColumn,
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): mixed
     {
         $query = $this->model->where('id', $idColumn)
             ->whereHas('user', function ($query) use ($userSlug) {
                 return $query->where('slug', $userSlug);
             });
 
-        if (!empty($relationship)) {
-            $query->with($this->loadRelationship($relationship));
+        if(!empty($relationship)){
+            $relationship = $this->loadRelationship($relationship);
+
+            if(!empty($relationshipCallbacksToFilter)){
+                $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
+            }else{
+                $query->with($relationship);
+            }
         }
 
         return $query->firstOrFail();
@@ -71,14 +130,24 @@ abstract class BaseRepository extends Repository
 
     /**
      * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
      * @return Collection
      */
-    public function getWithRelationship(array|string $relationship = []): Collection
+    public function getWithRelationship(
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+    ): Collection
     {
         $query = $this->model->newQuery();
 
         if(!empty($relationship)){
-            $query->with($this->loadRelationship($relationship));
+            $relationship = $this->loadRelationship($relationship);
+
+            if(!empty($relationshipCallbacksToFilter)){
+                $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
+            }else{
+                $query->with($relationship);
+            }
         }
 
         return $query->get();
@@ -87,15 +156,26 @@ abstract class BaseRepository extends Repository
 
     /**
      * @param array|string $relationship
-     * @param $limit
+     * @param array $relationshipCallbacksToFilter
+     * @param null $limit
      * @return LengthAwarePaginator
      */
-    public function paginateWithRelationship(array|string $relationship = [], $limit = null): LengthAwarePaginator
+    public function paginateWithRelationship(
+        array|string $relationship = [],
+        array $relationshipCallbacksToFilter = [],
+        $limit = null
+    ): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
 
         if(!empty($relationship)){
-            $query->with($this->loadRelationship($relationship));
+            $relationship = $this->loadRelationship($relationship);
+
+            if(!empty($relationshipCallbacksToFilter)){
+                $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
+            }else{
+                $query->with($relationship);
+            }
         }
 
         return $query->paginate($limit ?? QueryConstant::PAGINATE_DEFAULT->value);
@@ -122,20 +202,14 @@ abstract class BaseRepository extends Repository
         array $relationshipCallbacksToFilter = []
     ): mixed
     {
-        $query = $this->model->newQuery();
 
+        $query = $this->model->newQuery();
         if(!empty($relationship)){
             $relationship = $this->loadRelationship($relationship);
 
-            if (!empty($relationshipCallbacksToFilter)) {
-                foreach ($relationship as $rel) {
-                    if (!empty($relationshipCallbacksToFilter[$rel])) {
-                        $query->with([$rel => $relationshipCallbacksToFilter[$rel]]);
-                    } else {
-                        $query->with($rel);
-                    }
-                }
-            } else {
+            if(!empty($relationshipCallbacksToFilter)){
+                $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
+            }else{
                 $query->with($relationship);
             }
         }

@@ -32,18 +32,22 @@ class GetListActivityCurrentUserHandle
                 ->remember(
                     UserActivity::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,
-                    function() {
-
-                        return $this->userRepository->findWithRelationships(
-                            auth()->user()->id,
-                            'userActivities.userActivityResources.contentType',
-                            [
-                                'userProducts' => function ($query) {
-                                    return $query->orderByDesc('id');
+                    fn() => $this->userRepository->findWithRelationships(
+                            id: auth()->user()->id,
+                            relationship: 'userActivities.userActivityResources.contentType',
+                            relationshipCallbacksToFilter: [
+                                'userActivities' => function ($query) {
+                                    $query->orderByDesc('id')
+                                    ->with([
+                                        'userActivityResources' => function ($query) {
+                                            $query->orderByDesc('id')
+                                            ->with('contentType');
+                                        }
+                                    ]);
                                 }
                             ]
-                        );
-            });
+                        )
+                );
 
 
             if(empty($userActivities)){

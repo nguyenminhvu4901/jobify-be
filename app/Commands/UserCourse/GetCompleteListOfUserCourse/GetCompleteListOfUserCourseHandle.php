@@ -2,9 +2,13 @@
 
 namespace App\Commands\UserCourse\GetCompleteListOfUserCourse;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserCourse;
+use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\UserCourse\UserCourseResource;
 use App\Repositories\UserCourse\UserCourseRepository;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserCourseHandle
 {
@@ -18,18 +22,37 @@ class GetCompleteListOfUserCourseHandle
     }
 
     /**
+     * @param GetCompleteListOfUserCourseCommand $command
      * @return array
      */
-    public function handle(): array
+    public function handle(GetCompleteListOfUserCourseCommand $command): array
     {
         try {
-            $userCourses = $this->userCourseRepository->getWithRelationship(
-                ['userCourseResources.contentType', 'user']
+            $cache = Cache::tags([UserCourse::TAG_NAME->value])
+                ->has(
+                    generateCacheName(
+                        UserCourse::COMPLETE_LIST_USER_COURSE->value,
+                        $command
+                    )
+                );
+
+            $userCourses = Cache::tags([UserCourse::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserCourse::COMPLETE_LIST_USER_COURSE->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userCourseRepository->paginateWithRelationship(
+                    relationship: ['userCourseResources.contentType', 'user'],
+                    limit: $command->limit
+                )
             );
 
             return [
                 'data' => UserCourseResource::collection($userCourses),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache,
+                'pagination' => PaginationHelper::formatPaginationData($userCourses) ?? []
             ];
         }catch (Exception $e){
             return [

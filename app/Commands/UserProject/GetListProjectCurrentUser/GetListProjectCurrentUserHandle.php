@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserProject\GetListProjectCurrentUser;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserProject;
 use App\Http\Resources\UserProject\CurrentUserProjectResource;
 use App\Repositories\User\UserRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetListProjectCurrentUserHandle
 {
@@ -22,15 +25,24 @@ class GetListProjectCurrentUserHandle
     public function handle(): array
     {
         try {
-            $userProjects = $this->userRepository->findWithRelationships(
-                auth()->user()->id,
-                'userProjects.userProjectResources.contentType',
-                [
-                    'userProjects' => function ($query) {
-                        return $query->orderByDesc('id');
-                    }
-                ]
+            $cache = Cache::tags([UserProject::TAG_NAME->value])->has(
+                UserProject::LIST_PROJECT_CURRENT_USER->value . auth()->user()->id
             );
+
+            $userProjects = Cache::tags([UserProject::TAG_NAME->value])
+                ->remember(
+                    UserProject::LIST_PROJECT_CURRENT_USER->value . auth()->user()->id,
+                    CacheTTL::REMEMBER->value,
+                    fn() => $this->userRepository->findWithRelationships(
+                        auth()->user()->id,
+                        'userProjects.userProjectResources.contentType',
+                        [
+                            'userProjects' => function ($query) {
+                                return $query->orderByDesc('id');
+                            }
+                        ]
+                    )
+                );
 
             if(empty($userProjects)){
                 return [
@@ -40,7 +52,8 @@ class GetListProjectCurrentUserHandle
 
             return [
                 'data' => CurrentUserProjectResource::make($userProjects),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
             return [

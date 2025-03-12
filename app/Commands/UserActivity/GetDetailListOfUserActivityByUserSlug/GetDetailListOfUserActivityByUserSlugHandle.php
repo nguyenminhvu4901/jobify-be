@@ -27,16 +27,22 @@ class GetDetailListOfUserActivityByUserSlugHandle
     {
         try {
             $cache = Cache::tags([UserActivity::TAG_NAME->value])->has(
-                UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value . $command->userSlug);
+                generateCacheName(
+                    UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value,
+                    $command
+                ));
 
             $userActivity = Cache::tags([UserActivity::TAG_NAME->value])->remember(
-                UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value . $command->userSlug,
-                CacheTTL::REMEMBER->value, function () use($command){
-                return $this->userActivityRepository->getByRelationshipUserSlug(
-                    $command->userSlug,
-                    ['userActivityResources.contentType', 'user']
-                );
-            });
+                generateCacheName(
+                    UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userActivityRepository->getByRelationshipUserSlug(
+                    userSlug: $command->userSlug,
+                    relationship: ['userActivityResources.contentType', 'user']
+                )
+            );
 
             return [
                 'data' => UserActivityResource::collection($userActivity),
