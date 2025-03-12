@@ -2,8 +2,12 @@
 
 namespace App\Commands\UserSkill\GetCompleteListOfUserSkill;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserSkill;
+use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserSkillHandle
 {
@@ -19,14 +23,34 @@ class GetCompleteListOfUserSkillHandle
     /**
      * @return array
      */
-    public function handle(): array
+    public function handle(GetCompleteListOfUserSkillCommand $command): array
     {
         try {
-            $userSkills = $this->userSkillRepository->getWithRelationship(['user', 'rate']);
+            $cache = Cache::tags([UserSkill::TAG_NAME->value])
+                ->has(
+                    generateCacheName(
+                        UserSkill::COMPLETE_LIST_USER_SKILL->value,
+                        $command
+                    )
+                );
+
+            $userSkills = Cache::tags([UserSkill::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserSkill::COMPLETE_LIST_USER_SKILL->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userSkillRepository->paginateWithRelationship(
+                    relationship: ['rate', 'user'],
+                    limit:  $command->limit
+                )
+            );
 
             return [
                 'data' => UserSkillResource::collection($userSkills),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache,
+                'pagination' => PaginationHelper::formatPaginationData($userSkills) ?? []
             ];
         }catch (\Exception $e){
 
