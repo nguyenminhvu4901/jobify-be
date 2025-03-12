@@ -2,8 +2,11 @@
 
 namespace App\Commands\UserProject\GetDetailListOfUserProjectByUserSlug;
 
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\Profile\UserProject;
 use App\Http\Resources\UserProject\UserProjectResource;
 use App\Repositories\UserProject\UserProjectRepository;
+use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserProjectByUserSlugHandle
 {
@@ -23,14 +26,28 @@ class GetDetailListOfUserProjectByUserSlugHandle
     public function handle(GetDetailListOfUserProjectByUserSlugCommand $command): array
     {
         try {
-            $userProject = $this->userProjectRepository->getByRelationshipUserSlug(
-                $command->userSlug,
-                ['userProjectResources.contentType', 'user']
+            $cache = Cache::tags([UserProject::TAG_NAME->value])->has(
+                generateCacheName(
+                    UserProject::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
+                    $command
+                ));
+
+            $userProject = Cache::tags([UserProject::TAG_NAME->value])->remember(
+                generateCacheName(
+                    UserProject::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
+                    $command
+                ),
+                CacheTTL::REMEMBER->value,
+                fn() => $this->userProjectRepository->getByRelationshipUserSlug(
+                    $command->userSlug,
+                    ['userProjectResources.contentType', 'user']
+                )
             );
 
             return [
                 'data' => UserProjectResource::collection($userProject),
-                'message' => __('messages.profile.user_get_profile_success')
+                'message' => __('messages.profile.user_get_profile_success'),
+                'cache' => $cache
             ];
         }catch (\Exception $e){
 

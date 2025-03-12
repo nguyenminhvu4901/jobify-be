@@ -28,7 +28,8 @@ class GetListCertificationCurrentUserHandle
     {
         try {
             $cache = Cache::tags([UserCertification::TAG_NAME->value])->has(
-                UserCertification::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id);
+                UserCertification::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id
+            );
 
             $userCertification = Cache::tags([UserCertification::TAG_NAME->value])
                 ->remember(
