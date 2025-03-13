@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserSkill\DestroyUserSkill\DestroyUserSkillCommand;
-use App\Commands\UserSkill\DestroyUserSkill\DestroyUserSkillHandle;
-use App\Commands\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillCommand;
-use App\Commands\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillHandle;
-use App\Commands\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillCommand;
-use App\Commands\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillHandle;
-use App\Commands\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugCommand;
-use App\Commands\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugHandle;
-use App\Commands\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserCommand;
-use App\Commands\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserHandle;
-use App\Commands\UserSkill\StoreUserSkill\StoreUserSkillCommand;
-use App\Commands\UserSkill\StoreUserSkill\StoreUserSkillHandle;
-use App\Commands\UserSkill\UpdateUserSkill\UpdateUserSkillCommand;
-use App\Commands\UserSkill\UpdateUserSkill\UpdateUserSkillHandle;
+use App\Commands\UserLocation\DestroyUserLocation\DestroyUserLocationCommand;
+use App\Commands\UserLocation\DestroyUserLocation\DestroyUserRequestHandle;
+use App\Commands\UserLocation\GetCompleteListOfUserLocation\GetCompleteListOfUserLocationCommand;
+use App\Commands\UserLocation\GetCompleteListOfUserLocation\GetCompleteListOfUserLocationHandle;
+use App\Commands\UserLocation\GetDetailListOfUserLocation\GetDetailListOfUserLocationCommand;
+use App\Commands\UserLocation\GetDetailListOfUserLocation\GetDetailListOfUserLocationHandle;
+use App\Commands\UserLocation\GetDetailListOfUserLocationByUserSlug\GetDetailListOfUserLocationByUserSlugCommand;
+use App\Commands\UserLocation\GetDetailListOfUserLocationByUserSlug\GetDetailListOfUserLocationByUserSlugHandle;
+use App\Commands\UserLocation\GetListLocationCurrentUser\GetListLocationCurrentUserCommand;
+use App\Commands\UserLocation\GetListLocationCurrentUser\GetListLocationCurrentUserHandle;
+use App\Commands\UserLocation\StoreUserLocation\StoreUserLocationCommand;
+use App\Commands\UserLocation\StoreUserLocation\StoreUserLocationHandle;
+use App\Commands\UserLocation\UpdateUserLocation\UpdateUserLocationCommand;
+use App\Commands\UserLocation\UpdateUserLocation\UpdateUserLocationHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserLocation\UserLocationRequest;
-use App\Http\Requests\UserSkill\UserSkillRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -35,12 +35,19 @@ class UserLocationController extends Controller
      */
     public function getListLocationCurrentUser(): JsonResponse
     {
-        $this->bus->addHandler(GetListSkillCurrentUserCommand::class, GetListSkillCurrentUserHandle::class);
+        $this->bus->addHandler(
+            GetListLocationCurrentUserCommand::class,
+            GetListLocationCurrentUserHandle::class
+        );
 
-        $result = $this->bus->dispatch(new GetListSkillCurrentUserCommand());
+        $result = $this->bus->dispatch(new GetListLocationCurrentUserCommand());
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -56,9 +63,12 @@ class UserLocationController extends Controller
      */
     public function store(UserLocationRequest $request): JsonResponse
     {
-        $this->bus->addHandler(StoreUserSkillCommand::class, StoreUserSkillHandle::class);
+        $this->bus->addHandler(
+            StoreUserLocationCommand::class,
+            StoreUserLocationHandle::class
+        );
 
-        $result = $this->bus->dispatch(StoreUserSkillCommand::withForm($request));
+        $result = $this->bus->dispatch(StoreUserLocationCommand::withForm($request));
 
         if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
@@ -72,19 +82,26 @@ class UserLocationController extends Controller
     }
 
     /**
+     * @param FormRequest $request
      * @return JsonResponse
      */
-    public function getCompleteListOfUserLocation(): JsonResponse
+    public function getCompleteListOfUserLocation(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            GetCompleteListOfUserSkillCommand::class,
-            GetCompleteListOfUserSkillHandle::class
+            GetCompleteListOfUserLocationCommand::class,
+            GetCompleteListOfUserLocationHandle::class
         );
 
-        $result = $this->bus->dispatch(new GetCompleteListOfUserSkillCommand());
+        $result = $this->bus->dispatch(GetCompleteListOfUserLocationCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -97,14 +114,18 @@ class UserLocationController extends Controller
     public function getDetailListOfUserLocation(UserLocationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            GetDetailListOfUserSkillCommand::class,
-            GetDetailListOfUserSkillHandle::class
+            GetDetailListOfUserLocationCommand::class,
+            GetDetailListOfUserLocationHandle::class
         );
 
-        $result = $this->bus->dispatch(GetDetailListOfUserSkillCommand::withForm($request));
+        $result = $this->bus->dispatch(GetDetailListOfUserLocationCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -115,20 +136,24 @@ class UserLocationController extends Controller
     }
 
     /**
-     * @param UserSkillRequest $request
+     * @param UserLocationRequest $request
      * @return JsonResponse
      */
     public function getDetailListOfUserLocationByUserSlug(UserLocationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            GetDetailListOfUserSkillByUserSlugCommand::class,
-            GetDetailListOfUserSkillByUserSlugHandle::class
+            GetDetailListOfUserLocationByUserSlugCommand::class,
+            GetDetailListOfUserLocationByUserSlugHandle::class
         );
 
-        $result = $this->bus->dispatch(GetDetailListOfUserSkillByUserSlugCommand::withForm($request));
+        $result = $this->bus->dispatch(GetDetailListOfUserLocationByUserSlugCommand::withForm($request));
 
         if(!empty($result['data'])){
-            return $this->responseSuccess(data: $result['data'], message: $result['message']);
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(
@@ -138,19 +163,16 @@ class UserLocationController extends Controller
         );
     }
 
-    public function getDetailListOfLocationByUserSlug(UserLocationRequest $request)
-    {
-
-    }
-
     public function update(UserLocationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            UpdateUserSkillCommand::class,
-            UpdateUserSkillHandle::class
+            UpdateUserLocationCommand::class,
+            UpdateUserLocationHandle::class
         );
 
-        $result = $this->bus->dispatch(UpdateUserSkillCommand::withForm($request));
+        $result = $this->bus->dispatch(
+            UpdateUserLocationCommand::withForm($request)
+        );
 
         if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
@@ -165,11 +187,14 @@ class UserLocationController extends Controller
 
     public function destroy(UserLocationRequest $request): JsonResponse
     {
-        $this->bus->addHandler(DestroyUserSkillCommand::class, DestroyUserSkillHandle::class);
+        $this->bus->addHandler(
+            DestroyUserLocationCommand::class,
+            DestroyUserRequestHandle::class
+        );
 
-        $result = $this->bus->dispatch(DestroyUserSkillCommand::withForm($request));
+        $result = $this->bus->dispatch(DestroyUserLocationCommand::withForm($request));
 
-        if(!empty($result['userSkillDestroy'])){
+        if(!empty($result['userLocationDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

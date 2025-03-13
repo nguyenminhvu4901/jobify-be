@@ -5,6 +5,7 @@ use App\Enums\RouteNames\Profile\UserCertification;
 use App\Enums\RouteNames\Profile\UserCourse;
 use App\Enums\RouteNames\Profile\UserEducation;
 use App\Enums\RouteNames\Profile\UserExperience;
+use App\Enums\RouteNames\Profile\UserLocation;
 use App\Enums\RouteNames\Profile\UserPrize;
 use App\Enums\RouteNames\Profile\UserProduct;
 use App\Enums\RouteNames\Profile\UserProject;
@@ -274,26 +275,29 @@ Route::group(
 
         Route::group(['prefix' => 'user-location', 'as' => 'userLocation.'], function(){
             Route::get('/list-location-current-user', [UserLocationController::class,
-                'getListLocationCurrentUser'])->name('listLocationCurrentUser');
+                'getListLocationCurrentUser'])
+                ->name(UserLocation::LIST_LOCATION_CURRENT_USER->value);
 
             Route::get('/complete-list-user-location', [UserLocationController::class,
-                'getCompleteListOfUserLocation'])->name('completeListOfUserLocation');
+                'getCompleteListOfUserLocation'])
+                ->name(UserLocation::COMPLETE_LIST_USER_LOCATION->value);
 
             Route::get('/detail-list-user-location', [UserLocationController::class,
-                'getDetailListOfUserLocation'])->name('detailListOfUserLocation');
-
-            Route::get('/detail-list-location-by-user-slug', [UserLocationController::class,
-                'getDetailListOfUserLocationByUserSlug'])->name('detailListOfUserLocationByUserSlug');
+                'getDetailListOfUserLocation'])
+                ->name(UserLocation::DETAIL_LIST_USER_LOCATION->value);
 
             Route::get('/detail-list-user-location-by-user-slug', [UserLocationController::class,
-                'getDetailListOfLocationByUserSlug'])->name('detailListOfLocationByUserSlug');
+                'getDetailListOfLocationByUserSlug'])
+                ->name(UserLocation::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value);
 
-            Route::post('/', [UserLocationController::class, 'store'])->name('store');
+            Route::post('/', [UserLocationController::class, 'store'])
+                ->name(UserLocation::STORE->value);
 
             Route::post('/update-location', [UserLocationController::class, 'update'])
-                ->name('updateUserLocation');
+                ->name(UserLocation::UPDATE->value);
 
-            Route::delete('/', [UserLocationController::class, 'destroy'])->name('destroy');
+            Route::delete('/', [UserLocationController::class, 'destroy'])
+                ->name(UserLocation::DESTROY->value);
         });
 });
 

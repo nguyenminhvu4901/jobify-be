@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Commands\UserLocation\GetDetailListOfUserLocation;
+namespace App\Commands\UserLocation\DestroyUserLocation;
 
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-readonly class GetDetailListOfUserLocationCommand implements CommandInterface
+class DestroyUserLocationCommand implements CommandInterface
 {
     public function __construct()
     {
