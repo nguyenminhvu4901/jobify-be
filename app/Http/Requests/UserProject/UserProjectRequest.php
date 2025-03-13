@@ -61,6 +61,7 @@ class UserProjectRequest extends FormRequest
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
+            default => []
         };
     }
 
