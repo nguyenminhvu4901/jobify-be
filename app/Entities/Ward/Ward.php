@@ -2,8 +2,11 @@
 
 namespace App\Entities\Ward;
 
+use App\Entities\District\District;
+use App\Entities\Province\Province;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -18,4 +21,20 @@ class Ward extends Model implements Transformable
         'code',
         'ward_name'
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function province(): BelongsTo
+    {
+        return $this->belongsTo(Province::class, 'province_id', 'id')->withDefault();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class, 'district_id', 'id')->withDefault();
+    }
 }

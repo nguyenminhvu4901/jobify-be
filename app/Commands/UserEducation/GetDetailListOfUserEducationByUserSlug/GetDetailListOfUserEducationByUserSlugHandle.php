@@ -30,7 +30,8 @@ class GetDetailListOfUserEducationByUserSlugHandle
                 generateCacheName(
                     UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value,
                     $command
-                ));
+                )
+            );
 
             $userEducation = Cache::tags([UserEducation::TAG_NAME->value])->remember(
                 generateCacheName(
@@ -41,7 +42,8 @@ class GetDetailListOfUserEducationByUserSlugHandle
                 fn() =>  $this->userEducationRepository->getByRelationshipUserSlug(
                     userSlug: $command->userSlug,
                     relationship: 'user'
-                ));
+                )
+            );
 
             return [
                 'data' => UserEducationResource::collection($userEducation),

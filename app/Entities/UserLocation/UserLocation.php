@@ -14,6 +14,8 @@ class UserLocation extends Model implements Transformable
 
     protected $table = 'user_locations';
 
+    protected $with = ['province', 'district', 'ward'];
+
     protected $fillable = [
         'user_id',
         'province_id',

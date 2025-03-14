@@ -10,6 +10,7 @@ use App\Entities\UserCertification\UserCertification;
 use App\Entities\UserCourse\UserCourse;
 use App\Entities\UserEducation\UserEducation;
 use App\Entities\UserExperience\UserExperience;
+use App\Entities\UserLocation\UserLocation;
 use App\Entities\UserPrize\UserPrize;
 use App\Entities\UserProduct\UserProduct;
 use App\Entities\UserProfile\UserProfile;
@@ -123,5 +124,13 @@ trait UserRelationship
     public function userActivities(): HasMany
     {
         return $this->hasMany(UserActivity::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function userLocations(): HasMany
+    {
+        return $this->hasMany(UserLocation::class);
     }
 }
