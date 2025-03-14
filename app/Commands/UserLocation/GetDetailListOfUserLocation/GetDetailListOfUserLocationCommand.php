@@ -7,12 +7,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class GetDetailListOfUserLocationCommand implements CommandInterface
 {
-    public function __construct()
+    public function __construct(
+        public int|string $userLocationId
+    )
     {
     }
 
     public static function withForm(FormRequest $request): CommandInterface
     {
-        return new self();
+        return new self(
+            userLocationId: $request->get('user_location_id')
+        );
     }
 }

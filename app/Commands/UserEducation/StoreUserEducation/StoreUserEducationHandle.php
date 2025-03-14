@@ -57,7 +57,7 @@ class StoreUserEducationHandle
     private function prepareUserActivityData(StoreUserEducationCommand $command): array
     {
         return [
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user()?->id,
             'name' => $command->name,
             'major' => $command->major,
             'is_studying' => $command->isStudying,

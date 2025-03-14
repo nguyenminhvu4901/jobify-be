@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources\UserLocation;
 
+use App\Http\Resources\District\DistrictResource;
+use App\Http\Resources\Province\ProvinceResource;
+use App\Http\Resources\Ward\WardResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +17,13 @@ class UserLocationNoUserDataResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this?->id,
+            'user_id' => $this->user_id,
+            'province' => ProvinceResource::make($this->province),
+            'district' => DistrictResource::make($this->district),
+            'ward' => WardResource::make($this->ward),
+            'address' => $this->address
+        ];
     }
 }

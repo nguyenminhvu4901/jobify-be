@@ -2,7 +2,6 @@
 
 namespace App\Commands\UserEducation\GetCompleteListOfUserEducation;
 
-use App\Commands\HandleInterface;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserEducation;
 use App\Helpers\Global\PaginationHelper;

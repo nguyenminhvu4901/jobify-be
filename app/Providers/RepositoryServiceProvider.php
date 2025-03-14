@@ -29,6 +29,8 @@ use App\Repositories\UserExperience\UserExperienceRepository;
 use App\Repositories\UserExperience\UserExperienceRepositoryEloquent;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
 use App\Repositories\UserExperienceResource\UserExperienceResourceRepositoryEloquent;
+use App\Repositories\UserLocation\UserLocationRepository;
+use App\Repositories\UserLocation\UserLocationRepositoryEloquent;
 use App\Repositories\UserPrize\UserPrizeRepository;
 use App\Repositories\UserPrize\UserPrizeRepositoryEloquent;
 use App\Repositories\UserPrizeResource\UserPrizeResourceRepository;
@@ -69,6 +71,7 @@ class RepositoryServiceProvider extends ServiceProvider
         UserProductRepository::class => UserProductRepositoryEloquent::class,
         UserProductResourceRepository::class => UserProductResourceRepositoryEloquent::class,
         UserActivityRepository::class => UserActivityRepositoryEloquent::class,
-        UserActivityResourceRepository::class => UserActivityResourceRepositoryEloquent::class
+        UserActivityResourceRepository::class => UserActivityResourceRepositoryEloquent::class,
+        UserLocationRepository::class => UserLocationRepositoryEloquent::class
     ];
 }

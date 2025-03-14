@@ -287,13 +287,13 @@ Route::group(
                 ->name(UserLocation::DETAIL_LIST_USER_LOCATION->value);
 
             Route::get('/detail-list-user-location-by-user-slug', [UserLocationController::class,
-                'getDetailListOfLocationByUserSlug'])
+                'getDetailListOfUserLocationByUserSlug'])
                 ->name(UserLocation::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value);
 
             Route::post('/', [UserLocationController::class, 'store'])
                 ->name(UserLocation::STORE->value);
 
-            Route::post('/update-location', [UserLocationController::class, 'update'])
+            Route::put('/update-location', [UserLocationController::class, 'update'])
                 ->name(UserLocation::UPDATE->value);
 
             Route::delete('/', [UserLocationController::class, 'destroy'])

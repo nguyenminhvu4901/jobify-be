@@ -7,6 +7,7 @@ use App\Entities\UserCertification\UserCertification;
 use App\Entities\UserCourse\UserCourse;
 use App\Entities\UserEducation\UserEducation;
 use App\Entities\UserExperience\UserExperience;
+use App\Entities\UserLocation\UserLocation;
 use App\Entities\UserPrize\UserPrize;
 use App\Entities\UserProduct\UserProduct;
 use App\Entities\UserProject\UserProject;
@@ -17,6 +18,7 @@ use App\Observers\Profile\UserCertificationObserver;
 use App\Observers\Profile\UserCourseObserver;
 use App\Observers\Profile\UserEducationObserver;
 use App\Observers\Profile\UserExperienceObserver;
+use App\Observers\Profile\UserLocationObserver;
 use App\Observers\Profile\UserPrizeObserver;
 use App\Observers\Profile\UserProductObserver;
 use App\Observers\Profile\UserProjectObserver;
@@ -36,7 +38,8 @@ class ObserverServiceProvider extends ServiceProvider
         UserPrize::class => UserPrizeObserver::class,
         UserProduct::class => UserProductObserver::class,
         UserProject::class => UserProjectObserver::class,
-        UserSkill::class => UserSkillObserver::class
+        UserSkill::class => UserSkillObserver::class,
+        UserLocation::class => UserLocationObserver::class
     ];
 
     /**

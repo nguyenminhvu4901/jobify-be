@@ -7,12 +7,23 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class GetDetailListOfUserLocationByUserSlugCommand implements CommandInterface
 {
-    public function __construct()
+    /**
+     * @param string $userSlug
+     */
+    public function __construct(
+        public string $userSlug
+    )
     {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
-        return new self();
+        return new self(
+            userSlug: $request->get('user_slug')
+        );
     }
 }
