@@ -182,6 +182,8 @@ return [
         'invalid_content_type_value_please_choose_again' => 'Invalid content type value, please choose again.',
         'invalid_attachment' => 'Invalid attachment, please choose again.',
         'invalid_attachment_duplicate' => 'Duplicate attachment value, please choose again.',
+        'invalid_district_in_province' => 'The selected district does not belong to the chosen province/city!',
+        'invalid_ward_in_district' => 'The selected ward does not belong to the chosen district!',
     ],
 
     /*
