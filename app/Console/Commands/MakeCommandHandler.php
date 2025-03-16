@@ -33,13 +33,19 @@ class MakeCommandHandler extends Command
 
         $className = class_basename($name);
         $parentPath = dirname($name);
+        if ($parentPath === '.' || $parentPath === '\\' || $parentPath === '/') {
+            $parentPath = '';
+        }
+
         $finalDirectory = "{$basePath}/{$parentPath}/{$className}";
 
         if (!$filesystem->isDirectory($finalDirectory)) {
             $filesystem->makeDirectory($finalDirectory, 0755, true);
         }
 
-        $namespace = "App\\Commands\\" . str_replace('/', '\\', $parentPath) . "\\{$className}";
+        $namespace = "App\\Commands" . (!empty($parentPath) ? "\\" . str_replace('/', '\\', $parentPath) : "") . "\\{$className}";
+        $namespace = preg_replace('/\\\\+/', '\\', $namespace);
+
 
         $commandPath = "{$finalDirectory}/{$className}Command.php";
         if (!$filesystem->exists($commandPath)) {

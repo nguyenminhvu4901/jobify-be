@@ -3,8 +3,12 @@
 namespace App\Observers\Profile;
 
 use App\Enums\RouteNames\Profile\UserPrize;
+use App\Enums\RouteNames\Profile\UserProfile;
 
 class UserPrizeObserver extends BaseProfileObserver
 {
-    protected string $cacheTag = UserPrize::TAG_NAME->value;
+    protected array $cacheTag = [
+        UserPrize::TAG_NAME->value,
+        UserProfile::TAG_NAME->value
+    ];
 }

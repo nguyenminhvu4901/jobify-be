@@ -20,7 +20,7 @@ class CurrentUserEducationResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'educations' => UserEducationNoUserData::collection($this->userEducations)
+            'educations' => UserEducationNoUserDataResource::collection($this->userEducations)
         ];
     }
 }

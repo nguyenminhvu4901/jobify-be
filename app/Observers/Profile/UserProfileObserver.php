@@ -2,13 +2,11 @@
 
 namespace App\Observers\Profile;
 
-use App\Enums\RouteNames\Profile\UserActivity;
 use App\Enums\RouteNames\Profile\UserProfile;
 
-class UserActivityObserver extends BaseProfileObserver
+class UserProfileObserver extends BaseProfileObserver
 {
     protected array $cacheTag = [
-        UserActivity::TAG_NAME->value,
         UserProfile::TAG_NAME->value
     ];
 }

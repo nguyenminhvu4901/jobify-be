@@ -10,6 +10,7 @@ use App\Entities\UserExperience\UserExperience;
 use App\Entities\UserLocation\UserLocation;
 use App\Entities\UserPrize\UserPrize;
 use App\Entities\UserProduct\UserProduct;
+use App\Entities\UserProfile\UserProfile;
 use App\Entities\UserProject\UserProject;
 use App\Entities\UserSkill\UserSkill;
 use App\Models\User;
@@ -21,6 +22,7 @@ use App\Observers\Profile\UserExperienceObserver;
 use App\Observers\Profile\UserLocationObserver;
 use App\Observers\Profile\UserPrizeObserver;
 use App\Observers\Profile\UserProductObserver;
+use App\Observers\Profile\UserProfileObserver;
 use App\Observers\Profile\UserProjectObserver;
 use App\Observers\Profile\UserSkillObserver;
 use App\Observers\UserObserver;
@@ -39,7 +41,8 @@ class ObserverServiceProvider extends ServiceProvider
         UserProduct::class => UserProductObserver::class,
         UserProject::class => UserProjectObserver::class,
         UserSkill::class => UserSkillObserver::class,
-        UserLocation::class => UserLocationObserver::class
+        UserLocation::class => UserLocationObserver::class,
+        UserProfile::class => UserProfileObserver::class,
     ];
 
     /**

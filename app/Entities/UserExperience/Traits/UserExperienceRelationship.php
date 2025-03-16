@@ -25,9 +25,4 @@ trait UserExperienceRelationship
     {
         return $this->hasMany(UserExperienceResource::class);
     }
-
-    public function contentType(): BelongsTo
-    {
-        return $this->belongsTo(DefaultContentType::class, 'content_type_id', 'id');
-    }
 }
