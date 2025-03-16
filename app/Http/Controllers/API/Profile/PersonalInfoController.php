@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\PersonalInfo\GetCurrentUser\GetCurrentUserCommand;
-use App\Commands\PersonalInfo\GetCurrentUser\GetCurrentUserHandler;
+use App\Commands\PersonalInfo\GetInformationCurrentUser\GetCurrentUserCommand;
+use App\Commands\PersonalInfo\GetInformationCurrentUser\GetCurrentUserHandler;
+use App\Commands\PersonalInfo\GetInformationCVCurrentUser\GetInformationCVCurrentUserCommand;
+use App\Commands\PersonalInfo\GetInformationCVCurrentUser\GetInformationCVCurrentUserHandler;
 use App\Commands\PersonalInfo\UpdateProfile\UpdateProfileCommand;
 use App\Commands\PersonalInfo\UpdateProfile\UpdateProfileHandler;
 use App\Commands\PersonalInfo\UploadAvatar\UploadAvatarCommand;
@@ -12,7 +14,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateUserProfileAvatarRequest;
 use App\Http\Requests\Profile\UpdateUserProfileRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
 
@@ -27,13 +28,7 @@ class PersonalInfoController extends Controller
     public function __construct(
         protected CommandBusInterface $bus
     )
-    {
-    }
-
-    public function index(Request $request)
-    {
-
-    }
+    {}
 
     /**
      * @OA\Get(
@@ -76,17 +71,46 @@ class PersonalInfoController extends Controller
      *
      * @return JsonResponse
      */
-    public function getCurrentUser(): JsonResponse
+    public function getInformationCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(GetCurrentUserCommand::class, GetCurrentUserHandler::class);
 
         $result = $this->bus->dispatch(new GetCurrentUserCommand());
 
-        if(!empty($result['user'])){
+        if(!empty($result['data'])){
            return $this->responseSuccess(
-               data: $result['user'],
-               message: $result['message']
+               data: $result['data'],
+               message: $result['message'],
+               cache: $result['cache'] ?? null
            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getInformationCVCurrentUser(): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetInformationCVCurrentUserCommand::class,
+            GetInformationCVCurrentUserHandler::class
+        );
+
+        $result = $this->bus->dispatch(new GetInformationCVCurrentUserCommand());
+
+        if(!empty($result['data'])){
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
         }
 
         return $this->responseError(

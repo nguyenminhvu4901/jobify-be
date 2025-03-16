@@ -8,6 +8,7 @@ use App\Enums\RouteNames\Profile\UserExperience;
 use App\Enums\RouteNames\Profile\UserLocation;
 use App\Enums\RouteNames\Profile\UserPrize;
 use App\Enums\RouteNames\Profile\UserProduct;
+use App\Enums\RouteNames\Profile\UserProfile;
 use App\Enums\RouteNames\Profile\UserProject;
 use App\Enums\RouteNames\Profile\UserSkill;
 use App\Http\Controllers\API\Profile\PersonalInfoController;
@@ -29,15 +30,17 @@ Route::group(
         'prefix' => 'profile',
         'as' => 'profile.'
     ], function () {
-        Route::get('/', [PersonalInfoController::class, 'index'])->name('index');
+        Route::get('/current-user', [PersonalInfoController::class, 'getInformationCurrentUser'])
+        ->name(UserProfile::INFORMATION_CURRENT_USER->value);
 
-        Route::get('/current-user', [PersonalInfoController::class, 'getCurrentUser']);
+        Route::get('/information-cv-current-user', [PersonalInfoController::class, 'getInformationCVCurrentUser'])
+        ->name(UserProfile::INFORMATION_CV_CURRENT_USER->value);
 
         Route::post('update-personal-info', [PersonalInfoController::class, 'updateProfile'])
-            ->name('updateProfile');
+            ->name(UserProfile::UPDATE_PROFILE->value);
 
         Route::post('upload-avatar', [PersonalInfoController::class, 'uploadAvatar'])
-            ->name('uploadAvatar');
+            ->name(UserProfile::UPLOAD_AVATAR->value);
 
         Route::group(['prefix' => 'user-experience', 'as' => 'userExperience.'], function() {
             Route::post('/', [UserExperienceController::class, 'store'])

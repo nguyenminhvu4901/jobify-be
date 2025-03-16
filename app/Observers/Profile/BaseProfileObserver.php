@@ -5,37 +5,68 @@ use Illuminate\Support\Facades\Cache;
 
 abstract class BaseProfileObserver
 {
-    protected string $cacheTag = '';
+    /**
+     * @var array
+     */
+    protected array $cacheTag = [];
 
+    /**
+     * @return void
+     */
     public function created(): void
     {
         $this->clearCache();
     }
 
+    /**
+     * @return void
+     */
     public function updated(): void
     {
         $this->clearCache();
     }
 
+    /**
+     * @return void
+     */
+    public function saved(): void
+    {
+        $this->clearCache();
+    }
+
+    /**
+     * @return void
+     */
     public function deleted(): void
     {
         $this->clearCache();
     }
 
+    /**
+     * @return void
+     */
     public function restored(): void
     {
         $this->clearCache();
     }
 
+    /**
+     * @return void
+     */
     public function forceDeleted(): void
     {
         $this->clearCache();
     }
 
+    /**
+     * @return void
+     */
     private function clearCache(): void
     {
-        if ($this->cacheTag) {
-            Cache::tags([$this->cacheTag])->flush();
+        if (!empty($this->cacheTag)) {
+            foreach ($this->cacheTag as $cache){
+                Cache::tags([$cache])->flush();
+            }
         }
     }
 }
