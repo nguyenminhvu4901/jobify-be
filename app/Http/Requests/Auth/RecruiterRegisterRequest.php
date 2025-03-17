@@ -43,6 +43,7 @@ class RecruiterRegisterRequest extends FormRequest
             'company_name' => ['bail', 'required', 'string', 'max:255'],
             'company_scale_id' => ['bail', 'required', 'integer','exists:company_scales,id'],
             'tax_code' => ['bail', 'required', 'string', 'max:255'],
+            'branch_name' => ['bail', 'required', 'string'],
             'province' => ['bail', 'required', 'integer','exists:provinces,id'],
             'district' => ['bail', 'required', 'integer','exists:districts,id']
         ];

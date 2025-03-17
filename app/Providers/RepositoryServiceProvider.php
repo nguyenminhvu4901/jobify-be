@@ -7,8 +7,8 @@ use App\Repositories\Company1\Company1RepositoryEloquent;
 
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\Company\CompanyRepositoryEloquent;
-use App\Repositories\CompanyAddress\CompanyAddressRepository;
-use App\Repositories\CompanyAddress\CompanyAddressRepositoryEloquent;
+use App\Repositories\CompanyBranch\CompanyBranchRepository;
+use App\Repositories\CompanyBranch\CompanyBranchRepositoryEloquent;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryEloquent;
 use App\Repositories\UserActivity\UserActivityRepository;
@@ -54,7 +54,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public $singletons = [
         UserRepository::class => UserRepositoryEloquent::class,
         CompanyRepository::class => CompanyRepositoryEloquent::class,
-        CompanyAddressRepository::class => CompanyAddressRepositoryEloquent::class,
+        CompanyBranchRepository::class => CompanyBranchRepositoryEloquent::class,
         UserProfileRepository::class => UserProfileRepositoryEloquent::class,
         UserExperienceRepository::class => UserExperienceRepositoryEloquent::class,
         UserExperienceResourceRepository::class => UserExperienceResourceRepositoryEloquent::class,

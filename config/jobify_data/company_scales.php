@@ -7,23 +7,39 @@ return [
             'description' => '<'
         ],
         [
-            'name' => '10 - 50',
+            'name' => '10 - 24',
             'description' => '='
         ],
         [
-            'name' => '51 - 99',
+            'name' => '25 - 99',
             'description' => '='
         ],
         [
-            'name' => '100 - 199',
+            'name' => '100 - 499',
             'description' => '='
         ],
         [
-            'name' => '200 - 500',
+            'name' => '500 - 999',
             'description' => '='
         ],
         [
-            'name' => '500',
+            'name' => '1000 - 4999',
+            'description' => '='
+        ],
+        [
+            'name' => '5000 - 9999',
+            'description' => '='
+        ],
+        [
+            'name' => '10000 - 19999',
+            'description' => '='
+        ],
+        [
+            'name' => '20000 - 49999',
+            'description' => '='
+        ],
+        [
+            'name' => '50000',
             'description' => '>'
         ],
 

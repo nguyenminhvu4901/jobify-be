@@ -22,6 +22,7 @@ class Company extends Model implements Transformable
         'name',
         'slug',
         'company_scale_id',
+        'company_working_day_id',
         'gender_id',
         'website',
         'description',

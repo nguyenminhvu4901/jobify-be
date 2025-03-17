@@ -2,11 +2,12 @@
 
 namespace App\Entities\Company\Traits;
 
-use App\Entities\CompanyAddress\CompanyAddress;
+use App\Entities\CompanyBranch\CompanyBranch;
 use App\Entities\CompanyScale\CompanyScale;
 use App\Entities\DefaultGender\DefaultGender;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait CompanyRelationship
@@ -36,10 +37,10 @@ trait CompanyRelationship
     }
 
     /**
-     * @return HasOne
+     * @return hasMany
      */
-    public function companyAddress(): HasOne
+    public function companyBranches(): hasMany
     {
-        return $this->hasOne(CompanyAddress::class)->withDefault();
+        return $this->hasMany(CompanyBranch::class);
     }
 }

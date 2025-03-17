@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\CompanyAddress\Traits;
+namespace App\Entities\CompanyBranch\Traits;
 
 use App\Entities\Company\Company;
 use App\Entities\District\District;
@@ -8,7 +8,7 @@ use App\Entities\Province\Province;
 use App\Entities\Ward\Ward;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-trait CompanyAddressRelationship
+trait CompanyBranchRelationship
 {
     /**
      * @return BelongsTo
