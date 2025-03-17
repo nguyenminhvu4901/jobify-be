@@ -23,6 +23,5 @@ class CompanyScaleSeeder extends Seeder
         {
             CompanyScale::create($companyScale);
         }
-
     }
 }

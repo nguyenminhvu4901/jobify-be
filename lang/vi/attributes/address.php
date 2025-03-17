@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'branch_name' => 'Tên chi nhánh',
     'province' => 'Tỉnh/Thành phố',
     'district' => 'Quận/Huyện',
     'ward' => 'Phường/Xã',

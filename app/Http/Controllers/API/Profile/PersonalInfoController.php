@@ -10,10 +10,14 @@ use App\Commands\PersonalInfo\UpdateProfile\UpdateProfileCommand;
 use App\Commands\PersonalInfo\UpdateProfile\UpdateProfileHandler;
 use App\Commands\PersonalInfo\UploadAvatar\UploadAvatarCommand;
 use App\Commands\PersonalInfo\UploadAvatar\UploadAvatarHandler;
+use App\Entities\CompanyBenefit\CompanyBenefit;
+use App\Entities\CompanyScale\CompanyScale;
+use App\Entities\CompanyWorkingDay\CompanyWorkingDay;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateUserProfileAvatarRequest;
 use App\Http\Requests\Profile\UpdateUserProfileRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\App;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use OpenApi\Annotations as OA;
 

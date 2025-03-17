@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Repositories\CompanyAddress;
+namespace App\Repositories\CompanyBranch;
 
-use App\Entities\CompanyAddress\CompanyAddress;
+use App\Entities\CompanyBranch\CompanyBranch;
 use App\Repositories\BaseRepository;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class CompanyAddressRepositoryEloquent extends BaseRepository implements CompanyAddressRepository
+class CompanyBranchRepositoryEloquent extends BaseRepository implements CompanyBranchRepository
 {
     /**
      * @return string
      */
     public function model(): string
     {
-        return CompanyAddress::class;
+        return CompanyBranch::class;
     }
 
     /**
@@ -28,11 +28,11 @@ class CompanyAddressRepositoryEloquent extends BaseRepository implements Company
         DB::beginTransaction();
 
         try {
-            $companyAddress = $this->model->create($attributes);
+            $companyBranch = $this->model->create($attributes);
 
             DB::commit();
 
-            return $companyAddress->refresh();
+            return $companyBranch->refresh();
         }catch (Exception){
             DB::rollBack();
 

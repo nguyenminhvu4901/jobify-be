@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Repositories\CompanyAddress;
+namespace App\Repositories\CompanyBranch;
 
 /**
  * Interface UserRepository.
  *
  * @package namespace App\Repositories;
  */
-interface CompanyAddressRepository
+interface CompanyBranchRepository
 {
     public function create(array $attributes);
 }

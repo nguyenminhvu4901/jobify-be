@@ -7,7 +7,7 @@ use App\Http\Resources\Province\ProvinceResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompanyAddressResource extends JsonResource
+class CompanyBranchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,6 +19,7 @@ class CompanyAddressResource extends JsonResource
         return [
             'id' => $this->id,
             'company_id' => $this->company_id,
+            'branch_name' => $this->branch_name,
             'province' => new ProvinceResource($this->province),
             'district' => new DistrictResource($this->district)
         ];

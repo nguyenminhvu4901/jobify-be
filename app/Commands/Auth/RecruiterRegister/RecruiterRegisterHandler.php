@@ -6,7 +6,7 @@ use App\Enums\DefaultRole;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
 use App\Notifications\UserRegisteredNotification;
 use App\Repositories\Company\CompanyRepository;
-use App\Repositories\CompanyAddress\CompanyAddressRepository;
+use App\Repositories\CompanyBranch\CompanyBranchRepository;
 use App\Repositories\User\UserRepository;
 
 class RecruiterRegisterHandler
@@ -14,12 +14,12 @@ class RecruiterRegisterHandler
     /**
      * @param UserRepository $userRepository
      * @param CompanyRepository $companyRepository
-     * @param CompanyAddressRepository $companyAddressRepository
+     * @param CompanyBranchRepository $companyBranchRepository
      */
     public function __construct(
         protected UserRepository $userRepository,
         protected CompanyRepository $companyRepository,
-        protected CompanyAddressRepository $companyAddressRepository
+        protected CompanyBranchRepository $companyBranchRepository
     )
     {
     }
@@ -41,7 +41,7 @@ class RecruiterRegisterHandler
 
             $company = $this->createCompany($command, $recruiter->id);
 
-            $this->createCompanyAddress($command, $company->id);
+            $this->createCompanyBranch($command, $company->id);
 
             $recruiter->notify(new UserRegisteredNotification());
 
@@ -95,10 +95,11 @@ class RecruiterRegisterHandler
      * @param int $companyId
      * @return void
      */
-    private function createCompanyAddress(RecruiterRegisterCommand $command, int $companyId): void
+    private function createCompanyBranch(RecruiterRegisterCommand $command, int $companyId): void
     {
-        $this->companyAddressRepository->create([
+        $this->companyBranchRepository->create([
             'company_id' => $companyId,
+            'branch_name' => $command->branchName,
             'province_id' => $command->province,
             'district_id' => $command->district,
         ]);

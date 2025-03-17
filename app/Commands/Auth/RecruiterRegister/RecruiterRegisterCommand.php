@@ -29,6 +29,7 @@ class RecruiterRegisterCommand extends BaseRegisterCommand
         public readonly string $taxCode,
         public readonly int $genderId,
         public readonly int $province,
+        public readonly string $branchName,
         public readonly int $district
     ) {
         parent::__construct($fullName, $email, $password, $phoneNumber);
@@ -47,6 +48,7 @@ class RecruiterRegisterCommand extends BaseRegisterCommand
                 'companyScaleId' => $request->get('company_scale_id'),
                 'taxCode' => $request->get('tax_code'),
                 'genderId' => $request->get('gender_id'),
+                'branchName' => $request->get('branch_name'),
                 'province' => $request->get('province'),
                 'district' => $request->get('district'),
             ]

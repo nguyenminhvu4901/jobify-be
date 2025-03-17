@@ -3,6 +3,7 @@
 namespace App\Entities\CompanyScale;
 
 use App\Entities\CompanyScale\Traits\CompanyScaleRelationship;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
@@ -15,4 +16,14 @@ class CompanyScale extends Model implements Transformable
     protected $table = "company_scales";
 
     protected $fillable = ['name', 'description'];
+
+    /**
+     * @return Attribute
+     */
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => __('data/company_scales.' . $value) ?? $value
+        );
+    }
 }

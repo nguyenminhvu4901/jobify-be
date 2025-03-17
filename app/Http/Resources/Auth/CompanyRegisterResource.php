@@ -23,7 +23,7 @@ class CompanyRegisterResource extends JsonResource
             'company_scale' => new CompanyScaleResource($this->companyScale),
             'gender' => new DefaultGenderResource($this->gender),
             'tax_code' => $this->tax_code,
-            'address' => new CompanyAddressResource($this->companyAddress)
+            'branches' => CompanyBranchResource::collection($this->companyBranches)
         ];
     }
 }
