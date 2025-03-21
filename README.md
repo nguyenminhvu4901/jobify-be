@@ -97,9 +97,9 @@ Build supervisor (For macos)
 ```install supervisor into workspace bash (macos)
 cd /
 apt update
-sudo apt install supervisor
+apt install supervisor
 supervisord --version
-sudo nano /etc/supervisor/conf.d/laravel-worker.conf (File để chạy supervisor, có thể không tạo vì dự án đã có sẵn rồi)
+nano /etc/supervisor/conf.d/laravel-worker.conf (File để chạy supervisor, có thể không tạo vì dự án đã có sẵn rồi)
 cấu hình file nếu muốn tạo
 
 [program:laravel-worker]
