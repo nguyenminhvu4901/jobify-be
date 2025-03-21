@@ -129,6 +129,7 @@ ví dụ:
 files = /etc/supervisor/conf.d/*.conf /var/www/laravel-worker.conf /var/www/laravel-schedule.conf
 
 tiếp tục chạy các câu lệnh
+supervisord -c /etc/supervisor/supervisord.conf
 supervisorctl reread
 supervisorctl update
 supervisorctl start all
