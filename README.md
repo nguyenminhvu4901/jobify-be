@@ -83,6 +83,7 @@ docker-compose exec workspace bash
 Build vendor
 ```sh
 composer install
+npm install
 php artisan key:generate
 php artisan jwt:secret
 php artisan migrate --seed
@@ -143,6 +144,7 @@ Error
 Nếu code có vấn đề, hãy chạy các câu lệnh terminal sau:
 composer install
 composer update
+npm install
 php artisan cache:clear
 php artisan route:clear
 php artisan route:cache
