@@ -21,7 +21,7 @@ class RecruiterRegisterResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'company' => new CompanyRegisterResource($this->company),
+            'company' => CompanyRegisterResource::make($this->company),
         ];
     }
 }
