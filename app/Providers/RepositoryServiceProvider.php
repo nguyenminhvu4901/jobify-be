@@ -2,13 +2,12 @@
 
 namespace App\Providers;
 
-use App\Repositories\Company1\Company1Repository;
-use App\Repositories\Company1\Company1RepositoryEloquent;
-
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\Company\CompanyRepositoryEloquent;
 use App\Repositories\CompanyBranch\CompanyBranchRepository;
 use App\Repositories\CompanyBranch\CompanyBranchRepositoryEloquent;
+use App\Repositories\OperationType\OperationTypeRepository;
+use App\Repositories\OperationType\OperationTypeRepositoryEloquent;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryEloquent;
 use App\Repositories\UserActivity\UserActivityRepository;
@@ -72,6 +71,7 @@ class RepositoryServiceProvider extends ServiceProvider
         UserProductResourceRepository::class => UserProductResourceRepositoryEloquent::class,
         UserActivityRepository::class => UserActivityRepositoryEloquent::class,
         UserActivityResourceRepository::class => UserActivityResourceRepositoryEloquent::class,
-        UserLocationRepository::class => UserLocationRepositoryEloquent::class
+        UserLocationRepository::class => UserLocationRepositoryEloquent::class,
+        OperationTypeRepository::class => OperationTypeRepositoryEloquent::class
     ];
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 if (!function_exists('formatDateTime')) {
     /**
@@ -33,3 +34,22 @@ if (!function_exists('formatDate')) {
         }
     }
 }
+
+if (!function_exists('addTimestamps')) {
+    /**
+     * Add created_at and updated_at timestamps to an array or collection.
+     *
+     * @param array|Collection $data
+     * @return array
+     */
+    function addTimestamps(array|Collection $data): array
+    {
+        $now = Carbon::now('Asia/Ho_Chi_Minh');
+
+        return array_map(fn ($item) => array_merge($item, [
+            'created_at' => $now,
+            'updated_at' => $now,
+        ]), $data);
+    }
+}
+

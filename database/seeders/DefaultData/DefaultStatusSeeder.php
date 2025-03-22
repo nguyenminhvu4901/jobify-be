@@ -15,14 +15,13 @@ class DefaultStatusSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('default_statuses')->truncate();
+        DefaultStatus::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $statuses = config('jobify_data.default_data.statuses');
 
-        foreach ($statuses as $status)
-        {
-            DefaultStatus::create($status);
-        }
+        $statuses = addTimestamps($statuses);
+
+        DefaultStatus::insert($statuses);
     }
 }

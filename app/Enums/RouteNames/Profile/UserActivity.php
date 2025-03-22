@@ -2,7 +2,7 @@
 
 namespace App\Enums\RouteNames\Profile;
 
-enum UserActivity:string
+enum UserActivity: string
 {
     case TAG_NAME = 'userActivities';
     case LIST_ACTIVITY_CURRENT_USER = 'listActivityCurrentUser';

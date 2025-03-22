@@ -14,14 +14,13 @@ class DefaultRateSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('default_rates')->truncate();
+        DefaultRate::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $rates = config('jobify_data.default_data.rates');
 
-        foreach ($rates as $rate)
-        {
-            DefaultRate::create($rate);
-        }
+        $rates = addTimestamps($rates);
+
+        DefaultRate::insert($rates);
     }
 }

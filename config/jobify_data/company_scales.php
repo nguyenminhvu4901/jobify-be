@@ -42,6 +42,5 @@ return [
             'name' => '50000',
             'description' => '>'
         ],
-
     ]
 ];

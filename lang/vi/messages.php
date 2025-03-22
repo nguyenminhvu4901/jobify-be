@@ -24,6 +24,11 @@ return [
         'user_change_password_error' => 'Thay đổi mật khẩu thất bại',
     ],
 
+    'company' => [
+        'company_get_info_success' => 'Lấy thông tin thành công',
+        'company_get_info_error' => 'Lấy thông tin thất bại',
+    ],
+
     'account_is_not_registered' => 'Tài khoản chưa được đăng ký',
     'language_does_not_exist' => 'Ngôn ngữ không có sẵn',
     'reject_reason_nullable_so_you_can_not_add_black_list' => 'Trường lý do từ chối không có dữ liệu nên bạn không thể thêm vào danh sách đen',
