@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserActivity\DestroyUserActivity\DestroyUserActivityCommand;
-use App\Commands\UserActivity\DestroyUserActivity\DestroyUserActivityHandle;
-use App\Commands\UserActivity\GetCompleteListOfUserActivity\GetCompleteListOfUserActivityCommand;
-use App\Commands\UserActivity\GetCompleteListOfUserActivity\GetCompleteListOfUserActivityHandle;
-use App\Commands\UserActivity\GetDetailListOfUserActivity\GetDetailListOfUserActivityCommand;
-use App\Commands\UserActivity\GetDetailListOfUserActivity\GetDetailListOfUserActivityHandle;
-use App\Commands\UserActivity\GetDetailListOfUserActivityByUserSlug\GetDetailListOfUserActivityByUserSlugCommand;
-use App\Commands\UserActivity\GetDetailListOfUserActivityByUserSlug\GetDetailListOfUserActivityByUserSlugHandle;
-use App\Commands\UserActivity\GetListActivityCurrentUser\GetListActivityCurrentUserCommand;
-use App\Commands\UserActivity\GetListActivityCurrentUser\GetListActivityCurrentUserHandle;
-use App\Commands\UserActivity\StoreUserActivity\StoreUserActivityCommand;
-use App\Commands\UserActivity\StoreUserActivity\StoreUserActivityHandle;
-use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityCommand;
-use App\Commands\UserActivity\UpdateUserActivity\UpdateUserActivityHandle;
+use App\Commands\Profile\UserActivity\DestroyUserActivity\DestroyUserActivityCommand;
+use App\Commands\Profile\UserActivity\DestroyUserActivity\DestroyUserActivityHandle;
+use App\Commands\Profile\UserActivity\GetCompleteListOfUserActivity\GetCompleteListOfUserActivityCommand;
+use App\Commands\Profile\UserActivity\GetCompleteListOfUserActivity\GetCompleteListOfUserActivityHandle;
+use App\Commands\Profile\UserActivity\GetDetailListOfUserActivity\GetDetailListOfUserActivityCommand;
+use App\Commands\Profile\UserActivity\GetDetailListOfUserActivity\GetDetailListOfUserActivityHandle;
+use App\Commands\Profile\UserActivity\GetDetailListOfUserActivityByUserSlug\GetDetailListOfUserActivityByUserSlugCommand;
+use App\Commands\Profile\UserActivity\GetDetailListOfUserActivityByUserSlug\GetDetailListOfUserActivityByUserSlugHandle;
+use App\Commands\Profile\UserActivity\GetListActivityCurrentUser\GetListActivityCurrentUserCommand;
+use App\Commands\Profile\UserActivity\GetListActivityCurrentUser\GetListActivityCurrentUserHandle;
+use App\Commands\Profile\UserActivity\StoreUserActivity\StoreUserActivityCommand;
+use App\Commands\Profile\UserActivity\StoreUserActivity\StoreUserActivityHandle;
+use App\Commands\Profile\UserActivity\UpdateUserActivity\UpdateUserActivityCommand;
+use App\Commands\Profile\UserActivity\UpdateUserActivity\UpdateUserActivityHandle;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserActivity\UserActivityRequest;
+use App\Http\Requests\Profile\UserActivity\UserActivityRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cache;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserActivityController extends Controller

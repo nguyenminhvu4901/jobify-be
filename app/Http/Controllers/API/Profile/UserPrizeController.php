@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserPrize\DestroyUserPrize\DestroyUserPrizeCommand;
-use App\Commands\UserPrize\DestroyUserPrize\DestroyUserPrizeHandle;
-use App\Commands\UserPrize\GetCompleteListOfUserPrize\GetCompleteListOfUserPrizeCommand;
-use App\Commands\UserPrize\GetCompleteListOfUserPrize\GetCompleteListOfUserPrizeHandle;
-use App\Commands\UserPrize\GetDetailListOfUserPrize\GetDetailListOfUserPrizeCommand;
-use App\Commands\UserPrize\GetDetailListOfUserPrize\GetDetailListOfUserPrizeHandle;
-use App\Commands\UserPrize\GetDetailListOfUserPrizeByUserSlug\GetDetailListOfUserPrizeByUserSlugCommand;
-use App\Commands\UserPrize\GetDetailListOfUserPrizeByUserSlug\GetDetailListOfUserPrizeByUserSlugHandle;
-use App\Commands\UserPrize\GetListPrizeCurrentUser\GetListPrizeCurrentUserCommand;
-use App\Commands\UserPrize\GetListPrizeCurrentUser\GetListPrizeCurrentUserHandle;
-use App\Commands\UserPrize\StoreUserPrize\StoreUserPrizeCommand;
-use App\Commands\UserPrize\StoreUserPrize\StoreUserPrizeHandle;
-use App\Commands\UserPrize\UpdateUserPrize\UpdateUserPrizeCommand;
-use App\Commands\UserPrize\UpdateUserPrize\UpdateUserPrizeHandle;
+use App\Commands\Profile\UserPrize\DestroyUserPrize\DestroyUserPrizeCommand;
+use App\Commands\Profile\UserPrize\DestroyUserPrize\DestroyUserPrizeHandle;
+use App\Commands\Profile\UserPrize\GetCompleteListOfUserPrize\GetCompleteListOfUserPrizeCommand;
+use App\Commands\Profile\UserPrize\GetCompleteListOfUserPrize\GetCompleteListOfUserPrizeHandle;
+use App\Commands\Profile\UserPrize\GetDetailListOfUserPrize\GetDetailListOfUserPrizeCommand;
+use App\Commands\Profile\UserPrize\GetDetailListOfUserPrize\GetDetailListOfUserPrizeHandle;
+use App\Commands\Profile\UserPrize\GetDetailListOfUserPrizeByUserSlug\GetDetailListOfUserPrizeByUserSlugCommand;
+use App\Commands\Profile\UserPrize\GetDetailListOfUserPrizeByUserSlug\GetDetailListOfUserPrizeByUserSlugHandle;
+use App\Commands\Profile\UserPrize\GetListPrizeCurrentUser\GetListPrizeCurrentUserCommand;
+use App\Commands\Profile\UserPrize\GetListPrizeCurrentUser\GetListPrizeCurrentUserHandle;
+use App\Commands\Profile\UserPrize\StoreUserPrize\StoreUserPrizeCommand;
+use App\Commands\Profile\UserPrize\StoreUserPrize\StoreUserPrizeHandle;
+use App\Commands\Profile\UserPrize\UpdateUserPrize\UpdateUserPrizeCommand;
+use App\Commands\Profile\UserPrize\UpdateUserPrize\UpdateUserPrizeHandle;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserPrize\UserPrizeRequest;
+use App\Http\Requests\Profile\UserPrize\UserPrizeRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;

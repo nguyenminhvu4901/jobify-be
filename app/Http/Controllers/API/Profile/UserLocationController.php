@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserLocation\DestroyUserLocation\DestroyUserLocationCommand;
-use App\Commands\UserLocation\DestroyUserLocation\DestroyUserRequestHandle;
-use App\Commands\UserLocation\GetCompleteListOfUserLocation\GetCompleteListOfUserLocationCommand;
-use App\Commands\UserLocation\GetCompleteListOfUserLocation\GetCompleteListOfUserLocationHandle;
-use App\Commands\UserLocation\GetDetailListOfUserLocation\GetDetailListOfUserLocationCommand;
-use App\Commands\UserLocation\GetDetailListOfUserLocation\GetDetailListOfUserLocationHandle;
-use App\Commands\UserLocation\GetDetailListOfUserLocationByUserSlug\GetDetailListOfUserLocationByUserSlugCommand;
-use App\Commands\UserLocation\GetDetailListOfUserLocationByUserSlug\GetDetailListOfUserLocationByUserSlugHandle;
-use App\Commands\UserLocation\GetListLocationCurrentUser\GetListLocationCurrentUserCommand;
-use App\Commands\UserLocation\GetListLocationCurrentUser\GetListLocationCurrentUserHandle;
-use App\Commands\UserLocation\StoreUserLocation\StoreUserLocationCommand;
-use App\Commands\UserLocation\StoreUserLocation\StoreUserLocationHandle;
-use App\Commands\UserLocation\UpdateUserLocation\UpdateUserLocationCommand;
-use App\Commands\UserLocation\UpdateUserLocation\UpdateUserLocationHandle;
+use App\Commands\Profile\UserLocation\DestroyUserLocation\DestroyUserLocationCommand;
+use App\Commands\Profile\UserLocation\DestroyUserLocation\DestroyUserRequestHandle;
+use App\Commands\Profile\UserLocation\GetCompleteListOfUserLocation\GetCompleteListOfUserLocationCommand;
+use App\Commands\Profile\UserLocation\GetCompleteListOfUserLocation\GetCompleteListOfUserLocationHandle;
+use App\Commands\Profile\UserLocation\GetDetailListOfUserLocation\GetDetailListOfUserLocationCommand;
+use App\Commands\Profile\UserLocation\GetDetailListOfUserLocation\GetDetailListOfUserLocationHandle;
+use App\Commands\Profile\UserLocation\GetDetailListOfUserLocationByUserSlug\GetDetailListOfUserLocationByUserSlugCommand;
+use App\Commands\Profile\UserLocation\GetDetailListOfUserLocationByUserSlug\GetDetailListOfUserLocationByUserSlugHandle;
+use App\Commands\Profile\UserLocation\GetListLocationCurrentUser\GetListLocationCurrentUserCommand;
+use App\Commands\Profile\UserLocation\GetListLocationCurrentUser\GetListLocationCurrentUserHandle;
+use App\Commands\Profile\UserLocation\StoreUserLocation\StoreUserLocationCommand;
+use App\Commands\Profile\UserLocation\StoreUserLocation\StoreUserLocationHandle;
+use App\Commands\Profile\UserLocation\UpdateUserLocation\UpdateUserLocationCommand;
+use App\Commands\Profile\UserLocation\UpdateUserLocation\UpdateUserLocationHandle;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserLocation\UserLocationRequest;
+use App\Http\Requests\Profile\UserLocation\UserLocationRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;

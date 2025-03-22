@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserProduct\DestroyUserProduct\DestroyUserProductCommand;
-use App\Commands\UserProduct\DestroyUserProduct\DestroyUserProductHandle;
-use App\Commands\UserProduct\GetCompleteListOfUserProduct\GetCompleteListOfUserProductCommand;
-use App\Commands\UserProduct\GetCompleteListOfUserProduct\GetCompleteListOfUserProductHandle;
-use App\Commands\UserProduct\GetDetailListOfUserProduct\GetDetailListOfUserProductCommand;
-use App\Commands\UserProduct\GetDetailListOfUserProduct\GetDetailListOfUserProductHandle;
-use App\Commands\UserProduct\GetDetailListOfUserProductByUserSlug\GetDetailListOfUserProductByUserSlugCommand;
-use App\Commands\UserProduct\GetDetailListOfUserProductByUserSlug\GetDetailListOfUserProductByUserSlugHandle;
-use App\Commands\UserProduct\GetListProductCurrentUser\GetListProductCurrentUserCommand;
-use App\Commands\UserProduct\GetListProductCurrentUser\GetListProductCurrentUserHandle;
-use App\Commands\UserProduct\StoreUserProduct\StoreUserProductCommand;
-use App\Commands\UserProduct\StoreUserProduct\StoreUserProductHandle;
-use App\Commands\UserProduct\UpdateUserProduct\UpdateUserProductCommand;
-use App\Commands\UserProduct\UpdateUserProduct\UpdateUserProductHandle;
+use App\Commands\Profile\UserProduct\DestroyUserProduct\DestroyUserProductCommand;
+use App\Commands\Profile\UserProduct\DestroyUserProduct\DestroyUserProductHandle;
+use App\Commands\Profile\UserProduct\GetCompleteListOfUserProduct\GetCompleteListOfUserProductCommand;
+use App\Commands\Profile\UserProduct\GetCompleteListOfUserProduct\GetCompleteListOfUserProductHandle;
+use App\Commands\Profile\UserProduct\GetDetailListOfUserProduct\GetDetailListOfUserProductCommand;
+use App\Commands\Profile\UserProduct\GetDetailListOfUserProduct\GetDetailListOfUserProductHandle;
+use App\Commands\Profile\UserProduct\GetDetailListOfUserProductByUserSlug\GetDetailListOfUserProductByUserSlugCommand;
+use App\Commands\Profile\UserProduct\GetDetailListOfUserProductByUserSlug\GetDetailListOfUserProductByUserSlugHandle;
+use App\Commands\Profile\UserProduct\GetListProductCurrentUser\GetListProductCurrentUserCommand;
+use App\Commands\Profile\UserProduct\GetListProductCurrentUser\GetListProductCurrentUserHandle;
+use App\Commands\Profile\UserProduct\StoreUserProduct\StoreUserProductCommand;
+use App\Commands\Profile\UserProduct\StoreUserProduct\StoreUserProductHandle;
+use App\Commands\Profile\UserProduct\UpdateUserProduct\UpdateUserProductCommand;
+use App\Commands\Profile\UserProduct\UpdateUserProduct\UpdateUserProductHandle;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserProduct\UserProductRequest;
+use App\Http\Requests\Profile\UserProduct\UserProductRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;

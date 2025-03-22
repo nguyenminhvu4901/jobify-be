@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserProject\DestroyUserProject\DestroyUserProjectCommand;
-use App\Commands\UserProject\DestroyUserProject\DestroyUserProjectHandle;
-use App\Commands\UserProject\GetCompleteListOfUserProject\GetCompleteListOfUserProjectCommand;
-use App\Commands\UserProject\GetCompleteListOfUserProject\GetCompleteListOfUserProjectHandle;
-use App\Commands\UserProject\GetDetailListOfUserProject\GetDetailListOfUserProjectCommand;
-use App\Commands\UserProject\GetDetailListOfUserProject\GetDetailListOfUserProjectHandle;
-use App\Commands\UserProject\GetDetailListOfUserProjectByUserSlug\GetDetailListOfUserProjectByUserSlugCommand;
-use App\Commands\UserProject\GetDetailListOfUserProjectByUserSlug\GetDetailListOfUserProjectByUserSlugHandle;
-use App\Commands\UserProject\GetListProjectCurrentUser\GetListProjectCurrentUserCommand;
-use App\Commands\UserProject\GetListProjectCurrentUser\GetListProjectCurrentUserHandle;
-use App\Commands\UserProject\StoreUserProject\StoreUserProjectCommand;
-use App\Commands\UserProject\StoreUserProject\StoreUserProjectHandle;
-use App\Commands\UserProject\UpdateUserProject\UpdateUserProjectCommand;
-use App\Commands\UserProject\UpdateUserProject\UpdateUserProjectHandle;
+use App\Commands\Profile\UserProject\DestroyUserProject\DestroyUserProjectCommand;
+use App\Commands\Profile\UserProject\DestroyUserProject\DestroyUserProjectHandle;
+use App\Commands\Profile\UserProject\GetCompleteListOfUserProject\GetCompleteListOfUserProjectCommand;
+use App\Commands\Profile\UserProject\GetCompleteListOfUserProject\GetCompleteListOfUserProjectHandle;
+use App\Commands\Profile\UserProject\GetDetailListOfUserProject\GetDetailListOfUserProjectCommand;
+use App\Commands\Profile\UserProject\GetDetailListOfUserProject\GetDetailListOfUserProjectHandle;
+use App\Commands\Profile\UserProject\GetDetailListOfUserProjectByUserSlug\GetDetailListOfUserProjectByUserSlugCommand;
+use App\Commands\Profile\UserProject\GetDetailListOfUserProjectByUserSlug\GetDetailListOfUserProjectByUserSlugHandle;
+use App\Commands\Profile\UserProject\GetListProjectCurrentUser\GetListProjectCurrentUserCommand;
+use App\Commands\Profile\UserProject\GetListProjectCurrentUser\GetListProjectCurrentUserHandle;
+use App\Commands\Profile\UserProject\StoreUserProject\StoreUserProjectCommand;
+use App\Commands\Profile\UserProject\StoreUserProject\StoreUserProjectHandle;
+use App\Commands\Profile\UserProject\UpdateUserProject\UpdateUserProjectCommand;
+use App\Commands\Profile\UserProject\UpdateUserProject\UpdateUserProjectHandle;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserProject\UserProjectRequest;
+use App\Http\Requests\Profile\UserProject\UserProjectRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
