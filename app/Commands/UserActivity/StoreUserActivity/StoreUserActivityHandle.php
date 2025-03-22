@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserActivity\StoreUserActivity;
 
-use App\Http\Resources\UserActivity\UserActivityResource;
+use App\Http\Resources\Profile\UserActivity\UserActivityResource;
 use App\Repositories\UserActivity\UserActivityRepository;
 use App\Services\UserActivity\UserActivityService;
 

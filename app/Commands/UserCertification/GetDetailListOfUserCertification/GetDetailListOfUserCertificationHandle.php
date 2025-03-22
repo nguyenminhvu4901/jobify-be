@@ -4,7 +4,7 @@ namespace App\Commands\UserCertification\GetDetailListOfUserCertification;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCertification;
-use App\Http\Resources\UserCertification\UserCertificationResource;
+use App\Http\Resources\Profile\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use Illuminate\Support\Facades\Cache;
 

@@ -5,7 +5,7 @@ namespace App\Commands\UserSkill\GetCompleteListOfUserSkill;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserSkill;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserSkill\UserSkillResource;
+use App\Http\Resources\Profile\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
 use Illuminate\Support\Facades\Cache;
 

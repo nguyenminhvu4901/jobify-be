@@ -4,7 +4,7 @@ namespace App\Commands\UserEducation\GetDetailListOfUserEducation;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserEducation;
-use App\Http\Resources\UserEducation\UserEducationResource;
+use App\Http\Resources\Profile\UserEducation\UserEducationResource;
 use App\Repositories\UserEducation\UserEducationRepository;
 use Illuminate\Support\Facades\Cache;
 

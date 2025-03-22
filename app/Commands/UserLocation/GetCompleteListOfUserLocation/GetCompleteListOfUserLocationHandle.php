@@ -5,7 +5,7 @@ namespace App\Commands\UserLocation\GetCompleteListOfUserLocation;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserLocation;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserLocation\UserLocationResource;
+use App\Http\Resources\Profile\UserLocation\UserLocationResource;
 use App\Repositories\UserLocation\UserLocationRepository;
 use Illuminate\Support\Facades\Cache;
 

@@ -4,7 +4,7 @@ namespace App\Commands\UserActivity\GetListActivityCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserActivity;
-use App\Http\Resources\UserActivity\CurrentUserActivityResource;
+use App\Http\Resources\Profile\UserActivity\CurrentUserActivityResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

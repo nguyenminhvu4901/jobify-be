@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Auth;
 
+use App\Http\Resources\Profile\UserProfile\ProfileResource;
 use App\Http\Resources\Role\RoleResource;
-use App\Http\Resources\UserProfile\ProfileResource;
 use App\Traits\Resources\UserResourceTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

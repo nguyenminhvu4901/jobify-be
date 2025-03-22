@@ -5,7 +5,7 @@ namespace App\Commands\UserExperience\GetCompleteListOfUserExperience;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserExperience;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserExperience\UserExperienceResource;
+use App\Http\Resources\Profile\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
 use Illuminate\Support\Facades\Cache;
 

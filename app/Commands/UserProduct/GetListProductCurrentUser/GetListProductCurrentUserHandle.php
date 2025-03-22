@@ -4,7 +4,7 @@ namespace App\Commands\UserProduct\GetListProductCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProduct;
-use App\Http\Resources\UserProduct\CurrentUserProductResource;
+use App\Http\Resources\Profile\UserProduct\CurrentUserProductResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

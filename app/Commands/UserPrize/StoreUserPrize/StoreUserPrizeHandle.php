@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserPrize\StoreUserPrize;
 
-use App\Http\Resources\UserPrize\UserPrizeResource;
+use App\Http\Resources\Profile\UserPrize\UserPrizeResource;
 use App\Repositories\UserPrize\UserPrizeRepository;
 use App\Services\UserPrize\UserPrizeService;
 

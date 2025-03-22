@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserProject\StoreUserProject;
 
-use App\Http\Resources\UserProject\UserProjectResource;
+use App\Http\Resources\Profile\UserProject\UserProjectResource;
 use App\Repositories\UserProject\UserProjectRepository;
 use App\Services\UserProject\UserProjectService;
 

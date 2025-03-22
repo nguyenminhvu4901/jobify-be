@@ -4,11 +4,9 @@ namespace App\Commands\UserCertification\GetListCertificationCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCertification;
-use App\Http\Resources\UserCertification\CurrentUserCertificationResource;
+use App\Http\Resources\Profile\UserCertification\CurrentUserCertificationResource;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 
 class GetListCertificationCurrentUserHandle
 {

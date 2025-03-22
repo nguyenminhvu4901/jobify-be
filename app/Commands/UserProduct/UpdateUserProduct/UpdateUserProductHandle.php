@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserProduct\UpdateUserProduct;
 
-use App\Http\Resources\UserProduct\UserProductResource;
+use App\Http\Resources\Profile\UserProduct\UserProductResource;
 use App\Repositories\UserProduct\UserProductRepository;
 use App\Services\UserProduct\UserProductService;
 

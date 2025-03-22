@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserCourse\UpdateUserCourse;
 
-use App\Http\Resources\UserCourse\UserCourseResource;
+use App\Http\Resources\Profile\UserCourse\UserCourseResource;
 use App\Repositories\UserCourse\UserCourseRepository;
 use App\Services\UserCourse\UserCourseService;
 

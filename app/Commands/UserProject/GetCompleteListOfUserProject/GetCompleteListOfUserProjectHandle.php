@@ -5,7 +5,7 @@ namespace App\Commands\UserProject\GetCompleteListOfUserProject;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProject;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserProject\UserProjectResource;
+use App\Http\Resources\Profile\UserProject\UserProjectResource;
 use App\Repositories\UserProject\UserProjectRepository;
 use Illuminate\Support\Facades\Cache;
 

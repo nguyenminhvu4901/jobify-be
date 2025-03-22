@@ -4,7 +4,7 @@ namespace App\Commands\UserCourse\GetListCourseCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCourse;
-use App\Http\Resources\UserCourse\CurrentUserCourseResource;
+use App\Http\Resources\Profile\UserCourse\CurrentUserCourseResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

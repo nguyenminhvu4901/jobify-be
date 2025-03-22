@@ -5,7 +5,7 @@ namespace App\Commands\UserCertification\GetCompleteListOfUserCertification;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCertification;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserCertification\UserCertificationResource;
+use App\Http\Resources\Profile\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use Illuminate\Support\Facades\Cache;
 

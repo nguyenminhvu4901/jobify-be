@@ -5,7 +5,7 @@ namespace App\Commands\UserActivity\GetCompleteListOfUserActivity;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserActivity;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserActivity\UserActivityResource;
+use App\Http\Resources\Profile\UserActivity\UserActivityResource;
 use App\Repositories\UserActivity\UserActivityRepository;
 use Illuminate\Support\Facades\Cache;
 

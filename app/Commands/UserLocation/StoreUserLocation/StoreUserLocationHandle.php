@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserLocation\StoreUserLocation;
 
-use App\Http\Resources\UserLocation\UserLocationResource;
+use App\Http\Resources\Profile\UserLocation\UserLocationResource;
 use App\Repositories\UserLocation\UserLocationRepository;
 
 class StoreUserLocationHandle

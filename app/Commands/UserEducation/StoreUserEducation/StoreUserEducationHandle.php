@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserEducation\StoreUserEducation;
 
-use App\Http\Resources\UserEducation\UserEducationResource;
+use App\Http\Resources\Profile\UserEducation\UserEducationResource;
 use App\Repositories\UserEducation\UserEducationRepository;
 
 class StoreUserEducationHandle

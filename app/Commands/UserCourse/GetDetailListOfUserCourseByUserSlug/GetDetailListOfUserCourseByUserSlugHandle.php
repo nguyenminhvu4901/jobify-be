@@ -4,7 +4,7 @@ namespace App\Commands\UserCourse\GetDetailListOfUserCourseByUserSlug;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCourse;
-use App\Http\Resources\UserCourse\UserCourseResource;
+use App\Http\Resources\Profile\UserCourse\UserCourseResource;
 use App\Repositories\UserCourse\UserCourseRepository;
 use Illuminate\Support\Facades\Cache;
 

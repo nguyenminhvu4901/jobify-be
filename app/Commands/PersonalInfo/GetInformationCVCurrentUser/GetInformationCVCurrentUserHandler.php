@@ -4,7 +4,7 @@ namespace App\Commands\PersonalInfo\GetInformationCVCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProfile;
-use App\Http\Resources\UserProfile\InformationCVCurrentUserResource;
+use App\Http\Resources\Profile\UserProfile\InformationCVCurrentUserResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

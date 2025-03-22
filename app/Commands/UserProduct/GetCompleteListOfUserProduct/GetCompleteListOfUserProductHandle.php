@@ -5,7 +5,7 @@ namespace App\Commands\UserProduct\GetCompleteListOfUserProduct;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProduct;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserProduct\UserProductResource;
+use App\Http\Resources\Profile\UserProduct\UserProductResource;
 use App\Repositories\UserProduct\UserProductRepository;
 use Illuminate\Support\Facades\Cache;
 

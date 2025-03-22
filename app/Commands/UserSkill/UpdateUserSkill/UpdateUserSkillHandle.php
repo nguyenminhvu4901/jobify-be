@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserSkill\UpdateUserSkill;
 
-use App\Http\Resources\UserSkill\UserSkillResource;
+use App\Http\Resources\Profile\UserSkill\UserSkillResource;
 use App\Repositories\UserSkill\UserSkillRepository;
 
 class UpdateUserSkillHandle

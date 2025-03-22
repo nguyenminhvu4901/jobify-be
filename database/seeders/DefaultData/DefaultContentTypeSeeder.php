@@ -14,13 +14,12 @@ class DefaultContentTypeSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DefaultContentType::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $contentTypes = config('jobify_data.default_data.content_types');
-
         $contentTypes = addTimestamps($contentTypes);
 
-        DefaultContentType::insert($contentTypes);
+        DefaultContentType::upsert($contentTypes, ['id'], ['name', 'description']);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

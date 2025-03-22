@@ -5,7 +5,7 @@ namespace App\Commands\UserPrize\GetCompleteListOfUserPrize;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserPrize;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserPrize\UserPrizeResource;
+use App\Http\Resources\Profile\UserPrize\UserPrizeResource;
 use App\Repositories\UserPrize\UserPrizeRepository;
 use Illuminate\Support\Facades\Cache;
 

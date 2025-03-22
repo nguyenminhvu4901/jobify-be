@@ -4,7 +4,7 @@ namespace App\Commands\UserProduct\GetDetailListOfUserProductByUserSlug;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProduct;
-use App\Http\Resources\UserProduct\UserProductResource;
+use App\Http\Resources\Profile\UserProduct\UserProductResource;
 use App\Repositories\UserProduct\UserProductRepository;
 use Illuminate\Support\Facades\Cache;
 

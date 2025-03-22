@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserExperience\StoreUserExperience;
 
-use App\Http\Resources\UserExperience\UserExperienceResource;
+use App\Http\Resources\Profile\UserExperience\UserExperienceResource;
 use App\Repositories\UserExperience\UserExperienceRepository;
 use App\Services\UserExperience\UserExperienceService;
 

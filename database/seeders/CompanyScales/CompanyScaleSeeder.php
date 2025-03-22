@@ -14,13 +14,13 @@ class CompanyScaleSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        CompanyScale::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $companyScales = config('jobify_data.company_scales.company_scales');
-
         $companyScales = addTimestamps($companyScales);
 
-        CompanyScale::insert($companyScales);
+        CompanyScale::upsert($companyScales, ['id'], ['name', 'description']);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
+
 }

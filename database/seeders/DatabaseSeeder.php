@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\BusinessSectors\BusinessSectorSeeder;
 use Database\Seeders\CompanyScales\CompanyScaleSeeder;
 use Database\Seeders\CompanyWorkingDays\CompanyWorkingDaySeeder;
 use Database\Seeders\DefaultData\DefaultContentTypeSeeder;
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
             CompanyScaleSeeder::class,
             CompanyWorkingDaySeeder::class,
             OperationTypeSeeder::class,
+            BusinessSectorSeeder::class,
             RoleSeeder::class,
             UserSeeder::class
         ]);

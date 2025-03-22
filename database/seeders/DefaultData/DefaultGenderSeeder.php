@@ -14,13 +14,13 @@ class DefaultGenderSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DefaultGender::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $genders = config('jobify_data.default_data.genders');
-
         $genders = addTimestamps($genders);
 
-        DefaultGender::insert($genders);
+        DefaultGender::upsert($genders, ['id'], ['name', 'description']);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
+
 }

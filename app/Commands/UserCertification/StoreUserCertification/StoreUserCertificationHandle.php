@@ -2,7 +2,7 @@
 
 namespace App\Commands\UserCertification\StoreUserCertification;
 
-use App\Http\Resources\UserCertification\UserCertificationResource;
+use App\Http\Resources\Profile\UserCertification\UserCertificationResource;
 use App\Repositories\UserCertification\UserCertificationRepository;
 use App\Services\UserCertification\UserCertificationService;
 

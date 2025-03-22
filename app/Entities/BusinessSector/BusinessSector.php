@@ -3,6 +3,7 @@
 namespace App\Entities\BusinessSector;
 
 use App\Entities\BusinessSector\Traits\BusinessSectorRelationship;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
@@ -19,4 +20,36 @@ class BusinessSector extends Model implements Transformable
         'description',
         'parent_id'
     ];
+
+    /**
+     * @return Attribute
+     */
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: function (string $value) {
+                if (str_contains($value, '_')) {
+                    return __('data/business_sectors.name.' . $value) ?? $value;
+                }
+
+                return $value;
+            }
+        );
+    }
+
+    /**
+     * @return Attribute
+     */
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: function (string $value) {
+                if (str_contains($value, '_')) {
+                    return __('data/business_sectors.description.' . $value) ?? $value;
+                }
+
+                return $value;
+            }
+        );
+    }
 }

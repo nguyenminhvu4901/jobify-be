@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\BusinessSector\BusinessSectorRepository;
+use App\Repositories\BusinessSector\BusinessSectorRepositoryEloquent;
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\Company\CompanyRepositoryEloquent;
 use App\Repositories\CompanyBranch\CompanyBranchRepository;
@@ -72,6 +74,7 @@ class RepositoryServiceProvider extends ServiceProvider
         UserActivityRepository::class => UserActivityRepositoryEloquent::class,
         UserActivityResourceRepository::class => UserActivityResourceRepositoryEloquent::class,
         UserLocationRepository::class => UserLocationRepositoryEloquent::class,
-        OperationTypeRepository::class => OperationTypeRepositoryEloquent::class
+        OperationTypeRepository::class => OperationTypeRepositoryEloquent::class,
+        BusinessSectorRepository::class => BusinessSectorRepositoryEloquent::class
     ];
 }

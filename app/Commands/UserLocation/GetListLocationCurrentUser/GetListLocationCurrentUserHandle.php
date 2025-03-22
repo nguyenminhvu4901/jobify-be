@@ -4,7 +4,7 @@ namespace App\Commands\UserLocation\GetListLocationCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserLocation;
-use App\Http\Resources\UserLocation\CurrentUserLocationResource;
+use App\Http\Resources\Profile\UserLocation\CurrentUserLocationResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

@@ -4,7 +4,7 @@ namespace App\Commands\UserExperience\GetListExperienceCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserExperience;
-use App\Http\Resources\UserExperience\CurrentUserExperienceResource;
+use App\Http\Resources\Profile\UserExperience\CurrentUserExperienceResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

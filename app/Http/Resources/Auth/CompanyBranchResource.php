@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Auth;
 
-use App\Http\Resources\District\DistrictResource;
-use App\Http\Resources\Province\ProvinceResource;
+use App\Http\Resources\Locate\District\DistrictResource;
+use App\Http\Resources\Locate\Province\ProvinceResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

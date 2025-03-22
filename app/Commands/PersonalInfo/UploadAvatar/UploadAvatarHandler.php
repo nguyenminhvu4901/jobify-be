@@ -2,7 +2,7 @@
 
 namespace App\Commands\PersonalInfo\UploadAvatar;
 
-use App\Http\Resources\UserProfile\UserProfileResource;
+use App\Http\Resources\Profile\UserProfile\UserProfileResource;
 use App\Repositories\User\UserRepository;
 use App\Traits\ImageHandler;
 

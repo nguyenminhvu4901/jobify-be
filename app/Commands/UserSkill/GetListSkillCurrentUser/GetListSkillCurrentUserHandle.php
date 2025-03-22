@@ -4,7 +4,7 @@ namespace App\Commands\UserSkill\GetListSkillCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserSkill;
-use App\Http\Resources\UserSkill\CurrentUserSkillResource;
+use App\Http\Resources\Profile\UserSkill\CurrentUserSkillResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

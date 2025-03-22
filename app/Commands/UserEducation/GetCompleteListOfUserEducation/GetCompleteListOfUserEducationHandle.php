@@ -5,7 +5,7 @@ namespace App\Commands\UserEducation\GetCompleteListOfUserEducation;
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserEducation;
 use App\Helpers\Global\PaginationHelper;
-use App\Http\Resources\UserEducation\UserEducationResource;
+use App\Http\Resources\Profile\UserEducation\UserEducationResource;
 use App\Repositories\UserEducation\UserEducationRepository;
 use Illuminate\Support\Facades\Cache;
 

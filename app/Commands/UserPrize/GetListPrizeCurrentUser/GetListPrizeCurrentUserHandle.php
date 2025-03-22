@@ -4,7 +4,7 @@ namespace App\Commands\UserPrize\GetListPrizeCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserPrize;
-use App\Http\Resources\UserPrize\CurrentUserPrizeResource;
+use App\Http\Resources\Profile\UserPrize\CurrentUserPrizeResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

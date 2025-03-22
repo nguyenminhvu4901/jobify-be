@@ -4,7 +4,7 @@ namespace App\Commands\UserProject\GetListProjectCurrentUser;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProject;
-use App\Http\Resources\UserProject\CurrentUserProjectResource;
+use App\Http\Resources\Profile\UserProject\CurrentUserProjectResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
 

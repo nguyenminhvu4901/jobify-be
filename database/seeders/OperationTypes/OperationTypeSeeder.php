@@ -14,13 +14,13 @@ class OperationTypeSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        OperationType::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $operationTypes = config('jobify_data.operation_types.operation_types');
-
         $operationTypes = addTimestamps($operationTypes);
 
-        OperationType::insert($operationTypes);
+        OperationType::upsert($operationTypes, ['id'], ['name', 'description']);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
+
 }

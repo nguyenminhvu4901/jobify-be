@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Auth;
 
-use App\Http\Resources\CompanyScale\CompanyScaleResource;
-use App\Http\Resources\DefaultGender\DefaultGenderResource;
+use App\Http\Resources\Company\CompanyScale\CompanyScaleResource;
+use App\Http\Resources\Default\DefaultGender\DefaultGenderResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
