@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\OperationTypes;
 
-use App\Entities\OperationType\OperationType;
+use App\Entities\CompanySeries\OperationType\OperationType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

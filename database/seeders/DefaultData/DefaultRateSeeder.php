@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\DefaultData;
 
-use App\Entities\DefaultRate\DefaultRate;
+use App\Entities\DefaultSeries\DefaultRate\DefaultRate;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

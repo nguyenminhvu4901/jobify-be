@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\Profile\UserSkill\DestroyUserSkill\DestroyUserSkillCommand;
-use App\Commands\Profile\UserSkill\DestroyUserSkill\DestroyUserSkillHandle;
-use App\Commands\Profile\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillCommand;
-use App\Commands\Profile\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillHandle;
-use App\Commands\Profile\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillCommand;
-use App\Commands\Profile\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillHandle;
-use App\Commands\Profile\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugCommand;
-use App\Commands\Profile\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugHandle;
-use App\Commands\Profile\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserCommand;
-use App\Commands\Profile\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserHandle;
-use App\Commands\Profile\UserSkill\StoreUserSkill\StoreUserSkillCommand;
-use App\Commands\Profile\UserSkill\StoreUserSkill\StoreUserSkillHandle;
-use App\Commands\Profile\UserSkill\UpdateUserSkill\UpdateUserSkillCommand;
-use App\Commands\Profile\UserSkill\UpdateUserSkill\UpdateUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\DestroyUserSkill\DestroyUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\DestroyUserSkill\DestroyUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugCommand;
+use App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugHandle;
+use App\Commands\ProfileSeries\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserCommand;
+use App\Commands\ProfileSeries\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserHandle;
+use App\Commands\ProfileSeries\UserSkill\StoreUserSkill\StoreUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\StoreUserSkill\StoreUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\UpdateUserSkill\UpdateUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\UpdateUserSkill\UpdateUserSkillHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UserSkill\UserSkillRequest;
 use Illuminate\Foundation\Http\FormRequest;

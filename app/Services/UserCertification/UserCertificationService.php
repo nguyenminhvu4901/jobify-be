@@ -3,7 +3,7 @@
 namespace App\Services\UserCertification;
 
 use App\Enums\DefaultContentType;
-use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
+use App\Repositories\ProfileSeries\UserCertificationResource\UserCertificationResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Auth;
 
-use App\Http\Resources\Profile\UserProfile\ProfileResource;
+use App\Http\Resources\ProfileSeries\UserProfile\ProfileResource;
 use App\Http\Resources\Role\RoleResource;
 use App\Traits\Resources\UserResourceTrait;
 use Illuminate\Http\Request;

@@ -3,7 +3,7 @@
 namespace App\Services\UserProduct;
 
 use App\Enums\DefaultContentType;
-use App\Repositories\UserProductResource\UserProductResourceRepository;
+use App\Repositories\ProfileSeries\UserProductResource\UserProductResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;

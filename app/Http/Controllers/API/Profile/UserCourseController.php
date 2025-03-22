@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\Profile\UserCourse\DestroyUserCourse\DestroyUserCourseCommand;
-use App\Commands\Profile\UserCourse\DestroyUserCourse\DestroyUserCourseHandle;
-use App\Commands\Profile\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseCommand;
-use App\Commands\Profile\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseHandle;
-use App\Commands\Profile\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseCommand;
-use App\Commands\Profile\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseHandle;
-use App\Commands\Profile\UserCourse\GetDetailListOfUserCourseByUserSlug\GetDetailListOfUserCourseByUserSlugCommand;
-use App\Commands\Profile\UserCourse\GetDetailListOfUserCourseByUserSlug\GetDetailListOfUserCourseByUserSlugHandle;
-use App\Commands\Profile\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserCommand;
-use App\Commands\Profile\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserHandle;
-use App\Commands\Profile\UserCourse\StoreUserCourse\StoreUserCourseCommand;
-use App\Commands\Profile\UserCourse\StoreUserCourse\StoreUserCourseHandle;
-use App\Commands\Profile\UserCourse\UpdateUserCourse\UpdateUserCourseCommand;
-use App\Commands\Profile\UserCourse\UpdateUserCourse\UpdateUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\DestroyUserCourse\DestroyUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\DestroyUserCourse\DestroyUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourseByUserSlug\GetDetailListOfUserCourseByUserSlugCommand;
+use App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourseByUserSlug\GetDetailListOfUserCourseByUserSlugHandle;
+use App\Commands\ProfileSeries\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserCommand;
+use App\Commands\ProfileSeries\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserHandle;
+use App\Commands\ProfileSeries\UserCourse\StoreUserCourse\StoreUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\StoreUserCourse\StoreUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\UpdateUserCourse\UpdateUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\UpdateUserCourse\UpdateUserCourseHandle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UserCourse\UserCourseRequest;
 use Illuminate\Foundation\Http\FormRequest;

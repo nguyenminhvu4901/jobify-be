@@ -2,20 +2,20 @@
 
 namespace App\Models\Traits;
 
-use App\Entities\Company\Company;
-use App\Entities\DefaultGender\DefaultGender;
-use App\Entities\DefaultStatus\DefaultStatus;
-use App\Entities\UserActivity\UserActivity;
-use App\Entities\UserCertification\UserCertification;
-use App\Entities\UserCourse\UserCourse;
-use App\Entities\UserEducation\UserEducation;
-use App\Entities\UserExperience\UserExperience;
-use App\Entities\UserLocation\UserLocation;
-use App\Entities\UserPrize\UserPrize;
-use App\Entities\UserProduct\UserProduct;
-use App\Entities\UserProfile\UserProfile;
-use App\Entities\UserProject\UserProject;
-use App\Entities\UserSkill\UserSkill;
+use App\Entities\CompanySeries\Company\Company;
+use App\Entities\DefaultSeries\DefaultGender\DefaultGender;
+use App\Entities\DefaultSeries\DefaultStatus\DefaultStatus;
+use App\Entities\ProfileSeries\UserActivity\UserActivity;
+use App\Entities\ProfileSeries\UserCertification\UserCertification;
+use App\Entities\ProfileSeries\UserCourse\UserCourse;
+use App\Entities\ProfileSeries\UserEducation\UserEducation;
+use App\Entities\ProfileSeries\UserExperience\UserExperience;
+use App\Entities\ProfileSeries\UserLocation\UserLocation;
+use App\Entities\ProfileSeries\UserPrize\UserPrize;
+use App\Entities\ProfileSeries\UserProduct\UserProduct;
+use App\Entities\ProfileSeries\UserProfile\UserProfile;
+use App\Entities\ProfileSeries\UserProject\UserProject;
+use App\Entities\ProfileSeries\UserSkill\UserSkill;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;

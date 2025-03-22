@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\Company;
 
-use App\Commands\OperationType\GetListAllOperationType\GetListAllOperationTypeCommand;
-use App\Commands\OperationType\GetListAllOperationType\GetListAllOperationTypeHandler;
+use App\Commands\CompanySeries\OperationType\GetListAllOperationType\GetListAllOperationTypeCommand;
+use App\Commands\CompanySeries\OperationType\GetListAllOperationType\GetListAllOperationTypeHandler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;

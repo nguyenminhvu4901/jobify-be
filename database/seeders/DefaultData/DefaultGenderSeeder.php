@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\DefaultData;
 
-use App\Entities\DefaultGender\DefaultGender;
+use App\Entities\DefaultSeries\DefaultGender\DefaultGender;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

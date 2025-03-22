@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\BusinessSectors;
 
-use App\Entities\BusinessSector\BusinessSector;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Entities\CompanySeries\BusinessSector\BusinessSector;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

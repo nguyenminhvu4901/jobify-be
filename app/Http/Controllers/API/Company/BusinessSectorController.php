@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\Company;
 
-use App\Commands\BusinessSector\GetListAllBusinessSector\GetListAllBusinessSectorCommand;
-use App\Commands\BusinessSector\GetListAllBusinessSector\GetListAllBusinessSectorHandler;
+use App\Commands\CompanySeries\BusinessSector\GetListAllBusinessSector\GetListAllBusinessSectorCommand;
+use App\Commands\CompanySeries\BusinessSector\GetListAllBusinessSector\GetListAllBusinessSectorHandler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;

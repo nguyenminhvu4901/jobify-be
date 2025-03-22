@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\DefaultData;
 
-use App\Entities\DefaultContentType\DefaultContentType;
+use App\Entities\DefaultSeries\DefaultContentType\DefaultContentType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

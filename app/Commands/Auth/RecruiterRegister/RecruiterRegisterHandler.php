@@ -5,8 +5,8 @@ namespace App\Commands\Auth\RecruiterRegister;
 use App\Enums\DefaultRole;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
 use App\Notifications\UserRegisteredNotification;
-use App\Repositories\Company\CompanyRepository;
-use App\Repositories\CompanyBranch\CompanyBranchRepository;
+use App\Repositories\CompanySeries\Company\CompanyRepository;
+use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepository;
 use App\Repositories\User\UserRepository;
 
 class RecruiterRegisterHandler

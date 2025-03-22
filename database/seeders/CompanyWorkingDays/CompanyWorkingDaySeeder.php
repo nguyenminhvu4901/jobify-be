@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\CompanyWorkingDays;
 
-use App\Entities\CompanyWorkingDay\CompanyWorkingDay;
+use App\Entities\CompanySeries\CompanyWorkingDay\CompanyWorkingDay;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

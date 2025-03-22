@@ -2,7 +2,7 @@
 
 namespace App\Entities\ApplicationCV\Traits;
 
-use App\Entities\JobApplication\JobApplication;
+use App\Entities\JobSeries\JobApplication\JobApplication;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait ApplicationCVRelationship

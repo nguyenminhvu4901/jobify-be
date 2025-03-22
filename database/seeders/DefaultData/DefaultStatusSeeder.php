@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\DefaultData;
 
-use App\Entities\DefaultStatus\DefaultStatus;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Entities\DefaultSeries\DefaultStatus\DefaultStatus;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
