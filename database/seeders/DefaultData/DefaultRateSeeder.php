@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\DefaultData;
 
-use App\Entities\DefaultRate\DefaultRate;
+use App\Entities\DefaultSeries\DefaultRate\DefaultRate;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,14 +14,13 @@ class DefaultRateSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('default_rates')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $rates = config('jobify_data.default_data.rates');
+        $rates = addTimestamps($rates);
 
-        foreach ($rates as $rate)
-        {
-            DefaultRate::create($rate);
-        }
+        DefaultRate::upsert($rates, ['id'], ['name', 'description']);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
+
 }

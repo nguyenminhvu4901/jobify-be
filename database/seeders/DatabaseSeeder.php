@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\Address\DistrictSeeder;
+use Database\Seeders\BusinessSectors\BusinessSectorSeeder;
 use Database\Seeders\CompanyScales\CompanyScaleSeeder;
 use Database\Seeders\CompanyWorkingDays\CompanyWorkingDaySeeder;
 use Database\Seeders\DefaultData\DefaultContentTypeSeeder;
 use Database\Seeders\DefaultData\DefaultGenderSeeder;
 use Database\Seeders\DefaultData\DefaultRateSeeder;
 use Database\Seeders\DefaultData\DefaultStatusSeeder;
+use Database\Seeders\OperationTypes\OperationTypeSeeder;
 use Database\Seeders\Roles\RoleSeeder;
 use Database\Seeders\Users\UserSeeder;
 use Illuminate\Database\Seeder;
@@ -29,6 +30,8 @@ class DatabaseSeeder extends Seeder
             DefaultContentTypeSeeder::class,
             CompanyScaleSeeder::class,
             CompanyWorkingDaySeeder::class,
+            OperationTypeSeeder::class,
+            BusinessSectorSeeder::class,
             RoleSeeder::class,
             UserSeeder::class
         ]);

@@ -13,6 +13,7 @@
         "james-heinrich/getid3": "^1.9",
         "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^11.9",
+        "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.9",
         "mongodb/laravel-mongodb": "^5.1",
         "pion/laravel-chunk-upload": "^1.5",

@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserSkill\DestroyUserSkill\DestroyUserSkillCommand;
-use App\Commands\UserSkill\DestroyUserSkill\DestroyUserSkillHandle;
-use App\Commands\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillCommand;
-use App\Commands\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillHandle;
-use App\Commands\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillCommand;
-use App\Commands\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillHandle;
-use App\Commands\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugCommand;
-use App\Commands\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugHandle;
-use App\Commands\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserCommand;
-use App\Commands\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserHandle;
-use App\Commands\UserSkill\StoreUserSkill\StoreUserSkillCommand;
-use App\Commands\UserSkill\StoreUserSkill\StoreUserSkillHandle;
-use App\Commands\UserSkill\UpdateUserSkill\UpdateUserSkillCommand;
-use App\Commands\UserSkill\UpdateUserSkill\UpdateUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\DestroyUserSkill\DestroyUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\DestroyUserSkill\DestroyUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\GetCompleteListOfUserSkill\GetCompleteListOfUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkill\GetDetailListOfUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugCommand;
+use App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkillByUserSlug\GetDetailListOfUserSkillByUserSlugHandle;
+use App\Commands\ProfileSeries\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserCommand;
+use App\Commands\ProfileSeries\UserSkill\GetListSkillCurrentUser\GetListSkillCurrentUserHandle;
+use App\Commands\ProfileSeries\UserSkill\StoreUserSkill\StoreUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\StoreUserSkill\StoreUserSkillHandle;
+use App\Commands\ProfileSeries\UserSkill\UpdateUserSkill\UpdateUserSkillCommand;
+use App\Commands\ProfileSeries\UserSkill\UpdateUserSkill\UpdateUserSkillHandle;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserSkill\UserSkillRequest;
+use App\Http\Requests\Profile\UserSkill\UserSkillRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;

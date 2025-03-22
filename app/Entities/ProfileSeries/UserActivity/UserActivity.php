@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Entities\ProfileSeries\UserActivity;
+
+use App\Entities\ProfileSeries\UserActivity\Traits\UserActivityRelationship;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
+
+class UserActivity extends Model implements Transformable
+{
+    use TransformableTrait, HasFactory, UserActivityRelationship;
+
+    protected $table = 'user_activities';
+
+    protected $fillable = [
+        'user_id',
+        'name',
+        'position',
+        'start_date',
+        'end_date',
+        'description'
+    ];
+}

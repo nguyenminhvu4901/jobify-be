@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\CompanyScales;
 
-use App\Entities\CompanyScale\CompanyScale;
+use App\Entities\CompanySeries\CompanyScale\CompanyScale;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,14 +14,13 @@ class CompanyScaleSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('company_scales')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $companyScales = config('jobify_data.company_scales.company_scales');
+        $companyScales = addTimestamps($companyScales);
 
-        foreach ($companyScales as $companyScale)
-        {
-            CompanyScale::create($companyScale);
-        }
+        CompanyScale::upsert($companyScales, ['id'], ['name', 'description']);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
+
 }

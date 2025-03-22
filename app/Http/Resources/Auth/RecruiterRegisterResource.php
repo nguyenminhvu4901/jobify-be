@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Auth;
 
-use App\Http\Resources\DefaultStatus\DefaultStatusResource;
 use App\Http\Resources\Role\RoleResource;
 use App\Traits\Resources\UserResourceTrait;
 use Illuminate\Http\Request;
@@ -21,7 +20,7 @@ class RecruiterRegisterResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'company' => new CompanyRegisterResource($this->company),
+            'company' => CompanyRegisterResource::make($this->company),
         ];
     }
 }

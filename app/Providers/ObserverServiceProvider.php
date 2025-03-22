@@ -2,17 +2,17 @@
 
 namespace App\Providers;
 
-use App\Entities\UserActivity\UserActivity;
-use App\Entities\UserCertification\UserCertification;
-use App\Entities\UserCourse\UserCourse;
-use App\Entities\UserEducation\UserEducation;
-use App\Entities\UserExperience\UserExperience;
-use App\Entities\UserLocation\UserLocation;
-use App\Entities\UserPrize\UserPrize;
-use App\Entities\UserProduct\UserProduct;
-use App\Entities\UserProfile\UserProfile;
-use App\Entities\UserProject\UserProject;
-use App\Entities\UserSkill\UserSkill;
+use App\Entities\ProfileSeries\UserActivity\UserActivity;
+use App\Entities\ProfileSeries\UserCertification\UserCertification;
+use App\Entities\ProfileSeries\UserCourse\UserCourse;
+use App\Entities\ProfileSeries\UserEducation\UserEducation;
+use App\Entities\ProfileSeries\UserExperience\UserExperience;
+use App\Entities\ProfileSeries\UserLocation\UserLocation;
+use App\Entities\ProfileSeries\UserPrize\UserPrize;
+use App\Entities\ProfileSeries\UserProduct\UserProduct;
+use App\Entities\ProfileSeries\UserProfile\UserProfile;
+use App\Entities\ProfileSeries\UserProject\UserProject;
+use App\Entities\ProfileSeries\UserSkill\UserSkill;
 use App\Models\User;
 use App\Observers\Profile\UserActivityObserver;
 use App\Observers\Profile\UserCertificationObserver;

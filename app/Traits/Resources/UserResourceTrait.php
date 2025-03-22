@@ -2,7 +2,7 @@
 
 namespace App\Traits\Resources;
 
-use App\Http\Resources\DefaultStatus\DefaultStatusResource;
+use App\Http\Resources\DefaultSeries\DefaultStatus\DefaultStatusResource;
 
 trait UserResourceTrait
 {

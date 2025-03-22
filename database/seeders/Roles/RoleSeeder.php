@@ -14,14 +14,14 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('roles')->truncate();
+        Role::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $listRoles = config('jobify_data.roles.roles');
+
         foreach ($listRoles as $role)
         {
             Role::create($role);
         }
-
     }
 }

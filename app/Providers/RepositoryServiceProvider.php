@@ -2,51 +2,52 @@
 
 namespace App\Providers;
 
-use App\Repositories\Company1\Company1Repository;
-use App\Repositories\Company1\Company1RepositoryEloquent;
-
-use App\Repositories\Company\CompanyRepository;
-use App\Repositories\Company\CompanyRepositoryEloquent;
-use App\Repositories\CompanyBranch\CompanyBranchRepository;
-use App\Repositories\CompanyBranch\CompanyBranchRepositoryEloquent;
+use App\Repositories\CompanySeries\BusinessSector\BusinessSectorRepository;
+use App\Repositories\CompanySeries\BusinessSector\BusinessSectorRepositoryEloquent;
+use App\Repositories\CompanySeries\Company\CompanyRepository;
+use App\Repositories\CompanySeries\Company\CompanyRepositoryEloquent;
+use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepository;
+use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepositoryEloquent;
+use App\Repositories\CompanySeries\OperationType\OperationTypeRepository;
+use App\Repositories\CompanySeries\OperationType\OperationTypeRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
+use App\Repositories\ProfileSeries\UserActivity\UserActivityRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserActivityResource\UserActivityResourceRepository;
+use App\Repositories\ProfileSeries\UserActivityResource\UserActivityResourceRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepository;
+use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserCertificationResource\UserCertificationResourceRepository;
+use App\Repositories\ProfileSeries\UserCertificationResource\UserCertificationResourceRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserCourse\UserCourseRepository;
+use App\Repositories\ProfileSeries\UserCourse\UserCourseRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserCourseResource\UserCourseResourceRepository;
+use App\Repositories\ProfileSeries\UserCourseResource\UserCourseResourceRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserEducation\UserEducationRepository;
+use App\Repositories\ProfileSeries\UserEducation\UserEducationRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserExperience\UserExperienceRepository;
+use App\Repositories\ProfileSeries\UserExperience\UserExperienceRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserExperienceResource\UserExperienceResourceRepository;
+use App\Repositories\ProfileSeries\UserExperienceResource\UserExperienceResourceRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserLocation\UserLocationRepository;
+use App\Repositories\ProfileSeries\UserLocation\UserLocationRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserPrize\UserPrizeRepository;
+use App\Repositories\ProfileSeries\UserPrize\UserPrizeRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserPrizeResource\UserPrizeResourceRepository;
+use App\Repositories\ProfileSeries\UserPrizeResource\UserPrizeResourceRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
+use App\Repositories\ProfileSeries\UserProduct\UserProductRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserProductResource\UserProductResourceRepository;
+use App\Repositories\ProfileSeries\UserProductResource\UserProductResourceRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserProfile\UserProfileRepository;
+use App\Repositories\ProfileSeries\UserProfile\UserProfileRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserProject\UserProjectRepository;
+use App\Repositories\ProfileSeries\UserProject\UserProjectRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserProjectResource\UserProjectResourceRepository;
+use App\Repositories\ProfileSeries\UserProjectResource\UserProjectResourceRepositoryEloquent;
+use App\Repositories\ProfileSeries\UserSkill\UserSkillRepository;
+use App\Repositories\ProfileSeries\UserSkill\UserSkillRepositoryEloquent;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryEloquent;
-use App\Repositories\UserActivity\UserActivityRepository;
-use App\Repositories\UserActivity\UserActivityRepositoryEloquent;
-use App\Repositories\UserActivityResource\UserActivityResourceRepository;
-use App\Repositories\UserActivityResource\UserActivityResourceRepositoryEloquent;
-use App\Repositories\UserCertification\UserCertificationRepository;
-use App\Repositories\UserCertification\UserCertificationRepositoryEloquent;
-use App\Repositories\UserCertificationResource\UserCertificationResourceRepository;
-use App\Repositories\UserCertificationResource\UserCertificationResourceRepositoryEloquent;
-use App\Repositories\UserCourse\UserCourseRepository;
-use App\Repositories\UserCourse\UserCourseRepositoryEloquent;
-use App\Repositories\UserCourseResource\UserCourseResourceRepository;
-use App\Repositories\UserCourseResource\UserCourseResourceRepositoryEloquent;
-use App\Repositories\UserEducation\UserEducationRepository;
-use App\Repositories\UserEducation\UserEducationRepositoryEloquent;
-use App\Repositories\UserExperience\UserExperienceRepository;
-use App\Repositories\UserExperience\UserExperienceRepositoryEloquent;
-use App\Repositories\UserExperienceResource\UserExperienceResourceRepository;
-use App\Repositories\UserExperienceResource\UserExperienceResourceRepositoryEloquent;
-use App\Repositories\UserLocation\UserLocationRepository;
-use App\Repositories\UserLocation\UserLocationRepositoryEloquent;
-use App\Repositories\UserPrize\UserPrizeRepository;
-use App\Repositories\UserPrize\UserPrizeRepositoryEloquent;
-use App\Repositories\UserPrizeResource\UserPrizeResourceRepository;
-use App\Repositories\UserPrizeResource\UserPrizeResourceRepositoryEloquent;
-use App\Repositories\UserProduct\UserProductRepository;
-use App\Repositories\UserProduct\UserProductRepositoryEloquent;
-use App\Repositories\UserProductResource\UserProductResourceRepository;
-use App\Repositories\UserProductResource\UserProductResourceRepositoryEloquent;
-use App\Repositories\UserProfile\UserProfileRepository;
-use App\Repositories\UserProfile\UserProfileRepositoryEloquent;
-use App\Repositories\UserProject\UserProjectRepository;
-use App\Repositories\UserProject\UserProjectRepositoryEloquent;
-use App\Repositories\UserProjectResource\UserProjectResourceRepository;
-use App\Repositories\UserProjectResource\UserProjectResourceRepositoryEloquent;
-use App\Repositories\UserSkill\UserSkillRepository;
-use App\Repositories\UserSkill\UserSkillRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -72,6 +73,8 @@ class RepositoryServiceProvider extends ServiceProvider
         UserProductResourceRepository::class => UserProductResourceRepositoryEloquent::class,
         UserActivityRepository::class => UserActivityRepositoryEloquent::class,
         UserActivityResourceRepository::class => UserActivityResourceRepositoryEloquent::class,
-        UserLocationRepository::class => UserLocationRepositoryEloquent::class
+        UserLocationRepository::class => UserLocationRepositoryEloquent::class,
+        OperationTypeRepository::class => OperationTypeRepositoryEloquent::class,
+        BusinessSectorRepository::class => BusinessSectorRepositoryEloquent::class
     ];
 }

@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\API\Profile;
 
-use App\Commands\UserCourse\DestroyUserCourse\DestroyUserCourseCommand;
-use App\Commands\UserCourse\DestroyUserCourse\DestroyUserCourseHandle;
-use App\Commands\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseCommand;
-use App\Commands\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseHandle;
-use App\Commands\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseCommand;
-use App\Commands\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseHandle;
-use App\Commands\UserCourse\GetDetailListOfUserCourseByUserSlug\GetDetailListOfUserCourseByUserSlugCommand;
-use App\Commands\UserCourse\GetDetailListOfUserCourseByUserSlug\GetDetailListOfUserCourseByUserSlugHandle;
-use App\Commands\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserCommand;
-use App\Commands\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserHandle;
-use App\Commands\UserCourse\StoreUserCourse\StoreUserCourseCommand;
-use App\Commands\UserCourse\StoreUserCourse\StoreUserCourseHandle;
-use App\Commands\UserCourse\UpdateUserCourse\UpdateUserCourseCommand;
-use App\Commands\UserCourse\UpdateUserCourse\UpdateUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\DestroyUserCourse\DestroyUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\DestroyUserCourse\DestroyUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\GetCompleteListOfUserCourse\GetCompleteListOfUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourse\GetDetailListOfUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourseByUserSlug\GetDetailListOfUserCourseByUserSlugCommand;
+use App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourseByUserSlug\GetDetailListOfUserCourseByUserSlugHandle;
+use App\Commands\ProfileSeries\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserCommand;
+use App\Commands\ProfileSeries\UserCourse\GetListCourseCurrentUser\GetListCourseCurrentUserHandle;
+use App\Commands\ProfileSeries\UserCourse\StoreUserCourse\StoreUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\StoreUserCourse\StoreUserCourseHandle;
+use App\Commands\ProfileSeries\UserCourse\UpdateUserCourse\UpdateUserCourseCommand;
+use App\Commands\ProfileSeries\UserCourse\UpdateUserCourse\UpdateUserCourseHandle;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserCourse\UserCourseRequest;
+use App\Http\Requests\Profile\UserCourse\UserCourseRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;

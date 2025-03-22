@@ -3,7 +3,7 @@
 namespace App\Services\UserCourse;
 
 use App\Enums\DefaultContentType;
-use App\Repositories\UserCourseResource\UserCourseResourceRepository;
+use App\Repositories\ProfileSeries\UserCourseResource\UserCourseResourceRepository;
 use App\Services\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;

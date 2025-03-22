@@ -2,7 +2,7 @@
 
 namespace App\Rules\Location;
 
-use App\Entities\District\District;
+use App\Entities\Locate\District\District;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
