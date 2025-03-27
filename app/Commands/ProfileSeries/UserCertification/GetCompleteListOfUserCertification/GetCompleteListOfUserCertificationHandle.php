@@ -4,7 +4,6 @@ namespace App\Commands\ProfileSeries\UserCertification\GetCompleteListOfUserCert
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCertification;
-use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\ProfileSeries\UserCertification\UserCertificationResource;
 use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepository;
 use Illuminate\Support\Facades\Cache;
@@ -52,7 +51,7 @@ class GetCompleteListOfUserCertificationHandle
                 'data' => UserCertificationResource::collection($userCertifications),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => PaginationHelper::formatPaginationData($userCertifications) ?? []
+                'pagination' => formatPaginationData($userCertifications ?? [])
             ];
         }catch (\Exception $e){
             return [

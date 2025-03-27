@@ -4,7 +4,6 @@ namespace App\Commands\ProfileSeries\UserProduct\GetCompleteListOfUserProduct;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProduct;
-use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\ProfileSeries\UserProduct\UserProductResource;
 use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
 use Illuminate\Support\Facades\Cache;
@@ -51,7 +50,7 @@ class GetCompleteListOfUserProductHandle
                 'data' => UserProductResource::collection($userProducts),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => PaginationHelper::formatPaginationData($userProducts) ?? []
+                'pagination' => formatPaginationData($userProducts ?? [])
             ];
         }catch (\Exception $e){
             return [

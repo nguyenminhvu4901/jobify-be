@@ -4,7 +4,6 @@ namespace App\Commands\ProfileSeries\UserExperience\GetCompleteListOfUserExperie
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserExperience;
-use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\ProfileSeries\UserExperience\UserExperienceResource;
 use App\Repositories\ProfileSeries\UserExperience\UserExperienceRepository;
 use Illuminate\Support\Facades\Cache;
@@ -51,7 +50,7 @@ class GetCompleteListOfUserExperienceHandler
                 'data' => UserExperienceResource::collection($userExperiences),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => PaginationHelper::formatPaginationData($userExperiences) ?? []
+                'pagination' => formatPaginationData($userExperiences ?? [])
             ];
         }catch (\Exception $e){
 
