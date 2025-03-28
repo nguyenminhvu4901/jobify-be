@@ -4,6 +4,8 @@ namespace App\Enums\RouteNames\Profile;
 
 enum UserExperience: string
 {
+    case PREFIX = 'profile.userExperience.';
+
     case TAG_NAME = 'userExperiences';
 
     case LIST_EXPERIENCE_CURRENT_USER = 'listExperienceCurrentUser';

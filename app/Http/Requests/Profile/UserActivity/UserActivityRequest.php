@@ -35,8 +35,8 @@ class UserActivityRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userActivity." . UserActivity::STORE->value => $commonRules,
-            "profile.userActivity." . UserActivity::UPDATE->value => [
+            UserActivity::PREFIX->value . UserActivity::STORE->value => $commonRules,
+            UserActivity::PREFIX->value . UserActivity::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
@@ -52,13 +52,13 @@ class UserActivityRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userActivity." . UserActivity::DETAIL_LIST_USER_ACTIVITY->value => [
+            UserActivity::PREFIX->value . UserActivity::DETAIL_LIST_USER_ACTIVITY->value => [
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id']
             ],
-            "profile.userActivity." . UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value => [
+            UserActivity::PREFIX->value . UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userActivity." . UserActivity::DESTROY->value => [
+            UserActivity::PREFIX->value . UserActivity::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
             ],
@@ -98,6 +98,6 @@ class UserActivityRequest extends FormRequest
      */
     protected function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userActivity." . UserActivity::STORE->value);
+        $this->processWithValidator($validator, UserActivity::PREFIX->value . UserActivity::STORE->value);
     }
 }

@@ -34,14 +34,14 @@ class UserProductRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userProduct." . UserProduct::DETAIL_LIST_USER_PRODUCT->value => [
+            UserProduct::PREFIX->value . UserProduct::DETAIL_LIST_USER_PRODUCT->value => [
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id']
             ],
-            "profile.userProduct." . UserProduct::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value => [
+            UserProduct::PREFIX->value . UserProduct::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userProduct." . UserProduct::STORE->value => $commonRules,
-            "profile.userProduct." . UserProduct::UPDATE->value => [
+            UserProduct::PREFIX->value . UserProduct::STORE->value => $commonRules,
+            UserProduct::PREFIX->value. UserProduct::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
@@ -57,7 +57,7 @@ class UserProductRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userProduct." . UserProduct::DESTROY->value => [
+            UserProduct::PREFIX->value . UserProduct::DESTROY->value => [
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -92,6 +92,6 @@ class UserProductRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userProduct." . UserProduct::STORE->value);
+        $this->processWithValidator($validator, UserProduct::PREFIX->value . UserProduct::STORE->value);
     }
 }

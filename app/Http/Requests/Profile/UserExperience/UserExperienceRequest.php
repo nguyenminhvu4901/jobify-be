@@ -34,8 +34,8 @@ class UserExperienceRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userExperience." . UserExperience::STORE->value => $commonRules,
-            "profile.userExperience." . UserExperience::UPDATE->value => [
+            UserExperience::PREFIX->value . UserExperience::STORE->value => $commonRules,
+            UserExperience::PREFIX->value . UserExperience::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
@@ -51,14 +51,14 @@ class UserExperienceRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userExperience." . UserExperience::DESTROY->value => [
+            UserExperience::PREFIX->value . UserExperience::DESTROY->value => [
                     'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
-            "profile.userExperience." . UserExperience::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value => [
+            UserExperience::PREFIX->value  . UserExperience::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userExperience." . UserExperience::DETAIL_LIST_USER_EXPERIENCE->value => [
+            UserExperience::PREFIX->value . UserExperience::DETAIL_LIST_USER_EXPERIENCE->value => [
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
             default => [],
@@ -94,6 +94,6 @@ class UserExperienceRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userExperience." . UserExperience::STORE->value);
+        $this->processWithValidator($validator, UserExperience::PREFIX->value . UserExperience::STORE->value);
     }
 }

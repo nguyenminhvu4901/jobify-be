@@ -30,19 +30,19 @@ class UserSkillRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
        return match ($routeName){
-            'profile.userSkill.' . UserSkill::STORE->value => $commonRules,
-            'profile.userSkill.' . UserSkill::DETAIL_LIST_USER_SKILL->value => [
+           UserSkill::PREFIX->value . UserSkill::STORE->value => $commonRules,
+           UserSkill::PREFIX->value . UserSkill::DETAIL_LIST_USER_SKILL->value => [
                 "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
-            ],
-            'profile.userSkill.' . UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value => [
+           ],
+           UserSkill::PREFIX->value. UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value => [
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
-            ],
-           'profile.userSkill.' . UserSkill::UPDATE->value => [
+           ],
+           UserSkill::PREFIX->value . UserSkill::UPDATE->value => [
                ...$commonRules,
                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
            ],
-           'profile.userSkill.' . UserSkill::DESTROY->value => [
+           UserSkill::PREFIX->value . UserSkill::DESTROY->value => [
                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id'],
                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
            ],

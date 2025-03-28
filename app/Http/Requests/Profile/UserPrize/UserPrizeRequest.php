@@ -34,14 +34,14 @@ class UserPrizeRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userPrize." . UserPrize::DETAIL_LIST_USER_PRIZE->value => [
+            UserPrize::PREFIX->value . UserPrize::DETAIL_LIST_USER_PRIZE->value => [
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id']
             ],
-            "profile.userPrize." . UserPrize::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value => [
+            UserPrize::PREFIX->value . UserPrize::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userPrize." . UserPrize::STORE->value => $commonRules,
-            "profile.userPrize." . UserPrize::UPDATE->value => [
+            UserPrize::PREFIX->value . UserPrize::STORE->value => $commonRules,
+            UserPrize::PREFIX->value . UserPrize::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
@@ -57,7 +57,7 @@ class UserPrizeRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userPrize." . UserPrize::DESTROY->value => [
+            UserPrize::PREFIX->value . UserPrize::DESTROY->value => [
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -93,6 +93,6 @@ class UserPrizeRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userPrize." . UserPrize::STORE->value);
+        $this->processWithValidator($validator, UserPrize::PREFIX->value . UserPrize::STORE->value);
     }
 }
