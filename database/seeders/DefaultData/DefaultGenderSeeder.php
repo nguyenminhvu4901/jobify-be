@@ -18,7 +18,7 @@ class DefaultGenderSeeder extends Seeder
         $genders = config('jobify_data.default_data.genders');
         $genders = addTimestamps($genders);
 
-        DefaultGender::upsert($genders, ['id'], ['name', 'description']);
+        DefaultGender::upsert($genders, ['id'], ['gender']);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

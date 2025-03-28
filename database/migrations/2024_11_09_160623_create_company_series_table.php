@@ -48,6 +48,11 @@ return new class extends Migration
                 ->on('company_working_days')->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('gender_id')->references('id')->on('default_genders')
                  ->nullOnDelete()->cascadeOnUpdate();
+
+            $table->fullText([
+                'name',
+                'slug'
+            ]);
         });
 
         Schema::create('company_branches', function (Blueprint $table) {

@@ -18,7 +18,7 @@ class DefaultStatusSeeder extends Seeder
         $statuses = config('jobify_data.default_data.statuses');
         $statuses = addTimestamps($statuses);
 
-        DefaultStatus::upsert($statuses, ['id'], ['name', 'description']);
+        DefaultStatus::upsert($statuses, ['id'], ['status']);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

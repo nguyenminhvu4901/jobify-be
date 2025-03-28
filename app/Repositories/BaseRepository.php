@@ -421,7 +421,8 @@ abstract class BaseRepository extends Repository
      * @return mixed
      */
     public function getByIds(
-        array $ids,    array|string $columns = ['*']
+        array $ids,
+        array|string $columns = ['*']
     ): mixed
     {
         return $this->model->whereIn('id', $ids)->select($columns)->get();

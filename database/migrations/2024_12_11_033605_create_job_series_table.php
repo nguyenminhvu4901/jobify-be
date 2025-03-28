@@ -126,6 +126,11 @@ return new class extends Migration
             $table->timestamps();
 
             $table->softDeletes();
+
+            $table->fullText([
+                'title',
+                'slug'
+            ]);
         });
 
         Schema::create('job_locations', function (Blueprint $table) {

@@ -57,6 +57,12 @@ return new class extends Migration
 
             $table->foreign('status_id')->references('id')->on('default_statuses')
                 ->onDelete('set null')->onUpdate('cascade');
+
+            $table->fullText([
+                'full_name',
+                'email',
+                'slug'
+            ]);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
