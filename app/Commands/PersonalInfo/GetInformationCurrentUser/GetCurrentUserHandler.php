@@ -26,7 +26,8 @@ class GetCurrentUserHandler
         try {
             $cache = Cache::tags([UserProfile::TAG_NAME->value])
                 ->has(
-                    UserProfile::INFORMATION_CURRENT_USER->value . auth()?->user()?->id
+                    UserProfile::INFORMATION_CURRENT_USER->value .
+                    auth()?->user()?->id
                 );
 
             $userProfile = Cache::tags([UserProfile::TAG_NAME->value])->remember(

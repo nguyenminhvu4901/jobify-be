@@ -3,9 +3,11 @@
 use App\Enums\RouteNames\Company\BusinessSector;
 use App\Enums\RouteNames\Company\CompanyProfile;
 use App\Enums\RouteNames\Company\OperationType;
+use App\Enums\RouteNames\Company\CompanyWorkingDay;
 use App\Http\Controllers\API\Company\BusinessSectorController;
 use App\Http\Controllers\API\Company\CompanyController;
 use App\Http\Controllers\API\Company\OperationTypeController;
+use App\Http\Controllers\API\Company\CompanyWorkingDayController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -29,11 +31,21 @@ Route::group(
 
         });
 
-        Route::group(['prefix' => 'profile', 'as' => 'profile.'], function() {
+        Route::group(['prefix' => 'company-working-day', 'as' => 'companyWorkingDay.'], function() {
+            Route::get('/list-all-company-working-day', [
+                CompanyWorkingDayController::class, 'getListAllWorkingDay'
+            ])->name(CompanyWorkingDay::LIST_ALL_WORKING_DAY->value);
 
+        });
+
+        Route::group(['prefix' => 'profile', 'as' => 'profile.'], function() {
             Route::get('/detail-profile-company-current-user', [
                 CompanyController::class, 'getDetailProfileCompanyCurrentUser'
             ])->name(CompanyProfile::DETAIL_PROFILE_COMPANY_CURRENT_USER->value);
+
+            Route::post('/update-company-profile', [
+                CompanyController::class, 'updateCompanyProfile'
+            ])->name(CompanyProfile::UPDATE_PROFILE_COMPANY->value);
         });
     }
 );

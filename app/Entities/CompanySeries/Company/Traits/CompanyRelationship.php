@@ -4,6 +4,7 @@ namespace App\Entities\CompanySeries\Company\Traits;
 
 use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
 use App\Entities\CompanySeries\CompanyScale\CompanyScale;
+use App\Entities\CompanySeries\CompanyWorkingDay\CompanyWorkingDay;
 use App\Entities\DefaultSeries\DefaultGender\DefaultGender;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,5 +42,13 @@ trait CompanyRelationship
     public function companyBranches(): hasMany
     {
         return $this->hasMany(CompanyBranch::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function companyWorkingDay(): BelongsTo
+    {
+        return $this->belongsTo(CompanyWorkingDay::class);
     }
 }

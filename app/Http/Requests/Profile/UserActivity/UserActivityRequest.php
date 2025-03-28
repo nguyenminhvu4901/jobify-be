@@ -69,7 +69,7 @@ class UserActivityRequest extends FormRequest
     /**
      * @return array[]
      */
-    public function getCommonRules() :array
+    private function getCommonRules() :array
     {
         return [
             'name' => ['bail', 'required', 'string', 'max:255'],
@@ -96,7 +96,7 @@ class UserActivityRequest extends FormRequest
     /**
      * Custom validation logic for conditional validation.
      */
-    public function withValidator($validator): void
+    protected function withValidator($validator): void
     {
         $this->processWithValidator($validator, "profile.userActivity." . UserActivity::STORE->value);
     }
