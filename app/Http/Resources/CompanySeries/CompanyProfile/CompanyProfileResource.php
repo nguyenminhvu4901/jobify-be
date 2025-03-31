@@ -20,15 +20,16 @@ class CompanyProfileResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'name' => $this->name,
             'slug' => $this->slug,
+            'tax_code' => $this->tax_code,
             'company_scale' => CompanyScaleResource::make($this?->companyScale),
             'gender' => DefaultGenderResource::make($this?->gender),
             'company_status' => DefaultStatusResource::make($this?->status),
             'company_working_day' => CompanyWorkingDayResource::make($this?->companyWorkingDay),
             'website' => $this?->website,
             'description' => $this->description,
-            'tax_code' => $this->tax_code,
             'avatar' => $this->avatar
         ];
     }

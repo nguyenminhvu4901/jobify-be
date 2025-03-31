@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Commands\CompanySeries\CompanyProfile\GetDetailProfileCompanyCurrentUser\GetDetailProfileCompanyCurrentUserCommand;
 use App\Commands\CompanySeries\CompanyProfile\GetDetailProfileCompanyCurrentUser\GetDetailProfileCompanyCurrentUserHandler;
+use App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile\UpdateCompanyProfileCommand;
+use App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile\UpdateCompanyProfileHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanySeries\Company\CompanyRequest;
 use Illuminate\Http\JsonResponse;
@@ -47,8 +49,30 @@ class CompanyController extends Controller
         );
     }
 
-    public function updateCompanyProfile(CompanyRequest $request)
+    /**
+     * @param CompanyRequest $request
+     * @return JsonResponse
+     */
+    public function updateCompanyProfile(CompanyRequest $request): JsonResponse
     {
+        $this->bus->addHandler(
+            UpdateCompanyProfileCommand::class,
+            UpdateCompanyProfileHandler::class
+        );
 
+        $result = $this->bus->dispatch(UpdateCompanyProfileCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message']
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null,
+        );
     }
 }

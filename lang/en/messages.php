@@ -24,6 +24,13 @@ return [
         'user_destroy_profile_error' => 'User Destroy Profile Error',
     ],
 
+    'company' => [
+        'company_get_info_success' => 'Get company info successfully',
+        'company_get_info_error' => 'Get company info failed!',
+        'company_update_profile_success' => 'Saved',
+        'company_update_profile_error' => 'Save failed',
+    ],
+
     'account_is_not_registered' => 'User is not registered',
 
     'user_is_not_logged_in' => 'The user is not logged in',

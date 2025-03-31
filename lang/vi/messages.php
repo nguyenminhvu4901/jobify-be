@@ -27,6 +27,8 @@ return [
     'company' => [
         'company_get_info_success' => 'Lấy thông tin thành công',
         'company_get_info_error' => 'Lấy thông tin thất bại',
+        'company_update_profile_success' => 'Đã lưu',
+        'company_update_profile_error' => 'Lưu thất bại',
     ],
 
     'account_is_not_registered' => 'Tài khoản chưa được đăng ký',

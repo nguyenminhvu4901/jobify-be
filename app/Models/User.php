@@ -71,7 +71,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return [
             'slug' => [
-                'source' => 'full_name'
+                'source' => 'full_name',
+                'onUpdate' => true
             ]
         ];
     }

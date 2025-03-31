@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'user_id' => 'Mã người dùng',
     'email' => 'Email',
     'password' => 'Mật khẩu',
     'password_confirmation' => 'Xác nhận mật khẩu',

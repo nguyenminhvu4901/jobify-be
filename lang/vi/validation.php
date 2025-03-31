@@ -170,6 +170,7 @@ return [
         "invalid_attachment_duplicate" => 'Giá trị trường tài nguyên đang bị trùng, vui lòng chọn lại.',
         'invalid_district_in_province' => 'Quận/Huyện được chọn không thuộc tỉnh/thành phố được chọn!',
         'invalid_ward_in_district' => 'Phường/Xã được chọn không thuộc quận/huyện được chọn!',
+        'company_id_user_id_mismatch' => 'Mã công ty và mã người dùng không khớp!',
     ],
 
     /*

@@ -17,6 +17,7 @@ class RecruiterRegisterCommand extends BaseRegisterCommand
      * @param string $taxCode
      * @param int $genderId
      * @param int $province
+     * @param string $branchName
      * @param int $district
      */
     public function __construct(

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'user_id' => 'User Code',
     'email' => 'Email',
     'password' => 'Password',
     'password_confirmation' => 'Password Confirmation',

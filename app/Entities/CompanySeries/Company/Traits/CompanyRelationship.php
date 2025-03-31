@@ -6,6 +6,7 @@ use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
 use App\Entities\CompanySeries\CompanyScale\CompanyScale;
 use App\Entities\CompanySeries\CompanyWorkingDay\CompanyWorkingDay;
 use App\Entities\DefaultSeries\DefaultGender\DefaultGender;
+use App\Entities\DefaultSeries\DefaultStatus\DefaultStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,6 +27,14 @@ trait CompanyRelationship
     public function gender(): BelongsTo
     {
         return $this->belongsTo(DefaultGender::class, 'gender_id', 'id')->withDefault();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(DefaultStatus::class, 'status_id', 'id')->withDefault();
     }
 
     /**

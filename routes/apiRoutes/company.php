@@ -43,7 +43,7 @@ Route::group(
                 CompanyController::class, 'getDetailProfileCompanyCurrentUser'
             ])->name(CompanyProfile::DETAIL_PROFILE_COMPANY_CURRENT_USER->value);
 
-            Route::post('/update-company-profile', [
+            Route::put('/update-company-profile', [
                 CompanyController::class, 'updateCompanyProfile'
             ])->name(CompanyProfile::UPDATE_PROFILE_COMPANY->value);
         });

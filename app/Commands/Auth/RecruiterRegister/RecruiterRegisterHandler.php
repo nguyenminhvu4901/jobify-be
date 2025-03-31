@@ -3,6 +3,7 @@
 namespace App\Commands\Auth\RecruiterRegister;
 
 use App\Enums\DefaultRole;
+use App\Enums\Status;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
 use App\Notifications\UserRegisteredNotification;
 use App\Repositories\CompanySeries\Company\CompanyRepository;
@@ -81,12 +82,16 @@ class RecruiterRegisterHandler
      */
     private function createCompany(RecruiterRegisterCommand $command, int $userId): mixed
     {
+        $urlAvatarDefault = asset(config('constants.default_avatar'));
+
         return $this->companyRepository->create([
             'user_id' => $userId,
             'name' => $command->companyName,
             'company_scale_id' => $command->companyScaleId,
             'gender_id' => $command->genderId,
             'tax_code' => $command->taxCode,
+            'status_id' => Status::DEACTIVATE->value,
+            'avatar' => $urlAvatarDefault
         ]);
     }
 

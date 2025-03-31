@@ -24,6 +24,7 @@ class Company extends Model implements Transformable
         'company_scale_id',
         'company_working_day_id',
         'gender_id',
+        'status_id',
         'website',
         'description',
         'tax_code',
@@ -37,7 +38,8 @@ class Company extends Model implements Transformable
     {
         return [
             'slug' => [
-                'source' => 'name'
+                'source' => 'name',
+                'onUpdate' => true
             ]
         ];
     }
