@@ -46,6 +46,10 @@ Route::group(
             Route::put('/update-company-profile', [
                 CompanyController::class, 'updateCompanyProfile'
             ])->name(CompanyProfile::UPDATE_PROFILE_COMPANY->value);
+
+            Route::put('/update-company-branch', [
+                CompanyController::class, 'updateBranchCompany'
+            ])->name(CompanyProfile::UPDATE_BRANCH_COMPANY->value);
         });
     }
 );
