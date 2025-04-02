@@ -33,19 +33,7 @@ class CompanyBranchRequest extends FormRequest
         return match ($routeName) {
             CompanyBranch::PREFIX->value . CompanyBranch::UPDATE_COMPANY_BRANCH->value => [
                 ...$this->getCommonRules(),
-                'company_branch_id' => [
-                    'bail',
-                    'required',
-                    'integer',
-                    'exists:company_branches,id'
-                ],
-                'company_id' => [
-                    'bail',
-                    'required',
-                    'integer',
-                    'exists:companies,id',
-                    new CompanyBelongsToBranchRule($this->input('company_branch_id'))
-                ],
+                ...$this->getCommonRulesId()
             ],
             CompanyBranch::PREFIX->value . CompanyBranch::STORE_COMPANY_BRANCH->value => [
                 ...$this->getCommonRules(),
@@ -56,7 +44,9 @@ class CompanyBranchRequest extends FormRequest
                     'exists:companies,id'
                 ],
             ],
-
+            CompanyBranch::PREFIX->value . CompanyBranch::DESTROY_COMPANY_BRANCH->value => [
+                ...$this->getCommonRulesId()
+            ],
             default => []
         };
     }
@@ -80,6 +70,28 @@ class CompanyBranchRequest extends FormRequest
                 new CheckWardByDistrictRule($this->input('district_id'))
             ],
             'address' => ['bail', 'nullable', 'string', 'max:512']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getCommonRulesId(): array
+    {
+        return [
+            'company_branch_id' => [
+                'bail',
+                'required',
+                'integer',
+                'exists:company_branches,id'
+            ],
+            'company_id' => [
+                'bail',
+                'required',
+                'integer',
+                'exists:companies,id',
+                new CompanyBelongsToBranchRule($this->input('company_branch_id'))
+            ]
         ];
     }
 }

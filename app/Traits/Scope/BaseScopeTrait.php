@@ -24,4 +24,18 @@ trait BaseScopeTrait
 
         return $query->whereRaw("MATCH({$columnsList} AGAINST(? IN $mode)", [$keyword]);
     }
+
+    /**
+     * @param Builder $query
+     * @param $id
+     * @return Builder
+     */
+    public function scopeWhereById(Builder $query, $id): Builder
+    {
+        if(!empty($id)){
+            return $query->where('id', $id);
+        }
+
+        return $query;
+    }
 }

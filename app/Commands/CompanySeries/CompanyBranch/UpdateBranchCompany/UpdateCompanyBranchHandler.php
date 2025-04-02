@@ -4,6 +4,7 @@ namespace App\Commands\CompanySeries\CompanyBranch\UpdateBranchCompany;
 
 use App\Http\Resources\CompanySeries\CompanyBranch\CompanyBranchResource;
 use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepository;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UpdateCompanyBranchHandler
 {
@@ -22,27 +23,36 @@ class UpdateCompanyBranchHandler
      */
     public function handle(UpdateCompanyBranchCommand $command): array
     {
-        $result = $this->companyBranchRepository->updateDataWithTransaction(
-            $this->prepareCompanyData($command),
-            $command->companyBranchId
-        );
+        try {
+            $result = $this->companyBranchRepository->updateDataWithTransaction(
+                $this->prepareCompanyData($command),
+                $command->companyBranchId
+            );
 
-        if(!$result['success']){
+            if(!$result['success']){
+
+                return [
+                    'message' => __('messages.company.company_update_profile_error'),
+                    'error' => $result['error'] ?? null
+                ];
+            }
+
+            $result['data']->load(
+                ['province', 'district', 'ward', 'company']
+            );
+
+            return [
+                'data' => CompanyBranchResource::make($result['data']),
+                'message' => __('messages.company.company_update_profile_success')
+            ];
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.company.company_update_profile_error'),
-                'error' => $result['error'] ?? null
+                'error' => $e,
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
         }
-
-        $result['data']->load(
-            ['province', 'district', 'ward', 'company']
-        );
-
-        return [
-            'data' => CompanyBranchResource::make($result['data']),
-            'message' => __('messages.company.company_update_profile_success')
-        ];
     }
 
     /**

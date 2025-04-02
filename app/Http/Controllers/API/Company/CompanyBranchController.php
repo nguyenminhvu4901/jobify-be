@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\Company;
 
+use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchCommand;
+use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchHandler;
 use App\Commands\CompanySeries\CompanyBranch\StoreCompanyBranch\StoreCompanyBranchCommand;
 use App\Commands\CompanySeries\CompanyBranch\StoreCompanyBranch\StoreCompanyBranchHandler;
 use App\Commands\CompanySeries\CompanyBranch\UpdateBranchCompany\UpdateCompanyBranchCommand;
@@ -73,6 +75,26 @@ class CompanyBranchController extends Controller
             message: $result['message'],
             error: $result['error'] ?? null,
             statusCode: $result['status_code'] ?? null,
+        );
+    }
+
+    public function destroyCompanyBranch(CompanyBranchRequest $request)
+    {
+        $this->bus->addHandler(
+            DestroyCompanyBranchCommand::class,
+            DestroyCompanyBranchHandler::class
+        );
+
+        $result = $this->bus->dispatch(DestroyCompanyBranchCommand::withForm($request));
+
+        if($result['companyBranchDestroy']){
+            return $this->responseSuccessWithNoData(message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
         );
     }
 }

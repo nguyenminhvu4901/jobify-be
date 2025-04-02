@@ -50,13 +50,17 @@ Route::group(
             ])->name(CompanyProfile::UPDATE_COMPANY_PROFILE->value);
 
             Route::group(['prefix' => 'branch', 'as' => 'branch.'], function () {
+                Route::post('/store-company-branch', [
+                    CompanyBranchController::class, 'storeCompanyBranch'
+                ])->name(CompanyBranch::STORE_COMPANY_BRANCH->value);
+
                 Route::put('/update-company-branch', [
                     CompanyBranchController::class, 'updateCompanyBranch'
                 ])->name(CompanyBranch::UPDATE_COMPANY_BRANCH->value);
 
-                Route::post('/store-company-branch', [
-                    CompanyBranchController::class, 'storeCompanyBranch'
-                ])->name(CompanyBranch::STORE_COMPANY_BRANCH->value);
+                Route::delete('/destroy-company-branch', [
+                    CompanyBranchController::class, 'destroyCompanyBranch'
+                ])->name(CompanyBranch::DESTROY_COMPANY_BRANCH->value);
             });
         });
     }
