@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchCommand;
 use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchHandler;
-use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser\GetListCompanyBranchCurrentUserCommand;
-use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser\GetListCompanyBranchCurrentUserHandler;
+use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser\GetListCompanyBranchCommand;
+use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser\GetListCompanyBranchHandler;
 use App\Commands\CompanySeries\CompanyBranch\StoreCompanyBranch\StoreCompanyBranchCommand;
 use App\Commands\CompanySeries\CompanyBranch\StoreCompanyBranch\StoreCompanyBranchHandler;
 use App\Commands\CompanySeries\CompanyBranch\UpdateBranchCompany\UpdateCompanyBranchCommand;
@@ -30,14 +30,14 @@ class CompanyBranchController extends Controller
      * @param CompanyBranchRequest $request
      * @return JsonResponse
      */
-    public function getListCompanyBranchCurrentUser(CompanyBranchRequest $request): JsonResponse
+    public function getListCompanyBranch(CompanyBranchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            GetListCompanyBranchCurrentUserCommand::class,
-            GetListCompanyBranchCurrentUserHandler::class
+            GetListCompanyBranchCommand::class,
+            GetListCompanyBranchHandler::class
         );
 
-        $result = $this->bus->dispatch(GetListCompanyBranchCurrentUserCommand::withForm($request));
+        $result = $this->bus->dispatch(GetListCompanyBranchCommand::withForm($request));
 
         if(!empty($result['data'])){
             return $this->responseSuccess(

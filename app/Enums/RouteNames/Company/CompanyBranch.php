@@ -8,7 +8,7 @@ enum CompanyBranch: string
 
     case TAG_NAME = 'companies';
 
-    case LIST_COMPANY_BRANCH_CURRENT_USER = 'listCompanyBranchCurrentUser';
+    case LIST_COMPANY_BRANCH = 'listCompanyBranch';
 
     case STORE_COMPANY_BRANCH = 'storeCompanyBranch';
 

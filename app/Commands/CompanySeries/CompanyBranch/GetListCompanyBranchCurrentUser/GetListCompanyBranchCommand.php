@@ -5,7 +5,7 @@ namespace App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUs
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-readonly class GetListCompanyBranchCurrentUserCommand implements CommandInterface
+readonly class GetListCompanyBranchCommand implements CommandInterface
 {
     /**
      * @param string|int $companyId

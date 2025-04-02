@@ -47,7 +47,7 @@ class CompanyBranchRequest extends FormRequest
             CompanyBranch::PREFIX->value . CompanyBranch::DESTROY_COMPANY_BRANCH->value => [
                 ...$this->getCommonRulesId()
             ],
-            CompanyBranch::PREFIX->value . CompanyBranch::LIST_COMPANY_BRANCH_CURRENT_USER->value => [
+            CompanyBranch::PREFIX->value . CompanyBranch::LIST_COMPANY_BRANCH->value => [
                 'company_id' => [
                     'bail',
                     'required',
