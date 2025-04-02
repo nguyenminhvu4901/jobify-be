@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\CompanySeries\CompanyProfile;
 
+use App\Http\Resources\CompanySeries\CompanyBranch\CompanyBranchResource;
 use App\Http\Resources\CompanySeries\CompanyScale\CompanyScaleResource;
 use App\Http\Resources\CompanySeries\CompanyWorkingDay\CompanyWorkingDayResource;
 use App\Http\Resources\DefaultSeries\DefaultGender\DefaultGenderResource;
@@ -30,7 +31,8 @@ class CompanyProfileResource extends JsonResource
             'company_working_day' => CompanyWorkingDayResource::make($this?->companyWorkingDay),
             'website' => $this?->website,
             'description' => $this->description,
-            'avatar' => $this->avatar
+            'avatar' => $this->avatar,
+            'branch' => CompanyBranchResource::collection($this?->companyBranches)
         ];
     }
 }

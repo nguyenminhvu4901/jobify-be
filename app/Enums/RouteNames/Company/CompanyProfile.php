@@ -8,9 +8,7 @@ enum CompanyProfile: string
 
     case TAG_NAME = 'companies';
 
-    case DETAIL_PROFILE_COMPANY_CURRENT_USER = 'detailProfileCompanyCurrentUser';
+    case DETAIL_COMPANY_PROFILE_CURRENT_USER = 'detailCompanyProfileCurrentUser';
 
-    case UPDATE_PROFILE_COMPANY = 'updateProfileCompany';
-
-    case UPDATE_BRANCH_COMPANY = 'updateBranchCompany';
+    case UPDATE_COMPANY_PROFILE = 'updateCompanyProfile';
 }

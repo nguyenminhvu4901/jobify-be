@@ -1,10 +1,12 @@
 <?php
 
 use App\Enums\RouteNames\Company\BusinessSector;
+use App\Enums\RouteNames\Company\CompanyBranch;
 use App\Enums\RouteNames\Company\CompanyProfile;
 use App\Enums\RouteNames\Company\OperationType;
 use App\Enums\RouteNames\Company\CompanyWorkingDay;
 use App\Http\Controllers\API\Company\BusinessSectorController;
+use App\Http\Controllers\API\Company\CompanyBranchController;
 use App\Http\Controllers\API\Company\CompanyController;
 use App\Http\Controllers\API\Company\OperationTypeController;
 use App\Http\Controllers\API\Company\CompanyWorkingDayController;
@@ -41,15 +43,21 @@ Route::group(
         Route::group(['prefix' => 'profile', 'as' => 'profile.'], function() {
             Route::get('/detail-profile-company-current-user', [
                 CompanyController::class, 'getDetailProfileCompanyCurrentUser'
-            ])->name(CompanyProfile::DETAIL_PROFILE_COMPANY_CURRENT_USER->value);
+            ])->name(CompanyProfile::DETAIL_COMPANY_PROFILE_CURRENT_USER->value);
 
             Route::put('/update-company-profile', [
                 CompanyController::class, 'updateCompanyProfile'
-            ])->name(CompanyProfile::UPDATE_PROFILE_COMPANY->value);
+            ])->name(CompanyProfile::UPDATE_COMPANY_PROFILE->value);
 
-            Route::put('/update-company-branch', [
-                CompanyController::class, 'updateBranchCompany'
-            ])->name(CompanyProfile::UPDATE_BRANCH_COMPANY->value);
+            Route::group(['prefix' => 'branch', 'as' => 'branch.'], function () {
+                Route::put('/update-company-branch', [
+                    CompanyBranchController::class, 'updateCompanyBranch'
+                ])->name(CompanyBranch::UPDATE_COMPANY_BRANCH->value);
+
+                Route::post('/store-company-branch', [
+                    CompanyBranchController::class, 'storeCompanyBranch'
+                ])->name(CompanyBranch::STORE_COMPANY_BRANCH->value);
+            });
         });
     }
 );

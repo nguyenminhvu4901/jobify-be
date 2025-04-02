@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Commands\CompanySeries\CompanyProfile\UpdateBranchCompany;
+namespace App\Commands\CompanySeries\CompanyBranch\UpdateBranchCompany;
 
 use App\Http\Resources\CompanySeries\CompanyBranch\CompanyBranchResource;
-use App\Http\Resources\CompanySeries\CompanyProfile\CompanyProfileWithUserDataResource;
 use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepository;
 
-class UpdateBranchCompanyHandler
+class UpdateCompanyBranchHandler
 {
     /**
      * @param CompanyBranchRepository $companyBranchRepository
@@ -18,10 +17,10 @@ class UpdateBranchCompanyHandler
     }
 
     /**
-     * @param UpdateBranchCompanyCommand $command
+     * @param UpdateCompanyBranchCommand $command
      * @return array
      */
-    public function handle(UpdateBranchCompanyCommand $command): array
+    public function handle(UpdateCompanyBranchCommand $command): array
     {
         $result = $this->companyBranchRepository->updateDataWithTransaction(
             $this->prepareCompanyData($command),
@@ -47,10 +46,10 @@ class UpdateBranchCompanyHandler
     }
 
     /**
-     * @param UpdateBranchCompanyCommand $command
+     * @param UpdateCompanyBranchCommand $command
      * @return array
      */
-    private function prepareCompanyData(UpdateBranchCompanyCommand $command): array
+    private function prepareCompanyData(UpdateCompanyBranchCommand $command): array
     {
         return [
             'branch_name' => $command->branchName,

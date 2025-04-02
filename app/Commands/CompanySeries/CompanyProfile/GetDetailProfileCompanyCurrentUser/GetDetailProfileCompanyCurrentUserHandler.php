@@ -19,12 +19,12 @@ class GetDetailProfileCompanyCurrentUserHandler
         try {
             $cache = Cache::tags([CompanyProfile::TAG_NAME->value])
                 ->has(
-                    CompanyProfile::DETAIL_PROFILE_COMPANY_CURRENT_USER->value .
+                    CompanyProfile::DETAIL_COMPANY_PROFILE_CURRENT_USER->value .
                     auth()?->user()?->id
                 );
 
             $companyProfile = Cache::tags([CompanyProfile::TAG_NAME->value])->remember(
-                CompanyProfile::DETAIL_PROFILE_COMPANY_CURRENT_USER->value .
+                CompanyProfile::DETAIL_COMPANY_PROFILE_CURRENT_USER->value .
                 auth()?->user()?->id,
                 CacheTTL::REMEMBER->value,
                 fn() => $this->userRepository->findWithRelationships(
