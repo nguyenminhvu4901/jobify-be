@@ -42,7 +42,13 @@ class RecruiterRegisterHandler
 
             $company = $this->createCompany($command, $recruiter->id);
 
-            $this->createCompanyBranch($command, $company->id);
+            if(!$company['success']){
+                return [
+                    'message' => __('messages.authentication.user_register_error'),
+                ];
+            }
+
+            $this->createCompanyBranch($command, $company['data']->id);
 
             $recruiter->notify(new UserRegisteredNotification());
 

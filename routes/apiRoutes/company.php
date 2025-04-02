@@ -3,11 +3,13 @@
 use App\Enums\RouteNames\Company\BusinessSector;
 use App\Enums\RouteNames\Company\CompanyBranch;
 use App\Enums\RouteNames\Company\CompanyProfile;
+use App\Enums\RouteNames\Company\CompanyScale;
 use App\Enums\RouteNames\Company\OperationType;
 use App\Enums\RouteNames\Company\CompanyWorkingDay;
 use App\Http\Controllers\API\Company\BusinessSectorController;
 use App\Http\Controllers\API\Company\CompanyBranchController;
 use App\Http\Controllers\API\Company\CompanyController;
+use App\Http\Controllers\API\Company\CompanyScaleController;
 use App\Http\Controllers\API\Company\OperationTypeController;
 use App\Http\Controllers\API\Company\CompanyWorkingDayController;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,12 @@ Route::group(
                 CompanyWorkingDayController::class, 'getListAllWorkingDay'
             ])->name(CompanyWorkingDay::LIST_ALL_WORKING_DAY->value);
 
+        });
+
+        Route::group(['prefix' => 'company-scale', 'as' => 'companyScale.'], function() {
+            Route::get('/list-all-company-scale', [
+                CompanyScaleController::class, 'getListAllCompanyScale'
+            ])->name(CompanyScale::LIST_ALL_COMPANY_SCALE->value);
         });
 
         Route::group(['prefix' => 'profile', 'as' => 'profile.'], function() {

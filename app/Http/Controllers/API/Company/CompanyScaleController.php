@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\API\Company;
 
-use App\Commands\CompanySeries\CompanyWorkingDay\GetListAllWorkingDay\GetListAllWorkingDayCommand;
-use App\Commands\CompanySeries\CompanyWorkingDay\GetListAllWorkingDay\GetListAllWorkingDayHandler;
+use App\Commands\CompanySeries\CompanyScale\GetListAllCompanyScale\GetListAllCompanyScaleCommand;
+use App\Commands\CompanySeries\CompanyScale\GetListAllCompanyScale\GetListAllCompanyScaleHandler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
-class CompanyWorkingDayController extends Controller
+class CompanyScaleController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
     )
@@ -19,14 +23,14 @@ class CompanyWorkingDayController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getListAllWorkingDay(): JsonResponse
+    public function getListAllCompanyScale(): JsonResponse
     {
         $this->bus->addHandler(
-            GetListAllWorkingDayCommand::class,
-            GetListAllWorkingDayHandler::class
+            GetListAllCompanyScaleCommand::class,
+            GetListAllCompanyScaleHandler::class
         );
 
-        $result = $this->bus->dispatch(new GetListAllWorkingDayCommand());
+        $result = $this->bus->dispatch(new GetListAllCompanyScaleCommand());
 
         if(!empty($result['data'])){
             return $this->responseSuccess(
