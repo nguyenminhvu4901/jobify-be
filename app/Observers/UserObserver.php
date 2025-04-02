@@ -4,10 +4,9 @@ namespace App\Observers;
 
 use App\Enums\RouteNames\Profile\UserProfile;
 use App\Models\User;
-use App\Observers\Profile\BaseProfileObserver;
 use Ramsey\Uuid\Uuid;
 
-class UserObserver extends BaseProfileObserver
+class UserObserver extends BaseObserver
 {
     protected array $cacheTag = [
         UserProfile::TAG_NAME->value

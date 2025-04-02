@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchCommand;
 use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchHandler;
+use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser\GetListCompanyBranchCurrentUserCommand;
+use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser\GetListCompanyBranchCurrentUserHandler;
 use App\Commands\CompanySeries\CompanyBranch\StoreCompanyBranch\StoreCompanyBranchCommand;
 use App\Commands\CompanySeries\CompanyBranch\StoreCompanyBranch\StoreCompanyBranchHandler;
 use App\Commands\CompanySeries\CompanyBranch\UpdateBranchCompany\UpdateCompanyBranchCommand;
@@ -28,19 +30,20 @@ class CompanyBranchController extends Controller
      * @param CompanyBranchRequest $request
      * @return JsonResponse
      */
-    public function updateCompanyBranch(CompanyBranchRequest $request): JsonResponse
+    public function getListCompanyBranchCurrentUser(CompanyBranchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            UpdateCompanyBranchCommand::class,
-            UpdateCompanyBranchHandler::class
+            GetListCompanyBranchCurrentUserCommand::class,
+            GetListCompanyBranchCurrentUserHandler::class
         );
 
-        $result = $this->bus->dispatch(UpdateCompanyBranchCommand::withForm($request));
+        $result = $this->bus->dispatch(GetListCompanyBranchCurrentUserCommand::withForm($request));
 
         if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
-                message: $result['message']
+                message: $result['message'],
+                cache: $result['cache'] ?? null
             );
         }
 
@@ -78,7 +81,38 @@ class CompanyBranchController extends Controller
         );
     }
 
-    public function destroyCompanyBranch(CompanyBranchRequest $request)
+    /**
+     * @param CompanyBranchRequest $request
+     * @return JsonResponse
+     */
+    public function updateCompanyBranch(CompanyBranchRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateCompanyBranchCommand::class,
+            UpdateCompanyBranchHandler::class
+        );
+
+        $result = $this->bus->dispatch(UpdateCompanyBranchCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message']
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null,
+        );
+    }
+
+    /**
+     * @param CompanyBranchRequest $request
+     * @return JsonResponse
+     */
+    public function destroyCompanyBranch(CompanyBranchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             DestroyCompanyBranchCommand::class,

@@ -50,6 +50,11 @@ Route::group(
             ])->name(CompanyProfile::UPDATE_COMPANY_PROFILE->value);
 
             Route::group(['prefix' => 'branch', 'as' => 'branch.'], function () {
+                Route::get('/list-company-branch-current-user', [
+                    CompanyBranchController::class, 'getListCompanyBranchCurrentUser'
+                ])
+                ->name(CompanyBranch::LIST_COMPANY_BRANCH_CURRENT_USER->value);
+
                 Route::post('/store-company-branch', [
                     CompanyBranchController::class, 'storeCompanyBranch'
                 ])->name(CompanyBranch::STORE_COMPANY_BRANCH->value);

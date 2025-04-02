@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Observers\Profile;
+namespace App\Observers;
 use Illuminate\Support\Facades\Cache;
 
-abstract class BaseProfileObserver
+abstract class BaseObserver
 {
     /**
      * @var array

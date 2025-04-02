@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Entities\CompanySeries\Company\Company;
+use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
 use App\Entities\ProfileSeries\UserActivity\UserActivity;
 use App\Entities\ProfileSeries\UserCertification\UserCertification;
 use App\Entities\ProfileSeries\UserCourse\UserCourse;
@@ -14,6 +16,8 @@ use App\Entities\ProfileSeries\UserProfile\UserProfile;
 use App\Entities\ProfileSeries\UserProject\UserProject;
 use App\Entities\ProfileSeries\UserSkill\UserSkill;
 use App\Models\User;
+use App\Observers\Company\CompanyBranchObserver;
+use App\Observers\Company\CompanyObserver;
 use App\Observers\Profile\UserActivityObserver;
 use App\Observers\Profile\UserCertificationObserver;
 use App\Observers\Profile\UserCourseObserver;
@@ -22,10 +26,9 @@ use App\Observers\Profile\UserExperienceObserver;
 use App\Observers\Profile\UserLocationObserver;
 use App\Observers\Profile\UserPrizeObserver;
 use App\Observers\Profile\UserProductObserver;
-use App\Observers\Profile\UserProfileObserver;
+use App\Observers\Profile\UserObserver;
 use App\Observers\Profile\UserProjectObserver;
 use App\Observers\Profile\UserSkillObserver;
-use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
 class ObserverServiceProvider extends ServiceProvider
@@ -42,7 +45,9 @@ class ObserverServiceProvider extends ServiceProvider
         UserProject::class => UserProjectObserver::class,
         UserSkill::class => UserSkillObserver::class,
         UserLocation::class => UserLocationObserver::class,
-        UserProfile::class => UserProfileObserver::class,
+        UserProfile::class => UserObserver::class,
+        Company::class => CompanyObserver::class,
+        CompanyBranch::class => CompanyBranchObserver::class
     ];
 
     /**
