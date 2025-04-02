@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Commands\CompanySeries\CompanyProfile\GetDetailProfileCompanyCurrentUser\GetDetailProfileCompanyCurrentUserCommand;
 use App\Commands\CompanySeries\CompanyProfile\GetDetailProfileCompanyCurrentUser\GetDetailProfileCompanyCurrentUserHandler;
+use App\Commands\CompanySeries\CompanyProfile\UpdateBranchCompany\UpdateBranchCompanyCommand;
+use App\Commands\CompanySeries\CompanyProfile\UpdateBranchCompany\UpdateBranchCompanyHandler;
 use App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile\UpdateCompanyProfileCommand;
 use App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile\UpdateCompanyProfileHandler;
 use App\Http\Controllers\Controller;
@@ -61,6 +63,33 @@ class CompanyController extends Controller
         );
 
         $result = $this->bus->dispatch(UpdateCompanyProfileCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message']
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null,
+        );
+    }
+
+    /**
+     * @param CompanyRequest $request
+     * @return JsonResponse
+     */
+    public function updateBranchCompany(CompanyRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateBranchCompanyCommand::class,
+            UpdateBranchCompanyHandler::class
+        );
+
+        $result = $this->bus->dispatch(UpdateBranchCompanyCommand::withForm($request));
 
         if(!empty($result['data'])){
             return $this->responseSuccess(

@@ -31,7 +31,8 @@ class CompanyProfileWithUserDataResource extends JsonResource
         'company_working_day' => CompanyWorkingDayResource::make($this?->companyWorkingDay),
         'website' => $this?->website,
         'description' => $this->description,
-        'avatar' => $this->avatar
+        'avatar' => $this->avatar,
+        'company_branch' => CompanyWorkingDayResource::collection($this?->companyBranches),
     ];
     }
 }

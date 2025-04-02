@@ -58,11 +58,11 @@ class UserLocationRequest extends FormRequest
             'province_id' => ['bail', 'nullable', 'integer', 'exists:provinces,id'],
             'district_id' => [
                 'bail', 'nullable', 'integer', 'exists:districts,id',
-                new CheckDistrictByProvinceRule()
+                new CheckDistrictByProvinceRule($this->input('province_id'))
                 ],
             'ward_id' => [
                 'bail', 'nullable', 'integer', 'exists:wards,id',
-                new CheckWardByDistrictRule()
+                new CheckWardByDistrictRule($this->input('district_id'))
             ],
             'address' => ['bail', 'nullable', 'string', 'max:512']
         ];

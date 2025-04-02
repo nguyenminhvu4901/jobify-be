@@ -2,7 +2,6 @@
 
 namespace App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile;
 
-use App\Http\Resources\CompanySeries\CompanyProfile\CompanyProfileResource;
 use App\Http\Resources\CompanySeries\CompanyProfile\CompanyProfileWithUserDataResource;
 use App\Repositories\CompanySeries\Company\CompanyRepository;
 

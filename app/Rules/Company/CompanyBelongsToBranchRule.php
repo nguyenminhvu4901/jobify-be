@@ -7,10 +7,10 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-readonly class CompanyBelongsToUserRule implements ValidationRule
+readonly class CompanyBelongsToBranchRule implements ValidationRule
 {
     public function __construct(
-        protected string|int $userId
+        protected string|int $companyBranchId
     )
     {
     }
@@ -18,16 +18,16 @@ readonly class CompanyBelongsToUserRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
+     * @param Closure(string, ?string=): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $checkExists = Company::where('id', $value)
-            ->whereUserId($this->userId)
+            ->whereCompanyBranchId($this->companyBranchId)
             ->doesntExist();
 
         if($checkExists){
-            $fail(__('validation.custom.company_id_user_id_mismatch'));
+            $fail(__('validation.custom.company_id_branch_id_mismatch'));
         }
     }
 }

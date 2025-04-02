@@ -78,13 +78,13 @@ class RecruiterRegisterHandler
     /**
      * @param RecruiterRegisterCommand $command
      * @param int $userId
-     * @return mixed
+     * @return array
      */
-    private function createCompany(RecruiterRegisterCommand $command, int $userId): mixed
+    private function createCompany(RecruiterRegisterCommand $command, int $userId): array
     {
         $urlAvatarDefault = asset(config('constants.default_avatar'));
 
-        return $this->companyRepository->create([
+        return $this->companyRepository->storeDataWithTransaction([
             'user_id' => $userId,
             'name' => $command->companyName,
             'company_scale_id' => $command->companyScaleId,
@@ -102,12 +102,11 @@ class RecruiterRegisterHandler
      */
     private function createCompanyBranch(RecruiterRegisterCommand $command, int $companyId): void
     {
-        $this->companyBranchRepository->create([
+        $this->companyBranchRepository->storeDataWithTransaction([
             'company_id' => $companyId,
             'branch_name' => $command->branchName,
-            'province_id' => $command->province,
-            'district_id' => $command->district,
+            'province_id' => $command->provinceId,
+            'district_id' => $command->districtId,
         ]);
     }
-
 }

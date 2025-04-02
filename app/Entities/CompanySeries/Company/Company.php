@@ -3,6 +3,7 @@
 namespace App\Entities\CompanySeries\Company;
 
 use App\Entities\CompanySeries\Company\Traits\CompanyRelationship;
+use App\Entities\CompanySeries\Company\Traits\CompanyScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Prettus\Repository\Traits\TransformableTrait;
 class Company extends Model implements Transformable
 {
     use TransformableTrait, HasFactory, Sluggable, SoftDeletes,
-        CompanyRelationship;
+        CompanyRelationship, CompanyScope;
 
     protected $table = 'companies';
 

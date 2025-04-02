@@ -16,9 +16,9 @@ class RecruiterRegisterCommand extends BaseRegisterCommand
      * @param int $companyScaleId
      * @param string $taxCode
      * @param int $genderId
-     * @param int $province
+     * @param int $provinceId
      * @param string $branchName
-     * @param int $district
+     * @param int $districtId
      */
     public function __construct(
         string $fullName,
@@ -29,9 +29,9 @@ class RecruiterRegisterCommand extends BaseRegisterCommand
         public readonly int $companyScaleId,
         public readonly string $taxCode,
         public readonly int $genderId,
-        public readonly int $province,
+        public readonly int $provinceId,
         public readonly string $branchName,
-        public readonly int $district
+        public readonly int $districtId
     ) {
         parent::__construct($fullName, $email, $password, $phoneNumber);
     }
@@ -45,13 +45,13 @@ class RecruiterRegisterCommand extends BaseRegisterCommand
         $data = array_merge(
             parent::fromBaseRequest($request),
             [
-                'companyName' => $request->get('company_name'),
-                'companyScaleId' => $request->get('company_scale_id'),
-                'taxCode' => $request->get('tax_code'),
-                'genderId' => $request->get('gender_id'),
-                'branchName' => $request->get('branch_name'),
-                'province' => $request->get('province'),
-                'district' => $request->get('district'),
+                'companyName' => $request->input('company_name'),
+                'companyScaleId' => $request->input('company_scale_id'),
+                'taxCode' => $request->input('tax_code'),
+                'genderId' => $request->input('gender_id'),
+                'branchName' => $request->input('branch_name'),
+                'provinceId' => $request->input('province_id'),
+                'districtId' => $request->input('district_id'),
             ]
         );
 
