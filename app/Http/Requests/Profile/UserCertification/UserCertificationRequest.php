@@ -34,8 +34,8 @@ class UserCertificationRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userCertification." . UserCertification::STORE->value => $commonRules,
-            "profile.userCertification." . UserCertification::UPDATE->value => [
+            UserCertification::PREFIX->value . UserCertification::STORE->value => $commonRules,
+            UserCertification::PREFIX->value . UserCertification::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
@@ -51,13 +51,13 @@ class UserCertificationRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userCertification." . UserCertification::DETAIL_LIST_USER_CERTIFICATION->value => [
+            UserCertification::PREFIX->value . UserCertification::DETAIL_LIST_USER_CERTIFICATION->value => [
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
             ],
-            "profile.userCertification." . UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value  => [
+            UserCertification::PREFIX->value . UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value  => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userCertification." .UserCertification::DESTROY->value => [
+            UserCertification::PREFIX->value .UserCertification::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
             ],
@@ -97,6 +97,6 @@ class UserCertificationRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userCertification." . UserCertification::STORE->value);
+        $this->processWithValidator($validator, UserCertification::PREFIX->value . UserCertification::STORE->value);
     }
 }

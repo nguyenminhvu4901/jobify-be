@@ -4,7 +4,6 @@ namespace App\Commands\ProfileSeries\UserLocation\GetCompleteListOfUserLocation;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserLocation;
-use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\ProfileSeries\UserLocation\UserLocationResource;
 use App\Repositories\ProfileSeries\UserLocation\UserLocationRepository;
 use Illuminate\Support\Facades\Cache;
@@ -51,7 +50,7 @@ class GetCompleteListOfUserLocationHandle
                 'data' => UserLocationResource::collection($userLocation),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => PaginationHelper::formatPaginationData($userLocation) ?? []
+                'pagination' => formatPaginationData($userLocation ?? [])
             ];
         }catch (\Exception $e){
 

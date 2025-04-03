@@ -52,7 +52,8 @@ trait JobListingRelationship
      */
     public function positions(): BelongsToMany
     {
-        return $this->belongsToMany(Position::class, JobPosition::class);
+        return $this->belongsToMany(Position::class, JobPosition::class)
+            ->withTimestamps();
     }
 
     /**
@@ -66,7 +67,7 @@ trait JobListingRelationship
     /**
      * @return BelongsTo
      */
-    public function gender()
+    public function gender(): BelongsTo
     {
         return $this->belongsTo(DefaultGender::class, 'gender_id', 'id');
     }

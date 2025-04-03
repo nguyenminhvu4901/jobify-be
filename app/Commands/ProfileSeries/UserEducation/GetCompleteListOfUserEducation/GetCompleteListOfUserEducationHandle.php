@@ -4,7 +4,6 @@ namespace App\Commands\ProfileSeries\UserEducation\GetCompleteListOfUserEducatio
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserEducation;
-use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\ProfileSeries\UserEducation\UserEducationResource;
 use App\Repositories\ProfileSeries\UserEducation\UserEducationRepository;
 use Illuminate\Support\Facades\Cache;
@@ -51,7 +50,7 @@ class GetCompleteListOfUserEducationHandle
                 'data' => UserEducationResource::collection($userEducation),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => PaginationHelper::formatPaginationData($userEducation) ?? []
+                'pagination' => formatPaginationData($userEducation ?? [])
             ];
         }catch (\Exception $e){
 

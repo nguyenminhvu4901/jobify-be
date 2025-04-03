@@ -26,4 +26,18 @@ class CompanyScale extends Model implements Transformable
             get: fn($value) => __('data/company_scales.' . $value) ?? $value
         );
     }
+
+    /**
+     * @return Attribute
+     */
+    protected function display(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return str_contains($this->name, '-')
+                    ? str_replace('-', $this->description, $this->name)
+                    : $this->description . " " . $this->name;
+            }
+        );
+    }
 }

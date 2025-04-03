@@ -32,20 +32,20 @@ class UserLocationRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName){
-            "profile.userLocation." . UserLocation::STORE->value => $commonRules,
-            'profile.userLocation.' . UserLocation::UPDATE->value => [
+            UserLocation::PREFIX->value . UserLocation::STORE->value => $commonRules,
+            UserLocation::PREFIX->value . UserLocation::UPDATE->value => [
                 ...$commonRules,
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            'profile.userLocation.' . UserLocation::DESTROY->value => [
+            UserLocation::PREFIX->value . UserLocation::DESTROY->value => [
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userLocation." . UserLocation::DETAIL_LIST_USER_LOCATION->value => [
+            UserLocation::PREFIX->value . UserLocation::DETAIL_LIST_USER_LOCATION->value => [
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
             ],
-            "profile.userLocation." . UserLocation::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value => [
+            UserLocation::PREFIX->value . UserLocation::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
             default => []
@@ -58,11 +58,11 @@ class UserLocationRequest extends FormRequest
             'province_id' => ['bail', 'nullable', 'integer', 'exists:provinces,id'],
             'district_id' => [
                 'bail', 'nullable', 'integer', 'exists:districts,id',
-                new CheckDistrictByProvinceRule()
+                new CheckDistrictByProvinceRule($this->input('province_id'))
                 ],
             'ward_id' => [
                 'bail', 'nullable', 'integer', 'exists:wards,id',
-                new CheckWardByDistrictRule()
+                new CheckWardByDistrictRule($this->input('district_id'))
             ],
             'address' => ['bail', 'nullable', 'string', 'max:512']
         ];

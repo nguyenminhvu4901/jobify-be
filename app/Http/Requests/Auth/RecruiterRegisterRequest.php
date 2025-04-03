@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\Location\CheckDistrictByProvinceRule;
 use App\Rules\PasswordRule;
 use App\Rules\PhoneNumberRule;
 use App\Traits\FailedValidation;
@@ -44,8 +45,11 @@ class RecruiterRegisterRequest extends FormRequest
             'company_scale_id' => ['bail', 'required', 'integer','exists:company_scales,id'],
             'tax_code' => ['bail', 'required', 'string', 'max:255'],
             'branch_name' => ['bail', 'required', 'string'],
-            'province' => ['bail', 'required', 'integer','exists:provinces,id'],
-            'district' => ['bail', 'required', 'integer','exists:districts,id']
+            'province_id' => ['bail', 'required', 'integer','exists:provinces,id'],
+            'district_id' => [
+                'bail', 'required', 'integer', 'exists:districts,id',
+                new CheckDistrictByProvinceRule($this->input('province_id'))
+            ]
         ];
     }
 }

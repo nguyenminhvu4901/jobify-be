@@ -4,7 +4,6 @@ namespace App\Commands\ProfileSeries\UserProject\GetCompleteListOfUserProject;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProject;
-use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\ProfileSeries\UserProject\UserProjectResource;
 use App\Repositories\ProfileSeries\UserProject\UserProjectRepository;
 use Illuminate\Support\Facades\Cache;
@@ -41,7 +40,7 @@ class GetCompleteListOfUserProjectHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userProjectRepository->paginateWithRelationship(
+                fn() => $this->userProjectRepository->cursorPaginateWithRelationship(
                     relationship: ['userProjectResources.contentType', 'user'],
                     limit:  $command->limit
                 )
@@ -51,7 +50,7 @@ class GetCompleteListOfUserProjectHandle
                 'data' => UserProjectResource::collection($userProjects),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => PaginationHelper::formatPaginationData($userProjects) ?? []
+                'pagination' => formatCursorPaginationData($userProjects ?? [])
             ];
         }catch (\Exception $e){
             return [

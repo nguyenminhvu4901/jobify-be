@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Helpers\Global;
-
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PaginationHelper
-{
+if (!function_exists('formatPaginationData')) {
     /**
      * @param $data
      * @return array
      */
-    public static function formatPaginationData($data): array
+    function formatPaginationData($data): array
     {
         if ($data instanceof LengthAwarePaginator && !empty($data->total())) {
             return [
@@ -21,9 +19,35 @@ class PaginationHelper
                 "next_page_url" => $data->nextPageUrl(),
                 "prev_page_url" => $data->previousPageUrl(),
                 "has_more_pages" => $data->hasMorePages(),
-                "count" => $data->count(),
                 "first_item" => $data->firstItem(),
                 "last_item" => $data->lastItem()
+            ];
+        }
+
+        return [];
+    }
+}
+
+if (!function_exists('formatCursorPaginationData')) {
+    /**
+     * @param $data
+     * @return array
+     */
+    function formatCursorPaginationData($data): array
+    {
+        if ($data instanceof CursorPaginator && !empty($data->hasMorePages())) {
+            $items = $data->items();
+
+            return [
+                "per_page" => $data->perPage(),
+                "next_page_url" => $data->nextPageUrl(),
+                "prev_page_url" => $data->previousPageUrl(),
+                "has_more_pages" => $data->hasMorePages(),
+                "total" => $data->count(),
+                "next_cursor" => optional($data->nextCursor())->encode(),
+                "prev_cursor" => optional($data->previousCursor())->encode(),
+                "first_item" => !empty($items) ? $items[0] : null,
+                "last_item" => !empty($items) ? end($items) : null,
             ];
         }
 

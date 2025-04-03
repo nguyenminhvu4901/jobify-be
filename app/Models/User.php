@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\Status;
 use App\Models\Traits\UserRelationship;
+use App\Models\Traits\UserScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +15,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, HasRoles, Sluggable, SoftDeletes, UserRelationship, CanResetPassword;
+    use HasFactory,
+        Notifiable,
+        HasRoles,
+        Sluggable,
+        SoftDeletes,
+        UserRelationship,
+        UserScope,
+        CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -64,17 +71,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return [
             'slug' => [
-                'source' => 'full_name'
+                'source' => 'full_name',
+                'onUpdate' => true
             ]
         ];
-    }
-
-    /**
-     * @return bool
-     */
-    public function scopeIsActive(): bool
-    {
-        return $this->status_id == Status::ACTIVE->value;
     }
 
     /**

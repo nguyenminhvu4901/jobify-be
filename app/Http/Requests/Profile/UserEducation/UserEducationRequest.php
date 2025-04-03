@@ -31,19 +31,19 @@ class UserEducationRequest extends FormRequest
         $commonRule = $this->defineCommonRule();
 
         return match ($routeName){
-            "profile.userEducation." . UserEducation::STORE->value => $commonRule,
-            "profile.userEducation." . UserEducation::DETAIL_LIST_USER_EDUCATION->value => [
+            UserEducation::PREFIX->value . UserEducation::STORE->value => $commonRule,
+            UserEducation::PREFIX->value . UserEducation::DETAIL_LIST_USER_EDUCATION->value => [
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            "profile.userEducation." . UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value => [
+            UserEducation::PREFIX->value . UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value => [
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
-            "profile.userEducation." . UserEducation::UPDATE->value => [
+            UserEducation::PREFIX->value . UserEducation::UPDATE->value => [
                 ...$commonRule,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            "profile.userEducation." . UserEducation::DESTROY->value => [
+            UserEducation::PREFIX->value . UserEducation::DESTROY->value => [
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id'],
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],

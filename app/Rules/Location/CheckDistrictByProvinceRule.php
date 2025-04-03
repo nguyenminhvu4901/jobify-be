@@ -7,8 +7,14 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-class CheckDistrictByProvinceRule implements ValidationRule
+readonly class CheckDistrictByProvinceRule implements ValidationRule
 {
+    public function __construct(
+        protected string|int|null $provinceId
+    )
+    {
+    }
+
     /**
      * Run the validation rule.
      *
@@ -16,11 +22,11 @@ class CheckDistrictByProvinceRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $provinceId = request('province_id');
+        $checkDistrict = District::where('id', $value)
+            ->whereProvinceId($this->provinceId)
+            ->doesntExist();
 
-        $checkDistrict = District::where('id', $value)->where('province_id', $provinceId)->exists();
-
-        if(!$checkDistrict){
+        if($checkDistrict){
             $fail(__('validation.custom.invalid_district_in_province'));
         }
     }

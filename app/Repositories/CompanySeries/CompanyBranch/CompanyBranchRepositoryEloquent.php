@@ -39,4 +39,17 @@ class CompanyBranchRepositoryEloquent extends BaseRepository implements CompanyB
             return null;
         }
     }
+
+    /**
+     * @param $companyBranchId
+     * @param $companyId
+     * @return mixed
+     */
+    public function checkExistByIdAndCompanyId($companyBranchId, $companyId): mixed
+    {
+        return $this->model
+            ->whereById($companyBranchId)
+            ->whereByCompanyId($companyId)
+            ->exists();
+    }
 }

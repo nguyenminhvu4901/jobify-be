@@ -55,7 +55,7 @@ class MakeCommandHandler extends Command
 
             namespace {$namespace};
 
-            class {$className}Command
+            readonly class {$className}Command
             {
             }
             PHP;

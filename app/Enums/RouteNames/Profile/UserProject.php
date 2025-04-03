@@ -4,6 +4,8 @@ namespace App\Enums\RouteNames\Profile;
 
 enum UserProject: string
 {
+    case PREFIX = 'profile.userProject.';
+
     case TAG_NAME = 'userProjects';
 
     case LIST_PROJECT_CURRENT_USER = 'listProjectCurrentUser';

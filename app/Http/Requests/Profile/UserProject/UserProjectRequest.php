@@ -34,14 +34,14 @@ class UserProjectRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            "profile.userProject." . UserProject::DETAIL_LIST_USER_PROJECT->value => [
+            UserProject::PREFIX->value . UserProject::DETAIL_LIST_USER_PROJECT->value => [
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id']
             ],
-            "profile.userProject." . UserProject::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value => [
+            UserProject::PREFIX->value . UserProject::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            "profile.userProject." . UserProject::STORE->value => $commonRules,
-            "profile.userProject." . UserProject::UPDATE->value => [
+            UserProject::PREFIX->value . UserProject::STORE->value => $commonRules,
+            UserProject::PREFIX->value . UserProject::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
@@ -57,7 +57,7 @@ class UserProjectRequest extends FormRequest
                     )
                 ]
             ],
-            "profile.userProject." . UserProject::DESTROY->value => [
+            UserProject::PREFIX->value . UserProject::DESTROY->value => [
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -99,6 +99,6 @@ class UserProjectRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, "profile.userProject." . UserProject::STORE->value);
+        $this->processWithValidator($validator, UserProject::PREFIX->value . UserProject::STORE->value);
     }
 }

@@ -4,7 +4,6 @@ namespace App\Commands\ProfileSeries\UserSkill\GetCompleteListOfUserSkill;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserSkill;
-use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\ProfileSeries\UserSkill\UserSkillResource;
 use App\Repositories\ProfileSeries\UserSkill\UserSkillRepository;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +20,7 @@ class GetCompleteListOfUserSkillHandle
     }
 
     /**
+     * @param GetCompleteListOfUserSkillCommand $command
      * @return array
      */
     public function handle(GetCompleteListOfUserSkillCommand $command): array
@@ -50,7 +50,7 @@ class GetCompleteListOfUserSkillHandle
                 'data' => UserSkillResource::collection($userSkills),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => PaginationHelper::formatPaginationData($userSkills) ?? []
+                'pagination' => formatPaginationData($userSkills ?? [])
             ];
         }catch (\Exception $e){
 

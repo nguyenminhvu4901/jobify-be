@@ -4,6 +4,8 @@ namespace App\Enums\RouteNames\Profile;
 
 enum UserActivity: string
 {
+    case PREFIX = 'profile.userActivity.';
+
     case TAG_NAME = 'userActivities';
     case LIST_ACTIVITY_CURRENT_USER = 'listActivityCurrentUser';
     case COMPLETE_LIST_USER_ACTIVITY = 'completeListOfUserActivity';

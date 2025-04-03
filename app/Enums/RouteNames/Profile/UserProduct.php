@@ -4,6 +4,8 @@ namespace App\Enums\RouteNames\Profile;
 
 enum UserProduct: string
 {
+    case PREFIX = 'profile.userProduct.';
+
     case TAG_NAME = 'userProducts';
 
     case LIST_PRODUCT_CURRENT_USER = 'listProductCurrentUser';

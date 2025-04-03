@@ -16,6 +16,6 @@ trait OperationTypeRelationship
         return $this->belongsToMany(Company::class, CompanyOperationType::class,
             'operation_type_id', 'company_id',
             'id', 'id'
-        );
+        )->withTimestamps();
     }
 }

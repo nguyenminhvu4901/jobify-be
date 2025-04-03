@@ -39,4 +39,48 @@ class CompanyRepositoryEloquent extends BaseRepository implements CompanyReposit
             return null;
         }
     }
+
+    /**
+     * @param $company
+     * @param $operationTypes
+     * @return Company|null
+     */
+    public function syncOperationTypes($company, $operationTypes): ?Company
+    {
+        DB::beginTransaction();
+
+        try {
+            $company->operationTypes()->sync($operationTypes);
+
+            DB::commit();
+
+            return $company->refresh();
+        }catch (Exception){
+            DB::rollBack();
+
+            return null;
+        }
+    }
+
+    /**
+     * @param $company
+     * @param $businessSectors
+     * @return Company|null
+     */
+    public function syncBusinessSectors($company, $businessSectors): ?Company
+    {
+        DB::beginTransaction();
+
+        try {
+            $company->businessSectors()->sync($businessSectors);
+
+            DB::commit();
+
+            return $company->refresh();
+        }catch (Exception){
+            DB::rollBack();
+
+            return null;
+        }
+    }
 }

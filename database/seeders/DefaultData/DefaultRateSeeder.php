@@ -18,7 +18,7 @@ class DefaultRateSeeder extends Seeder
         $rates = config('jobify_data.default_data.rates');
         $rates = addTimestamps($rates);
 
-        DefaultRate::upsert($rates, ['id'], ['name', 'description']);
+        DefaultRate::upsert($rates, ['id'], ['rate']);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

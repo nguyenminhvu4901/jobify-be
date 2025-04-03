@@ -18,7 +18,7 @@ class DefaultContentTypeSeeder extends Seeder
         $contentTypes = config('jobify_data.default_data.content_types');
         $contentTypes = addTimestamps($contentTypes);
 
-        DefaultContentType::upsert($contentTypes, ['id'], ['name', 'description']);
+        DefaultContentType::upsert($contentTypes, ['id'], ['content_type']);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

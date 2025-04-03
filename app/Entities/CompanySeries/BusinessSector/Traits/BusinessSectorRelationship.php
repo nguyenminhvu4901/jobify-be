@@ -35,6 +35,6 @@ trait BusinessSectorRelationship
         return $this->belongsToMany(Company::class, CompanyBusinessSector::class,
             'business_sector_id', 'company_id',
             'id', 'id'
-        );
+        )->withTimestamps();
     }
 }

@@ -9,7 +9,8 @@ readonly class GetCompleteListOfUserExperienceCommand implements CommandInterfac
 {
     public function __construct(
         public int|null $page,
-        public int|null $limit
+        public int|null $limit,
+        public string|null $cursor
     )
     {
     }
@@ -18,7 +19,8 @@ readonly class GetCompleteListOfUserExperienceCommand implements CommandInterfac
     {
         return new self(
             page: $request->input('page') ?? null,
-            limit: $request->input('limit') ?? null
+            limit: $request->input('limit') ?? null,
+            cursor:  $request->input('cursor') ?? null,
         );
     }
 }

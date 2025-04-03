@@ -4,6 +4,8 @@ namespace App\Enums\RouteNames\Profile;
 
 enum UserEducation: string
 {
+    case PREFIX = 'profile.userEducation.';
+
     case TAG_NAME = 'userEducations';
 
     case LIST_EDUCATION_CURRENT_USER = 'listEducationCurrentUser';

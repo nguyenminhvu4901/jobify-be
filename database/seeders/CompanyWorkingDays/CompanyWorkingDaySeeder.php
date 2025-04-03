@@ -18,7 +18,7 @@ class CompanyWorkingDaySeeder extends Seeder
         $companyWorkingDays = config('jobify_data.company_working_days.company_working_days');
         $companyWorkingDays = addTimestamps($companyWorkingDays);
 
-        CompanyWorkingDay::upsert($companyWorkingDays, ['id'], ['name', 'description']);
+        CompanyWorkingDay::upsert($companyWorkingDays, ['id'], ['working_day']);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

@@ -10,4 +10,6 @@ namespace App\Repositories\CompanySeries\CompanyBranch;
 interface CompanyBranchRepository
 {
     public function create(array $attributes);
+
+    public function checkExistByIdAndCompanyId($companyBranchId, $companyId);
 }

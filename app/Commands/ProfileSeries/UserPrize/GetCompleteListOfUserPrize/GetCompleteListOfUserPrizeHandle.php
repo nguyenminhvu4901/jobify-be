@@ -4,7 +4,6 @@ namespace App\Commands\ProfileSeries\UserPrize\GetCompleteListOfUserPrize;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserPrize;
-use App\Helpers\Global\PaginationHelper;
 use App\Http\Resources\ProfileSeries\UserPrize\UserPrizeResource;
 use App\Repositories\ProfileSeries\UserPrize\UserPrizeRepository;
 use Illuminate\Support\Facades\Cache;
@@ -50,7 +49,7 @@ class GetCompleteListOfUserPrizeHandle
                 'data' => UserPrizeResource::collection($userPrizes),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => PaginationHelper::formatPaginationData($userPrizes) ?? []
+                'pagination' => formatPaginationData($userPrizes ?? [])
             ];
         }catch (\Exception $e){
             return [

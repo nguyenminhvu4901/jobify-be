@@ -3,6 +3,7 @@
 namespace App\Commands\Auth\RecruiterRegister;
 
 use App\Enums\DefaultRole;
+use App\Enums\Status;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
 use App\Notifications\UserRegisteredNotification;
 use App\Repositories\CompanySeries\Company\CompanyRepository;
@@ -41,7 +42,13 @@ class RecruiterRegisterHandler
 
             $company = $this->createCompany($command, $recruiter->id);
 
-            $this->createCompanyBranch($command, $company->id);
+            if(!$company['success']){
+                return [
+                    'message' => __('messages.authentication.user_register_error'),
+                ];
+            }
+
+            $this->createCompanyBranch($command, $company['data']->id);
 
             $recruiter->notify(new UserRegisteredNotification());
 
@@ -77,16 +84,20 @@ class RecruiterRegisterHandler
     /**
      * @param RecruiterRegisterCommand $command
      * @param int $userId
-     * @return mixed
+     * @return array
      */
-    private function createCompany(RecruiterRegisterCommand $command, int $userId): mixed
+    private function createCompany(RecruiterRegisterCommand $command, int $userId): array
     {
-        return $this->companyRepository->create([
+        $urlAvatarDefault = asset(config('constants.default_avatar'));
+
+        return $this->companyRepository->storeDataWithTransaction([
             'user_id' => $userId,
             'name' => $command->companyName,
             'company_scale_id' => $command->companyScaleId,
             'gender_id' => $command->genderId,
             'tax_code' => $command->taxCode,
+            'status_id' => Status::DEACTIVATE->value,
+            'avatar' => $urlAvatarDefault
         ]);
     }
 
@@ -97,12 +108,11 @@ class RecruiterRegisterHandler
      */
     private function createCompanyBranch(RecruiterRegisterCommand $command, int $companyId): void
     {
-        $this->companyBranchRepository->create([
+        $this->companyBranchRepository->storeDataWithTransaction([
             'company_id' => $companyId,
             'branch_name' => $command->branchName,
-            'province_id' => $command->province,
-            'district_id' => $command->district,
+            'province_id' => $command->provinceId,
+            'district_id' => $command->districtId,
         ]);
     }
-
 }
