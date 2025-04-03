@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\CompanySeries\CompanyProfile;
 
+use App\Http\Resources\CompanySeries\BusinessSector\BusinessSectorResource;
 use App\Http\Resources\CompanySeries\CompanyBranch\CompanyBranchResource;
 use App\Http\Resources\CompanySeries\CompanyScale\CompanyScaleResource;
 use App\Http\Resources\CompanySeries\CompanyWorkingDay\CompanyWorkingDayResource;
+use App\Http\Resources\CompanySeries\OperationType\OperationTypeResource;
 use App\Http\Resources\DefaultSeries\DefaultGender\DefaultGenderResource;
 use App\Http\Resources\DefaultSeries\DefaultStatus\DefaultStatusResource;
 use Illuminate\Http\Request;
@@ -32,7 +34,9 @@ class CompanyProfileResource extends JsonResource
             'website' => $this?->website,
             'description' => $this->description,
             'avatar' => $this->avatar,
-            'branch' => CompanyBranchResource::collection($this?->companyBranches)
+            'company_branch' => CompanyBranchResource::collection($this?->companyBranches),
+            'operation_types' => OperationTypeResource::collection($this?->operationTypes),
+            'business_sectors' => BusinessSectorResource::collection($this?->businessSectors),
         ];
     }
 }

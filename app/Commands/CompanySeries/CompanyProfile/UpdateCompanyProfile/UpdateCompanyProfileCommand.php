@@ -30,7 +30,9 @@ readonly class UpdateCompanyProfileCommand implements CommandInterface
         public string|int|null $companyWorkingDayId,
         public string|null $website,
         public string|null $description,
-        public string|int|null $taxCode
+        public string|int|null $taxCode,
+        public array|null $operationTypes,
+        public array|null $businessSectors,
     )
     {
     }
@@ -50,7 +52,9 @@ readonly class UpdateCompanyProfileCommand implements CommandInterface
             companyWorkingDayId: $request->input('company_working_day_id'),
             website: $request->input('website'),
             description: $request->input('description'),
-            taxCode: $request->input('tax_code')
+            taxCode: $request->input('tax_code'),
+            operationTypes: $request->input('operation_types'),
+            businessSectors: $request->input('business_sectors')
         );
     }
 }

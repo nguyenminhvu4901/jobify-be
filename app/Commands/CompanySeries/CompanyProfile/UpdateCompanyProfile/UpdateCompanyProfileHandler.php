@@ -29,8 +29,19 @@ class UpdateCompanyProfileHandler
         }
 
         $result['data']->load(
-            ['user', 'gender', 'status', 'companyScale', 'companyBranches', 'companyWorkingDay']
+            [
+                'user', 'gender', 'status', 'companyScale', 'companyBranches', 'companyWorkingDay',
+                'operationTypes', 'businessSectors'
+            ]
         );
+
+        if(!empty($command->operationTypes)){
+            $this->companyRepository->syncOperationTypes($result['data'], $command->operationTypes);
+        }
+
+        if(!empty($command->businessSectors)){
+            $this->companyRepository->syncBusinessSectors($result['data'], $command->businessSectors);
+        }
 
         return [
             'data' => CompanyProfileWithUserDataResource::make($result['data']),

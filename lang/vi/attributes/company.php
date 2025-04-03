@@ -6,4 +6,13 @@ return [
     'company_scale_id' => 'Quy mô công ty',
     'tax_code' => 'Mã số thuế',
     'company_working_day_id' => 'Thời gian làm việc',
+    'operation_types' => 'Loại hình hoạt động',
+    'operation_type' => 'Loại hình hoạt động',
+    'operation_types.*' => 'Mã Loại hình hoạt động',
+    'operation_type.*' => 'Mã loại hình hoạt động',
+    'business_sectors' => 'Lĩnh vực hoạt động',
+    'business_sector' => 'Lĩnh vực hoạt động',
+    'business_sectors.*' => 'Mã lĩnh vực hoạt động',
+    'business_sector.*' => 'Mã lĩnh vực hoạt động',
+    'company_branch' => 'Chi nhánh công ty',
 ];

@@ -60,6 +60,12 @@ class CompanyRequest extends FormRequest
             'website' => ['bail', 'nullable', 'string', 'max:512'],
             'description' => ['bail', 'nullable', 'string', 'max:512'],
             'tax_code' => ['bail', 'required', 'string', 'max:255'],
+
+            'operation_types' => ['bail', 'nullable', 'array'],
+            'operation_types.*' => ['bail', 'nullable', 'integer', 'exists:operation_types,id'],
+
+            'business_sectors' => ['bail', 'nullable', 'array'],
+            'business_sectors.*' => ['bail', 'nullable', 'integer', 'exists:business_sectors,id'],
         ];
     }
 }
