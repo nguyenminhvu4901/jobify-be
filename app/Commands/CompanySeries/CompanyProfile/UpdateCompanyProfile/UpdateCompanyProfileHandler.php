@@ -2,17 +2,25 @@
 
 namespace App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile;
 
+use App\Entities\CompanySeries\Company\Company;
 use App\Http\Resources\CompanySeries\CompanyProfile\CompanyProfileWithUserDataResource;
 use App\Repositories\CompanySeries\Company\CompanyRepository;
 
 class UpdateCompanyProfileHandler
 {
+    /**
+     * @param CompanyRepository $companyRepository
+     */
     public function __construct(
         protected CompanyRepository $companyRepository
     )
     {
     }
 
+    /**
+     * @param UpdateCompanyProfileCommand $command
+     * @return array
+     */
     public function handle(UpdateCompanyProfileCommand $command): array
     {
         $result = $this->companyRepository->updateDataWithTransaction(
@@ -35,13 +43,7 @@ class UpdateCompanyProfileHandler
             ]
         );
 
-        if(!empty($command->operationTypes)){
-            $this->companyRepository->syncOperationTypes($result['data'], $command->operationTypes);
-        }
-
-        if(!empty($command->businessSectors)){
-            $this->companyRepository->syncBusinessSectors($result['data'], $command->businessSectors);
-        }
+        $this->syncCompany($result['data'], $command);
 
         return [
             'data' => CompanyProfileWithUserDataResource::make($result['data']),
@@ -64,5 +66,16 @@ class UpdateCompanyProfileHandler
             'description' => $command->description,
             'tax_code' => $command->taxCode
         ];
+    }
+
+    /**
+     * @param Company $company
+     * @param UpdateCompanyProfileCommand $command
+     * @return void
+     */
+    private function syncCompany(Company $company, UpdateCompanyProfileCommand $command): void
+    {
+        $this->companyRepository->syncOperationTypes($company, $command->operationTypes);
+        $this->companyRepository->syncBusinessSectors($company, $command->businessSectors);
     }
 }

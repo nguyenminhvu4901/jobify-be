@@ -4,9 +4,12 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Commands\CompanySeries\CompanyProfile\GetDetailProfileCompanyCurrentUser\GetDetailProfileCompanyCurrentUserCommand;
 use App\Commands\CompanySeries\CompanyProfile\GetDetailProfileCompanyCurrentUser\GetDetailProfileCompanyCurrentUserHandler;
+use App\Commands\CompanySeries\CompanyProfile\UpdateCompanyAvatar\UpdateCompanyAvatarCommand;
+use App\Commands\CompanySeries\CompanyProfile\UpdateCompanyAvatar\UpdateCompanyAvatarHandler;
 use App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile\UpdateCompanyProfileCommand;
 use App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile\UpdateCompanyProfileHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanySeries\Company\CompanyAvatarRequest;
 use App\Http\Requests\CompanySeries\Company\CompanyRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
@@ -73,6 +76,30 @@ class CompanyController extends Controller
             message: $result['message'],
             error: $result['error'] ?? null,
             statusCode: $result['status_code'] ?? null,
+        );
+    }
+
+    /**
+     * @param CompanyAvatarRequest $request
+     * @return JsonResponse
+     */
+    public function updateCompanyAvatar(CompanyAvatarRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateCompanyAvatarCommand::class,
+            UpdateCompanyAvatarHandler::class
+        );
+
+        $result = $this->bus->dispatch(UpdateCompanyAvatarCommand::withForm($request));
+
+        if(!empty($result['company'])){
+            return $this->responseSuccess(data: $result['company'], message: $result['message']);
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
         );
     }
 }

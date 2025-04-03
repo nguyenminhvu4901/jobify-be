@@ -57,6 +57,10 @@ Route::group(
                 CompanyController::class, 'updateCompanyProfile'
             ])->name(CompanyProfile::UPDATE_COMPANY_PROFILE->value);
 
+            Route::post('/update-company-avatar', [
+                CompanyController::class, 'updateCompanyAvatar'
+            ])->name(CompanyProfile::UPDATE_COMPANY_AVATAR->value);
+
             Route::group(['prefix' => 'branch', 'as' => 'branch.'], function () {
                 Route::get('/list-company-branch', [
                     CompanyBranchController::class, 'getListCompanyBranch'
