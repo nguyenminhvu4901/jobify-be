@@ -2,19 +2,19 @@
 
 namespace App\Entities\CompanySeries\CompanyWorkingDay;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class CompanyWorkingDay extends Model implements Transformable
+class CompanyWorkingDay extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;
 
     protected $table = "company_working_days";
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'working_day'
     ];
 

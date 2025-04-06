@@ -2,12 +2,12 @@
 
 namespace App\Entities\DefaultSeries\DefaultStatus;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class DefaultStatus extends Model implements Transformable
+class DefaultStatus extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;
 
@@ -16,9 +16,7 @@ class DefaultStatus extends Model implements Transformable
      */
     protected $table = 'default_statuses';
 
-    /**
-     * @var string[]
-     */
-    protected $fillable = ['status'];
-
+    public const FILLABLE_FIELDS = [
+        'status'
+    ];
 }

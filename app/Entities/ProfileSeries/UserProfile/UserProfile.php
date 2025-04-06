@@ -3,18 +3,18 @@
 namespace App\Entities\ProfileSeries\UserProfile;
 
 use App\Entities\ProfileSeries\UserProfile\Traits\UserProfileRelationship;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class UserProfile extends Model implements Transformable
+class UserProfile extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, UserProfileRelationship;
 
     protected $table = 'user_profiles';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'user_id',
         'position',
         'gender_id',

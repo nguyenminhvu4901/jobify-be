@@ -13,9 +13,14 @@ class Role extends SpatieRole
 
     public $timestamps = true;
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'name',
         'display_name',
         'guard_name',
     ];
+
+    /**
+     * @var string[]
+     */
+    protected $fillable = self::FILLABLE_FIELDS;
 }

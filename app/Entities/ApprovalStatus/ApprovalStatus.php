@@ -2,16 +2,18 @@
 
 namespace App\Entities\ApprovalStatus;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class ApprovalStatus extends Model implements Transformable
+class ApprovalStatus extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;
 
     protected $table = 'approval_statuses';
 
-    protected $fillable = ['status'];
+    public const FILLABLE_FIELDS = [
+        'status'
+    ];
 }

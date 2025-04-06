@@ -3,16 +3,18 @@
 namespace App\Entities\JobSeries\Currency;
 
 use App\Entities\JobSeries\Currency\Traits\CurrencyRelationship;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class Currency extends Model implements Transformable
+class Currency extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, CurrencyRelationship;
 
     protected $table = 'currencies';
 
-    protected $fillable = ['name'];
+    public const FILLABLE_FIELDS = [
+        'name'
+    ];
 }

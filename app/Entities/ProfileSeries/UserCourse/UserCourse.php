@@ -3,18 +3,18 @@
 namespace App\Entities\ProfileSeries\UserCourse;
 
 use App\Entities\ProfileSeries\UserCourse\Traits\UserCourseRelationship;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class UserCourse extends Model implements Transformable
+class UserCourse extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, UserCourseRelationship;
 
     protected $table = 'user_courses';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'user_id',
         'name',
         'organization',

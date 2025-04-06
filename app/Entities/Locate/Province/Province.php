@@ -2,18 +2,18 @@
 
 namespace App\Entities\Locate\Province;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class Province extends Model implements Transformable
+class Province extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;
 
     protected $table = 'provinces';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'code',
         'province_name'
     ];

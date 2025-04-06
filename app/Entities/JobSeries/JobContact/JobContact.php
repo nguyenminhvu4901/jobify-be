@@ -3,18 +3,18 @@
 namespace App\Entities\JobSeries\JobContact;
 
 use App\Entities\JobSeries\JobContact\Traits\JobContactRelationship;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class JobContact extends Model implements Transformable
+class JobContact extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, JobContactRelationship;
 
     protected $table = 'job_contacts';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'job_listing_id',
         'full_name',
         'email',

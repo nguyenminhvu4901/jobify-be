@@ -3,19 +3,19 @@
 namespace App\Entities\JobSeries\JobListing;
 
 use App\Entities\JobSeries\JobListing\Traits\JobListingRelationship;
+use App\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class JobListing extends Model implements Transformable
+class JobListing extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, Sluggable, JobListingRelationship;
 
     protected $table = 'job_listings';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'company_id',
         'title',
         'slug',

@@ -3,16 +3,18 @@
 namespace App\Entities\ApplicationCV;
 
 use App\Entities\ApplicationCV\Traits\ApplicationCVRelationship;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class ApplicationCV extends Model implements Transformable
+class ApplicationCV extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, ApplicationCVRelationship;
 
     protected $table = 'application_cv';
 
-    protected $fillable = ['title', 'path', 'job_application_id'];
+    public const FILLABLE_FIELDS = [
+        'title', 'path', 'job_application_id'
+    ];
 }

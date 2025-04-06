@@ -3,19 +3,19 @@
 namespace App\Entities\CompanySeries\BusinessSector;
 
 use App\Entities\CompanySeries\BusinessSector\Traits\BusinessSectorRelationship;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class BusinessSector extends Model implements Transformable
+class BusinessSector extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, BusinessSectorRelationship;
 
     protected $table = 'business_sectors';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'name',
         'description',
         'parent_id'

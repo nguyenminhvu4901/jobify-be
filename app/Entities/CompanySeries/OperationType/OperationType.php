@@ -3,19 +3,20 @@
 namespace App\Entities\CompanySeries\OperationType;
 
 use App\Entities\CompanySeries\OperationType\Traits\OperationTypeRelationship;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class OperationType extends Model implements Transformable
+class OperationType extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, OperationTypeRelationship;
 
     protected $table = 'operation_types';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'name',
         'description'
     ];

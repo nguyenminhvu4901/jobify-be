@@ -13,5 +13,12 @@ class Permission extends SpatiePermission
 
     public $timestamps = true;
 
-    protected $fillable = ['name', 'display_name', 'parent_id'];
+    public const FILLABLE_FIELDS = [
+        'name', 'display_name', 'parent_id'
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $fillable = self::FILLABLE_FIELDS;
 }
