@@ -18,7 +18,7 @@ class Company extends Model implements Transformable
 
     protected $table = 'companies';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'user_id',
         'name',
         'slug',
@@ -31,6 +31,8 @@ class Company extends Model implements Transformable
         'tax_code',
         'avatar'
     ];
+
+    protected $fillable = self::FILLABLE_FIELDS;
 
     /**
      * @return array[]

@@ -36,14 +36,18 @@ class CompanyBenefitRequest extends FormRequest
                     'exists:companies,id'
                 ]
             ],
+            CompanyBenefit::PREFIX->value . CompanyBenefit::STORE_COMPANY_BENEFIT->value => [
+                ...$this->getCommonRules()
+            ],
             default => []
         };
     }
 
-    public function getCommonRules()
+    public function getCommonRules(): array
     {
         return [
-
+            'benefit_name' => ['bail', 'required', 'string', 'max:255', 'unique:company_benefits,benefit_name'],
+            'benefit_description' => ['bail', 'required', 'string', 'max:512']
         ];
     }
 

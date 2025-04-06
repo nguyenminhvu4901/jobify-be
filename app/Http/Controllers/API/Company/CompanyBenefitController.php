@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Commands\CompanySeries\CompanyBenefit\GetListCompanyBenefit\GetListCompanyBenefitCommand;
 use App\Commands\CompanySeries\CompanyBenefit\GetListCompanyBenefit\GetListCompanyBenefitHandler;
+use App\Commands\CompanySeries\CompanyBenefit\StoreCompanyBenefit\StoreCompanyBenefitCommand;
+use App\Commands\CompanySeries\CompanyBenefit\StoreCompanyBenefit\StoreCompanyBenefitHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanySeries\CompanyBenefit\CompanyBenefitRequest;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +40,29 @@ class CompanyBenefitController extends Controller
                 data: $result['data'],
                 message: $result['message'],
                 cache: $result['cache'] ?? null
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null,
+        );
+    }
+
+    public function storeCompanyBenefit(CompanyBenefitRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            StoreCompanyBenefitCommand::class,
+            StoreCompanyBenefitHandler::class
+        );
+
+        $result = $this->bus->dispatch(StoreCompanyBenefitCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message']
             );
         }
 

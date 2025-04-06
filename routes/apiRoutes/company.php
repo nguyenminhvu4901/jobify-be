@@ -85,6 +85,10 @@ Route::group(
                 Route::get('/list-company-benefit', [
                     CompanyBenefitController::class, 'getListCompanyBenefit'
                 ])->name(CompanyBenefit::LIST_COMPANY_BENEFIT->value);
+
+                Route::post('/store-company-benefit', [
+                    CompanyBenefitController::class, 'storeCompanyBenefit'
+                ])->name(CompanyBenefit::STORE_COMPANY_BENEFIT->value);
             });
         });
     }

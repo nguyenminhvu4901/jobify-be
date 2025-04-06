@@ -40,7 +40,7 @@ class GetListCompanyBenefitHandler
                 fn() => $this->companyBenefitRepository->getByValueColumn(
                     columnName: 'company_id',
                     columnValue: $command->companyId,
-                    relationship: 'company'
+                    relationship: 'companies'
                 )
             );
 

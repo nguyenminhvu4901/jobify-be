@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Entities\CompanySeries\Company\Company;
+use App\Entities\CompanySeries\CompanyBenefit\CompanyBenefit;
 use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
 use App\Entities\ProfileSeries\UserActivity\UserActivity;
 use App\Entities\ProfileSeries\UserCertification\UserCertification;
@@ -16,6 +17,7 @@ use App\Entities\ProfileSeries\UserProfile\UserProfile;
 use App\Entities\ProfileSeries\UserProject\UserProject;
 use App\Entities\ProfileSeries\UserSkill\UserSkill;
 use App\Models\User;
+use App\Observers\Company\CompanyBenefitObserver;
 use App\Observers\Company\CompanyBranchObserver;
 use App\Observers\Company\CompanyObserver;
 use App\Observers\Profile\UserActivityObserver;
@@ -47,7 +49,8 @@ class ObserverServiceProvider extends ServiceProvider
         UserLocation::class => UserLocationObserver::class,
         UserProfile::class => UserObserver::class,
         Company::class => CompanyObserver::class,
-        CompanyBranch::class => CompanyBranchObserver::class
+        CompanyBranch::class => CompanyBranchObserver::class,
+        CompanyBenefit::class => CompanyBenefitObserver::class
     ];
 
     /**

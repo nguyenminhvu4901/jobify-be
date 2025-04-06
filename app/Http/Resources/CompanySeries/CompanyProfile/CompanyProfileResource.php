@@ -3,6 +3,7 @@
 namespace App\Http\Resources\CompanySeries\CompanyProfile;
 
 use App\Http\Resources\CompanySeries\BusinessSector\BusinessSectorResource;
+use App\Http\Resources\CompanySeries\CompanyBenefit\CompanyBenefitResource;
 use App\Http\Resources\CompanySeries\CompanyBranch\CompanyBranchResource;
 use App\Http\Resources\CompanySeries\CompanyScale\CompanyScaleResource;
 use App\Http\Resources\CompanySeries\CompanyWorkingDay\CompanyWorkingDayResource;
@@ -34,9 +35,10 @@ class CompanyProfileResource extends JsonResource
             'website' => $this?->website,
             'description' => $this->description,
             'avatar' => $this->avatar,
-            'company_branch' => CompanyBranchResource::collection($this?->companyBranches),
+            'company_branches' => CompanyBranchResource::collection($this?->companyBranches),
             'operation_types' => OperationTypeResource::collection($this?->operationTypes),
             'business_sectors' => BusinessSectorResource::collection($this?->businessSectors),
+            'company_benefits' => CompanyBenefitResource::collection($this?->companyBenefits)
         ];
     }
 }

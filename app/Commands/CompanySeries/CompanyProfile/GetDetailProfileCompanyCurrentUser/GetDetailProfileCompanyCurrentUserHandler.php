@@ -36,7 +36,8 @@ class GetDetailProfileCompanyCurrentUserHandler
                         'company.companyBranches',
                         'company.companyWorkingDay',
                         'company.operationTypes',
-                        'company.businessSectors'
+                        'company.businessSectors',
+                        'company.companyBenefits',
                     ]
                 )
             );
