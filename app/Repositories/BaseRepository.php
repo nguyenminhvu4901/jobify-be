@@ -6,6 +6,7 @@ use App\Enums\QueryConstant;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository as Repository;
@@ -426,5 +427,66 @@ abstract class BaseRepository extends Repository
     ): mixed
     {
         return $this->model->whereIn('id', $ids)->select($columns)->get();
+    }
+
+    /**
+     * @param string $columnName
+     * @param int|string $columnValue
+     * @param string $operation
+     * @param array|string $relationship
+     * @param array|string $columns
+     * @return Collection
+     */
+    public function getByValueColumn(
+        string $columnName,
+        int|string $columnValue,
+        string $operation = "=",
+        array|string $relationship = [],
+        array|string $columns = ['*']
+    ): Collection
+    {
+        return $this->builderValueColumn(
+            $columnName, $operation, $columnValue, $relationship, $columns
+        )->latest('id')->get();
+    }
+
+    /**
+     * @param string $columnName
+     * @param int|string $columnValue
+     * @param string $operation
+     * @param array|string $relationship
+     * @param array|string $columns
+     * @return mixed
+     */
+    public function findByValueColumn(
+        string $columnName,
+        int|string $columnValue,
+        string $operation = "=",
+        array|string $relationship = [],
+        array|string $columns = ['*']
+    ): mixed
+    {
+        return $this->builderValueColumn(
+            $columnName, $operation, $columnValue, $relationship, $columns
+        )->first();
+    }
+
+    /**
+     * @param string $columnName
+     * @param int|string $columnValue
+     * @param string $operation
+     * @param array|string $relationship
+     * @param array|string $columns
+     * @return Builder
+     */
+    private function builderValueColumn(
+        string $columnName,
+        int|string $columnValue,
+        string $operation = "=",
+        array|string $relationship = [],
+        array|string $columns = ['*']
+    ): Builder
+    {
+        return $this->model->with($relationship)->where($columnName, $operation, $columnValue)->select($columns);
     }
 }

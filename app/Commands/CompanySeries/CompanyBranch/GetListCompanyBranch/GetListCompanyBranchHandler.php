@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser;
+namespace App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranch;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Company\CompanyBranch;
 use App\Http\Resources\CompanyBranch\CompanyBranchResource;
-use App\Repositories\CompanySeries\Company\CompanyRepository;
+use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepository;
 use Illuminate\Support\Facades\Cache;
 
 class GetListCompanyBranchHandler
 {
     /**
-     * @param CompanyRepository $companyRepository
+     * @param CompanyBranchRepository $companyBranchRepository
      */
     public function __construct(
-        protected CompanyRepository $companyRepository
+        protected CompanyBranchRepository $companyBranchRepository
     )
     {
     }
@@ -37,26 +37,17 @@ class GetListCompanyBranchHandler
                 auth()->user()->id .
                 $command->companyId,
                 CacheTTL::REMEMBER->value,
-                fn() => $this->companyRepository->findWithRelationships(
-                    $command->companyId,
-                    [
-                        'companyBranches' => function ($q) {
-                            return $q->orderByDesc('id');
-                        }
-                    ]
+                fn() => $this->companyBranchRepository->getByValueColumn(
+                    columnName: 'company_id',
+                    columnValue: $command->companyId,
+                    relationship: 'company'
                 )
             );
 
-            if(!empty($companiesBranch)){
-                return [
-                    'data' => CompanyBranchResource::collection($companiesBranch?->companyBranches),
-                    'message' => __('messages.company.company_get_info_success'),
-                    'cache' => $cache,
-                ];
-            }
-
             return [
-                'message' => __('messages.company.company_get_info_error'),
+                'data' => CompanyBranchResource::collection($companiesBranch),
+                'message' => __('messages.company.company_get_info_success'),
+                'cache' => $cache,
             ];
         }catch (\Exception $e){
 

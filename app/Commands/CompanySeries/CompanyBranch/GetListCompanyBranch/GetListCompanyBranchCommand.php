@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser;
+namespace App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranch;
 
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;

@@ -3,6 +3,7 @@
 namespace App\Entities\CompanySeries\Company\Traits;
 
 use App\Entities\CompanySeries\BusinessSector\BusinessSector;
+use App\Entities\CompanySeries\CompanyBenefit\CompanyBenefit;
 use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
 use App\Entities\CompanySeries\CompanyBusinessSector\CompanyBusinessSector;
 use App\Entities\CompanySeries\CompanyOperationType\CompanyOperationType;
@@ -82,5 +83,13 @@ trait CompanyRelationship
     {
         return $this->belongsToMany(BusinessSector::class, CompanyBusinessSector::class)
             ->withTimestamps();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function companyBenefits(): HasMany
+    {
+        return $this->hasMany(CompanyBenefit::class);
     }
 }

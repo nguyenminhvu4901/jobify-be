@@ -1,12 +1,14 @@
 <?php
 
 use App\Enums\RouteNames\Company\BusinessSector;
+use App\Enums\RouteNames\Company\CompanyBenefit;
 use App\Enums\RouteNames\Company\CompanyBranch;
 use App\Enums\RouteNames\Company\CompanyProfile;
 use App\Enums\RouteNames\Company\CompanyScale;
 use App\Enums\RouteNames\Company\OperationType;
 use App\Enums\RouteNames\Company\CompanyWorkingDay;
 use App\Http\Controllers\API\Company\BusinessSectorController;
+use App\Http\Controllers\API\Company\CompanyBenefitController;
 use App\Http\Controllers\API\Company\CompanyBranchController;
 use App\Http\Controllers\API\Company\CompanyController;
 use App\Http\Controllers\API\Company\CompanyScaleController;
@@ -61,7 +63,7 @@ Route::group(
                 CompanyController::class, 'updateCompanyAvatar'
             ])->name(CompanyProfile::UPDATE_COMPANY_AVATAR->value);
 
-            Route::group(['prefix' => 'branch', 'as' => 'branch.'], function () {
+            Route::group(['prefix' => 'company-branch', 'as' => 'companyBranch.'], function () {
                 Route::get('/list-company-branch', [
                     CompanyBranchController::class, 'getListCompanyBranch'
                 ])->name(CompanyBranch::LIST_COMPANY_BRANCH->value);
@@ -77,6 +79,12 @@ Route::group(
                 Route::delete('/destroy-company-branch', [
                     CompanyBranchController::class, 'destroyCompanyBranch'
                 ])->name(CompanyBranch::DESTROY_COMPANY_BRANCH->value);
+            });
+
+            Route::group(['prefix' => 'company-benefit', 'as' => 'companyBenefit.'], function (){
+                Route::get('/list-company-benefit', [
+                    CompanyBenefitController::class, 'getListCompanyBenefit'
+                ])->name(CompanyBenefit::LIST_COMPANY_BENEFIT->value);
             });
         });
     }
