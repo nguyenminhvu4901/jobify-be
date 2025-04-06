@@ -3,9 +3,11 @@
 namespace App\Http\Requests\CompanySeries\CompanyBenefit;
 
 use App\Enums\RouteNames\Company\CompanyBenefit;
+use App\Rules\Company\CompanyBelongsToBenefitRule;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CompanyBenefitRequest extends FormRequest
 {
@@ -37,7 +39,23 @@ class CompanyBenefitRequest extends FormRequest
                 ]
             ],
             CompanyBenefit::PREFIX->value . CompanyBenefit::STORE_COMPANY_BENEFIT->value => [
-                ...$this->getCommonRules()
+                ...$this->getCommonRules(),
+                'benefit_name' => [
+                    'bail', 'required', 'string', 'max:255', 'unique:company_benefits,benefit_name'
+                ],
+            ],
+            CompanyBenefit::PREFIX->value . CompanyBenefit::UPDATE_COMPANY_BENEFIT->value => [
+                ...$this->getCommonRules(),
+                ...$this->getCommonRulesId(),
+                'benefit_name' => [
+                    'bail', 'required', 'string', 'max:255',
+                    Rule::unique('company_benefits', 'benefit_name')->ignore(
+                        $this->input('company_benefit_id')
+                    ),
+                ],
+            ],
+            CompanyBenefit::PREFIX->value . CompanyBenefit::DESTROY_COMPANY_BENEFIT->value => [
+                ...$this->getCommonRulesId(),
             ],
             default => []
         };
@@ -46,15 +64,29 @@ class CompanyBenefitRequest extends FormRequest
     public function getCommonRules(): array
     {
         return [
-            'benefit_name' => ['bail', 'required', 'string', 'max:255', 'unique:company_benefits,benefit_name'],
             'benefit_description' => ['bail', 'required', 'string', 'max:512']
         ];
     }
 
-    public function getCommonRulesId()
+    /**
+     * @return array
+     */
+    private function getCommonRulesId(): array
     {
         return [
-
+            'company_benefit_id' => [
+                'bail',
+                'required',
+                'integer',
+                'exists:company_benefits,id'
+            ],
+            'company_id' => [
+                'bail',
+                'required',
+                'integer',
+                'exists:companies,id',
+                new CompanyBelongsToBenefitRule($this->input('company_benefit_id'))
+            ]
         ];
     }
 }

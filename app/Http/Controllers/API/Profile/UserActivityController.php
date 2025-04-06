@@ -204,7 +204,7 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserActivityCommand::withForm($request));
 
-        if($result['userActivityDestroy']){
+        if(!empty($result['userActivityDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

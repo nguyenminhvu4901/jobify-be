@@ -206,7 +206,7 @@ class UserExperienceController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserExperienceCommand::withForm($request));
 
-        if($result['userExperienceDestroy']){
+        if(!empty($result['userExperienceDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

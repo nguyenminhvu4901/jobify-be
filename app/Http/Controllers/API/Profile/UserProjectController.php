@@ -206,7 +206,7 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserProjectCommand::withForm($request));
 
-        if($result['userProjectDestroy']){
+        if(!empty($result['userProjectDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

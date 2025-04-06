@@ -89,6 +89,14 @@ Route::group(
                 Route::post('/store-company-benefit', [
                     CompanyBenefitController::class, 'storeCompanyBenefit'
                 ])->name(CompanyBenefit::STORE_COMPANY_BENEFIT->value);
+
+                Route::put('/update-company-benefit', [
+                    CompanyBenefitController::class, 'updateCompanyBenefit'
+                ])->name(CompanyBenefit::UPDATE_COMPANY_BENEFIT->value);
+
+                Route::delete('/destroy-company-benefit', [
+                    CompanyBenefitController::class, 'destroyCompanyBenefit'
+                ])->name(CompanyBenefit::DESTROY_COMPANY_BENEFIT->value);
             });
         });
     }

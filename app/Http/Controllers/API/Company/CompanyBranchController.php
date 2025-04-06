@@ -121,7 +121,7 @@ class CompanyBranchController extends Controller
 
         $result = $this->bus->dispatch(DestroyCompanyBranchCommand::withForm($request));
 
-        if($result['companyBranchDestroy']){
+        if(!empty($result['companyBranchDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

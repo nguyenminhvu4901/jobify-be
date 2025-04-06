@@ -206,7 +206,7 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserProductCommand::withForm($request));
 
-        if($result['userProductDestroy']){
+        if(!empty($result['userProductDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

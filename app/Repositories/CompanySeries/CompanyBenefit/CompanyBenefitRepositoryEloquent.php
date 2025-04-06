@@ -14,4 +14,12 @@ class CompanyBenefitRepositoryEloquent extends BaseRepository implements Company
     {
         return CompanyBenefit::class;
     }
+
+    public function checkExistByIdAndCompanyId($companyBenefitId, $companyId)
+    {
+        return $this->model
+            ->whereById($companyBenefitId)
+            ->whereByCompanyId($companyId)
+            ->exists();
+    }
 }

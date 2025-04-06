@@ -206,7 +206,7 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserPrizeCommand::withForm($request));
 
-        if($result['userPrizeDestroy']){
+        if(!empty($result['userPrizeDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

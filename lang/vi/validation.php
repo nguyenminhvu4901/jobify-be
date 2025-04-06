@@ -172,6 +172,7 @@ return [
         'invalid_ward_in_district' => 'Phường/Xã được chọn không thuộc quận/huyện được chọn!',
         'company_id_user_id_mismatch' => 'Mã công ty và mã người dùng không khớp!',
         'company_id_branch_id_mismatch' => 'Mã công ty và mã chi nhánh không khớp!',
+        'company_id_benefit_id_mismatch' => 'Mã công ty và mã phúc lợi không khớp!',
     ],
 
     /*
