@@ -33,6 +33,15 @@ return [
         'company_destroy_profile_error' => 'Xóa thất bại',
     ],
 
+    'job' => [
+        'job_get_info_success' => 'Lấy thông tin thành công',
+        'job_get_info_error' => 'Lấy thông tin thất bại',
+        'job_update_profile_success' => 'Đã lưu',
+        'job_update_profile_error' => 'Lưu thất bại',
+        'job_destroy_profile_success' => 'Xóa thành công',
+        'job_destroy_profile_error' => 'Xóa thất bại',
+    ],
+
     'account_is_not_registered' => 'Tài khoản chưa được đăng ký',
     'language_does_not_exist' => 'Ngôn ngữ không có sẵn',
     'reject_reason_nullable_so_you_can_not_add_black_list' => 'Trường lý do từ chối không có dữ liệu nên bạn không thể thêm vào danh sách đen',

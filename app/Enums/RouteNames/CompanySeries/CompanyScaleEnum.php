@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\RouteNames\Company;
+namespace App\Enums\RouteNames\CompanySeries;
 
 enum CompanyScaleEnum: string
 {

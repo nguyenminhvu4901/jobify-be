@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Company;
+namespace App\Http\Controllers\API\CompanySeries;
 
 use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchCommand;
 use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchHandler;

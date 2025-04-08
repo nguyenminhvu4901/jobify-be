@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\CompanyScale\GetListAllCompanyScale;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\CompanyScaleEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyScaleEnum;
 use App\Http\Resources\CompanySeries\CompanyScale\CompanyScaleResource;
 use App\Repositories\CompanySeries\CompanyScale\CompanyScaleRepository;
 use Illuminate\Support\Facades\Cache;

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\API\Company;
+namespace App\Http\Controllers\API\JobSeries;
 
-use App\Commands\CompanySeries\BusinessSector\GetListAllBusinessSector\GetListAllBusinessSectorCommand;
-use App\Commands\CompanySeries\BusinessSector\GetListAllBusinessSector\GetListAllBusinessSectorHandler;
+use App\Commands\JobSeries\JobAgeRange\GetListJobAgeRange\GetListJobAgeRangeCommand;
+use App\Commands\JobSeries\JobAgeRange\GetListJobAgeRange\GetListJobAgeRangeHandler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
-class BusinessSectorController extends Controller
+class JobAgeRangeController extends Controller
 {
     /**
      * @param CommandBusInterface $bus
@@ -16,19 +16,20 @@ class BusinessSectorController extends Controller
     public function __construct(
         protected CommandBusInterface $bus
     )
-    {}
+    {
+    }
 
     /**
      * @return JsonResponse
      */
-    public function getListAllBusinessSector(): JsonResponse
+    public function getListJobAgeRange(): JsonResponse
     {
         $this->bus->addHandler(
-            GetListAllBusinessSectorCommand::class,
-            GetListAllBusinessSectorHandler::class
+            GetListJobAgeRangeCommand::class,
+            GetListJobAgeRangeHandler::class
         );
 
-        $result = $this->bus->dispatch(new GetListAllBusinessSectorCommand());
+        $result = $this->bus->dispatch(new GetListJobAgeRangeCommand());
 
         if(!empty($result['data'])){
             return $this->responseSuccess(

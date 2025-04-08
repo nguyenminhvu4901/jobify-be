@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Commands\JobSeries\JobAgeRange\GetListJobAgeRange;
+
+use App\Enums\CacheTTL;
+use App\Enums\RouteNames\JobSeries\JobAgeRangeEnum;
+use App\Http\Resources\JobSeries\JobAgeRanges\JobAgeRangeResource;
+use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepository;
+use Illuminate\Support\Facades\Cache;
+
+class GetListJobAgeRangeHandler
+{
+    /**
+     * @param JobAgeRangeRepository $jobAgeRangeRepository
+     */
+    public function __construct(
+        protected JobAgeRangeRepository $jobAgeRangeRepository
+    )
+    {
+    }
+
+    /**
+     * @return array
+     */
+    public function handle(): array
+    {
+        try {
+            $cache = Cache::tags([JobAgeRangeEnum::TAG_NAME->value])->has(
+                JobAgeRangeEnum::LIST_ALL_JOB_AGE_RANGE->value);
+
+            $jobAgeRanges = Cache::tags([JobAgeRangeEnum::TAG_NAME->value])
+                ->remember(
+                    JobAgeRangeEnum::LIST_ALL_JOB_AGE_RANGE->value,
+                    CacheTTL::HARD->value,
+                    fn() => $this->jobAgeRangeRepository->get()
+                );
+
+            return [
+                'data' => JobAgeRangeResource::collection($jobAgeRanges),
+                'message' => __('messages.job.job_get_info_success'),
+                'cache' => $cache
+            ];
+        }catch (\Exception $e){
+
+            return [
+                'message' => __('messages.job.job_get_info_error'),
+                'error' => $e
+            ];
+        }
+    }
+}

@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\API\Company;
+namespace App\Http\Controllers\API\CompanySeries;
 
-use App\Commands\CompanySeries\CompanyScale\GetListAllCompanyScale\GetListAllCompanyScaleCommand;
-use App\Commands\CompanySeries\CompanyScale\GetListAllCompanyScale\GetListAllCompanyScaleHandler;
+use App\Commands\CompanySeries\BusinessSector\GetListAllBusinessSector\GetListAllBusinessSectorCommand;
+use App\Commands\CompanySeries\BusinessSector\GetListAllBusinessSector\GetListAllBusinessSectorHandler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
-class CompanyScaleController extends Controller
+class BusinessSectorController extends Controller
 {
     /**
      * @param CommandBusInterface $bus
@@ -17,20 +16,19 @@ class CompanyScaleController extends Controller
     public function __construct(
         protected CommandBusInterface $bus
     )
-    {
-    }
+    {}
 
     /**
      * @return JsonResponse
      */
-    public function getListAllCompanyScale(): JsonResponse
+    public function getListAllBusinessSector(): JsonResponse
     {
         $this->bus->addHandler(
-            GetListAllCompanyScaleCommand::class,
-            GetListAllCompanyScaleHandler::class
+            GetListAllBusinessSectorCommand::class,
+            GetListAllBusinessSectorHandler::class
         );
 
-        $result = $this->bus->dispatch(new GetListAllCompanyScaleCommand());
+        $result = $this->bus->dispatch(new GetListAllBusinessSectorCommand());
 
         if(!empty($result['data'])){
             return $this->responseSuccess(

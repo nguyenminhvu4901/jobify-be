@@ -5,11 +5,11 @@ return [
         'sole_proprietorship' => 'Sole Proprietorship',
         'single_member_llc' => 'Single-Member LLC',
         'multi_member_llc' => 'Multi-Member LLC',
-        'joint_stock_company' => 'Joint Stock Company',
+        'joint_stock_company' => 'Joint Stock CompanySeries',
         'partnership' => 'Partnership',
         'state_owned_enterprise' => 'State-Owned Enterprise',
-        'wholly_foreign_owned_company' => 'Wholly Foreign-Owned Company',
-        'joint_venture_company' => 'Joint Venture Company',
+        'wholly_foreign_owned_company' => 'Wholly Foreign-Owned CompanySeries',
+        'joint_venture_company' => 'Joint Venture CompanySeries',
         'household_business' => 'Household Business'
     ],
     'description' => [
@@ -23,7 +23,7 @@ return [
             'Multi-Member LLC - a limited liability company with 2 to 50 members having legal personality and limited liability based on contributed capital',
 
         'joint_stock_company_a_company_with_capital_divided_into_equal_shares_called_stocks_that_can_issue_shares_to_raise_capital' =>
-            'Joint Stock Company - a company with capital divided into equal shares called stocks that can issue shares to raise capital',
+            'Joint Stock CompanySeries - a company with capital divided into equal shares called stocks that can issue shares to raise capital',
 
         'partnership_a_company_with_at_least_two_general_partners_who_have_unlimited_liability_and_can_have_limited_partners_with_limited_liability' =>
             'Partnership - a company with at least two general partners who have unlimited liability and can have limited partners with limited liability',
@@ -32,10 +32,10 @@ return [
             'State-Owned Enterprise - a business owned entirely or majorly by the government operating under special mechanisms',
 
         'wholly_foreign_owned_company_a_company_wholly_owned_by_foreign_individuals_or_entities_operating_under_vietnamese_law' =>
-            'Wholly Foreign-Owned Company - a company wholly owned by foreign individuals or entities operating under Vietnamese law',
+            'Wholly Foreign-Owned CompanySeries - a company wholly owned by foreign individuals or entities operating under Vietnamese law',
 
         'joint_venture_company_a_business_established_by_cooperation_between_domestic_and_foreign_investors_based_on_an_agreed_capital_contribution_ratio' =>
-            'Joint Venture Company - a business established by cooperation between domestic and foreign investors based on an agreed capital contribution ratio',
+            'Joint Venture CompanySeries - a business established by cooperation between domestic and foreign investors based on an agreed capital contribution ratio',
 
         'household_business_a_small_business_model_owned_by_an_individual_or_family_without_legal_personality' =>
             'Household Business - a small business model owned by an individual or family without legal personality'

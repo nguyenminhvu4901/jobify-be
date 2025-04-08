@@ -4,7 +4,7 @@ namespace App\Entities\CompanySeries\CompanyBenefit;
 
 use App\Entities\CompanySeries\CompanyBenefit\Traits\CompanyBenefitRelationship;
 use App\Entities\CompanySeries\CompanyBenefit\Traits\CompanyBenefitScope;
-use App\Enums\RouteNames\Company\CompanyBenefitEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyBenefitEnum;
 use App\Models\BaseModel;
 use App\Traits\Scope\BaseScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

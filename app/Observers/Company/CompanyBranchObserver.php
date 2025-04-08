@@ -2,8 +2,8 @@
 
 namespace App\Observers\Company;
 
-use App\Enums\RouteNames\Company\CompanyBranchEnum;
-use App\Enums\RouteNames\Company\CompanyProfileEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyBranchEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyProfileEnum;
 use App\Observers\BaseObserver;
 
 class CompanyBranchObserver extends BaseObserver

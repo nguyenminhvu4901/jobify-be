@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranch;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\CompanyBranchEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyBranchEnum;
 use App\Http\Resources\CompanyBranch\CompanyBranchResource;
 use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepository;
 use Illuminate\Support\Facades\Cache;

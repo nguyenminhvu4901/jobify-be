@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\API\Company;
+namespace App\Http\Controllers\API\CompanySeries;
 
-use App\Commands\CompanySeries\OperationType\GetListAllOperationType\GetListAllOperationTypeCommand;
-use App\Commands\CompanySeries\OperationType\GetListAllOperationType\GetListAllOperationTypeHandler;
+use App\Commands\CompanySeries\CompanyWorkingDay\GetListAllWorkingDay\GetListAllWorkingDayCommand;
+use App\Commands\CompanySeries\CompanyWorkingDay\GetListAllWorkingDay\GetListAllWorkingDayHandler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
-class OperationTypeController extends Controller
+class CompanyWorkingDayController extends Controller
 {
     public function __construct(
         protected CommandBusInterface $bus
@@ -19,14 +19,14 @@ class OperationTypeController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getListAllOperationType(): JsonResponse
+    public function getListAllWorkingDay(): JsonResponse
     {
         $this->bus->addHandler(
-            GetListAllOperationTypeCommand::class,
-            GetListAllOperationTypeHandler::class
+            GetListAllWorkingDayCommand::class,
+            GetListAllWorkingDayHandler::class
         );
 
-        $result = $this->bus->dispatch(new GetListAllOperationTypeCommand());
+        $result = $this->bus->dispatch(new GetListAllWorkingDayCommand());
 
         if(!empty($result['data'])){
             return $this->responseSuccess(

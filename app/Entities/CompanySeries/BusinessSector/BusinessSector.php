@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-use App\Enums\RouteNames\Company\BusinessSectorEnum;
+use App\Enums\RouteNames\CompanySeries\BusinessSectorEnum;
 
 class BusinessSector extends BaseModel implements Transformable
 {

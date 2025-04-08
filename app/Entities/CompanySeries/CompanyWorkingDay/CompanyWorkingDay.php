@@ -2,7 +2,7 @@
 
 namespace App\Entities\CompanySeries\CompanyWorkingDay;
 
-use App\Enums\RouteNames\Company\CompanyWorkingDayEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyWorkingDayEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\BusinessSector\GetListAllBusinessSector;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\BusinessSectorEnum;
+use App\Enums\RouteNames\CompanySeries\BusinessSectorEnum;
 use App\Http\Resources\CompanySeries\BusinessSector\BusinessSectorResource;
 use App\Repositories\CompanySeries\BusinessSector\BusinessSectorRepository;
 use Illuminate\Support\Facades\Cache;

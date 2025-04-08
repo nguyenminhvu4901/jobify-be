@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\OperationType\GetListAllOperationType;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\OperationTypeEnum;
+use App\Enums\RouteNames\CompanySeries\OperationTypeEnum;
 use App\Http\Resources\CompanySeries\OperationType\OperationTypeResource;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepository;
 use Illuminate\Support\Facades\Cache;

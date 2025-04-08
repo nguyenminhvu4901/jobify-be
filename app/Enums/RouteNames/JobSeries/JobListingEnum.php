@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\RouteNames\JobListing;
+namespace App\Enums\RouteNames\JobSeries;
 
 enum JobListingEnum: string
 {

@@ -3,7 +3,7 @@
 namespace App\Entities\JobSeries\JobListing;
 
 use App\Entities\JobSeries\JobListing\Traits\JobListingRelationship;
-use App\Enums\RouteNames\JobListing\JobListingEnum;
+use App\Enums\RouteNames\JobSeries\JobListingEnum;
 use App\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

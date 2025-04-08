@@ -3,7 +3,7 @@
 namespace App\Entities\CompanySeries\OperationType;
 
 use App\Entities\CompanySeries\OperationType\Traits\OperationTypeRelationship;
-use App\Enums\RouteNames\Company\OperationTypeEnum;
+use App\Enums\RouteNames\CompanySeries\OperationTypeEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

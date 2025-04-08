@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\CompanySeries\Company;
 
-use App\Enums\RouteNames\Company\CompanyProfileEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyProfileEnum;
 use App\Rules\Company\CompanyBelongsToUserRule;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;

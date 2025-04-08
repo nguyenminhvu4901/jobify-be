@@ -2,6 +2,7 @@
 
 namespace App\Entities\JobSeries\JobAgeRange;
 
+use App\Enums\RouteNames\JobSeries\JobAgeRangeEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Prettus\Repository\Contracts\Transformable;
@@ -12,7 +13,7 @@ class JobAgeRange extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;
 
-    protected $table = 'job_age_ranges';
+    protected $table = JobAgeRangeEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'min_age',
