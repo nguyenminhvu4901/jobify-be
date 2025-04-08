@@ -2,6 +2,7 @@
 
 namespace App\Entities\JobSeries\JobEducationLevel;
 
+use App\Enums\RouteNames\JobSeries\JobEducationLevelEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Prettus\Repository\Contracts\Transformable;
@@ -12,7 +13,7 @@ class JobEducationLevel extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;
 
-    protected $table = 'job_education_levels';
+    protected $table = JobEducationLevelEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = ['name'];
 
