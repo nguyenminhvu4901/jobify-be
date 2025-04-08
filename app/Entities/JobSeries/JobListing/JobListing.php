@@ -7,12 +7,18 @@ use App\Enums\RouteNames\JobListing\JobListingEnum;
 use App\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use JeroenG\Explorer\Application\Explored;
+use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class JobListing extends BaseModel implements Transformable
+class JobListing extends BaseModel implements Transformable, Explored
 {
-    use TransformableTrait, HasFactory, Sluggable, JobListingRelationship;
+    use TransformableTrait,
+        HasFactory,
+        Sluggable,
+        JobListingRelationship,
+        Searchable;
 
     protected $table = JobListingEnum::TABLE->value;
 
@@ -45,6 +51,13 @@ class JobListing extends BaseModel implements Transformable
             'slug' => [
                 'source' => 'title'
             ]
+        ];
+    }
+
+    public function mappableAs(): array
+    {
+        return [
+
         ];
     }
 }

@@ -29,11 +29,7 @@ class BusinessSector extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: function (string $value) {
-                if (str_contains($value, '_')) {
-                    return __('data/business_sectors.name.' . $value) ?? $value;
-                }
-
-                return $value;
+                return __('data/company_series/business_sectors.name.' . $value) ?? $value;
             }
         );
     }
@@ -45,11 +41,7 @@ class BusinessSector extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: function (string $value) {
-                if (str_contains($value, '_')) {
-                    return __('data/business_sectors.description.' . $value) ?? $value;
-                }
-
-                return $value;
+                return __('data/company_series/business_sectors.description.' . $value) ?? $value;
             }
         );
     }

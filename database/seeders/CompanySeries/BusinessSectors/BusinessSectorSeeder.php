@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\BusinessSectors;
+namespace Database\Seeders\CompanySeries\BusinessSectors;
 
 use App\Entities\CompanySeries\BusinessSector\BusinessSector;
 use Illuminate\Database\Seeder;
@@ -15,7 +15,7 @@ class BusinessSectorSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        $businessSectors = config('jobify_data.business_sectors.business_sectors');
+        $businessSectors = config('jobify_data.company_series.business_sectors.business_sectors');
         $businessSectors = addTimestamps($businessSectors);
 
         BusinessSector::upsert($businessSectors, ['id'], ['name', 'description']);

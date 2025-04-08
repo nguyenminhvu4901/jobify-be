@@ -26,11 +26,7 @@ class CompanyWorkingDay extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: function (string $value) {
-                if (str_contains($value, '_')) {
-                    return __('data/working_days.' . $value) ?? $value;
-                }
-
-                return $value;
+                return __('data/company_series/working_days.' . $value) ?? $value;
             }
         );
     }

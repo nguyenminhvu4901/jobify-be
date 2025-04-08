@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\CompanyScales;
+namespace Database\Seeders\CompanySeries\CompanyScales;
 
 use App\Entities\CompanySeries\CompanyScale\CompanyScale;
 use Illuminate\Database\Seeder;
@@ -15,7 +15,7 @@ class CompanyScaleSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        $companyScales = config('jobify_data.company_scales.company_scales');
+        $companyScales = config('jobify_data.company_series.company_scales.company_scales');
         $companyScales = addTimestamps($companyScales);
 
         CompanyScale::upsert($companyScales, ['id'], ['name', 'description']);

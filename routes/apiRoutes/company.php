@@ -23,6 +23,11 @@ Route::group(
         'as' => 'company.'
     ],
     function () {
+
+        Route::get('/', function () {
+            $a = \App\Entities\JobSeries\JobAgeRange\JobAgeRange::all();
+            return response()->json(\App\Http\Resources\JobSeries\JobAgeRanges\JobAgeRangeResource::collection($a));
+        });
         Route::group(['prefix' => 'operation-type', 'as' => 'operationType.'], function() {
             Route::get('/list-all-operation-type', [
                 OperationTypeController::class, 'getListAllOperationType'

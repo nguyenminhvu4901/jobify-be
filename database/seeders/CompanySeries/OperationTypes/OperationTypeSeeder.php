@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\OperationTypes;
+namespace Database\Seeders\CompanySeries\OperationTypes;
 
 use App\Entities\CompanySeries\OperationType\OperationType;
 use Illuminate\Database\Seeder;
@@ -15,7 +15,7 @@ class OperationTypeSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        $operationTypes = config('jobify_data.operation_types.operation_types');
+        $operationTypes = config('jobify_data.company_series.operation_types.operation_types');
         $operationTypes = addTimestamps($operationTypes);
 
         OperationType::upsert($operationTypes, ['id'], ['name', 'description']);

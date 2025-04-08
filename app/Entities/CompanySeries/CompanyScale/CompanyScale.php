@@ -26,7 +26,7 @@ class CompanyScale extends BaseModel implements Transformable
     protected function description(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => __('data/company_scales.' . $value) ?? $value
+            get: fn($value) => __('data/company_series/company_scales.' . $value) ?? $value
         );
     }
 

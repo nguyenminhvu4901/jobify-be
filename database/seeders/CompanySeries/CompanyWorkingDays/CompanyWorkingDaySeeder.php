@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\CompanyWorkingDays;
+namespace Database\Seeders\CompanySeries\CompanyWorkingDays;
 
 use App\Entities\CompanySeries\CompanyWorkingDay\CompanyWorkingDay;
 use Illuminate\Database\Seeder;
@@ -15,7 +15,7 @@ class CompanyWorkingDaySeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        $companyWorkingDays = config('jobify_data.company_working_days.company_working_days');
+        $companyWorkingDays = config('jobify_data.company_series.company_working_days.company_working_days');
         $companyWorkingDays = addTimestamps($companyWorkingDays);
 
         CompanyWorkingDay::upsert($companyWorkingDays, ['id'], ['working_day']);
