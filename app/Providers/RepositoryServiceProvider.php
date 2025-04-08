@@ -18,6 +18,8 @@ use App\Repositories\CompanySeries\OperationType\OperationTypeRepository;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepositoryEloquent;
 use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepository;
 use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepositoryEloquent;
+use App\Repositories\JobSeries\JobType\JobTypeRepository;
+use App\Repositories\JobSeries\JobType\JobTypeRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivityResource\UserActivityResourceRepository;
@@ -87,6 +89,7 @@ class RepositoryServiceProvider extends ServiceProvider
         CompanyWorkingDayRepository::class => CompanyWorkingDayRepositoryEloquent::class,
         CompanyScaleRepository::class => CompanyScaleRepositoryEloquent::class,
         CompanyBenefitRepository::class => CompanyBenefitRepositoryEloquent::class,
-        JobAgeRangeRepository::class => JobAgeRangeRepositoryEloquent::class
+        JobAgeRangeRepository::class => JobAgeRangeRepositoryEloquent::class,
+        JobTypeRepository::class => JobTypeRepositoryEloquent::class
     ];
 }
