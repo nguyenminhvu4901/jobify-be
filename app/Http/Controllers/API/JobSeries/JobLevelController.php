@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API\JobSeries;
 
-use App\Commands\JobSeries\JobType\GetListJobType\GetListJobTypeCommand;
-use App\Commands\JobSeries\JobType\GetListJobType\GetListJobTypeHandler;
+use App\Commands\JobSeries\JobLevel\GetListJobLevel\GetListJobLevelCommand;
+use App\Commands\JobSeries\JobLevel\GetListJobLevel\GetListJobLevelHandler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
-class JobTypeController extends Controller
+class JobLevelController extends Controller
 {
     /**
      * @param CommandBusInterface $bus
@@ -22,14 +23,14 @@ class JobTypeController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getListJobType(): JsonResponse
+    public function getListJobLevel(): JsonResponse
     {
         $this->bus->addHandler(
-            GetListJobTypeCommand::class,
-            GetListJobTypeHandler::class
+            GetListJobLevelCommand::class,
+            GetListJobLevelHandler::class
         );
 
-        $result = $this->bus->dispatch(new GetListJobTypeCommand());
+        $result = $this->bus->dispatch(new GetListJobLevelCommand());
 
         if(!empty($result['data'])){
             return $this->responseSuccess(

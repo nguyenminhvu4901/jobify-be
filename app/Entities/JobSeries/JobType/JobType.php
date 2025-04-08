@@ -3,6 +3,7 @@
 namespace App\Entities\JobSeries\JobType;
 
 use App\Entities\JobSeries\JobType\Traits\JobTypeRelationShip;
+use App\Enums\RouteNames\JobSeries\JobTypeEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ class JobType extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, JobTypeRelationShip;
 
-    protected $table = 'job_types';
+    protected $table = JobTypeEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'type'
