@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserEducation\GetDetailListOfUserEducationByUserSlug;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserEducation;
+use App\Enums\RouteNames\Profile\UserEducationEnum;
 use App\Http\Resources\ProfileSeries\UserEducation\UserEducationResource;
 use App\Repositories\ProfileSeries\UserEducation\UserEducationRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,16 +26,16 @@ class GetDetailListOfUserEducationByUserSlugHandle
     public function handle(GetDetailListOfUserEducationByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserEducation::TAG_NAME->value])->has(
+            $cache = Cache::tags([UserEducationEnum::TAG_NAME->value])->has(
                 generateCacheName(
-                    UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value,
+                    UserEducationEnum::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value,
                     $command
                 )
             );
 
-            $userEducation = Cache::tags([UserEducation::TAG_NAME->value])->remember(
+            $userEducation = Cache::tags([UserEducationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value,
+                    UserEducationEnum::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

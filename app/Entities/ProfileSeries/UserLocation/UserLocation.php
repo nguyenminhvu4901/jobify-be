@@ -3,6 +3,7 @@
 namespace App\Entities\ProfileSeries\UserLocation;
 
 use App\Entities\ProfileSeries\UserLocation\Traits\UserLocationRelationship;
+use App\Enums\RouteNames\Profile\UserLocationEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
@@ -12,7 +13,7 @@ class UserLocation extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, UserLocationRelationship;
 
-    protected $table = 'user_locations';
+    protected $table = UserLocationEnum::TABLE->value;
 
     protected $with = ['province', 'district', 'ward'];
 

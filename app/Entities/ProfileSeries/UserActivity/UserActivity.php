@@ -3,6 +3,7 @@
 namespace App\Entities\ProfileSeries\UserActivity;
 
 use App\Entities\ProfileSeries\UserActivity\Traits\UserActivityRelationship;
+use App\Enums\RouteNames\Profile\UserActivityEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
@@ -12,7 +13,7 @@ class UserActivity extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, UserActivityRelationship;
 
-    protected $table = 'user_activities';
+    protected $table = UserActivityEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'user_id',

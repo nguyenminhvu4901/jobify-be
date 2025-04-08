@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserPrize\GetListPrizeCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserPrize;
+use App\Enums\RouteNames\Profile\UserPrizeEnum;
 use App\Http\Resources\ProfileSeries\UserPrize\CurrentUserPrizeResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -25,12 +25,12 @@ class GetListPrizeCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserPrize::TAG_NAME->value])->has(
-                UserPrize::LIST_PRIZE_CURRENT_USER->value . auth()->user()->id);
+            $cache = Cache::tags([UserPrizeEnum::TAG_NAME->value])->has(
+                UserPrizeEnum::LIST_PRIZE_CURRENT_USER->value . auth()->user()->id);
 
-            $userPrizes = Cache::tags([UserPrize::TAG_NAME->value])
+            $userPrizes = Cache::tags([UserPrizeEnum::TAG_NAME->value])
                 ->remember(
-                    UserPrize::LIST_PRIZE_CURRENT_USER->value . auth()->user()->id,
+                    UserPrizeEnum::LIST_PRIZE_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,
                     fn() => $this->userRepository->findWithRelationships(
                         auth()->user()->id,

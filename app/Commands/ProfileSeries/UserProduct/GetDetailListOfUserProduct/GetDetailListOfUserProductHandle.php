@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserProduct\GetDetailListOfUserProduct;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserProduct;
+use App\Enums\RouteNames\Profile\UserProductEnum;
 use App\Http\Resources\ProfileSeries\UserProduct\UserProductResource;
 use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,17 +26,17 @@ class GetDetailListOfUserProductHandle
     public function handle(GetDetailListOfUserProductCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProduct::TAG_NAME->value])->has(
+            $cache = Cache::tags([UserProductEnum::TAG_NAME->value])->has(
                 generateCacheName(
-                    UserProduct::DETAIL_LIST_USER_PRODUCT->value,
+                    UserProductEnum::DETAIL_LIST_USER_PRODUCT->value,
                     $command
                 )
             );
 
-            $userProduct = Cache::tags([UserProduct::TAG_NAME->value])
+            $userProduct = Cache::tags([UserProductEnum::TAG_NAME->value])
                 ->remember(
                     generateCacheName(
-                        UserProduct::DETAIL_LIST_USER_PRODUCT->value,
+                        UserProductEnum::DETAIL_LIST_USER_PRODUCT->value,
                         $command
                     ),
                     CacheTTL::REMEMBER->value,

@@ -2,9 +2,11 @@
 
 namespace App\Enums\RouteNames\Profile;
 
-enum UserProfile: string
+enum UserProfileEnum: string
 {
     case TAG_NAME = 'userProfiles';
+
+    case TABLE = 'user_profiles';
 
     case INFORMATION_CV_CURRENT_USER = 'informationCVCurrentUser';
 

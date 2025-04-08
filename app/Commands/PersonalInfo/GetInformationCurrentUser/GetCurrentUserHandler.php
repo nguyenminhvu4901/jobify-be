@@ -3,7 +3,7 @@
 namespace App\Commands\PersonalInfo\GetInformationCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserProfile;
+use App\Enums\RouteNames\Profile\UserProfileEnum;
 use App\Http\Resources\Auth\CurrentUserInfoResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -24,14 +24,14 @@ class GetCurrentUserHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserProfile::TAG_NAME->value])
+            $cache = Cache::tags([UserProfileEnum::TAG_NAME->value])
                 ->has(
-                    UserProfile::INFORMATION_CURRENT_USER->value .
+                    UserProfileEnum::INFORMATION_CURRENT_USER->value .
                     auth()?->user()?->id
                 );
 
-            $userProfile = Cache::tags([UserProfile::TAG_NAME->value])->remember(
-                UserProfile::INFORMATION_CURRENT_USER->value . auth()?->user()?->id,
+            $userProfile = Cache::tags([UserProfileEnum::TAG_NAME->value])->remember(
+                UserProfileEnum::INFORMATION_CURRENT_USER->value . auth()?->user()?->id,
                 CacheTTL::REMEMBER->value,
                 fn() => $this->userRepository->findWithRelationships(
                     auth()?->user()?->id,

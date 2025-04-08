@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserSkill\GetListSkillCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserSkill;
+use App\Enums\RouteNames\Profile\UserSkillEnum;
 use App\Http\Resources\ProfileSeries\UserSkill\CurrentUserSkillResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -25,13 +25,13 @@ class GetListSkillCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserSkill::TAG_NAME->value])->has(
-                UserSkill::LIST_SKILL_CURRENT_USER->value . auth()->user()->id
+            $cache = Cache::tags([UserSkillEnum::TAG_NAME->value])->has(
+                UserSkillEnum::LIST_SKILL_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userSkills = Cache::tags([UserSkill::TAG_NAME->value])
+            $userSkills = Cache::tags([UserSkillEnum::TAG_NAME->value])
                 ->remember(
-                    UserSkill::LIST_SKILL_CURRENT_USER->value . auth()->user()->id,
+                    UserSkillEnum::LIST_SKILL_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,
                     fn() => $this->userRepository->findWithRelationships(
                         auth()->user()->id,

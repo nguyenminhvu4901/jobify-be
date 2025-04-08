@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserActivity;
 
-use App\Enums\RouteNames\Profile\UserActivity;
+use App\Enums\RouteNames\Profile\UserActivityEnum;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -35,8 +35,8 @@ class UserActivityRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserActivity::PREFIX->value . UserActivity::STORE->value => $commonRules,
-            UserActivity::PREFIX->value . UserActivity::UPDATE->value => [
+            UserActivityEnum::PREFIX->value . UserActivityEnum::STORE->value => $commonRules,
+            UserActivityEnum::PREFIX->value . UserActivityEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
@@ -52,13 +52,13 @@ class UserActivityRequest extends FormRequest
                     )
                 ]
             ],
-            UserActivity::PREFIX->value . UserActivity::DETAIL_LIST_USER_ACTIVITY->value => [
+            UserActivityEnum::PREFIX->value . UserActivityEnum::DETAIL_LIST_USER_ACTIVITY->value => [
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id']
             ],
-            UserActivity::PREFIX->value . UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value => [
+            UserActivityEnum::PREFIX->value . UserActivityEnum::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserActivity::PREFIX->value . UserActivity::DESTROY->value => [
+            UserActivityEnum::PREFIX->value . UserActivityEnum::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
             ],
@@ -98,6 +98,6 @@ class UserActivityRequest extends FormRequest
      */
     protected function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserActivity::PREFIX->value . UserActivity::STORE->value);
+        $this->processWithValidator($validator, UserActivityEnum::PREFIX->value . UserActivityEnum::STORE->value);
     }
 }

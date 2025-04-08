@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserActivity\GetCompleteListOfUserActivity;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserActivity;
+use App\Enums\RouteNames\Profile\UserActivityEnum;
 use App\Http\Resources\ProfileSeries\UserActivity\UserActivityResource;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
 use Illuminate\Support\Facades\Cache;
@@ -27,17 +27,17 @@ class GetCompleteListOfUserActivityHandle
     public function handle(GetCompleteListOfUserActivityCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserActivity::TAG_NAME->value])
+            $cache = Cache::tags([UserActivityEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        UserActivity::COMPLETE_LIST_USER_ACTIVITY->value,
+                        UserActivityEnum::COMPLETE_LIST_USER_ACTIVITY->value,
                         $command
                     )
                 );
 
-            $userActivities = Cache::tags([UserActivity::TAG_NAME->value])->remember(
+            $userActivities = Cache::tags([UserActivityEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserActivity::COMPLETE_LIST_USER_ACTIVITY->value,
+                    UserActivityEnum::COMPLETE_LIST_USER_ACTIVITY->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

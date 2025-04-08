@@ -2,7 +2,7 @@
 
 namespace App\Enums\RouteNames\Company;
 
-enum CompanyProfile: string
+enum CompanyProfileEnum: string
 {
     case PREFIX = 'company.profile.';
 

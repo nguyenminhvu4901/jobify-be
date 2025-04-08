@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\CompanyScale\GetListAllCompanyScale;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\CompanyScale;
+use App\Enums\RouteNames\Company\CompanyScaleEnum;
 use App\Http\Resources\CompanySeries\CompanyScale\CompanyScaleResource;
 use App\Repositories\CompanySeries\CompanyScale\CompanyScaleRepository;
 use Illuminate\Support\Facades\Cache;
@@ -25,12 +25,12 @@ class GetListAllCompanyScaleHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([CompanyScale::TAG_NAME->value])->has(
-                CompanyScale::LIST_ALL_COMPANY_SCALE->value);
+            $cache = Cache::tags([CompanyScaleEnum::TAG_NAME->value])->has(
+                CompanyScaleEnum::LIST_ALL_COMPANY_SCALE->value);
 
-            $companyScales = Cache::tags([CompanyScale::TAG_NAME->value])
+            $companyScales = Cache::tags([CompanyScaleEnum::TAG_NAME->value])
                 ->remember(
-                    CompanyScale::LIST_ALL_COMPANY_SCALE->value,
+                    CompanyScaleEnum::LIST_ALL_COMPANY_SCALE->value,
                     CacheTTL::HARD->value,
                     fn() => $this->companyScaleRepository->get()
                 );

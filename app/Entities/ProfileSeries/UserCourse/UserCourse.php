@@ -3,6 +3,7 @@
 namespace App\Entities\ProfileSeries\UserCourse;
 
 use App\Entities\ProfileSeries\UserCourse\Traits\UserCourseRelationship;
+use App\Enums\RouteNames\Profile\UserCourseEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
@@ -12,7 +13,7 @@ class UserCourse extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, UserCourseRelationship;
 
-    protected $table = 'user_courses';
+    protected $table = UserCourseEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'user_id',

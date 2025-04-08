@@ -4,6 +4,7 @@ namespace App\Entities\CompanySeries\CompanyBranch;
 
 use App\Entities\CompanySeries\CompanyBranch\Traits\CompanyBranchRelationship;
 use App\Entities\CompanySeries\CompanyBranch\Traits\CompanyBranchScope;
+use App\Enums\RouteNames\Company\CompanyBranchEnum;
 use App\Models\BaseModel;
 use App\Traits\Scope\BaseScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ class CompanyBranch extends BaseModel implements Transformable
     use TransformableTrait, HasFactory,
         CompanyBranchRelationship, CompanyBranchScope, BaseScopeTrait;
 
-    protected $table = "company_branches";
+    protected $table = CompanyBranchEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'branch_name',

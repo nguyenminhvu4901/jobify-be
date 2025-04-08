@@ -2,14 +2,14 @@
 
 namespace App\Observers\Profile;
 
-use App\Enums\RouteNames\Profile\UserPrize;
-use App\Enums\RouteNames\Profile\UserProfile;
+use App\Enums\RouteNames\Profile\UserPrizeEnum;
+use App\Enums\RouteNames\Profile\UserProfileEnum;
 use App\Observers\BaseObserver;
 
 class UserPrizeObserver extends BaseObserver
 {
     protected array $cacheTag = [
-        UserPrize::TAG_NAME->value,
-        UserProfile::TAG_NAME->value
+        UserPrizeEnum::TAG_NAME->value,
+        UserProfileEnum::TAG_NAME->value
     ];
 }

@@ -2,11 +2,13 @@
 
 namespace App\Enums\RouteNames\Company;
 
-enum CompanyBenefit: string
+enum CompanyBenefitEnum: string
 {
     case PREFIX = 'company.profile.companyBenefit.';
 
     case TAG_NAME = 'companies';
+
+    case TABLE = 'company_benefits';
 
     case LIST_COMPANY_BENEFIT = 'listCompanyBenefit';
 

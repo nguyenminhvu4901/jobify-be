@@ -2,11 +2,13 @@
 
 namespace App\Enums\RouteNames\Profile;
 
-enum UserCourse: string
+enum UserCourseEnum: string
 {
     case PREFIX = 'profile.userCourse.';
 
     case TAG_NAME = 'userCourses';
+
+    case TABLE = 'user_courses';
 
     case LIST_COURSE_CURRENT_USER = 'listCourseCurrentUser';
 

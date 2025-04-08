@@ -3,6 +3,7 @@
 namespace App\Entities\ProfileSeries\UserProject;
 
 use App\Entities\ProfileSeries\UserProject\Traits\UserProjectRelationship;
+use App\Enums\RouteNames\Profile\UserProjectEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
@@ -12,7 +13,7 @@ class UserProject extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, UserProjectRelationship;
 
-    protected $table = 'user_projects';
+    protected $table = UserProjectEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'user_id',

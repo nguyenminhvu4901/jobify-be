@@ -221,7 +221,7 @@ class UserEducationController extends Controller
      * @OA\Get(
      *     path="/profile/user-education/complete-list-user-education",
      *     summary="Get Complete List User Education",
-     *     tags={"UserEducation"},
+     *     tags={"UserEducationEnum"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response="200",
@@ -292,7 +292,7 @@ class UserEducationController extends Controller
      * @OA\Get(
      *      path="/profile/user-education/detail-list-user-education",
      *      summary="Get Detail List User Education",
-     *      tags={"UserEducation"},
+     *      tags={"UserEducationEnum"},
      *      security={{"bearerAuth": {}}},
      *      @OA\Parameter(
      *         name="user_education_id",
@@ -369,7 +369,7 @@ class UserEducationController extends Controller
      * @OA\Get(
      *      path="/profile/user-education/detail-list-user-education-by-user-slug",
      *      summary="Get Detail List User Education By User Slug",
-     *      tags={"UserEducation"},
+     *      tags={"UserEducationEnum"},
      *      security={{"bearerAuth": {}}},
      *      @OA\Parameter(
      *         name="user_slug",

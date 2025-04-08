@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\CompanyBenefit\GetListCompanyBenefit;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\CompanyBenefit;
+use App\Enums\RouteNames\Company\CompanyBenefitEnum;
 use App\Http\Resources\CompanySeries\CompanyBenefit\CompanyBenefitResource;
 use App\Repositories\CompanySeries\CompanyBenefit\CompanyBenefitRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,14 +26,14 @@ class GetListCompanyBenefitHandler
     public function handle(GetListCompanyBenefitCommand $command): array
     {
         try {
-            $cache = Cache::tags([CompanyBenefit::TAG_NAME->value])->has(
-                CompanyBenefit::LIST_COMPANY_BENEFIT->value.
+            $cache = Cache::tags([CompanyBenefitEnum::TAG_NAME->value])->has(
+                CompanyBenefitEnum::LIST_COMPANY_BENEFIT->value.
                 auth()->user()?->id .
                 $command->companyId
             );
 
-            $companyBenefits = Cache::tags([CompanyBenefit::TAG_NAME->value])->remember(
-                CompanyBenefit::LIST_COMPANY_BENEFIT->value .
+            $companyBenefits = Cache::tags([CompanyBenefitEnum::TAG_NAME->value])->remember(
+                CompanyBenefitEnum::LIST_COMPANY_BENEFIT->value .
                 auth()->user()->id .
                 $command->companyId,
                 CacheTTL::REMEMBER->value,

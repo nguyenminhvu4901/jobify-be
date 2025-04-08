@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserCertification\GetDetailListOfUserCertificationByUserSlug;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserCertification;
+use App\Enums\RouteNames\Profile\UserCertificationEnum;
 use App\Http\Resources\ProfileSeries\UserCertification\UserCertificationResource;
 use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,15 +26,15 @@ class GetDetailListOfUserCertificationByUserSlugHandle
     public function handle(GetDetailListOfUserCertificationByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserCertification::TAG_NAME->value])->has(
+            $cache = Cache::tags([UserCertificationEnum::TAG_NAME->value])->has(
                 generateCacheName(
-                    UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value,
+                    UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value,
                     $command
                 ));
 
-            $userCertifications = Cache::tags([UserCertification::TAG_NAME->value])->remember(
+            $userCertifications = Cache::tags([UserCertificationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value,
+                    UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

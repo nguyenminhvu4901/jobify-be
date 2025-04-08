@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserCertification\GetDetailListOfUserCertification;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserCertification;
+use App\Enums\RouteNames\Profile\UserCertificationEnum;
 use App\Http\Resources\ProfileSeries\UserCertification\UserCertificationResource;
 use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,16 +26,16 @@ class GetDetailListOfUserCertificationHandle
     public function handle(GetDetailListOfUserCertificationCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserCertification::TAG_NAME->value])->has(
+            $cache = Cache::tags([UserCertificationEnum::TAG_NAME->value])->has(
                 generateCacheName(
-                    UserCertification::DETAIL_LIST_USER_CERTIFICATION->value,
+                    UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION->value,
                     $command
                 ));
 
-            $userCertification = Cache::tags([UserCertification::TAG_NAME->value])
+            $userCertification = Cache::tags([UserCertificationEnum::TAG_NAME->value])
                 ->remember(
                     generateCacheName(
-                        UserCertification::DETAIL_LIST_USER_CERTIFICATION->value,
+                        UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION->value,
                         $command
                     ),
                     CacheTTL::REMEMBER->value,

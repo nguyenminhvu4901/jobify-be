@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\OperationType\GetListAllOperationType;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\OperationType;
+use App\Enums\RouteNames\Company\OperationTypeEnum;
 use App\Http\Resources\CompanySeries\OperationType\OperationTypeResource;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepository;
 use Illuminate\Support\Facades\Cache;
@@ -22,12 +22,12 @@ class GetListAllOperationTypeHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([OperationType::TAG_NAME->value])->has(
-                OperationType::LIST_ALL_OPERATION_TYPE->value);
+            $cache = Cache::tags([OperationTypeEnum::TAG_NAME->value])->has(
+                OperationTypeEnum::LIST_ALL_OPERATION_TYPE->value);
 
-            $operationTypes = Cache::tags([OperationType::TAG_NAME->value])
+            $operationTypes = Cache::tags([OperationTypeEnum::TAG_NAME->value])
                 ->remember(
-                    OperationType::LIST_ALL_OPERATION_TYPE->value,
+                    OperationTypeEnum::LIST_ALL_OPERATION_TYPE->value,
                     CacheTTL::HARD->value,
                     fn() => $this->operationTypeRepository->get()
                 );

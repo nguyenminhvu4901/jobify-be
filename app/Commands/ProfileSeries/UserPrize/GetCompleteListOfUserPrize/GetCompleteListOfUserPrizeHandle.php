@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserPrize\GetCompleteListOfUserPrize;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserPrize;
+use App\Enums\RouteNames\Profile\UserPrizeEnum;
 use App\Http\Resources\ProfileSeries\UserPrize\UserPrizeResource;
 use App\Repositories\ProfileSeries\UserPrize\UserPrizeRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,17 +26,17 @@ class GetCompleteListOfUserPrizeHandle
     public function handle(GetCompleteListOfUserPrizeCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserPrize::TAG_NAME->value])
+            $cache = Cache::tags([UserPrizeEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        UserPrize::COMPLETE_LIST_USER_PRIZE->value,
+                        UserPrizeEnum::COMPLETE_LIST_USER_PRIZE->value,
                         $command
                     )
                 );
 
-            $userPrizes = Cache::tags([UserPrize::TAG_NAME->value])->remember(
+            $userPrizes = Cache::tags([UserPrizeEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserPrize::COMPLETE_LIST_USER_PRIZE->value,
+                    UserPrizeEnum::COMPLETE_LIST_USER_PRIZE->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

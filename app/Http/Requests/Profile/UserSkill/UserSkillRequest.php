@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserSkill;
 
-use App\Enums\RouteNames\Profile\UserSkill;
+use App\Enums\RouteNames\Profile\UserSkillEnum;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,19 +30,19 @@ class UserSkillRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
        return match ($routeName){
-           UserSkill::PREFIX->value . UserSkill::STORE->value => $commonRules,
-           UserSkill::PREFIX->value . UserSkill::DETAIL_LIST_USER_SKILL->value => [
+           UserSkillEnum::PREFIX->value . UserSkillEnum::STORE->value => $commonRules,
+           UserSkillEnum::PREFIX->value . UserSkillEnum::DETAIL_LIST_USER_SKILL->value => [
                 "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
            ],
-           UserSkill::PREFIX->value. UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value => [
+           UserSkillEnum::PREFIX->value. UserSkillEnum::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value => [
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
            ],
-           UserSkill::PREFIX->value . UserSkill::UPDATE->value => [
+           UserSkillEnum::PREFIX->value . UserSkillEnum::UPDATE->value => [
                ...$commonRules,
                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
            ],
-           UserSkill::PREFIX->value . UserSkill::DESTROY->value => [
+           UserSkillEnum::PREFIX->value . UserSkillEnum::DESTROY->value => [
                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id'],
                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
            ],

@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourse;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserCourse;
+use App\Enums\RouteNames\Profile\UserCourseEnum;
 use App\Http\Resources\ProfileSeries\UserCourse\UserCourseResource;
 use App\Repositories\ProfileSeries\UserCourse\UserCourseRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,16 +26,16 @@ class GetDetailListOfUserCourseHandle
     public function handle(GetDetailListOfUserCourseCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserCourse::TAG_NAME->value])->has(
+            $cache = Cache::tags([UserCourseEnum::TAG_NAME->value])->has(
                 generateCacheName(
-                    UserCourse::DETAIL_LIST_USER_COURSE->value,
+                    UserCourseEnum::DETAIL_LIST_USER_COURSE->value,
                     $command
                 )
             );
 
-            $userCourse = Cache::tags([UserCourse::TAG_NAME->value])->remember(
+            $userCourse = Cache::tags([UserCourseEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserCourse::DETAIL_LIST_USER_COURSE->value,
+                    UserCourseEnum::DETAIL_LIST_USER_COURSE->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

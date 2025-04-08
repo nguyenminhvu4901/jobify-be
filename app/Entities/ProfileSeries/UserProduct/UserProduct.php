@@ -3,6 +3,7 @@
 namespace App\Entities\ProfileSeries\UserProduct;
 
 use App\Entities\ProfileSeries\UserProduct\Traits\UserProductRelationship;
+use App\Enums\RouteNames\Profile\UserProductEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
@@ -12,7 +13,7 @@ class UserProduct extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, UserProductRelationship;
 
-    protected $table = 'user_products';
+    protected $table = UserProductEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'user_id',

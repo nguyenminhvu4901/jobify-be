@@ -4,6 +4,7 @@ namespace App\Entities\CompanySeries\CompanyBenefit;
 
 use App\Entities\CompanySeries\CompanyBenefit\Traits\CompanyBenefitRelationship;
 use App\Entities\CompanySeries\CompanyBenefit\Traits\CompanyBenefitScope;
+use App\Enums\RouteNames\Company\CompanyBenefitEnum;
 use App\Models\BaseModel;
 use App\Traits\Scope\BaseScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ class CompanyBenefit extends BaseModel implements Transformable
     /**
      * @var string
      */
-    protected $table = "company_benefits";
+    protected $table = CompanyBenefitEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'company_id',

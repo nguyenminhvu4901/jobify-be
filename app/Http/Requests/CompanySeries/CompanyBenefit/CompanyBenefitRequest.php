@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\CompanySeries\CompanyBenefit;
 
-use App\Enums\RouteNames\Company\CompanyBenefit;
+use App\Enums\RouteNames\Company\CompanyBenefitEnum;
 use App\Rules\Company\CompanyBelongsToBenefitRule;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -30,7 +30,7 @@ class CompanyBenefitRequest extends FormRequest
         $routeName = request()->route()->getName();
 
         return match ($routeName){
-            CompanyBenefit::PREFIX->value . CompanyBenefit::LIST_COMPANY_BENEFIT->value => [
+            CompanyBenefitEnum::PREFIX->value . CompanyBenefitEnum::LIST_COMPANY_BENEFIT->value => [
                 'company_id' => [
                     'bail',
                     'required',
@@ -38,13 +38,13 @@ class CompanyBenefitRequest extends FormRequest
                     'exists:companies,id'
                 ]
             ],
-            CompanyBenefit::PREFIX->value . CompanyBenefit::STORE_COMPANY_BENEFIT->value => [
+            CompanyBenefitEnum::PREFIX->value . CompanyBenefitEnum::STORE_COMPANY_BENEFIT->value => [
                 ...$this->getCommonRules(),
                 'benefit_name' => [
                     'bail', 'required', 'string', 'max:255', 'unique:company_benefits,benefit_name'
                 ],
             ],
-            CompanyBenefit::PREFIX->value . CompanyBenefit::UPDATE_COMPANY_BENEFIT->value => [
+            CompanyBenefitEnum::PREFIX->value . CompanyBenefitEnum::UPDATE_COMPANY_BENEFIT->value => [
                 ...$this->getCommonRules(),
                 ...$this->getCommonRulesId(),
                 'benefit_name' => [
@@ -54,7 +54,7 @@ class CompanyBenefitRequest extends FormRequest
                     ),
                 ],
             ],
-            CompanyBenefit::PREFIX->value . CompanyBenefit::DESTROY_COMPANY_BENEFIT->value => [
+            CompanyBenefitEnum::PREFIX->value . CompanyBenefitEnum::DESTROY_COMPANY_BENEFIT->value => [
                 ...$this->getCommonRulesId(),
             ],
             default => []

@@ -82,7 +82,7 @@ class UserExperienceController extends Controller
      * @OA\Get(
      *     path="/profile/user-experience/complete-list-user-experience",
      *     summary="Get complete list of user experience",
-     *     tags={"UserExperience"},
+     *     tags={"UserExperienceEnum"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,

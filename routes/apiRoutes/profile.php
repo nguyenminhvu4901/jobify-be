@@ -1,16 +1,16 @@
 <?php
 
-use App\Enums\RouteNames\Profile\UserActivity;
-use App\Enums\RouteNames\Profile\UserCertification;
-use App\Enums\RouteNames\Profile\UserCourse;
-use App\Enums\RouteNames\Profile\UserEducation;
-use App\Enums\RouteNames\Profile\UserExperience;
-use App\Enums\RouteNames\Profile\UserLocation;
-use App\Enums\RouteNames\Profile\UserPrize;
-use App\Enums\RouteNames\Profile\UserProduct;
-use App\Enums\RouteNames\Profile\UserProfile;
-use App\Enums\RouteNames\Profile\UserProject;
-use App\Enums\RouteNames\Profile\UserSkill;
+use App\Enums\RouteNames\Profile\UserActivityEnum;
+use App\Enums\RouteNames\Profile\UserCertificationEnum;
+use App\Enums\RouteNames\Profile\UserCourseEnum;
+use App\Enums\RouteNames\Profile\UserEducationEnum;
+use App\Enums\RouteNames\Profile\UserExperienceEnum;
+use App\Enums\RouteNames\Profile\UserLocationEnum;
+use App\Enums\RouteNames\Profile\UserPrizeEnum;
+use App\Enums\RouteNames\Profile\UserProductEnum;
+use App\Enums\RouteNames\Profile\UserProfileEnum;
+use App\Enums\RouteNames\Profile\UserProjectEnum;
+use App\Enums\RouteNames\Profile\UserSkillEnum;
 use App\Http\Controllers\API\Profile\PersonalInfoController;
 use App\Http\Controllers\API\Profile\UserActivityController;
 use App\Http\Controllers\API\Profile\UserCertificationController;
@@ -31,276 +31,276 @@ Route::group(
         'as' => 'profile.'
     ], function () {
         Route::get('/current-user', [PersonalInfoController::class, 'getInformationCurrentUser'])
-        ->name(UserProfile::INFORMATION_CURRENT_USER->value);
+        ->name(UserProfileEnum::INFORMATION_CURRENT_USER->value);
 
         Route::get('/information-cv-current-user', [PersonalInfoController::class, 'getInformationCVCurrentUser'])
-        ->name(UserProfile::INFORMATION_CV_CURRENT_USER->value);
+        ->name(UserProfileEnum::INFORMATION_CV_CURRENT_USER->value);
 
         Route::post('update-personal-info', [PersonalInfoController::class, 'updateProfile'])
-            ->name(UserProfile::UPDATE_PROFILE->value);
+            ->name(UserProfileEnum::UPDATE_PROFILE->value);
 
         Route::post('upload-avatar', [PersonalInfoController::class, 'uploadAvatar'])
-            ->name(UserProfile::UPLOAD_AVATAR->value);
+            ->name(UserProfileEnum::UPLOAD_AVATAR->value);
 
         Route::group(['prefix' => 'user-experience', 'as' => 'userExperience.'], function() {
             Route::post('/', [UserExperienceController::class, 'store'])
-                ->name(UserExperience::STORE->value);
+                ->name(UserExperienceEnum::STORE->value);
 
             Route::get('/list-experience-current-user', [UserExperienceController::class,
-                'getListExperienceCurrentUser'])->name(UserExperience::LIST_EXPERIENCE_CURRENT_USER->value);
+                'getListExperienceCurrentUser'])->name(UserExperienceEnum::LIST_EXPERIENCE_CURRENT_USER->value);
 
             Route::get('/complete-list-user-experience', [UserExperienceController::class,
-                'getCompleteListOfUserExperience'])->name(UserExperience::COMPLETE_LIST_USER_EXPERIENCE->value);
+                'getCompleteListOfUserExperience'])->name(UserExperienceEnum::COMPLETE_LIST_USER_EXPERIENCE->value);
 
             Route::get('/detail-list-user-experience', [UserExperienceController::class,
-                'getDetailListOfUserExperience'])->name(UserExperience::DETAIL_LIST_USER_EXPERIENCE->value);
+                'getDetailListOfUserExperience'])->name(UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE->value);
 
             Route::get('/detail-list-user-experience-by-user-slug', [UserExperienceController::class,
                 'getDetailListOfUserExperienceByUserSlug'])
-                ->name(UserExperience::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value);
+                ->name(UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value);
 
             Route::post('/update-experience', [UserExperienceController::class, 'update'])
-                ->name(UserExperience::UPDATE->value);
+                ->name(UserExperienceEnum::UPDATE->value);
 
             Route::delete('/', [UserExperienceController::class, 'destroy'])
-                ->name(UserExperience::DESTROY->value);
+                ->name(UserExperienceEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-certification', 'as' => 'userCertification.'], function (){
             Route::get('/list-certification-current-user', [UserCertificationController::class,
                 'getListCertificationCurrentUser'])
-                ->name(UserCertification::LIST_CERTIFICATION_CURRENT_USER->value);
+                ->name(UserCertificationEnum::LIST_CERTIFICATION_CURRENT_USER->value);
 
             Route::post('/', [UserCertificationController::class, 'store'])
-                ->name(UserCertification::STORE->value);
+                ->name(UserCertificationEnum::STORE->value);
 
             Route::get('/complete-list-user-certification', [UserCertificationController::class,
                 'getCompleteListOfUserCertification'])
-                ->name(UserCertification::COMPLETE_LIST_USER_CERTIFICATION->value);
+                ->name(UserCertificationEnum::COMPLETE_LIST_USER_CERTIFICATION->value);
 
             Route::get('/detail-list-user-certification', [UserCertificationController::class,
                 'getDetailListOfUserCertification'])
-                ->name(UserCertification::DETAIL_LIST_USER_CERTIFICATION->value);
+                ->name(UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION->value);
 
             Route::get('/detail-list-user-certification-by-user-slug', [UserCertificationController::class,
                 'getDetailListOfUserCertificationByUserSlug'])
-                ->name(UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value);
+                ->name(UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value);
 
             Route::post('/update-certification', [UserCertificationController::class, 'update'])
-                ->name(UserCertification::UPDATE->value);
+                ->name(UserCertificationEnum::UPDATE->value);
 
             Route::delete('/', [UserCertificationController::class, 'destroy'])
-                ->name(UserCertification::DESTROY->value);
+                ->name(UserCertificationEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-education', 'as' => 'userEducation.'], function() {
             Route::get('/list-education-current-user', [UserEducationController::class,
-                'getListEducationCurrentUser'])->name(UserEducation::LIST_EDUCATION_CURRENT_USER->value);
+                'getListEducationCurrentUser'])->name(UserEducationEnum::LIST_EDUCATION_CURRENT_USER->value);
 
             Route::post('/', [UserEducationController::class, 'store'])
-                ->name(UserEducation::STORE->value);
+                ->name(UserEducationEnum::STORE->value);
 
             Route::get('/complete-list-user-education', [UserEducationController::class,
                 'getCompleteListOfUserEducation'])
-                ->name(UserEducation::COMPLETE_LIST_USER_EDUCATION->value);
+                ->name(UserEducationEnum::COMPLETE_LIST_USER_EDUCATION->value);
 
             Route::get('/detail-list-user-education', [UserEducationController::class,
                 'getDetailListOfUserEducation'])
-                ->name(UserEducation::DETAIL_LIST_USER_EDUCATION->value);
+                ->name(UserEducationEnum::DETAIL_LIST_USER_EDUCATION->value);
 
             Route::get('/detail-list-user-education-by-user-slug', [UserEducationController::class,
                 'getDetailListOfUserEducationByUserSlug'])
-                ->name(UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value);
+                ->name(UserEducationEnum::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value);
 
             Route::put('/', [UserEducationController::class, 'update'])
-                ->name(UserEducation::UPDATE->value);
+                ->name(UserEducationEnum::UPDATE->value);
 
             Route::delete('/', [UserEducationController::class, 'destroy'])
-                ->name(UserEducation::DESTROY->value);
+                ->name(UserEducationEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-skill', 'as' => 'userSkill.'], function() {
             Route::get('/list-skill-current-user', [UserSkillController::class,
                 'getListSkillCurrentUser'])
-                ->name(UserSkill::LIST_SKILL_CURRENT_USER->value);
+                ->name(UserSkillEnum::LIST_SKILL_CURRENT_USER->value);
 
            Route::post('/', [UserSkillController::class, 'store'])
-               ->name(UserSkill::STORE->value);
+               ->name(UserSkillEnum::STORE->value);
 
             Route::get('/complete-list-user-skill', [UserSkillController::class,
                 'getCompleteListOfUserSkill'])
-                ->name(UserSkill::COMPLETE_LIST_USER_SKILL->value);
+                ->name(UserSkillEnum::COMPLETE_LIST_USER_SKILL->value);
 
             Route::get('/detail-list-user-skill', [UserSkillController::class,
                 'getDetailListOfUserSkill'])
-                ->name(UserSkill::DETAIL_LIST_USER_SKILL->value);
+                ->name(UserSkillEnum::DETAIL_LIST_USER_SKILL->value);
 
             Route::get('/detail-list-user-skill-by-user-slug', [UserSkillController::class,
                 'getDetailListOfUserSkillByUserSlug'])
-                ->name(UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value);
+                ->name(UserSkillEnum::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value);
 
             Route::put('/', [UserSkillController::class, 'update'])
-                ->name(UserSkill::UPDATE->value);
+                ->name(UserSkillEnum::UPDATE->value);
 
             Route::delete('/', [UserSkillController::class, 'destroy'])
-                ->name(UserSkill::DESTROY->value);
+                ->name(UserSkillEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-course', 'as' => 'userCourse.'], function () {
             Route::get('/list-course-current-user', [UserCourseController::class,
-                'getListCourseCurrentUser'])->name(UserCourse::LIST_COURSE_CURRENT_USER->value);
+                'getListCourseCurrentUser'])->name(UserCourseEnum::LIST_COURSE_CURRENT_USER->value);
 
             Route::get('/complete-list-user-course', [UserCourseController::class,
-                'getCompleteListOfUserCourse'])->name(UserCourse::COMPLETE_LIST_USER_COURSE->value);
+                'getCompleteListOfUserCourse'])->name(UserCourseEnum::COMPLETE_LIST_USER_COURSE->value);
 
             Route::get('/detail-list-user-course', [UserCourseController::class,
-                'getDetailListOfUserCourse'])->name(UserCourse::DETAIL_LIST_USER_COURSE->value);
+                'getDetailListOfUserCourse'])->name(UserCourseEnum::DETAIL_LIST_USER_COURSE->value);
 
             Route::get('/detail-list-user-course-by-user-slug', [UserCourseController::class,
-                'getDetailListOfUserCourseByUserSlug'])->name(UserCourse::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value);
+                'getDetailListOfUserCourseByUserSlug'])->name(UserCourseEnum::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value);
 
-            Route::post('/', [UserCourseController::class, 'store'])->name(UserCourse::STORE->value);
+            Route::post('/', [UserCourseController::class, 'store'])->name(UserCourseEnum::STORE->value);
 
             Route::post('/update-course', [UserCourseController::class, 'update'])
-                ->name(UserCourse::UPDATE->value);
+                ->name(UserCourseEnum::UPDATE->value);
 
-            Route::delete('/', [UserCourseController::class, 'destroy'])->name(UserCourse::DESTROY->value);
+            Route::delete('/', [UserCourseController::class, 'destroy'])->name(UserCourseEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-project', 'as' => 'userProject.'], function() {
             Route::get('/list-project-current-user', [UserProjectController::class,
                 'getListProjectCurrentUser'])
-                ->name(UserProject::LIST_PROJECT_CURRENT_USER->value);
+                ->name(UserProjectEnum::LIST_PROJECT_CURRENT_USER->value);
 
             Route::get('/complete-list-user-project', [UserProjectController::class,
                 'getCompleteListOfUserProject'])
-                ->name(UserProject::COMPLETE_LIST_USER_PROJECT->value);
+                ->name(UserProjectEnum::COMPLETE_LIST_USER_PROJECT->value);
 
             Route::get('/detail-list-user-project', [UserProjectController::class,
                 'getDetailListOfUserProject'])
-                ->name(UserProject::DETAIL_LIST_USER_PROJECT->value);
+                ->name(UserProjectEnum::DETAIL_LIST_USER_PROJECT->value);
 
             Route::get('/detail-list-user-project-by-user-slug', [UserProjectController::class,
                 'getDetailListOfUserProjectByUserSlug'])
-                ->name(UserProject::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value);
+                ->name(UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value);
 
             Route::post('/', [UserProjectController::class, 'store'])
-                ->name(UserProject::STORE->value);
+                ->name(UserProjectEnum::STORE->value);
 
             Route::post('/update-project', [UserProjectController::class, 'update'])
-                ->name(UserProject::UPDATE->value);
+                ->name(UserProjectEnum::UPDATE->value);
 
             Route::delete('/', [UserProjectController::class, 'destroy'])
-                ->name(UserProject::DESTROY->value);
+                ->name(UserProjectEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-prize', 'as' => 'userPrize.'], function() {
             Route::get('/list-prize-current-user', [UserPrizeController::class,
                 'getListPrizeCurrentUser'])
-                ->name(UserPrize::LIST_PRIZE_CURRENT_USER->value);
+                ->name(UserPrizeEnum::LIST_PRIZE_CURRENT_USER->value);
 
             Route::get('/complete-list-user-prize', [UserPrizeController::class,
                 'getCompleteListOfUserPrize'])
-                ->name(UserPrize::COMPLETE_LIST_USER_PRIZE->value);
+                ->name(UserPrizeEnum::COMPLETE_LIST_USER_PRIZE->value);
 
             Route::get('/detail-list-user-prize', [UserPrizeController::class,
                 'getDetailListOfUserPrize'])
-                ->name(UserPrize::DETAIL_LIST_USER_PRIZE->value);
+                ->name(UserPrizeEnum::DETAIL_LIST_USER_PRIZE->value);
 
             Route::get('/detail-list-user-prize-by-user-slug', [UserPrizeController::class,
                 'getDetailListOfUserPrizeByUserSlug'])
-                ->name(UserPrize::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value);
+                ->name(UserPrizeEnum::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value);
 
             Route::post('/', [UserPrizeController::class, 'store'])
-                ->name(UserPrize::STORE->value);
+                ->name(UserPrizeEnum::STORE->value);
 
             Route::post('/update-prize', [UserPrizeController::class, 'update'])
-                ->name(UserPrize::UPDATE->value);
+                ->name(UserPrizeEnum::UPDATE->value);
 
             Route::delete('/', [UserPrizeController::class, 'destroy'])
-                ->name(UserPrize::DESTROY->value);
+                ->name(UserPrizeEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-product', 'as' => 'userProduct.'], function() {
             Route::get('/list-product-current-user', [UserProductController::class,
                 'getListProductCurrentUser'])
-                ->name(UserProduct::LIST_PRODUCT_CURRENT_USER->value);
+                ->name(UserProductEnum::LIST_PRODUCT_CURRENT_USER->value);
 
             Route::get('/complete-list-user-product', [UserProductController::class,
                 'getCompleteListOfUserProduct'])
-                ->name(UserProduct::COMPLETE_LIST_USER_PRODUCT->value);
+                ->name(UserProductEnum::COMPLETE_LIST_USER_PRODUCT->value);
 
             Route::get('/detail-list-user-product', [UserProductController::class,
                 'getDetailListOfUserProduct'])
-                ->name(UserProduct::DETAIL_LIST_USER_PRODUCT->value);
+                ->name(UserProductEnum::DETAIL_LIST_USER_PRODUCT->value);
 
             Route::get('/detail-list-user-product-by-user-slug', [UserProductController::class,
                 'getDetailListOfUserProductByUserSlug'])
-                ->name(UserProduct::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value);
+                ->name(UserProductEnum::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value);
 
             Route::post('/', [UserProductController::class, 'store'])
-                ->name(UserProduct::STORE->value);
+                ->name(UserProductEnum::STORE->value);
 
             Route::post('/update-product', [UserProductController::class, 'update'])
-                ->name(UserProduct::UPDATE->value);
+                ->name(UserProductEnum::UPDATE->value);
 
             Route::delete('/', [UserProductController::class, 'destroy'])
-                ->name(UserProduct::DESTROY->value);
+                ->name(UserProductEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-activity', 'as' => 'userActivity.'], function() {
 
             Route::get('/list-activity-current-user', [UserActivityController::class,
                 'getListActivityCurrentUser'])
-                ->name(UserActivity::LIST_ACTIVITY_CURRENT_USER->value);
+                ->name(UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value);
 
             Route::get('/complete-list-user-activity', [UserActivityController::class,
                 'getCompleteListOfUserActivity'])
-                ->name(UserActivity::COMPLETE_LIST_USER_ACTIVITY->value);
+                ->name(UserActivityEnum::COMPLETE_LIST_USER_ACTIVITY->value);
 
             Route::get('/detail-list-user-activity', [UserActivityController::class,
                 'getDetailListOfUserActivity'])
-                ->name(UserActivity::DETAIL_LIST_USER_ACTIVITY->value);
+                ->name(UserActivityEnum::DETAIL_LIST_USER_ACTIVITY->value);
 
             Route::get('/detail-list-user-activity-by-user-slug', [UserActivityController::class,
                 'getDetailListOfUserActivityByUserSlug'])
-                ->name(UserActivity::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value);
+                ->name(UserActivityEnum::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value);
 
             Route::post('/', [UserActivityController::class, 'store'])
-                ->name(UserActivity::STORE->value);
+                ->name(UserActivityEnum::STORE->value);
 
             Route::post('/update-activity', [UserActivityController::class, 'update'])
-                ->name(UserActivity::UPDATE->value);
+                ->name(UserActivityEnum::UPDATE->value);
 
             Route::delete('/', [UserActivityController::class, 'destroy'])
-                ->name(UserActivity::DESTROY->value);
+                ->name(UserActivityEnum::DESTROY->value);
         });
 
         Route::group(['prefix' => 'user-location', 'as' => 'userLocation.'], function(){
             Route::get('/list-location-current-user', [UserLocationController::class,
                 'getListLocationCurrentUser'])
-                ->name(UserLocation::LIST_LOCATION_CURRENT_USER->value);
+                ->name(UserLocationEnum::LIST_LOCATION_CURRENT_USER->value);
 
             Route::get('/complete-list-user-location', [UserLocationController::class,
                 'getCompleteListOfUserLocation'])
-                ->name(UserLocation::COMPLETE_LIST_USER_LOCATION->value);
+                ->name(UserLocationEnum::COMPLETE_LIST_USER_LOCATION->value);
 
             Route::get('/detail-list-user-location', [UserLocationController::class,
                 'getDetailListOfUserLocation'])
-                ->name(UserLocation::DETAIL_LIST_USER_LOCATION->value);
+                ->name(UserLocationEnum::DETAIL_LIST_USER_LOCATION->value);
 
             Route::get('/detail-list-user-location-by-user-slug', [UserLocationController::class,
                 'getDetailListOfUserLocationByUserSlug'])
-                ->name(UserLocation::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value);
+                ->name(UserLocationEnum::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value);
 
             Route::post('/', [UserLocationController::class, 'store'])
-                ->name(UserLocation::STORE->value);
+                ->name(UserLocationEnum::STORE->value);
 
             Route::put('/update-location', [UserLocationController::class, 'update'])
-                ->name(UserLocation::UPDATE->value);
+                ->name(UserLocationEnum::UPDATE->value);
 
             Route::delete('/', [UserLocationController::class, 'destroy'])
-                ->name(UserLocation::DESTROY->value);
+                ->name(UserLocationEnum::DESTROY->value);
         });
 });
 

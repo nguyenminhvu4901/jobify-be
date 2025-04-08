@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use App\Enums\RouteNames\Company\BusinessSectorEnum;
 
 class BusinessSector extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, BusinessSectorRelationship;
 
-    protected $table = 'business_sectors';
+    protected $table = BusinessSectorEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'name',

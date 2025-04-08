@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserCourse;
 
-use App\Enums\RouteNames\Profile\UserCourse;
+use App\Enums\RouteNames\Profile\UserCourseEnum;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -42,14 +42,14 @@ class UserCourseRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName){
-            UserCourse::PREFIX->value . UserCourse::DETAIL_LIST_USER_COURSE->value => [
+            UserCourseEnum::PREFIX->value . UserCourseEnum::DETAIL_LIST_USER_COURSE->value => [
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id']
             ],
-            UserCourse::PREFIX->value . UserCourse::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value => [
+            UserCourseEnum::PREFIX->value . UserCourseEnum::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserCourse::PREFIX->value . UserCourse::STORE->value => $commonRules,
-            UserCourse::PREFIX->value . UserCourse::UPDATE->value => [
+            UserCourseEnum::PREFIX->value . UserCourseEnum::STORE->value => $commonRules,
+            UserCourseEnum::PREFIX->value . UserCourseEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
@@ -65,7 +65,7 @@ class UserCourseRequest extends FormRequest
                     )
                 ]
             ],
-            UserCourse::PREFIX->value . UserCourse::DESTROY->value => [
+            UserCourseEnum::PREFIX->value . UserCourseEnum::DESTROY->value => [
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug']
             ],
@@ -97,6 +97,6 @@ class UserCourseRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserCourse::PREFIX->value . UserCourse::STORE->value);
+        $this->processWithValidator($validator, UserCourseEnum::PREFIX->value . UserCourseEnum::STORE->value);
     }
 }

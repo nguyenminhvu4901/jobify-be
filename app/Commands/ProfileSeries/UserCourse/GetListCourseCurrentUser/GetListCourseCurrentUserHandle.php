@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserCourse\GetListCourseCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserCourse;
+use App\Enums\RouteNames\Profile\UserCourseEnum;
 use App\Http\Resources\ProfileSeries\UserCourse\CurrentUserCourseResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -25,12 +25,12 @@ class GetListCourseCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserCourse::TAG_NAME->value])->has(
-                UserCourse::LIST_COURSE_CURRENT_USER->value . auth()->user()->id);
+            $cache = Cache::tags([UserCourseEnum::TAG_NAME->value])->has(
+                UserCourseEnum::LIST_COURSE_CURRENT_USER->value . auth()->user()->id);
 
-            $userCourse = Cache::tags([UserCourse::TAG_NAME->value])
+            $userCourse = Cache::tags([UserCourseEnum::TAG_NAME->value])
                 ->remember(
-                    UserCourse::LIST_COURSE_CURRENT_USER->value . auth()->user()->id,
+                    UserCourseEnum::LIST_COURSE_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,
                     function() {
 

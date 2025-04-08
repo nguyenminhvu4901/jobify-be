@@ -3,10 +3,10 @@
 namespace App\Entities\CompanySeries\OperationType;
 
 use App\Entities\CompanySeries\OperationType\Traits\OperationTypeRelationship;
+use App\Enums\RouteNames\Company\OperationTypeEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -14,7 +14,7 @@ class OperationType extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, OperationTypeRelationship;
 
-    protected $table = 'operation_types';
+    protected $table = OperationTypeEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'name',

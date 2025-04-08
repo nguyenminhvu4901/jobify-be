@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\CompanyProfile\GetDetailProfileCompanyCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\CompanyProfile;
+use App\Enums\RouteNames\Company\CompanyProfileEnum;
 use App\Http\Resources\CompanySeries\CompanyProfile\DetailInformationCompanyCurrentUserResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -17,14 +17,14 @@ class GetDetailProfileCompanyCurrentUserHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([CompanyProfile::TAG_NAME->value])
+            $cache = Cache::tags([CompanyProfileEnum::TAG_NAME->value])
                 ->has(
-                    CompanyProfile::DETAIL_COMPANY_PROFILE_CURRENT_USER->value .
+                    CompanyProfileEnum::DETAIL_COMPANY_PROFILE_CURRENT_USER->value .
                     auth()?->user()?->id
                 );
 
-            $companyProfile = Cache::tags([CompanyProfile::TAG_NAME->value])->remember(
-                CompanyProfile::DETAIL_COMPANY_PROFILE_CURRENT_USER->value .
+            $companyProfile = Cache::tags([CompanyProfileEnum::TAG_NAME->value])->remember(
+                CompanyProfileEnum::DETAIL_COMPANY_PROFILE_CURRENT_USER->value .
                 auth()?->user()?->id,
                 CacheTTL::REMEMBER->value,
                 fn() => $this->userRepository->findWithRelationships(

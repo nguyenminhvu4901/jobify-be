@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserEducation;
 
-use App\Enums\RouteNames\Profile\UserEducation;
+use App\Enums\RouteNames\Profile\UserEducationEnum;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -31,19 +31,19 @@ class UserEducationRequest extends FormRequest
         $commonRule = $this->defineCommonRule();
 
         return match ($routeName){
-            UserEducation::PREFIX->value . UserEducation::STORE->value => $commonRule,
-            UserEducation::PREFIX->value . UserEducation::DETAIL_LIST_USER_EDUCATION->value => [
+            UserEducationEnum::PREFIX->value . UserEducationEnum::STORE->value => $commonRule,
+            UserEducationEnum::PREFIX->value . UserEducationEnum::DETAIL_LIST_USER_EDUCATION->value => [
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            UserEducation::PREFIX->value . UserEducation::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value => [
+            UserEducationEnum::PREFIX->value . UserEducationEnum::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value => [
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
-            UserEducation::PREFIX->value . UserEducation::UPDATE->value => [
+            UserEducationEnum::PREFIX->value . UserEducationEnum::UPDATE->value => [
                 ...$commonRule,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            UserEducation::PREFIX->value . UserEducation::DESTROY->value => [
+            UserEducationEnum::PREFIX->value . UserEducationEnum::DESTROY->value => [
                 "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id'],
                 "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],

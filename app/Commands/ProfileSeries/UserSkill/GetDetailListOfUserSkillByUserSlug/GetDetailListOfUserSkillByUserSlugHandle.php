@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkillByUserSlug;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserSkill;
+use App\Enums\RouteNames\Profile\UserSkillEnum;
 use App\Http\Resources\ProfileSeries\UserSkill\UserSkillResource;
 use App\Repositories\ProfileSeries\UserSkill\UserSkillRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,16 +26,16 @@ class GetDetailListOfUserSkillByUserSlugHandle
     public function handle(GetDetailListOfUserSkillByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserSkill::TAG_NAME->value])->has(
+            $cache = Cache::tags([UserSkillEnum::TAG_NAME->value])->has(
                 generateCacheName(
-                    UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value,
+                    UserSkillEnum::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value,
                     $command
                 ));
 
-            $userSkills = Cache::tags([UserSkill::TAG_NAME->value])
+            $userSkills = Cache::tags([UserSkillEnum::TAG_NAME->value])
                 ->remember(
                     generateCacheName(
-                        UserSkill::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value,
+                        UserSkillEnum::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value,
                         $command
                     ),
                     CacheTTL::REMEMBER->value,

@@ -3,6 +3,7 @@
 namespace App\Entities\CompanySeries\CompanyScale;
 
 use App\Entities\CompanySeries\CompanyScale\Traits\CompanyScaleRelationship;
+use App\Enums\RouteNames\Company\CompanyScaleEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ class CompanyScale extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, CompanyScaleRelationship;
 
-    protected $table = "company_scales";
+    protected $table = CompanyScaleEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'name', 'description'

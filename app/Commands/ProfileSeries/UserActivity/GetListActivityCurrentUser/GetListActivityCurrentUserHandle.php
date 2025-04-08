@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserActivity\GetListActivityCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserActivity;
+use App\Enums\RouteNames\Profile\UserActivityEnum;
 use App\Http\Resources\ProfileSeries\UserActivity\CurrentUserActivityResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -25,12 +25,12 @@ class GetListActivityCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserActivity::TAG_NAME->value])->has(
-                UserActivity::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id);
+            $cache = Cache::tags([UserActivityEnum::TAG_NAME->value])->has(
+                UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id);
 
-            $userActivities = Cache::tags([UserActivity::TAG_NAME->value])
+            $userActivities = Cache::tags([UserActivityEnum::TAG_NAME->value])
                 ->remember(
-                    UserActivity::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id,
+                    UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,
                     fn() => $this->userRepository->findWithRelationships(
                             id: auth()->user()->id,

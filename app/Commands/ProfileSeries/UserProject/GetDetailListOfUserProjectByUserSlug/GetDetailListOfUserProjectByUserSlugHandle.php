@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserProject\GetDetailListOfUserProjectByUserSlug;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserProject;
+use App\Enums\RouteNames\Profile\UserProjectEnum;
 use App\Http\Resources\ProfileSeries\UserProject\UserProjectResource;
 use App\Repositories\ProfileSeries\UserProject\UserProjectRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,15 +26,15 @@ class GetDetailListOfUserProjectByUserSlugHandle
     public function handle(GetDetailListOfUserProjectByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProject::TAG_NAME->value])->has(
+            $cache = Cache::tags([UserProjectEnum::TAG_NAME->value])->has(
                 generateCacheName(
-                    UserProject::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
+                    UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
                     $command
                 ));
 
-            $userProject = Cache::tags([UserProject::TAG_NAME->value])->remember(
+            $userProject = Cache::tags([UserProjectEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserProject::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
+                    UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

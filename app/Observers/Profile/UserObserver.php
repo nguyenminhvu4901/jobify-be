@@ -2,7 +2,7 @@
 
 namespace App\Observers\Profile;
 
-use App\Enums\RouteNames\Profile\UserProfile;
+use App\Enums\RouteNames\Profile\UserProfileEnum;
 use App\Models\User;
 use App\Observers\BaseObserver;
 use Ramsey\Uuid\Uuid;
@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 class UserObserver extends BaseObserver
 {
     protected array $cacheTag = [
-        UserProfile::TAG_NAME->value
+        UserProfileEnum::TAG_NAME->value
     ];
 
     public function creating(User $user): void
