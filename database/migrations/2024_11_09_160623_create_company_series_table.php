@@ -33,7 +33,7 @@ return new class extends Migration
             $table->unsignedBigInteger('gender_id')->nullable();
             $table->unsignedBigInteger('status_id')->nullable();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->string('tax_code');
             $table->text('website')->nullable();
             $table->text('description')->nullable();

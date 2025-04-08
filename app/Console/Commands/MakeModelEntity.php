@@ -55,13 +55,14 @@ class MakeModelEntity extends Command
 
 namespace {$namespace};
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class {$className} extends Model implements Transformable
+class {$className} extends BaseModel implements Transformable
 {
-    use TransformableTrait;
+    use TransformableTrait, HasFactory;
 }
 PHP;
 

@@ -1,19 +1,19 @@
 <?php
 
-use App\Enums\RouteNames\Company\BusinessSectorEnum;
-use App\Enums\RouteNames\Company\CompanyBenefitEnum;
-use App\Enums\RouteNames\Company\CompanyBranchEnum;
-use App\Enums\RouteNames\Company\CompanyProfileEnum;
-use App\Enums\RouteNames\Company\CompanyScaleEnum;
-use App\Enums\RouteNames\Company\OperationTypeEnum;
-use App\Enums\RouteNames\Company\CompanyWorkingDayEnum;
-use App\Http\Controllers\API\Company\BusinessSectorController;
-use App\Http\Controllers\API\Company\CompanyBenefitController;
-use App\Http\Controllers\API\Company\CompanyBranchController;
-use App\Http\Controllers\API\Company\CompanyController;
-use App\Http\Controllers\API\Company\CompanyScaleController;
-use App\Http\Controllers\API\Company\OperationTypeController;
-use App\Http\Controllers\API\Company\CompanyWorkingDayController;
+use App\Enums\RouteNames\CompanySeries\BusinessSectorEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyBenefitEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyBranchEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyProfileEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyScaleEnum;
+use App\Enums\RouteNames\CompanySeries\OperationTypeEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyWorkingDayEnum;
+use App\Http\Controllers\API\CompanySeries\BusinessSectorController;
+use App\Http\Controllers\API\CompanySeries\CompanyBenefitController;
+use App\Http\Controllers\API\CompanySeries\CompanyBranchController;
+use App\Http\Controllers\API\CompanySeries\CompanyController;
+use App\Http\Controllers\API\CompanySeries\CompanyScaleController;
+use App\Http\Controllers\API\CompanySeries\OperationTypeController;
+use App\Http\Controllers\API\CompanySeries\CompanyWorkingDayController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(

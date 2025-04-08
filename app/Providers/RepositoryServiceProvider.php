@@ -16,6 +16,16 @@ use App\Repositories\CompanySeries\CompanyWorkingDay\CompanyWorkingDayRepository
 use App\Repositories\CompanySeries\CompanyWorkingDay\CompanyWorkingDayRepositoryEloquent;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepository;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepositoryEloquent;
+use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepository;
+use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepositoryEloquent;
+use App\Repositories\JobSeries\JobEducationLevel\JobEducationLevelRepository;
+use App\Repositories\JobSeries\JobEducationLevel\JobEducationLevelRepositoryEloquent;
+use App\Repositories\JobSeries\JobExperience\JobExperienceRepository;
+use App\Repositories\JobSeries\JobExperience\JobExperienceRepositoryEloquent;
+use App\Repositories\JobSeries\JobLevel\JobLevelRepository;
+use App\Repositories\JobSeries\JobLevel\JobLevelRepositoryEloquent;
+use App\Repositories\JobSeries\JobType\JobTypeRepository;
+use App\Repositories\JobSeries\JobType\JobTypeRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivityResource\UserActivityResourceRepository;
@@ -84,6 +94,11 @@ class RepositoryServiceProvider extends ServiceProvider
         BusinessSectorRepository::class => BusinessSectorRepositoryEloquent::class,
         CompanyWorkingDayRepository::class => CompanyWorkingDayRepositoryEloquent::class,
         CompanyScaleRepository::class => CompanyScaleRepositoryEloquent::class,
-        CompanyBenefitRepository::class => CompanyBenefitRepositoryEloquent::class
+        CompanyBenefitRepository::class => CompanyBenefitRepositoryEloquent::class,
+        JobAgeRangeRepository::class => JobAgeRangeRepositoryEloquent::class,
+        JobTypeRepository::class => JobTypeRepositoryEloquent::class,
+        JobLevelRepository::class => JobLevelRepositoryEloquent::class,
+        JobExperienceRepository::class => JobExperienceRepositoryEloquent::class,
+        JobEducationLevelRepository::class => JobEducationLevelRepositoryEloquent::class
     ];
 }

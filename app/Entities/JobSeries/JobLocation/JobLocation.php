@@ -20,6 +20,7 @@ class JobLocation extends BaseModel implements Transformable
         'province_id',
         'district_id',
         'ward_id',
+        'branch_name',
         'address'
     ];
 }

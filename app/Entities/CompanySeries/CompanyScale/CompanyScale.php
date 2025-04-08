@@ -3,7 +3,7 @@
 namespace App\Entities\CompanySeries\CompanyScale;
 
 use App\Entities\CompanySeries\CompanyScale\Traits\CompanyScaleRelationship;
-use App\Enums\RouteNames\Company\CompanyScaleEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyScaleEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +26,7 @@ class CompanyScale extends BaseModel implements Transformable
     protected function description(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => __('data/company_scales.' . $value) ?? $value
+            get: fn($value) => __('data/company_series/company_scales.' . $value) ?? $value
         );
     }
 

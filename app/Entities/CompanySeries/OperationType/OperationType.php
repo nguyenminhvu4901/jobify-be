@@ -3,7 +3,7 @@
 namespace App\Entities\CompanySeries\OperationType;
 
 use App\Entities\CompanySeries\OperationType\Traits\OperationTypeRelationship;
-use App\Enums\RouteNames\Company\OperationTypeEnum;
+use App\Enums\RouteNames\CompanySeries\OperationTypeEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,11 +28,7 @@ class OperationType extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: function (string $value) {
-                if (str_contains($value, '_')) {
-                    return __('data/operation_types.name.' . $value) ?? $value;
-                }
-
-                return $value;
+                return __('data/company_series/operation_types.name.' . $value) ?? $value;
             }
         );
     }
@@ -44,11 +40,7 @@ class OperationType extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: function (string $value) {
-                if (str_contains($value, '_')) {
-                    return __('data/operation_types.description.' . $value) ?? $value;
-                }
-
-                return $value;
+                return __('data/company_series/operation_types.description.' . $value) ?? $value;
             }
         );
     }

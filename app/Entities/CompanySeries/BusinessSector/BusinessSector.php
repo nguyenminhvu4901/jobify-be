@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-use App\Enums\RouteNames\Company\BusinessSectorEnum;
+use App\Enums\RouteNames\CompanySeries\BusinessSectorEnum;
 
 class BusinessSector extends BaseModel implements Transformable
 {
@@ -29,11 +29,7 @@ class BusinessSector extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: function (string $value) {
-                if (str_contains($value, '_')) {
-                    return __('data/business_sectors.name.' . $value) ?? $value;
-                }
-
-                return $value;
+                return __('data/company_series/business_sectors.name.' . $value) ?? $value;
             }
         );
     }
@@ -45,11 +41,7 @@ class BusinessSector extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: function (string $value) {
-                if (str_contains($value, '_')) {
-                    return __('data/business_sectors.description.' . $value) ?? $value;
-                }
-
-                return $value;
+                return __('data/company_series/business_sectors.description.' . $value) ?? $value;
             }
         );
     }

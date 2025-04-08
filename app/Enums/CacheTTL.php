@@ -6,5 +6,5 @@ enum CacheTTL: int
 {
     case REMEMBER = 3600; //seconds
 
-    case HARD = 86400; //second
+    case HARD = 604800; //second 1 week
 }

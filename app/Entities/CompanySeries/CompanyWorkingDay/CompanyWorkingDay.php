@@ -2,7 +2,7 @@
 
 namespace App\Entities\CompanySeries\CompanyWorkingDay;
 
-use App\Enums\RouteNames\Company\CompanyWorkingDayEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyWorkingDayEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,11 +26,7 @@ class CompanyWorkingDay extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: function (string $value) {
-                if (str_contains($value, '_')) {
-                    return __('data/working_days.' . $value) ?? $value;
-                }
-
-                return $value;
+                return __('data/company_series/working_days.' . $value) ?? $value;
             }
         );
     }

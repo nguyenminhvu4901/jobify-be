@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\CompanySeries\CompanyBranch;
 
-use App\Enums\RouteNames\Company\CompanyBranchEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyBranchEnum;
 use App\Rules\Company\CompanyBelongsToBranchRule;
 use App\Rules\Location\CheckDistrictByProvinceRule;
 use App\Rules\Location\CheckWardByDistrictRule;

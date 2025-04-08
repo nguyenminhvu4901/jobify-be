@@ -4,7 +4,7 @@ namespace App\Entities\CompanySeries\CompanyBranch;
 
 use App\Entities\CompanySeries\CompanyBranch\Traits\CompanyBranchRelationship;
 use App\Entities\CompanySeries\CompanyBranch\Traits\CompanyBranchScope;
-use App\Enums\RouteNames\Company\CompanyBranchEnum;
+use App\Enums\RouteNames\CompanySeries\CompanyBranchEnum;
 use App\Models\BaseModel;
 use App\Traits\Scope\BaseScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
