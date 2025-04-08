@@ -4,20 +4,21 @@ namespace App\Entities\CompanySeries\CompanyBranch;
 
 use App\Entities\CompanySeries\CompanyBranch\Traits\CompanyBranchRelationship;
 use App\Entities\CompanySeries\CompanyBranch\Traits\CompanyBranchScope;
+use App\Enums\RouteNames\Company\CompanyBranchEnum;
+use App\Models\BaseModel;
 use App\Traits\Scope\BaseScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class CompanyBranch extends Model implements Transformable
+class CompanyBranch extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory,
         CompanyBranchRelationship, CompanyBranchScope, BaseScopeTrait;
 
-    protected $table = "company_branches";
+    protected $table = CompanyBranchEnum::TABLE->value;
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'branch_name',
         'company_id',
         'province_id',

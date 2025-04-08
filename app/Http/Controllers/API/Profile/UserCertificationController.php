@@ -48,7 +48,7 @@ class UserCertificationController extends Controller
      * @OA\Get(
      *     path="/profile/user-certification/list-certification-current-user",
      *     summary="Get List Certification Current User",
-     *     tags={"UserCertification"},
+     *     tags={"UserCertificationEnum"},
      *     security={{"bearAuth": {}}},
      *     @OA\Response(
      *         response=200,
@@ -112,7 +112,7 @@ class UserCertificationController extends Controller
      *     path="/profile/user-certification/",
      *     summary="Store User Certification",
      *     description="Store User Certification",
-     *     tags={"UserCertification"},
+     *     tags={"UserCertificationEnum"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -373,7 +373,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserCertificationCommand::withForm($request));
 
-        if(!empty($result['userCertificationDestroy'])){
+        if(!empty(!empty($result['userCertificationDestroy']))){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

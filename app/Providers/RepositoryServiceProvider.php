@@ -6,6 +6,8 @@ use App\Repositories\CompanySeries\BusinessSector\BusinessSectorRepository;
 use App\Repositories\CompanySeries\BusinessSector\BusinessSectorRepositoryEloquent;
 use App\Repositories\CompanySeries\Company\CompanyRepository;
 use App\Repositories\CompanySeries\Company\CompanyRepositoryEloquent;
+use App\Repositories\CompanySeries\CompanyBenefit\CompanyBenefitRepository;
+use App\Repositories\CompanySeries\CompanyBenefit\CompanyBenefitRepositoryEloquent;
 use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepository;
 use App\Repositories\CompanySeries\CompanyBranch\CompanyBranchRepositoryEloquent;
 use App\Repositories\CompanySeries\CompanyScale\CompanyScaleRepository;
@@ -81,6 +83,7 @@ class RepositoryServiceProvider extends ServiceProvider
         OperationTypeRepository::class => OperationTypeRepositoryEloquent::class,
         BusinessSectorRepository::class => BusinessSectorRepositoryEloquent::class,
         CompanyWorkingDayRepository::class => CompanyWorkingDayRepositoryEloquent::class,
-        CompanyScaleRepository::class => CompanyScaleRepositoryEloquent::class
+        CompanyScaleRepository::class => CompanyScaleRepositoryEloquent::class,
+        CompanyBenefitRepository::class => CompanyBenefitRepositoryEloquent::class
     ];
 }

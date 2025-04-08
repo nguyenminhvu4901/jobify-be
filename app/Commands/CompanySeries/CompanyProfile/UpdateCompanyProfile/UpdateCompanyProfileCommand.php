@@ -20,6 +20,8 @@ readonly class UpdateCompanyProfileCommand implements CommandInterface
      * @param string|null $website
      * @param string|null $description
      * @param string|int|null $taxCode
+     * @param array|null $operationTypes
+     * @param array|null $businessSectors
      */
     public function __construct(
         public string|int $userId,

@@ -3,7 +3,7 @@
 namespace App\Commands\CompanySeries\CompanyWorkingDay\GetListAllWorkingDay;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Company\CompanyWorkingDay;
+use App\Enums\RouteNames\Company\CompanyWorkingDayEnum;
 use App\Http\Resources\CompanySeries\CompanyWorkingDay\CompanyWorkingDayResource;
 use App\Repositories\CompanySeries\CompanyWorkingDay\CompanyWorkingDayRepository;
 use Illuminate\Support\Facades\Cache;
@@ -22,12 +22,12 @@ class GetListAllWorkingDayHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([CompanyWorkingDay::TAG_NAME->value])->has(
-                CompanyWorkingDay::LIST_ALL_WORKING_DAY->value);
+            $cache = Cache::tags([CompanyWorkingDayEnum::TAG_NAME->value])->has(
+                CompanyWorkingDayEnum::LIST_ALL_WORKING_DAY->value);
 
-            $companyWorkingDay = Cache::tags([CompanyWorkingDay::TAG_NAME->value])
+            $companyWorkingDay = Cache::tags([CompanyWorkingDayEnum::TAG_NAME->value])
                 ->remember(
-                    CompanyWorkingDay::LIST_ALL_WORKING_DAY->value,
+                    CompanyWorkingDayEnum::LIST_ALL_WORKING_DAY->value,
                     CacheTTL::HARD->value,
                     fn() => $this->companyWorkingDayRepository->get()
                 );

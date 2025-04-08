@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserLocation;
 
-use App\Enums\RouteNames\Profile\UserLocation;
+use App\Enums\RouteNames\Profile\UserLocationEnum;
 use App\Rules\Location\CheckDistrictByProvinceRule;
 use App\Rules\Location\CheckWardByDistrictRule;
 use App\Traits\FailedValidation;
@@ -32,20 +32,20 @@ class UserLocationRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName){
-            UserLocation::PREFIX->value . UserLocation::STORE->value => $commonRules,
-            UserLocation::PREFIX->value . UserLocation::UPDATE->value => [
+            UserLocationEnum::PREFIX->value . UserLocationEnum::STORE->value => $commonRules,
+            UserLocationEnum::PREFIX->value . UserLocationEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserLocation::PREFIX->value . UserLocation::DESTROY->value => [
+            UserLocationEnum::PREFIX->value . UserLocationEnum::DESTROY->value => [
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserLocation::PREFIX->value . UserLocation::DETAIL_LIST_USER_LOCATION->value => [
+            UserLocationEnum::PREFIX->value . UserLocationEnum::DETAIL_LIST_USER_LOCATION->value => [
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
             ],
-            UserLocation::PREFIX->value . UserLocation::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value => [
+            UserLocationEnum::PREFIX->value . UserLocationEnum::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
             default => []

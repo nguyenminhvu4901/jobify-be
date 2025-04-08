@@ -186,6 +186,7 @@ return [
         'invalid_ward_in_district' => 'The selected ward does not belong to the chosen district!',
         'company_id_user_id_mismatch' => 'Company ID and user ID do not match!',
         'company_id_branch_id_mismatch' => 'Company ID and Company Branch ID do not match!',
+        'company_id_benefit_id_mismatch' => 'Company ID and Company Benefit ID do not match!',
     ],
 
     /*

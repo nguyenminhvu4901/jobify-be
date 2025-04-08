@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserProject;
 
-use App\Enums\RouteNames\Profile\UserProject;
+use App\Enums\RouteNames\Profile\UserProjectEnum;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -34,14 +34,14 @@ class UserProjectRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserProject::PREFIX->value . UserProject::DETAIL_LIST_USER_PROJECT->value => [
+            UserProjectEnum::PREFIX->value . UserProjectEnum::DETAIL_LIST_USER_PROJECT->value => [
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id']
             ],
-            UserProject::PREFIX->value . UserProject::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value => [
+            UserProjectEnum::PREFIX->value . UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserProject::PREFIX->value . UserProject::STORE->value => $commonRules,
-            UserProject::PREFIX->value . UserProject::UPDATE->value => [
+            UserProjectEnum::PREFIX->value . UserProjectEnum::STORE->value => $commonRules,
+            UserProjectEnum::PREFIX->value . UserProjectEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
@@ -57,7 +57,7 @@ class UserProjectRequest extends FormRequest
                     )
                 ]
             ],
-            UserProject::PREFIX->value . UserProject::DESTROY->value => [
+            UserProjectEnum::PREFIX->value . UserProjectEnum::DESTROY->value => [
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -99,6 +99,6 @@ class UserProjectRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserProject::PREFIX->value . UserProject::STORE->value);
+        $this->processWithValidator($validator, UserProjectEnum::PREFIX->value . UserProjectEnum::STORE->value);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserProject\GetCompleteListOfUserProject;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserProject;
+use App\Enums\RouteNames\Profile\UserProjectEnum;
 use App\Http\Resources\ProfileSeries\UserProject\UserProjectResource;
 use App\Repositories\ProfileSeries\UserProject\UserProjectRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,17 +26,17 @@ class GetCompleteListOfUserProjectHandle
     public function handle(GetCompleteListOfUserProjectCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProject::TAG_NAME->value])
+            $cache = Cache::tags([UserProjectEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        UserProject::COMPLETE_LIST_USER_PROJECT->value,
+                        UserProjectEnum::COMPLETE_LIST_USER_PROJECT->value,
                         $command
                     )
                 );
 
-            $userProjects = Cache::tags([UserProject::TAG_NAME->value])->remember(
+            $userProjects = Cache::tags([UserProjectEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserProject::COMPLETE_LIST_USER_PROJECT->value,
+                    UserProjectEnum::COMPLETE_LIST_USER_PROJECT->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

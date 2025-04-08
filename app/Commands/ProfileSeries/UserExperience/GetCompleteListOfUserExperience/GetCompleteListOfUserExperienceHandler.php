@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserExperience\GetCompleteListOfUserExperience;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserExperience;
+use App\Enums\RouteNames\Profile\UserExperienceEnum;
 use App\Http\Resources\ProfileSeries\UserExperience\UserExperienceResource;
 use App\Repositories\ProfileSeries\UserExperience\UserExperienceRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,17 +26,17 @@ class GetCompleteListOfUserExperienceHandler
     public function handle(GetCompleteListOfUserExperienceCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserExperience::TAG_NAME->value])
+            $cache = Cache::tags([UserExperienceEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        UserExperience::COMPLETE_LIST_USER_EXPERIENCE->value,
+                        UserExperienceEnum::COMPLETE_LIST_USER_EXPERIENCE->value,
                         $command
                     )
                 );
 
-            $userExperiences = Cache::tags([UserExperience::TAG_NAME->value])->remember(
+            $userExperiences = Cache::tags([UserExperienceEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserExperience::COMPLETE_LIST_USER_EXPERIENCE->value,
+                    UserExperienceEnum::COMPLETE_LIST_USER_EXPERIENCE->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

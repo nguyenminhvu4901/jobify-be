@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\CompanySeries\Company;
 
-use App\Enums\RouteNames\Company\CompanyProfile;
+use App\Enums\RouteNames\Company\CompanyProfileEnum;
 use App\Rules\Company\CompanyBelongsToUserRule;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -31,7 +31,7 @@ class CompanyRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            CompanyProfile::PREFIX->value . CompanyProfile::UPDATE_COMPANY_PROFILE->value => [
+            CompanyProfileEnum::PREFIX->value . CompanyProfileEnum::UPDATE_COMPANY_PROFILE->value => [
                 ...$commonRules,
                 'user_id' => ['bail', 'required', 'integer', 'exists:users,id'],
                 'company_id' => [

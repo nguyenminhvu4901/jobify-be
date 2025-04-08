@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserPrize;
 
-use App\Enums\RouteNames\Profile\UserPrize;
+use App\Enums\RouteNames\Profile\UserPrizeEnum;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -34,14 +34,14 @@ class UserPrizeRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserPrize::PREFIX->value . UserPrize::DETAIL_LIST_USER_PRIZE->value => [
+            UserPrizeEnum::PREFIX->value . UserPrizeEnum::DETAIL_LIST_USER_PRIZE->value => [
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id']
             ],
-            UserPrize::PREFIX->value . UserPrize::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value => [
+            UserPrizeEnum::PREFIX->value . UserPrizeEnum::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserPrize::PREFIX->value . UserPrize::STORE->value => $commonRules,
-            UserPrize::PREFIX->value . UserPrize::UPDATE->value => [
+            UserPrizeEnum::PREFIX->value . UserPrizeEnum::STORE->value => $commonRules,
+            UserPrizeEnum::PREFIX->value . UserPrizeEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
@@ -57,7 +57,7 @@ class UserPrizeRequest extends FormRequest
                     )
                 ]
             ],
-            UserPrize::PREFIX->value . UserPrize::DESTROY->value => [
+            UserPrizeEnum::PREFIX->value . UserPrizeEnum::DESTROY->value => [
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -93,6 +93,6 @@ class UserPrizeRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserPrize::PREFIX->value . UserPrize::STORE->value);
+        $this->processWithValidator($validator, UserPrizeEnum::PREFIX->value . UserPrizeEnum::STORE->value);
     }
 }

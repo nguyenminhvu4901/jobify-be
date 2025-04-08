@@ -3,19 +3,22 @@
 namespace App\Entities\CompanySeries\CompanyScale;
 
 use App\Entities\CompanySeries\CompanyScale\Traits\CompanyScaleRelationship;
+use App\Enums\RouteNames\Company\CompanyScaleEnum;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class CompanyScale extends Model implements Transformable
+class CompanyScale extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, CompanyScaleRelationship;
 
-    protected $table = "company_scales";
+    protected $table = CompanyScaleEnum::TABLE->value;
 
-    protected $fillable = ['name', 'description'];
+    public const FILLABLE_FIELDS = [
+        'name', 'description'
+    ];
 
     /**
      * @return Attribute

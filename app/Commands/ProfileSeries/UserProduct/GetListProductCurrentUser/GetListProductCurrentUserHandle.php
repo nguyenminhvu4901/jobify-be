@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserProduct\GetListProductCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserProduct;
+use App\Enums\RouteNames\Profile\UserProductEnum;
 use App\Http\Resources\ProfileSeries\UserProduct\CurrentUserProductResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -25,13 +25,13 @@ class GetListProductCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserProduct::TAG_NAME->value])->has(
-                UserProduct::LIST_PRODUCT_CURRENT_USER->value . auth()->user()->id
+            $cache = Cache::tags([UserProductEnum::TAG_NAME->value])->has(
+                UserProductEnum::LIST_PRODUCT_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userProducts = Cache::tags([UserProduct::TAG_NAME->value])
+            $userProducts = Cache::tags([UserProductEnum::TAG_NAME->value])
                 ->remember(
-                    UserProduct::LIST_PRODUCT_CURRENT_USER->value . auth()->user()->id,
+                    UserProductEnum::LIST_PRODUCT_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,
                     fn() => $this->userRepository->findWithRelationships(
                         auth()->user()->id,

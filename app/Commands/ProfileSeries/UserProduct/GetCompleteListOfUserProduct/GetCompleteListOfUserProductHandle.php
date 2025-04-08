@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserProduct\GetCompleteListOfUserProduct;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserProduct;
+use App\Enums\RouteNames\Profile\UserProductEnum;
 use App\Http\Resources\ProfileSeries\UserProduct\UserProductResource;
 use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,17 +26,17 @@ class GetCompleteListOfUserProductHandle
     public function handle(GetCompleteListOfUserProductCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProduct::TAG_NAME->value])
+            $cache = Cache::tags([UserProductEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        UserProduct::COMPLETE_LIST_USER_PRODUCT->value,
+                        UserProductEnum::COMPLETE_LIST_USER_PRODUCT->value,
                         $command
                     )
                 );
 
-            $userProducts = Cache::tags([UserProduct::TAG_NAME->value])->remember(
+            $userProducts = Cache::tags([UserProductEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserProduct::COMPLETE_LIST_USER_PRODUCT->value,
+                    UserProductEnum::COMPLETE_LIST_USER_PRODUCT->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

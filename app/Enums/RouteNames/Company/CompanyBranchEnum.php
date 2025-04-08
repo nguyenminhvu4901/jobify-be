@@ -2,11 +2,13 @@
 
 namespace App\Enums\RouteNames\Company;
 
-enum CompanyBranch: string
+enum CompanyBranchEnum: string
 {
-    case PREFIX = 'company.profile.branch.';
+    case PREFIX = 'company.profile.companyBranch.';
 
     case TAG_NAME = 'companies';
+
+    case TABLE = 'company_branches';
 
     case LIST_COMPANY_BRANCH = 'listCompanyBranch';
 

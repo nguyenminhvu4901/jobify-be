@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserCertification;
 
-use App\Enums\RouteNames\Profile\UserCertification;
+use App\Enums\RouteNames\Profile\UserCertificationEnum;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -34,8 +34,8 @@ class UserCertificationRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserCertification::PREFIX->value . UserCertification::STORE->value => $commonRules,
-            UserCertification::PREFIX->value . UserCertification::UPDATE->value => [
+            UserCertificationEnum::PREFIX->value . UserCertificationEnum::STORE->value => $commonRules,
+            UserCertificationEnum::PREFIX->value . UserCertificationEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
@@ -51,13 +51,13 @@ class UserCertificationRequest extends FormRequest
                     )
                 ]
             ],
-            UserCertification::PREFIX->value . UserCertification::DETAIL_LIST_USER_CERTIFICATION->value => [
+            UserCertificationEnum::PREFIX->value . UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION->value => [
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
             ],
-            UserCertification::PREFIX->value . UserCertification::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value  => [
+            UserCertificationEnum::PREFIX->value . UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value  => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserCertification::PREFIX->value .UserCertification::DESTROY->value => [
+            UserCertificationEnum::PREFIX->value .UserCertificationEnum::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
             ],
@@ -97,6 +97,6 @@ class UserCertificationRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserCertification::PREFIX->value . UserCertification::STORE->value);
+        $this->processWithValidator($validator, UserCertificationEnum::PREFIX->value . UserCertificationEnum::STORE->value);
     }
 }

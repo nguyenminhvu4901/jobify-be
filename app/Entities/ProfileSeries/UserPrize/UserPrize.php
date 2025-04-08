@@ -3,18 +3,19 @@
 namespace App\Entities\ProfileSeries\UserPrize;
 
 use App\Entities\ProfileSeries\UserPrize\Traits\UserPrizeRelationship;
+use App\Enums\RouteNames\Profile\UserPrizeEnum;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class UserPrize extends Model implements Transformable
+class UserPrize extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, UserPrizeRelationship;
 
-    protected $table = 'user_prizes';
+    protected $table = UserPrizeEnum::TABLE->value;
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'user_id',
         'name',
         'organization',

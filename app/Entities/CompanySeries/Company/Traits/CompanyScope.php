@@ -36,4 +36,21 @@ trait CompanyScope
 
         return $query;
     }
+
+    /**
+     * @param Builder $query
+     * @param $companyBenefitId
+     * @return Builder
+     */
+    public function scopeWhereCompanyBenefitId(Builder $query, $companyBenefitId): Builder
+    {
+        if(!empty($companyBenefitId)){
+
+            return $query->whereHas('companyBenefits',
+                fn($q) => $q->where('id', $companyBenefitId)
+            );
+        }
+
+        return $query;
+    }
 }

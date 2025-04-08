@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\CompanySeries\CompanyBranch;
 
-use App\Enums\RouteNames\Company\CompanyBranch;
+use App\Enums\RouteNames\Company\CompanyBranchEnum;
 use App\Rules\Company\CompanyBelongsToBranchRule;
 use App\Rules\Location\CheckDistrictByProvinceRule;
 use App\Rules\Location\CheckWardByDistrictRule;
@@ -31,11 +31,11 @@ class CompanyBranchRequest extends FormRequest
         $routeName = request()->route()->getName();
 
         return match ($routeName) {
-            CompanyBranch::PREFIX->value . CompanyBranch::UPDATE_COMPANY_BRANCH->value => [
+            CompanyBranchEnum::PREFIX->value . CompanyBranchEnum::UPDATE_COMPANY_BRANCH->value => [
                 ...$this->getCommonRules(),
                 ...$this->getCommonRulesId()
             ],
-            CompanyBranch::PREFIX->value . CompanyBranch::STORE_COMPANY_BRANCH->value => [
+            CompanyBranchEnum::PREFIX->value . CompanyBranchEnum::STORE_COMPANY_BRANCH->value => [
                 ...$this->getCommonRules(),
                 'company_id' => [
                     'bail',
@@ -44,10 +44,10 @@ class CompanyBranchRequest extends FormRequest
                     'exists:companies,id'
                 ],
             ],
-            CompanyBranch::PREFIX->value . CompanyBranch::DESTROY_COMPANY_BRANCH->value => [
+            CompanyBranchEnum::PREFIX->value . CompanyBranchEnum::DESTROY_COMPANY_BRANCH->value => [
                 ...$this->getCommonRulesId()
             ],
-            CompanyBranch::PREFIX->value . CompanyBranch::LIST_COMPANY_BRANCH->value => [
+            CompanyBranchEnum::PREFIX->value . CompanyBranchEnum::LIST_COMPANY_BRANCH->value => [
                 'company_id' => [
                     'bail',
                     'required',

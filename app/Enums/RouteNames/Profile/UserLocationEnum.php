@@ -2,11 +2,13 @@
 
 namespace App\Enums\RouteNames\Profile;
 
-enum UserLocation: string
+enum UserLocationEnum: string
 {
     case PREFIX = 'profile.userLocation.';
 
     case TAG_NAME = 'userLocations';
+
+    case TABLE = 'user_locations';
 
     case LIST_LOCATION_CURRENT_USER = 'listLocationCurrentUser';
 

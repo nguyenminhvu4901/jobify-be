@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserLocation\GetDetailListOfUserLocationByUserSlug;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserLocation;
+use App\Enums\RouteNames\Profile\UserLocationEnum;
 use App\Http\Resources\ProfileSeries\UserLocation\UserLocationResource;
 use App\Repositories\ProfileSeries\UserLocation\UserLocationRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,16 +26,16 @@ class GetDetailListOfUserLocationByUserSlugHandle
     public function handle(GetDetailListOfUserLocationByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserLocation::TAG_NAME->value])->has(
+            $cache = Cache::tags([UserLocationEnum::TAG_NAME->value])->has(
                 generateCacheName(
-                    UserLocation::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value,
+                    UserLocationEnum::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value,
                     $command
                 )
             );
 
-            $userLocation = Cache::tags([UserLocation::TAG_NAME->value])->remember(
+            $userLocation = Cache::tags([UserLocationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserLocation::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value,
+                    UserLocationEnum::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

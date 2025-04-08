@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserCertification\GetListCertificationCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserCertification;
+use App\Enums\RouteNames\Profile\UserCertificationEnum;
 use App\Http\Resources\ProfileSeries\UserCertification\CurrentUserCertificationResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -25,13 +25,13 @@ class GetListCertificationCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserCertification::TAG_NAME->value])->has(
-                UserCertification::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id
+            $cache = Cache::tags([UserCertificationEnum::TAG_NAME->value])->has(
+                UserCertificationEnum::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userCertification = Cache::tags([UserCertification::TAG_NAME->value])
+            $userCertification = Cache::tags([UserCertificationEnum::TAG_NAME->value])
                 ->remember(
-                UserCertification::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id,
+                UserCertificationEnum::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id,
                 CacheTTL::REMEMBER->value,
                 fn() => $this->userRepository->findWithRelationships
                 (

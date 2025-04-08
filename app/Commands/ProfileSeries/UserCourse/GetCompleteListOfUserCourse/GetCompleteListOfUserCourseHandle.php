@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserCourse\GetCompleteListOfUserCourse;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserCourse;
+use App\Enums\RouteNames\Profile\UserCourseEnum;
 use App\Http\Resources\ProfileSeries\UserCourse\UserCourseResource;
 use App\Repositories\ProfileSeries\UserCourse\UserCourseRepository;
 use Exception;
@@ -27,17 +27,17 @@ class GetCompleteListOfUserCourseHandle
     public function handle(GetCompleteListOfUserCourseCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserCourse::TAG_NAME->value])
+            $cache = Cache::tags([UserCourseEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        UserCourse::COMPLETE_LIST_USER_COURSE->value,
+                        UserCourseEnum::COMPLETE_LIST_USER_COURSE->value,
                         $command
                     )
                 );
 
-            $userCourses = Cache::tags([UserCourse::TAG_NAME->value])->remember(
+            $userCourses = Cache::tags([UserCourseEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserCourse::COMPLETE_LIST_USER_COURSE->value,
+                    UserCourseEnum::COMPLETE_LIST_USER_COURSE->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchCommand;
 use App\Commands\CompanySeries\CompanyBranch\DestroyCompanyBranch\DestroyCompanyBranchHandler;
-use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser\GetListCompanyBranchCommand;
-use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranchCurrentUser\GetListCompanyBranchHandler;
+use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranch\GetListCompanyBranchCommand;
+use App\Commands\CompanySeries\CompanyBranch\GetListCompanyBranch\GetListCompanyBranchHandler;
 use App\Commands\CompanySeries\CompanyBranch\StoreCompanyBranch\StoreCompanyBranchCommand;
 use App\Commands\CompanySeries\CompanyBranch\StoreCompanyBranch\StoreCompanyBranchHandler;
 use App\Commands\CompanySeries\CompanyBranch\UpdateBranchCompany\UpdateCompanyBranchCommand;
@@ -121,7 +121,7 @@ class CompanyBranchController extends Controller
 
         $result = $this->bus->dispatch(DestroyCompanyBranchCommand::withForm($request));
 
-        if($result['companyBranchDestroy']){
+        if(!empty($result['companyBranchDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserExperience\GetListExperienceCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserExperience;
+use App\Enums\RouteNames\Profile\UserExperienceEnum;
 use App\Http\Resources\ProfileSeries\UserExperience\CurrentUserExperienceResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -24,13 +24,13 @@ class GetListExperienceCurrentUserHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserExperience::TAG_NAME->value])->has(
-                UserExperience::LIST_EXPERIENCE_CURRENT_USER->value . auth()->user()->id
+            $cache = Cache::tags([UserExperienceEnum::TAG_NAME->value])->has(
+                UserExperienceEnum::LIST_EXPERIENCE_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userExperience = Cache::tags([UserExperience::TAG_NAME->value])
+            $userExperience = Cache::tags([UserExperienceEnum::TAG_NAME->value])
                 ->remember(
-                    UserExperience::LIST_EXPERIENCE_CURRENT_USER->value . auth()->user()->id,
+                    UserExperienceEnum::LIST_EXPERIENCE_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,
                     fn() => $this->userRepository->findWithRelationships(
                         auth()->user()->id,

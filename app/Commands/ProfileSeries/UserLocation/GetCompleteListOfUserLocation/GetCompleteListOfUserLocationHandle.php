@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserLocation\GetCompleteListOfUserLocation;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserLocation;
+use App\Enums\RouteNames\Profile\UserLocationEnum;
 use App\Http\Resources\ProfileSeries\UserLocation\UserLocationResource;
 use App\Repositories\ProfileSeries\UserLocation\UserLocationRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,17 +26,17 @@ class GetCompleteListOfUserLocationHandle
     public function handle(GetCompleteListOfUserLocationCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserLocation::TAG_NAME->value])
+            $cache = Cache::tags([UserLocationEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        UserLocation::COMPLETE_LIST_USER_LOCATION->value,
+                        UserLocationEnum::COMPLETE_LIST_USER_LOCATION->value,
                         $command
                     )
                 );
 
-            $userLocation = Cache::tags([UserLocation::TAG_NAME->value])->remember(
+            $userLocation = Cache::tags([UserLocationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserLocation::COMPLETE_LIST_USER_LOCATION->value,
+                    UserLocationEnum::COMPLETE_LIST_USER_LOCATION->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

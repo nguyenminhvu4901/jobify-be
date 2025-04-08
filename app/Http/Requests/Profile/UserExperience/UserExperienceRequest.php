@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\UserExperience;
 
-use App\Enums\RouteNames\Profile\UserExperience;
+use App\Enums\RouteNames\Profile\UserExperienceEnum;
 use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -34,8 +34,8 @@ class UserExperienceRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserExperience::PREFIX->value . UserExperience::STORE->value => $commonRules,
-            UserExperience::PREFIX->value . UserExperience::UPDATE->value => [
+            UserExperienceEnum::PREFIX->value . UserExperienceEnum::STORE->value => $commonRules,
+            UserExperienceEnum::PREFIX->value . UserExperienceEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
@@ -51,14 +51,14 @@ class UserExperienceRequest extends FormRequest
                     )
                 ]
             ],
-            UserExperience::PREFIX->value . UserExperience::DESTROY->value => [
+            UserExperienceEnum::PREFIX->value . UserExperienceEnum::DESTROY->value => [
                     'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                     'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
-            UserExperience::PREFIX->value  . UserExperience::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value => [
+            UserExperienceEnum::PREFIX->value  . UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserExperience::PREFIX->value . UserExperience::DETAIL_LIST_USER_EXPERIENCE->value => [
+            UserExperienceEnum::PREFIX->value . UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE->value => [
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
             default => [],
@@ -94,6 +94,6 @@ class UserExperienceRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserExperience::PREFIX->value . UserExperience::STORE->value);
+        $this->processWithValidator($validator, UserExperienceEnum::PREFIX->value . UserExperienceEnum::STORE->value);
     }
 }

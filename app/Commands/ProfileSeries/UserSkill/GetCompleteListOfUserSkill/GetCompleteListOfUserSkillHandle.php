@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserSkill\GetCompleteListOfUserSkill;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserSkill;
+use App\Enums\RouteNames\Profile\UserSkillEnum;
 use App\Http\Resources\ProfileSeries\UserSkill\UserSkillResource;
 use App\Repositories\ProfileSeries\UserSkill\UserSkillRepository;
 use Illuminate\Support\Facades\Cache;
@@ -26,17 +26,17 @@ class GetCompleteListOfUserSkillHandle
     public function handle(GetCompleteListOfUserSkillCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserSkill::TAG_NAME->value])
+            $cache = Cache::tags([UserSkillEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        UserSkill::COMPLETE_LIST_USER_SKILL->value,
+                        UserSkillEnum::COMPLETE_LIST_USER_SKILL->value,
                         $command
                     )
                 );
 
-            $userSkills = Cache::tags([UserSkill::TAG_NAME->value])->remember(
+            $userSkills = Cache::tags([UserSkillEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    UserSkill::COMPLETE_LIST_USER_SKILL->value,
+                    UserSkillEnum::COMPLETE_LIST_USER_SKILL->value,
                     $command
                 ),
                 CacheTTL::REMEMBER->value,

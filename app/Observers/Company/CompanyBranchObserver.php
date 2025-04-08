@@ -2,14 +2,14 @@
 
 namespace App\Observers\Company;
 
-use App\Enums\RouteNames\Company\CompanyBranch;
-use App\Enums\RouteNames\Company\CompanyProfile;
+use App\Enums\RouteNames\Company\CompanyBranchEnum;
+use App\Enums\RouteNames\Company\CompanyProfileEnum;
 use App\Observers\BaseObserver;
 
 class CompanyBranchObserver extends BaseObserver
 {
     protected array $cacheTag = [
-        CompanyProfile::TAG_NAME->value,
-        CompanyBranch::TAG_NAME->value
+        CompanyProfileEnum::TAG_NAME->value,
+        CompanyBranchEnum::TAG_NAME->value
     ];
 }

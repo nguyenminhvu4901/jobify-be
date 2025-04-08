@@ -4,21 +4,21 @@ namespace App\Entities\CompanySeries\Company;
 
 use App\Entities\CompanySeries\Company\Traits\CompanyRelationship;
 use App\Entities\CompanySeries\Company\Traits\CompanyScope;
+use App\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class Company extends Model implements Transformable
+class Company extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, Sluggable, SoftDeletes,
         CompanyRelationship, CompanyScope;
 
     protected $table = 'companies';
 
-    protected $fillable = [
+    public const FILLABLE_FIELDS = [
         'user_id',
         'name',
         'slug',

@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserLocation\GetListLocationCurrentUser;
 
 use App\Enums\CacheTTL;
-use App\Enums\RouteNames\Profile\UserLocation;
+use App\Enums\RouteNames\Profile\UserLocationEnum;
 use App\Http\Resources\ProfileSeries\UserLocation\CurrentUserLocationResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
@@ -19,13 +19,13 @@ class GetListLocationCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserLocation::TAG_NAME->value])->has(
-                UserLocation::LIST_LOCATION_CURRENT_USER->value . auth()->user()->id
+            $cache = Cache::tags([UserLocationEnum::TAG_NAME->value])->has(
+                UserLocationEnum::LIST_LOCATION_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userLocation = Cache::tags([UserLocation::TAG_NAME->value])
+            $userLocation = Cache::tags([UserLocationEnum::TAG_NAME->value])
                 ->remember(
-                    UserLocation::LIST_LOCATION_CURRENT_USER->value . auth()->user()->id,
+                    UserLocationEnum::LIST_LOCATION_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,
                     fn() => $this->userRepository->findWithRelationships(
                         id: auth()->user()->id,
