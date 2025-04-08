@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entities\JobSeries\JobApplication\Traits;
+namespace App\Entities\JobApplicationSeries\JobApplication\Traits;
 
-use App\Entities\ApplicationCV\ApplicationCV;
-use App\Entities\ApplicationStatus\ApplicationStatus;
+use App\Entities\JobApplicationSeries\ApplicationCV\ApplicationCV;
+use App\Entities\JobApplicationSeries\ApplicationStatus\ApplicationStatus;
 use App\Entities\JobSeries\JobListing\JobListing;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

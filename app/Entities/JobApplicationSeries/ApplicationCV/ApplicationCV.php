@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\ApplicationCV;
+namespace App\Entities\JobApplicationSeries\ApplicationCV;
 
-use App\Entities\ApplicationCV\Traits\ApplicationCVRelationship;
+use App\Entities\JobApplicationSeries\ApplicationCV\Traits\ApplicationCVRelationship;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;

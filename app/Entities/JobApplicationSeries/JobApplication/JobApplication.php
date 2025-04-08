@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Entities\JobSeries\JobApplication;
+namespace App\Entities\JobApplicationSeries\JobApplication;
 
-use App\Entities\JobSeries\JobApplication\Traits\JobApplicationRelationship;
+use App\Entities\JobApplicationSeries\JobApplication\Traits\JobApplicationRelationship;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 

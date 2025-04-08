@@ -68,69 +68,71 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('job_age_ranges', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedTinyInteger('min_age')->nullable();
+            $table->unsignedTinyInteger('max_age')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('job_education_levels', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
         Schema::create('job_listings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
+
             $table->string('title');
-            $table->string('slug');
-            $table->integer('quantity_recruitment')
-                ->comment('Số lượng tuyển')->default(0);
-            $table->unsignedBigInteger('gender_id')->nullable();
-            $table->date('expiry_date')
-                ->comment('Ngày hết hạn')->default(now());
-            $table->text('description')
-                ->comment('Nội dung tuyển dụng')->nullable();
-            $table->text('requirement')
-                ->comment('Yêu cầu ứng viên')->nullable();
-            $table->text('benefit')
-                ->comment('Quyền lợi')->nullable();
-            $table->string('working_hour')
-                ->comment('Thời gian quyền lợi')->nullable();
-            $table->unsignedBigInteger('active_status_id')
-                ->comment('Trạng thái tin tuyển dụng dành cho doanh nghiệp')
-                ->nullable()
-                ->default(1);
-            $table->unsignedBigInteger('approval_status_id')
-                ->comment('Trạng thái tin tuyển dụng dành cho quản trị viên hệ thống để kiểm duyệt')
-                ->nullable()
-                ->default(2);
-            $table->unsignedBigInteger('job_salary_id')->nullable();
-            $table->unsignedBigInteger('job_type_id')->nullable();
-            $table->unsignedBigInteger('job_level_id')->nullable();
-            $table->unsignedBigInteger('job_experience_id')->nullable();
+            $table->string('slug')->unique();
+
+            $table->integer('quantity_recruitment')->default(0)->comment('Số lượng tuyển');
+            $table->foreignId('gender_id')->nullable()->constrained('default_genders')->nullOnDelete()->cascadeOnUpdate();
+
+            $table->date('expiry_date')->default(now())->comment('Ngày hết hạn');
+
+            $table->foreignId('active_status_id')->nullable()->default(1)->constrained('default_statuses')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('approval_status_id')->nullable()->default(2)->constrained('approval_statuses')->nullOnDelete()->cascadeOnUpdate();
+
+            $table->unsignedTinyInteger('min_age')->nullable();
+            $table->unsignedTinyInteger('max_age')->nullable();
+
+            $table->foreignId('job_age_range_id')->nullable()->constrained('job_age_ranges')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('job_education_level_id')->nullable()->constrained('job_education_levels')->nullOnDelete()->cascadeOnUpdate();
+
+            $table->foreignId('job_salary_id')->nullable()->constrained('job_salaries')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('job_type_id')->nullable()->constrained('job_types')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('job_level_id')->nullable()->constrained('job_levels')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('job_experience_id')->nullable()->constrained('job_experiences')->nullOnDelete()->cascadeOnUpdate();
+
             $table->unsignedBigInteger('view')->default(0);
 
-            $table->foreign('company_id')->references('id')->on('companies')
-                 ->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('gender_id')->references('id')->on('default_genders')
-                 ->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('active_status_id')->references('id')
-                ->on('default_statuses')
-                 ->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('approval_status_id')->references('id')
-                ->on('approval_statuses')
-                 ->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('job_salary_id')->references('id')
-                ->on('job_salaries')
-                 ->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('job_type_id')->references('id')
-                ->on('job_types')
-                 ->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('job_level_id')->references('id')
-                ->on('job_levels')
-                 ->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('job_experience_id')->references('id')
-                ->on('job_experiences')
-                 ->nullOnDelete()->cascadeOnUpdate();
-
             $table->timestamps();
-
             $table->softDeletes();
 
-            $table->fullText([
-                'title',
-                'slug'
-            ]);
+            $table->fullText(['title', 'slug']);
+        });
+
+        Schema::create('job_listing_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('job_listing_id')
+                ->constrained('job_listings')
+                ->cascadeOnDelete();
+
+            $table->text('description')->nullable()
+                ->comment('Nội dung tuyển dụng');
+            $table->text('requirement')->nullable()
+                ->comment('Yêu cầu ứng viên');
+            $table->text('income')->nullable()
+                ->comment('Thu nhập');
+            $table->text('benefit')->nullable()
+                ->comment('Quyền lợi');
+            $table->string('working_hour')->nullable()
+                ->comment('Thời gian làm việc');
+
+            $table->timestamps();
         });
 
         Schema::create('job_locations', function (Blueprint $table) {
@@ -139,6 +141,7 @@ return new class extends Migration
             $table->unsignedBigInteger('province_id')->nullable();
             $table->unsignedBigInteger('district_id')->nullable();
             $table->unsignedBigInteger('ward_id')->nullable();
+            $table->string('branch_name')->nullable();
             $table->text('address')->nullable();
 
             $table->foreign('job_listing_id')->references('id')
@@ -191,7 +194,10 @@ return new class extends Migration
         Schema::dropIfExists('job_salaries');
         Schema::dropIfExists('approval_statuses');
         Schema::dropIfExists('positions');
+        Schema::dropIfExists('job_age_ranges');
+        Schema::dropIfExists('job_education_levels');
         Schema::dropIfExists('job_listings');
+        Schema::dropIfExists('job_listing_details');
         Schema::dropIfExists('job_locations');
         Schema::dropIfExists('job_position');
         Schema::dropIfExists('job_contacts');

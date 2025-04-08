@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Entities\ApprovalStatus;
+namespace App\Entities\JobApplicationSeries\ApplicationStatus;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class ApprovalStatus extends BaseModel implements Transformable
+class ApplicationStatus extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;
 
-    protected $table = 'approval_statuses';
+    protected $table = 'application_statuses';
 
     public const FILLABLE_FIELDS = [
-        'status'
+        'name', 'description'
     ];
 }

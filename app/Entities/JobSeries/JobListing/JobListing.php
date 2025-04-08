@@ -3,6 +3,7 @@
 namespace App\Entities\JobSeries\JobListing;
 
 use App\Entities\JobSeries\JobListing\Traits\JobListingRelationship;
+use App\Enums\RouteNames\JobListing\JobListingEnum;
 use App\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ class JobListing extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, Sluggable, JobListingRelationship;
 
-    protected $table = 'job_listings';
+    protected $table = JobListingEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'company_id',
@@ -22,17 +23,17 @@ class JobListing extends BaseModel implements Transformable
         'quantity_recruitment',
         'gender_id',
         'expiry_date',
-        'description',
-        'requirement',
-        'benefit',
-        'working_hour',
         'active_status_id',
         'approval_status_id',
         'job_salary_id',
         'job_type_id',
         'job_level_id',
-        'job_experience',
-        'view'
+        'job_experience_id',
+        'job_age_range_id',
+        'job_education_level_id',
+        'view',
+        'min_age',
+        'max_age'
     ];
 
     /**

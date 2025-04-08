@@ -2,10 +2,10 @@
 
 namespace App\Entities\JobSeries\JobListing\Traits;
 
-use App\Entities\ApprovalStatus\ApprovalStatus;
 use App\Entities\CompanySeries\Company\Company;
 use App\Entities\DefaultSeries\DefaultGender\DefaultGender;
 use App\Entities\DefaultSeries\DefaultStatus\DefaultStatus;
+use App\Entities\JobSeries\ApprovalStatus\ApprovalStatus;
 use App\Entities\JobSeries\JobContact\JobContact;
 use App\Entities\JobSeries\JobExperience\JobExperience;
 use App\Entities\JobSeries\JobLevel\JobLevel;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entities\ApplicationCV\Traits;
+namespace App\Entities\JobApplicationSeries\ApplicationCV\Traits;
 
-use App\Entities\JobSeries\JobApplication\JobApplication;
+use App\Entities\JobApplicationSeries\JobApplication\JobApplication;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait ApplicationCVRelationship
