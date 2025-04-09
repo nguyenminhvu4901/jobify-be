@@ -27,7 +27,6 @@ class Currency extends BaseModel implements Transformable
     {
         return Attribute::make(
             get: fn (string $value) => strtoupper($value)
-
         );
     }
 }

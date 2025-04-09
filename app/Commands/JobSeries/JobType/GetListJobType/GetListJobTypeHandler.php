@@ -25,7 +25,7 @@ class GetListJobTypeHandler
             $cache = Cache::tags([JobTypeEnum::TAG_NAME->value])->has(
                 JobTypeEnum::LIST_ALL_JOB_TYPE->value);
 
-            $jobAgeRanges = Cache::tags([JobTypeEnum::TAG_NAME->value])
+            $jobTypes = Cache::tags([JobTypeEnum::TAG_NAME->value])
                 ->remember(
                     JobTypeEnum::LIST_ALL_JOB_TYPE->value,
                     CacheTTL::HARD->value,
@@ -33,7 +33,7 @@ class GetListJobTypeHandler
                 );
 
             return [
-                'data' => JobTypeResource::collection($jobAgeRanges),
+                'data' => JobTypeResource::collection($jobTypes),
                 'message' => __('messages.job.job_get_info_success'),
                 'cache' => $cache
             ];
