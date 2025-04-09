@@ -10,6 +10,7 @@ use Database\Seeders\DefaultData\DefaultContentTypeSeeder;
 use Database\Seeders\DefaultData\DefaultGenderSeeder;
 use Database\Seeders\DefaultData\DefaultRateSeeder;
 use Database\Seeders\DefaultData\DefaultStatusSeeder;
+use Database\Seeders\JobSeries\Currencies\CurrencySeeder;
 use Database\Seeders\JobSeries\JobAgeRanges\JobAgeRangeSeeder;
 use Database\Seeders\JobSeries\JobEducationLevels\JobEducationLevelSeeder;
 use Database\Seeders\JobSeries\JobExperiences\JobExperienceSeeder;
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
             JobEducationLevelSeeder::class,
             JobAgeRangeSeeder::class,
             PositionSeeder::class,
+            CurrencySeeder::class,
 
             RoleSeeder::class,
             UserSeeder::class
