@@ -92,3 +92,17 @@ if (!function_exists('collectionPaginate')) {
         ]);
     }
 }
+
+if (!function_exists('translatable_or_original')) {
+    /**
+     * @param string $key
+     * @param string $value
+     * @return string
+     */
+    function translatable_or_original(string $key, string $value): string
+    {
+        $translated = __($key . '.' . $value);
+        return $translated !== $key . '.' . $value ? $translated : $value;
+    }
+}
+

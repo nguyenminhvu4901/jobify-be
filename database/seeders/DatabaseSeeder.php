@@ -15,6 +15,7 @@ use Database\Seeders\JobSeries\JobEducationLevels\JobEducationLevelSeeder;
 use Database\Seeders\JobSeries\JobExperiences\JobExperienceSeeder;
 use Database\Seeders\JobSeries\JobLevels\JobLevelSeeder;
 use Database\Seeders\JobSeries\JobTypes\JobTypeSeeder;
+use Database\Seeders\JobSeries\Positions\PositionSeeder;
 use Database\Seeders\Roles\RoleSeeder;
 use Database\Seeders\Users\UserSeeder;
 use Illuminate\Database\Seeder;
@@ -44,6 +45,7 @@ class DatabaseSeeder extends Seeder
             JobExperienceSeeder::class,
             JobEducationLevelSeeder::class,
             JobAgeRangeSeeder::class,
+            PositionSeeder::class,
 
             RoleSeeder::class,
             UserSeeder::class

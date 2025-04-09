@@ -25,9 +25,8 @@ class CompanyWorkingDay extends BaseModel implements Transformable
     protected function workingDay(): Attribute
     {
         return Attribute::make(
-            get: function (string $value) {
-                return __('data/company_series/working_days.' . $value) ?? $value;
-            }
+            get: fn(string $value) => translatable_or_original('data/company_series/working_days', $value)
         );
     }
+
 }

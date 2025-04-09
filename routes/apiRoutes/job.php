@@ -5,11 +5,13 @@ use App\Enums\RouteNames\JobSeries\JobEducationLevelEnum;
 use App\Enums\RouteNames\JobSeries\JobExperienceEnum;
 use App\Enums\RouteNames\JobSeries\JobLevelEnum;
 use App\Enums\RouteNames\JobSeries\JobTypeEnum;
+use App\Enums\RouteNames\JobSeries\PositionEnum;
 use App\Http\Controllers\API\JobSeries\JobAgeRangeController;
 use App\Http\Controllers\API\JobSeries\JobEducationLevelController;
 use App\Http\Controllers\API\JobSeries\JobExperienceController;
 use App\Http\Controllers\API\JobSeries\JobLevelController;
 use App\Http\Controllers\API\JobSeries\JobTypeController;
+use App\Http\Controllers\API\JobSeries\PositionController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -48,6 +50,12 @@ Route::group(
             Route::get('/list-all-job-education-level', [
                 JobEducationLevelController::class, 'getListJobEducationLevel'
             ])->name(JobEducationLevelEnum::LIST_ALL_JOB_EDUCATION_LEVEL->value);
+        });
+
+        Route::group(['prefix' => 'position', 'as' => 'position.'], function () {
+            Route::get('/list-all-position', [
+                PositionController::class, 'getListPosition'
+            ])->name(PositionEnum::LIST_ALL_POSITION->value);
         });
     }
 );

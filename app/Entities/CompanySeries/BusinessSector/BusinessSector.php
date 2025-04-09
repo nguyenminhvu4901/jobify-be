@@ -28,9 +28,8 @@ class BusinessSector extends BaseModel implements Transformable
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: function (string $value) {
-                return __('data/company_series/business_sectors.name.' . $value) ?? $value;
-            }
+            get: fn (string $value) =>
+            translatable_or_original('data/company_series/business_sectors.name', $value)
         );
     }
 
@@ -40,9 +39,8 @@ class BusinessSector extends BaseModel implements Transformable
     protected function description(): Attribute
     {
         return Attribute::make(
-            get: function (string $value) {
-                return __('data/company_series/business_sectors.description.' . $value) ?? $value;
-            }
+            get: fn (string $value) =>
+            translatable_or_original('data/company_series/business_sectors.description', $value)
         );
     }
 }

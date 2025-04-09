@@ -46,8 +46,8 @@ if (!function_exists('formatCursorPaginationData')) {
                 "total" => $data->count(),
                 "next_cursor" => optional($data->nextCursor())->encode(),
                 "prev_cursor" => optional($data->previousCursor())->encode(),
-                "first_item" => !empty($items) ? $items[0] : null,
-                "last_item" => !empty($items) ? end($items) : null,
+//                "first_item" => !empty($items) ? $items[0] : null,
+//                "last_item" => !empty($items) ? end($items) : null,
             ];
         }
 

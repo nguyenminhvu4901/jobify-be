@@ -26,9 +26,7 @@ class JobType extends BaseModel implements Transformable
     protected function type(): Attribute
     {
         return Attribute::make(
-            get: function (string $value) {
-                return __('data/job_series/job_types.title.' . $value) ?? $value;
-            }
+            get: fn (string $value) => translatable_or_original('data/job_series/job_types.title', $value)
         );
     }
 }

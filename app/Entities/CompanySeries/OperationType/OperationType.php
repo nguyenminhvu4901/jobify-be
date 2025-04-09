@@ -27,9 +27,7 @@ class OperationType extends BaseModel implements Transformable
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: function (string $value) {
-                return __('data/company_series/operation_types.name.' . $value) ?? $value;
-            }
+            get: fn(string $value) => translatable_or_original('data/company_series/operation_types.name', $value)
         );
     }
 
@@ -39,9 +37,7 @@ class OperationType extends BaseModel implements Transformable
     protected function description(): Attribute
     {
         return Attribute::make(
-            get: function (string $value) {
-                return __('data/company_series/operation_types.description.' . $value) ?? $value;
-            }
+            get: fn(string $value) => translatable_or_original('data/company_series/operation_types.description', $value)
         );
     }
 }

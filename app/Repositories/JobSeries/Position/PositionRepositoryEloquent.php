@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Repositories\JobSeries\Position;
+
+use App\Entities\JobSeries\Position\Position;
+use App\Enums\Paginate\PaginateEnum;
+use App\Repositories\BaseRepository;
+
+class PositionRepositoryEloquent extends BaseRepository implements PositionRepository
+{
+    /**
+     * @return string
+     */
+    public function model(): string
+    {
+        return Position::class;
+    }
+
+    /**
+     * @param int|null $limit
+     * @return mixed
+     */
+    public function getListPositionPaginate(?int $limit): mixed
+    {
+        $roots = $this->model->withDepthRootOrdered()
+            ->cursorPaginate($limit ?? PaginateEnum::CURSOR_PAGINATE_POSITION->value);
+
+        $roots->getCollection()->transform(function ($root) {
+            $root->setRelation('children', $root->descendants()->withDepthOrderedToTree());
+            return $root;
+        });
+
+        return $roots;
+    }
+}
