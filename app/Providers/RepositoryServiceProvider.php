@@ -26,6 +26,8 @@ use App\Repositories\JobSeries\JobLevel\JobLevelRepository;
 use App\Repositories\JobSeries\JobLevel\JobLevelRepositoryEloquent;
 use App\Repositories\JobSeries\JobType\JobTypeRepository;
 use App\Repositories\JobSeries\JobType\JobTypeRepositoryEloquent;
+use App\Repositories\JobSeries\Position\PositionRepository;
+use App\Repositories\JobSeries\Position\PositionRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivityResource\UserActivityResourceRepository;
@@ -99,6 +101,7 @@ class RepositoryServiceProvider extends ServiceProvider
         JobTypeRepository::class => JobTypeRepositoryEloquent::class,
         JobLevelRepository::class => JobLevelRepositoryEloquent::class,
         JobExperienceRepository::class => JobExperienceRepositoryEloquent::class,
-        JobEducationLevelRepository::class => JobEducationLevelRepositoryEloquent::class
+        JobEducationLevelRepository::class => JobEducationLevelRepositoryEloquent::class,
+        PositionRepository::class => PositionRepositoryEloquent::class
     ];
 }

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Enums\QueryConstant;
+use App\Enums\Paginate\PaginateEnum;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -74,7 +74,7 @@ abstract class BaseRepository extends Repository
     {
         $query = $this->queryByUserSlug($userSlug, $relationship, $relationshipCallbacksToFilter);
 
-        return $query->paginate($limit ?? QueryConstant::PAGINATE_DEFAULT->value);
+        return $query->paginate($limit ?? PaginateEnum::PAGINATE_DEFAULT->value);
     }
 
     /**
@@ -197,7 +197,7 @@ abstract class BaseRepository extends Repository
         }
 
         return $query->paginate(
-            perPage: $limit ?? QueryConstant::PAGINATE_DEFAULT->value,
+            perPage: $limit ?? PaginateEnum::PAGINATE_DEFAULT->value,
             columns: $columns
         );
     }
@@ -234,7 +234,7 @@ abstract class BaseRepository extends Repository
 
         return $query->orderBy($orderColumn, $orderCondition)
             ->cursorPaginate(
-            perPage: $limit ?? QueryConstant::PAGINATE_DEFAULT->value,
+            perPage: $limit ?? PaginateEnum::PAGINATE_DEFAULT->value,
             columns: $columns
         );
     }
