@@ -16,6 +16,8 @@ use App\Repositories\CompanySeries\CompanyWorkingDay\CompanyWorkingDayRepository
 use App\Repositories\CompanySeries\CompanyWorkingDay\CompanyWorkingDayRepositoryEloquent;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepository;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepositoryEloquent;
+use App\Repositories\JobSeries\Currency\CurrencyRepository;
+use App\Repositories\JobSeries\Currency\CurrencyRepositoryEloquent;
 use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepository;
 use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepositoryEloquent;
 use App\Repositories\JobSeries\JobEducationLevel\JobEducationLevelRepository;
@@ -24,6 +26,8 @@ use App\Repositories\JobSeries\JobExperience\JobExperienceRepository;
 use App\Repositories\JobSeries\JobExperience\JobExperienceRepositoryEloquent;
 use App\Repositories\JobSeries\JobLevel\JobLevelRepository;
 use App\Repositories\JobSeries\JobLevel\JobLevelRepositoryEloquent;
+use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepository;
+use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepositoryEloquent;
 use App\Repositories\JobSeries\JobType\JobTypeRepository;
 use App\Repositories\JobSeries\JobType\JobTypeRepositoryEloquent;
 use App\Repositories\JobSeries\Position\PositionRepository;
@@ -102,6 +106,8 @@ class RepositoryServiceProvider extends ServiceProvider
         JobLevelRepository::class => JobLevelRepositoryEloquent::class,
         JobExperienceRepository::class => JobExperienceRepositoryEloquent::class,
         JobEducationLevelRepository::class => JobEducationLevelRepositoryEloquent::class,
-        PositionRepository::class => PositionRepositoryEloquent::class
+        PositionRepository::class => PositionRepositoryEloquent::class,
+        CurrencyRepository::class => CurrencyRepositoryEloquent::class,
+        JobSalaryTypeRepository::class => JobSalaryTypeRepositoryEloquent::class
     ];
 }
