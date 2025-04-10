@@ -7,6 +7,7 @@ use App\Enums\RouteNames\JobSeries\JobListingEnum;
 use App\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
@@ -18,7 +19,8 @@ class JobListing extends BaseModel implements Transformable, Explored
         HasFactory,
         Sluggable,
         JobListingRelationship,
-        Searchable;
+        Searchable,
+        SoftDeletes;
 
     protected $table = JobListingEnum::TABLE->value;
 

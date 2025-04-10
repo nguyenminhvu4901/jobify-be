@@ -26,6 +26,8 @@ use App\Repositories\JobSeries\JobExperience\JobExperienceRepository;
 use App\Repositories\JobSeries\JobExperience\JobExperienceRepositoryEloquent;
 use App\Repositories\JobSeries\JobLevel\JobLevelRepository;
 use App\Repositories\JobSeries\JobLevel\JobLevelRepositoryEloquent;
+use App\Repositories\JobSeries\JobListing\JobListingRepository;
+use App\Repositories\JobSeries\JobListing\JobListingRepositoryEloquent;
 use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepository;
 use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepositoryEloquent;
 use App\Repositories\JobSeries\JobType\JobTypeRepository;
@@ -108,6 +110,7 @@ class RepositoryServiceProvider extends ServiceProvider
         JobEducationLevelRepository::class => JobEducationLevelRepositoryEloquent::class,
         PositionRepository::class => PositionRepositoryEloquent::class,
         CurrencyRepository::class => CurrencyRepositoryEloquent::class,
-        JobSalaryTypeRepository::class => JobSalaryTypeRepositoryEloquent::class
+        JobSalaryTypeRepository::class => JobSalaryTypeRepositoryEloquent::class,
+        JobListingRepository::class => JobListingRepositoryEloquent::class
     ];
 }

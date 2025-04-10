@@ -45,14 +45,14 @@ class GetListPositionHandler
 
             return [
                 'data' => PositionResource::collection($positions),
-                'message' => __('messages.profile.user_get_profile_success'),
+                'message' => __('messages.job.job_get_info_success'),
                 'cache' => $cache,
                 'pagination' => formatCursorPaginationData($positions)
             ];
         }catch (\Exception $e){
 
             return [
-                'message' => __('messages.profile.user_get_profile_error'),
+                'message' => __('messages.job.job_get_info_error'),
                 'error' => $e
             ];
         }

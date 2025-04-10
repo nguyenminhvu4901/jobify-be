@@ -7,6 +7,7 @@ use App\Entities\DefaultSeries\DefaultGender\DefaultGender;
 use App\Entities\DefaultSeries\DefaultStatus\DefaultStatus;
 use App\Entities\JobSeries\ApprovalStatus\ApprovalStatus;
 use App\Entities\JobSeries\JobContact\JobContact;
+use App\Entities\JobSeries\JobEducationLevel\JobEducationLevel;
 use App\Entities\JobSeries\JobExperience\JobExperience;
 use App\Entities\JobSeries\JobLevel\JobLevel;
 use App\Entities\JobSeries\JobLocation\JobLocation;
@@ -29,7 +30,7 @@ trait JobListingRelationship
      */
     public function companies(): BelongsTo
     {
-        return $this->belongsTo(Company::class, 'company_id', 'id');
+        return $this->belongsTo(Company::class, 'company_id', 'id')->withDefault();
     }
     /**
      * @return HasMany
@@ -44,7 +45,7 @@ trait JobListingRelationship
      */
     public function jobSalaries(): BelongsTo
     {
-        return $this->belongsTo(JobSalary::class, 'job_salary_id', 'id');
+        return $this->belongsTo(JobSalary::class, 'job_salary_id', 'id')->withDefault();
     }
 
     /**
@@ -69,23 +70,23 @@ trait JobListingRelationship
      */
     public function gender(): BelongsTo
     {
-        return $this->belongsTo(DefaultGender::class, 'gender_id', 'id');
+        return $this->belongsTo(DefaultGender::class, 'gender_id', 'id')->withDefault();
     }
 
     /**
      * @return BelongsTo
      */
-    public function status()
+    public function status(): BelongsTo
     {
-        return $this->belongsTo(DefaultStatus::class, 'active_status_id', 'id');
+        return $this->belongsTo(DefaultStatus::class, 'active_status_id', 'id')->withDefault();
     }
 
     /**
      * @return BelongsTo
      */
-    public function approvalStatus()
+    public function approvalStatus(): BelongsTo
     {
-        return $this->belongsTo(ApprovalStatus::class, 'approval_status_id', 'id');
+        return $this->belongsTo(ApprovalStatus::class, 'approval_status_id', 'id')->withDefault();
     }
 
     /**
@@ -93,7 +94,7 @@ trait JobListingRelationship
      */
     public function jobTypes(): BelongsTo
     {
-        return $this->belongsTo(JobType::class, 'job_type_id', 'id');
+        return $this->belongsTo(JobType::class, 'job_type_id', 'id')->withDefault();
     }
 
     /**
@@ -101,7 +102,7 @@ trait JobListingRelationship
      */
     public function jobLevels(): BelongsTo
     {
-        return $this->belongsTo(JobLevel::class, 'job_level_id', 'id');
+        return $this->belongsTo(JobLevel::class, 'job_level_id', 'id')->withDefault();
     }
 
     /**
@@ -109,6 +110,15 @@ trait JobListingRelationship
      */
     public function jobExperiences(): BelongsTo
     {
-        return $this->belongsTo(JobExperience::class, 'job_experience_id', 'id');
+        return $this->belongsTo(JobExperience::class, 'job_experience_id', 'id')->withDefault();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function jobEducationLevels(): BelongsTo
+    {
+        return $this->belongsTo(JobEducationLevel::class, 'job_education_level_id', 'id')
+            ->withDefault();
     }
 }
