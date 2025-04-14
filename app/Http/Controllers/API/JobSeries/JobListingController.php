@@ -8,7 +8,10 @@ use App\Commands\JobSeries\JobListing\GetListAllJob\GetListAllJobCommand;
 use App\Commands\JobSeries\JobListing\GetListAllJob\GetListAllJobHandler;
 use App\Commands\JobSeries\JobListing\GetListAllJobByCompany\GetListAllJobByCompanyCommand;
 use App\Commands\JobSeries\JobListing\GetListAllJobByCompany\GetListAllJobByCompanyHandler;
+use App\Commands\JobSeries\JobListing\StoreJob\StoreJobCommand;
+use App\Commands\JobSeries\JobListing\StoreJob\StoreJobHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JobSeries\JobListing\JobSaveRequest;
 use App\Http\Requests\JobSeries\JobListing\JobSearchRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
@@ -104,6 +107,30 @@ class JobListingController extends Controller
                 data: $result['data'],
                 message: $result['message'],
                 cache: $result['cache'] ?? null,
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    public function storeJob(JobSaveRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            StoreJobCommand::class,
+            StoreJobHandler::class
+        );
+
+        $result = $this->bus->dispatch(StoreJobCommand::withForm($request));
+
+        if(!empty($result['data'])){
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
             );
         }
 

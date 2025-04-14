@@ -11,4 +11,6 @@ enum PositionEnum: string
     case TABLE = 'positions';
 
     case LIST_ALL_POSITION = 'listAllPosition';
+
+    case LIST_LEAF_POSITION = 'listLeafPosition';
 }

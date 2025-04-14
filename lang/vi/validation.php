@@ -163,6 +163,8 @@ return [
             'rule-name' => 'custom-message',
         ],
 
+        'job_salaries_greater_than_from' => 'Giá trị tối đa phải lớn hơn giá trị tối thiểu.',
+
         'the_password_field_is_required_when_type_is_standard' => 'Trường password không được bỏ trống khi trường type là standard.',
         'the_name_field_is_required_when_type_is_standard' => 'Trường name không được bỏ trống khi trường type là standard.',
         "invalid_content_type_value_please_choose_again" => 'Sai giá trị trường Content type, vui lòng chọn lại.',
@@ -173,6 +175,8 @@ return [
         'company_id_user_id_mismatch' => 'Mã công ty và mã người dùng không khớp!',
         'company_id_branch_id_mismatch' => 'Mã công ty và mã chi nhánh không khớp!',
         'company_id_benefit_id_mismatch' => 'Mã công ty và mã phúc lợi không khớp!',
+
+
     ],
 
     /*

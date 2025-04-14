@@ -44,6 +44,6 @@ class JobSearchRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        $this->normalizeDateFields(['expiry_date', 'created_at']);
+        $this->normalizeDateFields(['publish_date', 'expiry_date', 'created_at', 'updated_at']);
     }
 }

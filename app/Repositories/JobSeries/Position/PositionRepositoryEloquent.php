@@ -32,4 +32,13 @@ class PositionRepositoryEloquent extends BaseRepository implements PositionRepos
 
         return $roots;
     }
+
+    /**
+     * @param array|string[] $columns $
+     * @return mixed
+     */
+    public function getListLeafPosition(array $columns = ['*']): mixed
+    {
+        return $this->model->select($columns)->leafNodes();
+    }
 }

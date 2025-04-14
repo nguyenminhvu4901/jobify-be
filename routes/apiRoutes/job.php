@@ -61,6 +61,10 @@ Route::group(
             Route::get('/list-all-position', [
                 PositionController::class, 'getListPosition'
             ])->name(PositionEnum::LIST_ALL_POSITION->value);
+
+            Route::get('/list-leaf-position', [
+                PositionController::class, 'getListLeafPosition'
+            ])->name(PositionEnum::LIST_LEAF_POSITION->value);
         });
 
         Route::group(['prefix' => 'currency', 'as' => 'currency.'], function () {
@@ -91,6 +95,10 @@ Route::group(
             Route::get('/suggested-jobs', [
                 JobListingController::class, 'getSuggestedJob'
             ])->name(JobListingEnum::SUGGESTED_JOB->value);
+
+            Route::post('/store-job', [
+                JobListingController::class, 'storeJob'
+            ])->name(JobListingEnum::STORE_JOB->value);
         });
     }
 );

@@ -91,6 +91,7 @@ return new class extends Migration
             $table->integer('quantity_recruitment')->default(0)->comment('Số lượng tuyển');
             $table->foreignId('gender_id')->nullable()->constrained('default_genders')->nullOnDelete()->cascadeOnUpdate();
 
+            $table->date('publish_date')->default(now())->comment('Ngày tuyển dụng');
             $table->date('expiry_date')->default(now())->comment('Ngày hết hạn');
 
             $table->foreignId('active_status_id')->nullable()->default(1)->constrained('default_statuses')->nullOnDelete()->cascadeOnUpdate();

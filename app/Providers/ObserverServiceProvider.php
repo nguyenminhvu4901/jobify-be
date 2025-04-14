@@ -6,6 +6,7 @@ use App\Entities\CompanySeries\Company\Company;
 use App\Entities\CompanySeries\CompanyBenefit\CompanyBenefit;
 use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
 use App\Entities\JobSeries\JobListing\JobListing;
+use App\Entities\JobSeries\JobListingDetail\JobListingDetail;
 use App\Entities\ProfileSeries\UserActivity\UserActivity;
 use App\Entities\ProfileSeries\UserCertification\UserCertification;
 use App\Entities\ProfileSeries\UserCourse\UserCourse;
@@ -53,7 +54,8 @@ class ObserverServiceProvider extends ServiceProvider
         Company::class => CompanyObserver::class,
         CompanyBranch::class => CompanyBranchObserver::class,
         CompanyBenefit::class => CompanyBenefitObserver::class,
-        JobListing::class => JobListingObserver::class
+        JobListing::class => JobListingObserver::class,
+        JobListingDetail::class => JobListingObserver::class
     ];
 
     /**
