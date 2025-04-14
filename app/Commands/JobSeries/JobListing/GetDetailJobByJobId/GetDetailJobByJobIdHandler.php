@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands\JobSeries\JobListing\GetListAllJob;
+namespace App\Commands\JobSeries\JobListing\GetDetailJobByJobId;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
@@ -8,7 +8,7 @@ use App\Http\Resources\JobSeries\JobListings\JobListingResource;
 use App\Repositories\JobSeries\JobListing\JobListingRepository;
 use Illuminate\Support\Facades\Cache;
 
-class GetListAllJobHandler
+class GetDetailJobByJobIdHandler
 {
     public function __construct(
         protected JobListingRepository $jobListingRepository
@@ -16,36 +16,34 @@ class GetListAllJobHandler
     {
     }
 
-    public function handle(GetListAllJobCommand $command): array
+    public function handle(GetDetailJobByJobIdCommand $command)
     {
         try {
             $cache = Cache::tags([JobListingEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
-                        JobListingEnum::LIST_ALL_JOBS->value,
+                        JobListingEnum::DETAIL_JOB_BY_JOB_ID->value,
                         $command
                     )
                 );
 
-            $jobListings = Cache::tags([JobListingEnum::TAG_NAME->value])->remember(
+            $jobDetail = Cache::tags([JobListingEnum::TAG_NAME->value])->remember(
                 generateCacheName(
-                    JobListingEnum::LIST_ALL_JOBS->value,
+                    JobListingEnum::DETAIL_JOB_BY_JOB_ID->value,
                     $command
                 ),
                 CacheTTL::HARD->value,
-                fn() => $this->jobListingRepository->paginateWithRelationship(
-                    relationship: ['companies'],
-                    limit: $command->limit
+                fn() => $this->jobListingRepository->findWithRelationships(
+                    id: $command->jobId,
+                    relationship: ['companies']
                 )
             );
 
             return [
-                'data' => JobListingResource::collection($jobListings),
+                'data' => JobListingResource::make($jobDetail),
                 'message' => __('messages.job.job_get_info_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($jobListings)
             ];
-
         }catch (\Exception $e){
 
             return [

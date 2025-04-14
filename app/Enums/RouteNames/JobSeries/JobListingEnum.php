@@ -4,7 +4,7 @@ namespace App\Enums\RouteNames\JobSeries;
 
 enum JobListingEnum: string
 {
-    case PREFIX = 'job.job-listing.';
+    case PREFIX = 'job.jobListing.';
 
     case TAG_NAME = 'jobListings';
 
@@ -14,7 +14,7 @@ enum JobListingEnum: string
 
     case LIST_ALL_JOBS_BY_COMPANY = 'listAllJobsByCompany';
 
-    case DETAIL_JOB = 'detailJob';
+    case DETAIL_JOB_BY_JOB_ID = 'detailJobByJobId';
 
     case SUGGESTED_JOB = 'suggestedJob';
 }

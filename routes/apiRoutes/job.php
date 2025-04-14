@@ -85,8 +85,8 @@ Route::group(
             ])->name(JobListingEnum::LIST_ALL_JOBS_BY_COMPANY->value);
 
             Route::get('/detail-job', [
-                JobListingController::class, 'getDetailJob'
-            ])->name(JobListingEnum::DETAIL_JOB->value);
+                JobListingController::class, 'getDetailJobByJobId'
+            ])->name(JobListingEnum::DETAIL_JOB_BY_JOB_ID->value);
 
             Route::get('/suggested-jobs', [
                 JobListingController::class, 'getSuggestedJob'

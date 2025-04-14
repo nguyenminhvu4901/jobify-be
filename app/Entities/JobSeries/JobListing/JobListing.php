@@ -3,8 +3,10 @@
 namespace App\Entities\JobSeries\JobListing;
 
 use App\Entities\JobSeries\JobListing\Traits\JobListingRelationship;
+use App\Entities\JobSeries\JobListing\Traits\JobListingScope;
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
 use App\Models\BaseModel;
+use App\Traits\Scope\BaseScopeTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,7 +22,9 @@ class JobListing extends BaseModel implements Transformable, Explored
         Sluggable,
         JobListingRelationship,
         Searchable,
-        SoftDeletes;
+        SoftDeletes,
+        JobListingScope,
+        BaseScopeTrait;
 
     protected $table = JobListingEnum::TABLE->value;
 

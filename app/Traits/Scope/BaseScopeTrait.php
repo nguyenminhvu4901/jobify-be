@@ -38,4 +38,22 @@ trait BaseScopeTrait
 
         return $query;
     }
+
+    /**
+     * @param Builder $query
+     * @param string|array|null $relationships
+     * @return Builder
+     */
+    public function scopeWithRelationships(Builder $query, string|array|null $relationships): Builder
+    {
+        if (empty($relationships)) {
+            return $query;
+        }
+
+        if (is_string($relationships)) {
+            $relationships = array_map('trim', explode(',', $relationships));
+        }
+
+        return $query->with($relationships);
+    }
 }
