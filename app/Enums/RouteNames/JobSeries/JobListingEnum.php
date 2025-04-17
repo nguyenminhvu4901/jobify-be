@@ -19,4 +19,6 @@ enum JobListingEnum: string
     case SUGGESTED_JOB = 'suggestedJob';
 
     case STORE_JOB = 'storeJob';
+
+    case UPDATE_JOB = 'updateJob';
 }

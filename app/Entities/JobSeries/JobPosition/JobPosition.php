@@ -16,6 +16,7 @@ class JobPosition extends BaseModel implements Transformable
 
     public const FILLABLE_FIELDS = [
         'job_listing_id',
-        'position_id'
+        'position_id',
+        'priority'
     ];
 }

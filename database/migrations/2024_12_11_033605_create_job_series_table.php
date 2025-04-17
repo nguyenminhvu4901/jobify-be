@@ -156,6 +156,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('job_listing_id')->nullable();
             $table->unsignedBigInteger('position_id')->nullable();
+            $table->tinyInteger('priority')->nullable();
 
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')

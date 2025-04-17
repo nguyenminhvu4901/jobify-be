@@ -14,6 +14,9 @@ class StoreJobHandler
 
     public function handle(StoreJobCommand $command)
     {
-        dd($command);
+        foreach ($command->jobLocations as $jobLocation){
+            dd($jobLocation);
+        }
+        dd(($command->jobLocations));
     }
 }

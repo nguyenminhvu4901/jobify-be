@@ -119,6 +119,7 @@ class JobListingController extends Controller
 
     public function storeJob(JobSaveRequest $request): JsonResponse
     {
+
         $this->bus->addHandler(
             StoreJobCommand::class,
             StoreJobHandler::class
