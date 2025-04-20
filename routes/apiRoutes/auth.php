@@ -16,6 +16,8 @@ Route::group(['middleware' => ['api' ,'throttle:rateLimit'], 'prefix' => 'auth',
 
     Route::patch('/change-password', [AuthController::class, 'changePassword'])
         ->name('changePassword')->middleware('auth');
+
+    Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
 });
 
 Route::group(['middleware' => 'api'], function () {

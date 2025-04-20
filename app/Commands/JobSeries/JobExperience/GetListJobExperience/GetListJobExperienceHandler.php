@@ -2,8 +2,8 @@
 
 namespace App\Commands\JobSeries\JobExperience\GetListJobExperience;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\JobSeries\JobExperienceEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobExperience\JobExperienceResource;
 use App\Repositories\JobSeries\JobExperience\JobExperienceRepository;
 use Illuminate\Support\Facades\Cache;

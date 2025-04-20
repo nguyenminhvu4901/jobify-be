@@ -2,8 +2,8 @@
 
 namespace App\Commands\JobSeries\JobSalaryType\GetListJobSalaryType;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\JobSeries\JobSalaryTypeEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobSalaryTypes\JobSalaryTypeResource;
 use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepository;
 use Illuminate\Support\Facades\Cache;

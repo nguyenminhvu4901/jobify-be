@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserCourse\GetListCourseCurrentUser;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCourseEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserCourse\CurrentUserCourseResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;

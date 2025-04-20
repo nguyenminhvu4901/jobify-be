@@ -10,6 +10,8 @@ use App\Commands\Auth\Logout\LogoutCommand;
 use App\Commands\Auth\Logout\LogoutHandler;
 use App\Commands\Auth\RecruiterRegister\RecruiterRegisterCommand;
 use App\Commands\Auth\RecruiterRegister\RecruiterRegisterHandler;
+use App\Commands\Auth\Refresh\RefreshCommand;
+use App\Commands\Auth\Refresh\RefreshHandler;
 use App\Commands\Auth\ResetPassword\ResetPasswordCommand;
 use App\Commands\Auth\ResetPassword\ResetPasswordHandler;
 use App\Commands\Auth\SendForgotPassword\SendForgotPasswordCommand;
@@ -599,5 +601,21 @@ class AuthController extends Controller
     public function unauthorized(): JsonResponse
     {
         return $this->responseUnauthorized(__('messages.authentication.user_is_not_logged_in'));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function refresh(): JsonResponse
+    {
+        $this->bus->addHandler(RefreshCommand::class, RefreshHandler::class);
+
+        $userData = $this->bus->dispatch(new RefreshCommand());
+
+        if(!empty($userData['user'])){
+            return $this->responseSuccess(data: $userData['user'], message: $userData['message']);
+        }
+
+        return $this->responseUnauthorized(message: $userData['message'], error: $userData['error'] ?? null);
     }
 }

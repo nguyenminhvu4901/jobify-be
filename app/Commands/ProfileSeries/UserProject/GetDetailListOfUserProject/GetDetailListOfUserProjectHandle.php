@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserProject\GetDetailListOfUserProject;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProjectEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserProject\UserProjectResource;
 use App\Repositories\ProfileSeries\UserProject\UserProjectRepository;
 use Illuminate\Support\Facades\Cache;

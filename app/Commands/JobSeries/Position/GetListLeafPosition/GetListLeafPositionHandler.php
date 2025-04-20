@@ -2,10 +2,9 @@
 
 namespace App\Commands\JobSeries\Position\GetListLeafPosition;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\JobSeries\PositionEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\Position\LeafPositionResource;
-use App\Http\Resources\JobSeries\Position\PositionResource;
 use App\Repositories\JobSeries\Position\PositionRepository;
 use Illuminate\Support\Facades\Cache;
 

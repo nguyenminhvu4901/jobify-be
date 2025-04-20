@@ -2,8 +2,8 @@
 
 namespace App\Commands\CompanySeries\CompanyBenefit\GetListCompanyBenefit;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\CompanySeries\CompanyBenefitEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\CompanySeries\CompanyBenefit\CompanyBenefitResource;
 use App\Repositories\CompanySeries\CompanyBenefit\CompanyBenefitRepository;
 use Illuminate\Support\Facades\Cache;

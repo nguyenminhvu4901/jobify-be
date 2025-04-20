@@ -2,6 +2,7 @@
 
 namespace App\Commands\Auth\LoginStandard;
 
+use App\Enums\TTL\JWTEnum;
 use App\Http\Resources\Auth\LoginResource;
 use App\Repositories\User\UserRepository;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -28,7 +29,7 @@ class LoginStandardHandler
                 'password' => $command->password
             ];
 
-            $expiry = $command->remember ? config('constants.expiry_week') : config('jwt.ttl');
+            $expiry = $command->remember ? config('constants.expiry_week') : JWTEnum::REMEMBER->value;
             auth('api')->factory()->setTTL($expiry);
 
             $token = auth('api')->attempt($credentials);

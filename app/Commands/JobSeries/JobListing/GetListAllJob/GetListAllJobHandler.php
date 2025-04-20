@@ -2,8 +2,8 @@
 
 namespace App\Commands\JobSeries\JobListing\GetListAllJob;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobListings\JobListingResource;
 use App\Repositories\JobSeries\JobListing\JobListingRepository;
 use Illuminate\Support\Facades\Cache;

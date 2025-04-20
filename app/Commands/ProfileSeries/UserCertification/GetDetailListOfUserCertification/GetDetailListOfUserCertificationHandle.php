@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserCertification\GetDetailListOfUserCertification;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCertificationEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserCertification\UserCertificationResource;
 use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepository;
 use Illuminate\Support\Facades\Cache;

@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserPrize\GetListPrizeCurrentUser;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserPrizeEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserPrize\CurrentUserPrizeResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;
