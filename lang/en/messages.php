@@ -25,10 +25,21 @@ return [
     ],
 
     'company' => [
-        'company_get_info_success' => 'Get company info successfully',
-        'company_get_info_error' => 'Get company info failed!',
-        'company_update_profile_success' => 'Saved',
-        'company_update_profile_error' => 'Save failed',
+        'company_get_info_success' => 'Information retrieved successfully',
+        'company_get_info_error' => 'Failed to retrieve information',
+        'company_update_profile_success' => 'Saved successfully',
+        'company_update_profile_error' => 'Failed to save',
+        'company_destroy_profile_success' => 'Deleted successfully',
+        'company_destroy_profile_error' => 'Failed to delete',
+    ],
+
+    'job' => [
+        'job_get_info_success' => 'Information retrieved successfully',
+        'job_get_info_error' => 'Failed to retrieve information',
+        'job_update_profile_success' => 'Saved successfully',
+        'job_update_profile_error' => 'Failed to save',
+        'job_destroy_profile_success' => 'Deleted successfully',
+        'job_destroy_profile_error' => 'Failed to delete',
     ],
 
     'account_is_not_registered' => 'User is not registered',

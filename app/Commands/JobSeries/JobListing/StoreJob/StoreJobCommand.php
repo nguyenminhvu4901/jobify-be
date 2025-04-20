@@ -51,8 +51,8 @@ readonly class StoreJobCommand implements CommandInterface
            title: $request->input('title'),
            quantityRecruitment: $request->input('quantity_recruitment'),
            genderId: $request->input('gender_id'),
-           publishDate: Carbon::parse($request->input('publish_date')),
-           expiryDate: Carbon::parse($request->input('expiry_date')),
+           publishDate: Carbon::createFromFormat('Y-m-d', $request->input('publish_date')),
+           expiryDate: Carbon::createFromFormat('Y-m-d', $request->input('expiry_date')),
 
            jobSalaries: $jobSalaries
                ? collect($jobSalaries)

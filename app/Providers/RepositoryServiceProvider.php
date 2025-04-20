@@ -28,10 +28,14 @@ use App\Repositories\JobSeries\JobLevel\JobLevelRepository;
 use App\Repositories\JobSeries\JobLevel\JobLevelRepositoryEloquent;
 use App\Repositories\JobSeries\JobListing\JobListingRepository;
 use App\Repositories\JobSeries\JobListing\JobListingRepositoryEloquent;
+use App\Repositories\JobSeries\JobModerationStatus\JobModerationStatusRepository;
+use App\Repositories\JobSeries\JobModerationStatus\JobModerationStatusRepositoryEloquent;
 use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepository;
 use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepositoryEloquent;
 use App\Repositories\JobSeries\JobType\JobTypeRepository;
 use App\Repositories\JobSeries\JobType\JobTypeRepositoryEloquent;
+use App\Repositories\JobSeries\JobVisibilityStatus\JobVisibilityStatusRepository;
+use App\Repositories\JobSeries\JobVisibilityStatus\JobVisibilityStatusRepositoryEloquent;
 use App\Repositories\JobSeries\Position\PositionRepository;
 use App\Repositories\JobSeries\Position\PositionRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
@@ -111,6 +115,8 @@ class RepositoryServiceProvider extends ServiceProvider
         PositionRepository::class => PositionRepositoryEloquent::class,
         CurrencyRepository::class => CurrencyRepositoryEloquent::class,
         JobSalaryTypeRepository::class => JobSalaryTypeRepositoryEloquent::class,
-        JobListingRepository::class => JobListingRepositoryEloquent::class
+        JobListingRepository::class => JobListingRepositoryEloquent::class,
+        JobModerationStatusRepository::class => JobModerationStatusRepositoryEloquent::class,
+        JobVisibilityStatusRepository::class => JobVisibilityStatusRepositoryEloquent::class
     ];
 }

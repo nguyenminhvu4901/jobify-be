@@ -54,10 +54,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        //Trạng thái tuyển dụng dành cho admin
-        Schema::create('approval_statuses', function (Blueprint $table) {
+        Schema::create('job_moderation_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('job_visibility_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
             $table->timestamps();
         });
 
@@ -94,8 +99,12 @@ return new class extends Migration
             $table->date('publish_date')->default(now())->comment('Ngày tuyển dụng');
             $table->date('expiry_date')->default(now())->comment('Ngày hết hạn');
 
-            $table->foreignId('active_status_id')->nullable()->default(1)->constrained('default_statuses')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignId('approval_status_id')->nullable()->default(2)->constrained('approval_statuses')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('active_status_id')->nullable()->default(1)
+                ->constrained('default_statuses')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('job_moderation_status_id')->nullable()->default(1)
+                ->constrained('job_moderation_statuses')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('job_visibility_status_id')->nullable()->default(1)
+                ->constrained('job_visibility_statuses')->nullOnDelete()->cascadeOnUpdate();
 
             $table->unsignedTinyInteger('min_age')->nullable();
             $table->unsignedTinyInteger('max_age')->nullable();
@@ -194,7 +203,8 @@ return new class extends Migration
         Schema::dropIfExists('currencies');
         Schema::dropIfExists('job_salary_types');
         Schema::dropIfExists('job_salaries');
-        Schema::dropIfExists('approval_statuses');
+        Schema::dropIfExists('job_moderation_statuses');
+        Schema::dropIfExists('job_visibility_statuses');
         Schema::dropIfExists('positions');
         Schema::dropIfExists('job_age_ranges');
         Schema::dropIfExists('job_education_levels');

@@ -5,15 +5,16 @@ namespace App\Entities\JobSeries\JobListing\Traits;
 use App\Entities\CompanySeries\Company\Company;
 use App\Entities\DefaultSeries\DefaultGender\DefaultGender;
 use App\Entities\DefaultSeries\DefaultStatus\DefaultStatus;
-use App\Entities\JobSeries\ApprovalStatus\ApprovalStatus;
 use App\Entities\JobSeries\JobContact\JobContact;
 use App\Entities\JobSeries\JobEducationLevel\JobEducationLevel;
 use App\Entities\JobSeries\JobExperience\JobExperience;
 use App\Entities\JobSeries\JobLevel\JobLevel;
 use App\Entities\JobSeries\JobLocation\JobLocation;
+use App\Entities\JobSeries\JobModerationStatus\JobModerationStatus;
 use App\Entities\JobSeries\JobPosition\JobPosition;
 use App\Entities\JobSeries\JobSalary\JobSalary;
 use App\Entities\JobSeries\JobType\JobType;
+use App\Entities\JobSeries\JobVisibilityStatus\JobVisibilityStatus;
 use App\Entities\JobSeries\Position\Position;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -84,9 +85,19 @@ trait JobListingRelationship
     /**
      * @return BelongsTo
      */
-    public function approvalStatus(): BelongsTo
+    public function jobModerationStatus(): BelongsTo
     {
-        return $this->belongsTo(ApprovalStatus::class, 'approval_status_id', 'id')->withDefault();
+        return $this->belongsTo(JobModerationStatus::class, 'job_moderation_status_id', 'id')
+            ->withDefault();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function jobVisibilityStatus(): BelongsTo
+    {
+        return $this->belongsTo(JobVisibilityStatus::class, 'job_visibility_status_id', 'id')
+            ->withDefault();
     }
 
     /**

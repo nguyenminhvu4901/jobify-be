@@ -14,9 +14,27 @@ class StoreJobHandler
 
     public function handle(StoreJobCommand $command)
     {
-        foreach ($command->jobLocations as $jobLocation){
-            dd($jobLocation);
+        try {
+
+        }catch (\Exception $e){
+
+            return [
+                'message' => __('messages.job.job_update_profile_error'),
+                'error' => $e
+            ];
         }
-        dd(($command->jobLocations));
+    }
+
+    private function JobListingCompany(StoreJobCommand $command): array
+    {
+        return [
+            'company_id' => $command->companyId,
+            'title' => $command->title,
+            'quantity_recruitment' => $command->quantityRecruitment,
+            'gender_id' => $command->genderId,
+            'publish_date' => $command->publishDate,
+            'expiry_date' => $command->expiryDate,
+
+        ];
     }
 }
