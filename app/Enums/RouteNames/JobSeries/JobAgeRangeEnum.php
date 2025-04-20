@@ -4,7 +4,7 @@ namespace App\Enums\RouteNames\JobSeries;
 
 enum JobAgeRangeEnum: string
 {
-    case PREFIX = 'job.job-age-range.';
+    case PREFIX = 'job.jobAgeRange.';
 
     case TAG_NAME = 'jobAgeRange';
 

@@ -3,10 +3,13 @@
 namespace App\Entities\JobSeries\JobListing;
 
 use App\Entities\JobSeries\JobListing\Traits\JobListingRelationship;
+use App\Entities\JobSeries\JobListing\Traits\JobListingScope;
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
 use App\Models\BaseModel;
+use App\Traits\Scope\BaseScopeTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
@@ -18,7 +21,10 @@ class JobListing extends BaseModel implements Transformable, Explored
         HasFactory,
         Sluggable,
         JobListingRelationship,
-        Searchable;
+        Searchable,
+        SoftDeletes,
+        JobListingScope,
+        BaseScopeTrait;
 
     protected $table = JobListingEnum::TABLE->value;
 
@@ -28,7 +34,10 @@ class JobListing extends BaseModel implements Transformable, Explored
         'slug',
         'quantity_recruitment',
         'gender_id',
+
+        'publish_date',
         'expiry_date',
+
         'active_status_id',
         'approval_status_id',
         'job_salary_id',

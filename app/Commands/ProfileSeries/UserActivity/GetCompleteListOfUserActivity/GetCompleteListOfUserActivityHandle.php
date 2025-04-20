@@ -4,6 +4,7 @@ namespace App\Commands\ProfileSeries\UserActivity\GetCompleteListOfUserActivity;
 
 use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserActivityEnum;
+use App\Http\Resources\JobSeries\JobListings\JobListingResource;
 use App\Http\Resources\ProfileSeries\UserActivity\UserActivityResource;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
 use Illuminate\Support\Facades\Cache;
@@ -48,7 +49,7 @@ class GetCompleteListOfUserActivityHandle
             );
 
             return [
-                'data' => UserActivityResource::collection($userActivities),
+                'data' => JobListingResource::collection($userActivities),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
                 'pagination' => formatPaginationData($userActivities ?? [])

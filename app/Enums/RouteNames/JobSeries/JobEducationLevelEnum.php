@@ -4,7 +4,7 @@ namespace App\Enums\RouteNames\JobSeries;
 
 enum JobEducationLevelEnum: string
 {
-    case PREFIX = 'job.job-education-level.';
+    case PREFIX = 'job.jobEducationLevel.';
 
     case TAG_NAME = 'jobEducationLevel';
 

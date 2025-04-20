@@ -22,7 +22,7 @@
         "predis/predis": "^2.3",
         "prettus/l5-repository": "^2.9",
         "ramsey/uuid": "^4.7",
-        "spatie/laravel-data": "^4.7",
+        "spatie/laravel-data": "^4.15",
         "spatie/laravel-medialibrary": "^11.11",
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-query-builder": "^6.2",
