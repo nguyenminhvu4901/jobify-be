@@ -2,8 +2,8 @@
 
 namespace App\Commands\JobSeries\JobAgeRange\GetListJobAgeRange;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\JobSeries\JobAgeRangeEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobAgeRanges\JobAgeRangeResource;
 use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepository;
 use Illuminate\Support\Facades\Cache;

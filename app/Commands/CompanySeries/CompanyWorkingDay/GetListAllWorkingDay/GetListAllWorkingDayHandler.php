@@ -2,8 +2,8 @@
 
 namespace App\Commands\CompanySeries\CompanyWorkingDay\GetListAllWorkingDay;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\CompanySeries\CompanyWorkingDayEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\CompanySeries\CompanyWorkingDay\CompanyWorkingDayResource;
 use App\Repositories\CompanySeries\CompanyWorkingDay\CompanyWorkingDayRepository;
 use Illuminate\Support\Facades\Cache;

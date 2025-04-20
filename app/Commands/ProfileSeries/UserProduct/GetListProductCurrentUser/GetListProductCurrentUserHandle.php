@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserProduct\GetListProductCurrentUser;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProductEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserProduct\CurrentUserProductResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;

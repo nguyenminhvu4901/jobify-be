@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserProduct\GetDetailListOfUserProductByUserSlug;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserProductEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserProduct\UserProductResource;
 use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
 use Illuminate\Support\Facades\Cache;

@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserSkill\GetDetailListOfUserSkillByUserSlug;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserSkillEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserSkill\UserSkillResource;
 use App\Repositories\ProfileSeries\UserSkill\UserSkillRepository;
 use Illuminate\Support\Facades\Cache;

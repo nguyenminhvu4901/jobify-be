@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserExperience\GetListExperienceCurrentUser;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserExperienceEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserExperience\CurrentUserExperienceResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;

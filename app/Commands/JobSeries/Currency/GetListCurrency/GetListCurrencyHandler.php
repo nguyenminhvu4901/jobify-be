@@ -2,8 +2,8 @@
 
 namespace App\Commands\JobSeries\Currency\GetListCurrency;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\JobSeries\CurrencyEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\Currency\CurrencyResource;
 use App\Repositories\JobSeries\Currency\CurrencyRepository;
 use Illuminate\Support\Facades\Cache;

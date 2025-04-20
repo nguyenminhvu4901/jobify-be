@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserExperience\DetailListOfUserExperienceByUserSlug;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserExperienceEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserExperience\UserExperienceResource;
 use App\Repositories\ProfileSeries\UserExperience\UserExperienceRepository;
 use Illuminate\Support\Facades\Cache;

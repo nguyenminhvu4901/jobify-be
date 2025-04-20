@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserActivity\GetListActivityCurrentUser;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserActivityEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserActivity\CurrentUserActivityResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;

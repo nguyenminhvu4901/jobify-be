@@ -2,8 +2,8 @@
 
 namespace App\Commands\JobSeries\JobEducationLevel\GetListJobEducationLevel;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\JobSeries\JobEducationLevelEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobEducationLevel\JobEducationLevelResource;
 use App\Repositories\JobSeries\JobEducationLevel\JobEducationLevelRepository;
 use Illuminate\Support\Facades\Cache;

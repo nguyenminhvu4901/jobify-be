@@ -2,10 +2,9 @@
 
 namespace App\Commands\ProfileSeries\UserActivity\GetCompleteListOfUserActivity;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserActivityEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobListings\JobListingResource;
-use App\Http\Resources\ProfileSeries\UserActivity\UserActivityResource;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
 use Illuminate\Support\Facades\Cache;
 

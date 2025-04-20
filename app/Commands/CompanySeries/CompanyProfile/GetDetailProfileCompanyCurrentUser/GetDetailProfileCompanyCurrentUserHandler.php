@@ -2,8 +2,8 @@
 
 namespace App\Commands\CompanySeries\CompanyProfile\GetDetailProfileCompanyCurrentUser;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\CompanySeries\CompanyProfileEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\CompanySeries\CompanyProfile\DetailInformationCompanyCurrentUserResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Cache;

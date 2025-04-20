@@ -2,8 +2,8 @@
 
 namespace App\Commands\ProfileSeries\UserCourse\GetDetailListOfUserCourseByUserSlug;
 
-use App\Enums\CacheTTL;
 use App\Enums\RouteNames\Profile\UserCourseEnum;
+use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserCourse\UserCourseResource;
 use App\Repositories\ProfileSeries\UserCourse\UserCourseRepository;
 use Illuminate\Support\Facades\Cache;
