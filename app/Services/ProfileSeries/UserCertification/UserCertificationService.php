@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\UserCertification;
+namespace App\Services\ProfileSeries\UserCertification;
 
 use App\Enums\DefaultContentType;
 use App\Repositories\ProfileSeries\UserCertificationResource\UserCertificationResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;

@@ -2,12 +2,24 @@
 
 namespace App\Commands\JobSeries\JobListing\StoreJob;
 
+use App\Repositories\JobSeries\JobContact\JobContactRepository;
 use App\Repositories\JobSeries\JobListing\JobListingRepository;
+use App\Repositories\JobSeries\JobListingDetail\JobListingDetailRepository;
+use App\Repositories\JobSeries\JobLocation\JobLocationRepository;
+use App\Repositories\JobSeries\JobPosition\JobPositionRepository;
+use App\Repositories\JobSeries\JobSalary\JobSalaryRepository;
+use App\Services\JobSeries\JobListing\StoreJobDataTransformer;
 
 class StoreJobHandler
 {
     public function __construct(
-        JobListingRepository $jobListingRepository
+        protected JobListingRepository $jobListingRepository,
+        protected StoreJobDataTransformer $storeJobDataTransformer,
+        protected JobSalaryRepository $jobSalaryRepository,
+        protected JobLocationRepository $jobLocationRepository,
+        protected JobPositionRepository $jobPositionRepository,
+        protected JobContactRepository $jobContactRepository,
+        protected JobListingDetailRepository $jobListingDetailRepository
     )
     {
     }
@@ -23,18 +35,5 @@ class StoreJobHandler
                 'error' => $e
             ];
         }
-    }
-
-    private function JobListingCompany(StoreJobCommand $command): array
-    {
-        return [
-            'company_id' => $command->companyId,
-            'title' => $command->title,
-            'quantity_recruitment' => $command->quantityRecruitment,
-            'gender_id' => $command->genderId,
-            'publish_date' => $command->publishDate,
-            'expiry_date' => $command->expiryDate,
-
-        ];
     }
 }

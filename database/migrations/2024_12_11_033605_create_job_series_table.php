@@ -101,8 +101,6 @@ return new class extends Migration
 
             $table->foreignId('active_status_id')->nullable()->default(1)
                 ->constrained('default_statuses')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignId('job_moderation_status_id')->nullable()->default(1)
-                ->constrained('job_moderation_statuses')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_visibility_status_id')->nullable()->default(1)
                 ->constrained('job_visibility_statuses')->nullOnDelete()->cascadeOnUpdate();
 
@@ -143,6 +141,21 @@ return new class extends Migration
                 ->comment('Thời gian làm việc');
 
             $table->timestamps();
+        });
+
+        Schema::create('job_moderation_status_logs', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('job_listing_id')
+                ->constrained('job_listings')
+                ->cascadeOnDelete();
+            $table->foreignId('job_moderation_status_id')
+                ->constrained('job_moderation_statuses')
+                ->cascadeOnDelete();
+            $table->text('note')->nullable()
+                ->comment('Comment chỉnh sửa');
+            $table->foreignId('created_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
         });
 
         Schema::create('job_locations', function (Blueprint $table) {
@@ -210,6 +223,7 @@ return new class extends Migration
         Schema::dropIfExists('job_education_levels');
         Schema::dropIfExists('job_listings');
         Schema::dropIfExists('job_listing_details');
+        Schema::dropIfExists('job_moderation_status_logs');
         Schema::dropIfExists('job_locations');
         Schema::dropIfExists('job_position');
         Schema::dropIfExists('job_contacts');

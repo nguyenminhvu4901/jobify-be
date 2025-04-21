@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserProduct\StoreUserProduct;
 
 use App\Http\Resources\ProfileSeries\UserProduct\UserProductResource;
 use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
-use App\Services\UserProduct\UserProductService;
+use App\Services\ProfileSeries\UserProduct\UserProductService;
 
 class StoreUserProductHandle
 {

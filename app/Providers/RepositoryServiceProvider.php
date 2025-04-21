@@ -20,6 +20,8 @@ use App\Repositories\JobSeries\Currency\CurrencyRepository;
 use App\Repositories\JobSeries\Currency\CurrencyRepositoryEloquent;
 use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepository;
 use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepositoryEloquent;
+use App\Repositories\JobSeries\JobContact\JobContactRepository;
+use App\Repositories\JobSeries\JobContact\JobContactRepositoryEloquent;
 use App\Repositories\JobSeries\JobEducationLevel\JobEducationLevelRepository;
 use App\Repositories\JobSeries\JobEducationLevel\JobEducationLevelRepositoryEloquent;
 use App\Repositories\JobSeries\JobExperience\JobExperienceRepository;
@@ -28,8 +30,16 @@ use App\Repositories\JobSeries\JobLevel\JobLevelRepository;
 use App\Repositories\JobSeries\JobLevel\JobLevelRepositoryEloquent;
 use App\Repositories\JobSeries\JobListing\JobListingRepository;
 use App\Repositories\JobSeries\JobListing\JobListingRepositoryEloquent;
+use App\Repositories\JobSeries\JobListingDetail\JobListingDetailRepository;
+use App\Repositories\JobSeries\JobListingDetail\JobListingDetailRepositoryEloquent;
+use App\Repositories\JobSeries\JobLocation\JobLocationRepository;
+use App\Repositories\JobSeries\JobLocation\JobLocationRepositoryEloquent;
 use App\Repositories\JobSeries\JobModerationStatus\JobModerationStatusRepository;
 use App\Repositories\JobSeries\JobModerationStatus\JobModerationStatusRepositoryEloquent;
+use App\Repositories\JobSeries\JobPosition\JobPositionRepository;
+use App\Repositories\JobSeries\JobPosition\JobPositionRepositoryEloquent;
+use App\Repositories\JobSeries\JobSalary\JobSalaryRepository;
+use App\Repositories\JobSeries\JobSalary\JobSalaryRepositoryEloquent;
 use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepository;
 use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepositoryEloquent;
 use App\Repositories\JobSeries\JobType\JobTypeRepository;
@@ -117,6 +127,11 @@ class RepositoryServiceProvider extends ServiceProvider
         JobSalaryTypeRepository::class => JobSalaryTypeRepositoryEloquent::class,
         JobListingRepository::class => JobListingRepositoryEloquent::class,
         JobModerationStatusRepository::class => JobModerationStatusRepositoryEloquent::class,
-        JobVisibilityStatusRepository::class => JobVisibilityStatusRepositoryEloquent::class
+        JobVisibilityStatusRepository::class => JobVisibilityStatusRepositoryEloquent::class,
+        JobSalaryRepository::class => JobSalaryRepositoryEloquent::class,
+        JobLocationRepository::class => JobLocationRepositoryEloquent::class,
+        JobPositionRepository::class => JobPositionRepositoryEloquent::class,
+        JobContactRepository::class => JobContactRepositoryEloquent::class,
+        JobListingDetailRepository::class => JobListingDetailRepositoryEloquent::class
     ];
 }

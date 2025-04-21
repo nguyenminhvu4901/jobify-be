@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserPrize\UpdateUserPrize;
 
 use App\Http\Resources\ProfileSeries\UserPrize\UserPrizeResource;
 use App\Repositories\ProfileSeries\UserPrize\UserPrizeRepository;
-use App\Services\UserPrize\UserPrizeService;
+use App\Services\ProfileSeries\UserPrize\UserPrizeService;
 
 class UpdateUserPrizeHandle
 {

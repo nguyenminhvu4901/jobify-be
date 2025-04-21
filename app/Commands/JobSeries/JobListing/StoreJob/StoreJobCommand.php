@@ -23,16 +23,23 @@ readonly class StoreJobCommand implements CommandInterface
         /** @var StoreJobSalaryData[]|null */
         public array|null $jobSalaries,
 
+        public int $jobVisibilityStatusId,
+
         public int|null $jobTypeId,
         public int|null $jobLevelId,
         public int|null $jobExperienceId,
         public int|null $jobAgeRangeId,
         public int|null $jobEducationLevelId,
 
+        /** @var StoreJobLocationData[]|null */
         public array|null $jobLocations,
         public int $jobPositionMainId,
         public array|null $jobPositionSecondary,
+
+        /** @var StoreJobContactData[]|null */
         public array|null $jobContacts,
+
+        /** @var StoreJobListingDetailData[]|null */
         public array|null $jobListingDetails,
     )
     {
@@ -59,6 +66,8 @@ readonly class StoreJobCommand implements CommandInterface
                    ->map(fn ($item) => StoreJobSalaryData::fromArray($item))
                    ->all()
                : null,
+
+            jobVisibilityStatusId: $request->input('job_visibility_status_id'),
 
            jobTypeId: $request->input('job_type_id'),
            jobLevelId: $request->input('job_level_id'),

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\UserActivity;
+namespace App\Services\ProfileSeries\UserActivity;
 
 use App\Enums\DefaultContentType;
 use App\Repositories\ProfileSeries\UserActivityResource\UserActivityResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;

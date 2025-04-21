@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\AttachmentResource;
+namespace App\Services\ProfileSeries\AttachmentResource;
 
 use App\DataTransferObjects\UserExperienceResource\AttachmentDTO;
 use App\Enums\DefaultContentType;

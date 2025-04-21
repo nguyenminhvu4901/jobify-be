@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserCourse\StoreUserCourse;
 
 use App\Http\Resources\ProfileSeries\UserCourse\UserCourseResource;
 use App\Repositories\ProfileSeries\UserCourse\UserCourseRepository;
-use App\Services\UserCourse\UserCourseService;
+use App\Services\ProfileSeries\UserCourse\UserCourseService;
 
 class StoreUserCourseHandle
 {

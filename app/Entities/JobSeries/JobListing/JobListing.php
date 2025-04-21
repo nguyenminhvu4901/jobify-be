@@ -39,7 +39,6 @@ class JobListing extends BaseModel implements Transformable, Explored
         'expiry_date',
 
         'active_status_id',
-        'job_moderation_status_id',
         'job_visibility_status_id',
 
         'job_salary_id',

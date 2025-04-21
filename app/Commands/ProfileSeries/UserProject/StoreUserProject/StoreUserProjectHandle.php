@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserProject\StoreUserProject;
 
 use App\Http\Resources\ProfileSeries\UserProject\UserProjectResource;
 use App\Repositories\ProfileSeries\UserProject\UserProjectRepository;
-use App\Services\UserProject\UserProjectService;
+use App\Services\ProfileSeries\UserProject\UserProjectService;
 
 class StoreUserProjectHandle
 {

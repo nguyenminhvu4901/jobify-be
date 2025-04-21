@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserExperience\DestroyUserExperience;
 
 use App\Repositories\ProfileSeries\UserExperience\UserExperienceRepository;
 use App\Repositories\ProfileSeries\UserExperienceResource\UserExperienceResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserExperienceHandler

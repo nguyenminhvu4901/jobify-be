@@ -1,25 +1,28 @@
 <?php
 
-namespace App\Services\UserPrize;
+namespace App\Services\ProfileSeries\UserExperience;
 
 use App\Enums\DefaultContentType;
-use App\Repositories\ProfileSeries\UserPrizeResource\UserPrizeResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Repositories\ProfileSeries\UserExperienceResource\UserExperienceResourceRepository;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class UserPrizeService
+class UserExperienceService
 {
     use ImageHandler, VideoHandler;
 
+    /**
+     * @param AttachmentResourceService $attachmentResourceService
+     * @param UserExperienceResourceRepository $userExperienceResourceRepository
+     */
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
-        protected UserPrizeResourceRepository $userPrizeResourceRepository
+        protected UserExperienceResourceRepository $userExperienceResourceRepository,
     )
-    {
-    }
+    {}
 
     /**
      * @param $attachment
@@ -28,24 +31,25 @@ class UserPrizeService
     public function saveAttachment($attachment)
     {
         return $this->attachmentResourceService->saveFileAttachment(
-            attachment: $attachment, lastFolderName: 'prizes'
+            attachment: $attachment, lastFolderName: 'experiences'
         );
     }
 
+
     /**
      * @param array $attachment
-     * @param string|int $userPrizeId
+     * @param string|int $userExperienceId
      * @param string|null $pathStorage
      * @return mixed
      */
-    public function storeUserPrizeResource(
+    public function storeUserExperienceResource(
         array $attachment,
-        string|int $userPrizeId,
+        string|int $userExperienceId,
         string|null $pathStorage
     ): mixed
     {
-        return $this->userPrizeResourceRepository->storeDataWithTransaction([
-            'user_prize_id' => $userPrizeId,
+        return $this->userExperienceResourceRepository->storeDataWithTransaction([
+            'user_experience_id' => $userExperienceId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
@@ -53,51 +57,52 @@ class UserPrizeService
         ]);
     }
 
+
     /**
      * @param array $attachment
-     * @param string|int $userPrizeResourceId
+     * @param string|int $userExperienceResourceId
      * @param string|null $pathStorage
      * @return mixed
      */
-    private function updateUserPrizeResource(
+    private function updateUserExperienceResource(
         array $attachment,
-        string|int $userPrizeResourceId,
+        string|int $userExperienceResourceId,
         string|null $pathStorage
     ): mixed
     {
-        return $this->userPrizeResourceRepository->updateDataWithTransaction(
+        return $this->userExperienceResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
                 'description' => $attachment['description'],
                 'content_type_id' => $attachment['content_type_id']
-            ], $userPrizeResourceId);
+            ], $userExperienceResourceId);
     }
 
     /**
      * @param $attachments
-     * @param $userPrizeResource
-     * @param $userPrizeId
+     * @param $userExperienceResource
+     * @param $userExperienceId
      * @return null
      */
     public function updateResourceAttachment(
-        $attachments, $userPrizeResource, $userPrizeId
+        $attachments, $userExperienceResource, $userExperienceId
     ): null
     {
-        $this->deleteUserPrizeResourceAndAttachment(
-            attachments: $attachments, userPrizeResource: $userPrizeResource);
+        $this->deleteUserExperienceResourceAndAttachment(
+            attachments: $attachments, userExperienceResource: $userExperienceResource);
 
         foreach ($attachments as $attachment)
         {
-            if(!empty($attachment['user_prize_resource_id'])){
+            if(!empty($attachment['user_experience_resource_id'])){
+
                 $this->processUpdateAttachment($attachment);
             }else{
-
                 $pathStorage = $this->saveAttachment($attachment);
 
-                $this->storeUserPrizeResource(
+                 $this->storeUserExperienceResource(
                     attachment: $attachment,
-                    userPrizeId: $userPrizeId,
+                    userExperienceId: $userExperienceId,
                     pathStorage: $pathStorage
                 );
             }
@@ -108,30 +113,31 @@ class UserPrizeService
 
     /**
      * @param $attachments
-     * @param $userPrizeResource
-     * @return null
+     * @param $userExperienceResource
+     * @return mixed
      */
-    private function deleteUserPrizeResourceAndAttachment($attachments, $userPrizeResource): null
+    private function deleteUserExperienceResourceAndAttachment($attachments, $userExperienceResource): mixed
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
             attachments: $attachments,
-            userModelResource: $userPrizeResource,
-            idName: 'user_prize_resource_id'
+            userModelResource: $userExperienceResource,
+            idName: 'user_experience_resource_id'
         );
 
-        $listUserPrizeResourceToDelete = $this->userPrizeResourceRepository
+        $listUserExperienceResourceToDelete = $this->userExperienceResourceRepository
             ->getByIds($listDelIds);
 
-        if(!empty($listUserPrizeResourceToDelete)){
-            $listUserPrizeResourceToDelete->map(function ($eachUserPrizeResource) {
+        if(!empty($listUserExperienceResourceToDelete)){
+            return $listUserExperienceResourceToDelete->map(function ($eachUserExperienceResource) {
 
-                $this->attachmentResourceService->deleteFileAttachment($eachUserPrizeResource);
-                $this->userPrizeResourceRepository->destroyDataWithTransaction($eachUserPrizeResource->id);
+                $this->attachmentResourceService->deleteFileAttachment($eachUserExperienceResource);
+                $this->userExperienceResourceRepository->destroyDataWithTransaction($eachUserExperienceResource->id);
             });
         }
 
         return null;
     }
+
 
     /**
      * @param $attachment
@@ -139,8 +145,8 @@ class UserPrizeService
      */
     public function processUpdateAttachment($attachment)
     {
-        $userPrizeResource = $this->userPrizeResourceRepository
-            ->find($attachment['user_prize_resource_id']);
+        $userExperienceResource = $this->userExperienceResourceRepository
+            ->find($attachment['user_experience_resource_id']);
 
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
@@ -148,20 +154,20 @@ class UserPrizeService
             if(is_string($attachment['content'])){
                 return ;
             }else{
-                $this->attachmentResourceService->deleteFileAttachment($userPrizeResource);
+                $this->attachmentResourceService->deleteFileAttachment($userExperienceResource);
                 $pathStorage = $this->saveAttachment($attachment);
 
-                return $this->updateUserPrizeResource(
+                return $this->updateUserExperienceResource(
                     attachment: $attachment,
-                    userPrizeResourceId: $userPrizeResource->id,
+                    userExperienceResourceId: $userExperienceResource->id,
                     pathStorage: $pathStorage
                 );
             }
         } elseif ($attachment['content_type_id'] == DefaultContentType::URL->value) {
 
-            return $this->updateUserPrizeResource(
+            return $this->updateUserExperienceResource(
                 attachment: $attachment,
-                userPrizeResourceId: $userPrizeResource->id,
+                userExperienceResourceId: $userExperienceResource->id,
                 pathStorage: $attachment['content']
             );
         }else {

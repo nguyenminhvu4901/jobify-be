@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserActivity\DestroyUserActivity;
 
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
 use App\Repositories\ProfileSeries\UserActivityResource\UserActivityResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserActivityHandle

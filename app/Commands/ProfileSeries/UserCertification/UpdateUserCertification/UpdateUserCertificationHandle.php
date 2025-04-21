@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserCertification\UpdateUserCertification;
 
 use App\Http\Resources\ProfileSeries\UserCertification\UserCertificationResource;
 use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepository;
-use App\Services\UserCertification\UserCertificationService;
+use App\Services\ProfileSeries\UserCertification\UserCertificationService;
 
 class UpdateUserCertificationHandle
 {

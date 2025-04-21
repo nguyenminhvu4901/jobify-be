@@ -11,6 +11,7 @@ use App\Entities\JobSeries\JobExperience\JobExperience;
 use App\Entities\JobSeries\JobLevel\JobLevel;
 use App\Entities\JobSeries\JobLocation\JobLocation;
 use App\Entities\JobSeries\JobModerationStatus\JobModerationStatus;
+use App\Entities\JobSeries\JobModerationStatusLog\JobModerationStatusLog;
 use App\Entities\JobSeries\JobPosition\JobPosition;
 use App\Entities\JobSeries\JobSalary\JobSalary;
 use App\Entities\JobSeries\JobType\JobType;
@@ -83,12 +84,23 @@ trait JobListingRelationship
     }
 
     /**
-     * @return BelongsTo
+     * @return BelongsToMany
      */
-    public function jobModerationStatus(): BelongsTo
+    public function jobModerationStatus(): BelongsToMany
     {
-        return $this->belongsTo(JobModerationStatus::class, 'job_moderation_status_id', 'id')
-            ->withDefault();
+        return $this->belongsToMany(
+            JobModerationStatus::class, JobModerationStatusLog::class,
+            'job_listing_id', 'job_moderation_status_id'
+        )->withTimestamps()
+        ->withPivot('note', 'created_by');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function jobModerationStatusLog(): HasMany
+    {
+        return $this->hasMany(JobModerationStatusLog::class, 'job_listing_id');
     }
 
     /**

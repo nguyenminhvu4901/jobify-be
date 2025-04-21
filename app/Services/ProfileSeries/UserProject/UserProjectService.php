@@ -1,22 +1,26 @@
 <?php
 
-namespace App\Services\UserProduct;
+namespace App\Services\ProfileSeries\UserProject;
 
 use App\Enums\DefaultContentType;
-use App\Repositories\ProfileSeries\UserProductResource\UserProductResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Repositories\ProfileSeries\UserProjectResource\UserProjectResourceRepository;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use App\Traits\ImageHandler;
 use App\Traits\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class UserProductService
+class UserProjectService
 {
     use ImageHandler, VideoHandler;
 
+    /**
+     * @param AttachmentResourceService $attachmentResourceService
+     * @param UserProjectResourceRepository $userProjectResourceRepository
+     */
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
-        protected UserProductResourceRepository $userProductResourceRepository
+        protected UserProjectResourceRepository $userProjectResourceRepository
     )
     {
     }
@@ -28,24 +32,24 @@ class UserProductService
     public function saveAttachment($attachment)
     {
         return $this->attachmentResourceService->saveFileAttachment(
-            attachment: $attachment, lastFolderName: 'products'
+            attachment: $attachment, lastFolderName: 'projects'
         );
     }
 
     /**
      * @param array $attachment
-     * @param string|int $userProductId
+     * @param string|int $userProjectId
      * @param string|null $pathStorage
      * @return mixed
      */
-    public function storeUserProductResource(
+    public function storeUserProjectResource(
         array $attachment,
-        string|int $userProductId,
+        string|int $userProjectId,
         string|null $pathStorage
     ): mixed
     {
-        return $this->userProductResourceRepository->storeDataWithTransaction([
-            'user_product_id' => $userProductId,
+        return $this->userProjectResourceRepository->storeDataWithTransaction([
+            'user_project_id' => $userProjectId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
@@ -55,49 +59,49 @@ class UserProductService
 
     /**
      * @param array $attachment
-     * @param string|int $userProductResourceId
+     * @param string|int $userProjectResourceId
      * @param string|null $pathStorage
      * @return mixed
      */
-    private function updateUserPrizeResource(
+    private function updateUserProjectResource(
         array $attachment,
-        string|int $userProductResourceId,
+        string|int $userProjectResourceId,
         string|null $pathStorage
     ): mixed
     {
-        return $this->userProductResourceRepository->updateDataWithTransaction(
+        return $this->userProjectResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
                 'description' => $attachment['description'],
                 'content_type_id' => $attachment['content_type_id']
-            ], $userProductResourceId);
+            ], $userProjectResourceId);
     }
 
     /**
      * @param $attachments
-     * @param $userProductResource
-     * @param $userProductId
+     * @param $userProjectResource
+     * @param $userProjectId
      * @return null
      */
     public function updateResourceAttachment(
-        $attachments, $userProductResource, $userProductId
+        $attachments, $userProjectResource, $userProjectId
     ): null
     {
-        $this->deleteUserProductResourceAndAttachment(
-            attachments: $attachments, userProductResource: $userProductResource);
+        $this->deleteUserProjectResourceAndAttachment(
+            attachments: $attachments, userProjectResource: $userProjectResource);
 
         foreach ($attachments as $attachment)
         {
-            if(!empty($attachment['user_product_resource_id'])){
+            if(!empty($attachment['user_project_resource_id'])){
                 $this->processUpdateAttachment($attachment);
             }else{
 
                 $pathStorage = $this->saveAttachment($attachment);
 
-                $this->storeUserProductResource(
+                $this->storeUserProjectResource(
                     attachment: $attachment,
-                    userProductId: $userProductId,
+                    userProjectId: $userProjectId,
                     pathStorage: $pathStorage
                 );
             }
@@ -108,25 +112,25 @@ class UserProductService
 
     /**
      * @param $attachments
-     * @param $userProductResource
+     * @param $userProjectResource
      * @return null
      */
-    private function deleteUserProductResourceAndAttachment($attachments, $userProductResource): null
+    private function deleteUserProjectResourceAndAttachment($attachments, $userProjectResource): null
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
             attachments: $attachments,
-            userModelResource: $userProductResource,
-            idName: 'user_product_resource_id'
+            userModelResource: $userProjectResource,
+            idName: 'user_project_resource_id'
         );
 
-        $listUserProductResourceToDelete = $this->userProductResourceRepository
+        $listUserProjectResourceToDelete = $this->userProjectResourceRepository
             ->getByIds($listDelIds);
 
-        if(!empty($listUserProductResourceToDelete)){
-            $listUserProductResourceToDelete->map(function ($eachUserProductResource) {
+        if(!empty($listUserProjectResourceToDelete)){
+             $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
 
-                $this->attachmentResourceService->deleteFileAttachment($eachUserProductResource);
-                $this->userProductResourceRepository->destroyDataWithTransaction($eachUserProductResource->id);
+                $this->attachmentResourceService->deleteFileAttachment($eachUserProjectResource);
+                $this->userProjectResourceRepository->destroyDataWithTransaction($eachUserProjectResource->id);
             });
         }
 
@@ -139,8 +143,8 @@ class UserProductService
      */
     public function processUpdateAttachment($attachment)
     {
-        $userProductResource = $this->userProductResourceRepository
-            ->find($attachment['user_product_resource_id']);
+        $userProjectResource = $this->userProjectResourceRepository
+            ->find($attachment['user_project_resource_id']);
 
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
@@ -148,20 +152,20 @@ class UserProductService
             if(is_string($attachment['content'])){
                 return ;
             }else{
-                $this->attachmentResourceService->deleteFileAttachment($userProductResource);
+                $this->attachmentResourceService->deleteFileAttachment($userProjectResource);
                 $pathStorage = $this->saveAttachment($attachment);
 
-                return $this->updateUserPrizeResource(
+                return $this->updateUserProjectResource(
                     attachment: $attachment,
-                    userProductResourceId: $userProductResource->id,
+                    userProjectResourceId: $userProjectResource->id,
                     pathStorage: $pathStorage
                 );
             }
         } elseif ($attachment['content_type_id'] == DefaultContentType::URL->value) {
 
-            return $this->updateUserPrizeResource(
+            return $this->updateUserProjectResource(
                 attachment: $attachment,
-                userProductResourceId: $userProductResource->id,
+                userProjectResourceId: $userProjectResource->id,
                 pathStorage: $attachment['content']
             );
         }else {

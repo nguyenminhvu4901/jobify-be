@@ -3,7 +3,7 @@
 namespace App\Commands\Auth\RecruiterRegister;
 
 use App\Enums\DefaultRole;
-use App\Enums\Status;
+use App\Enums\StatusEnum;
 use App\Http\Resources\Auth\RecruiterRegisterResource;
 use App\Notifications\UserRegisteredNotification;
 use App\Repositories\CompanySeries\Company\CompanyRepository;
@@ -96,7 +96,7 @@ class RecruiterRegisterHandler
             'company_scale_id' => $command->companyScaleId,
             'gender_id' => $command->genderId,
             'tax_code' => $command->taxCode,
-            'status_id' => Status::DEACTIVATE->value,
+            'status_id' => StatusEnum::DEACTIVATE->value,
             'avatar' => $urlAvatarDefault
         ]);
     }

@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserExperience\UpdateUserExperience;
 
 use App\Http\Resources\ProfileSeries\UserExperience\UserExperienceResource;
 use App\Repositories\ProfileSeries\UserExperience\UserExperienceRepository;
-use App\Services\UserExperience\UserExperienceService;
+use App\Services\ProfileSeries\UserExperience\UserExperienceService;
 
 class UpdateUserExperienceHandler
 {
