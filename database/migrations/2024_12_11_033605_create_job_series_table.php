@@ -54,10 +54,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        //Trạng thái tuyển dụng dành cho admin
-        Schema::create('approval_statuses', function (Blueprint $table) {
+        Schema::create('job_moderation_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('job_visibility_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
             $table->timestamps();
         });
 
@@ -85,8 +90,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
 
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('title', 512);
+            $table->string('slug', 512)->unique();
 
             $table->integer('quantity_recruitment')->default(0)->comment('Số lượng tuyển');
             $table->foreignId('gender_id')->nullable()->constrained('default_genders')->nullOnDelete()->cascadeOnUpdate();
@@ -94,8 +99,10 @@ return new class extends Migration
             $table->date('publish_date')->default(now())->comment('Ngày tuyển dụng');
             $table->date('expiry_date')->default(now())->comment('Ngày hết hạn');
 
-            $table->foreignId('active_status_id')->nullable()->default(1)->constrained('default_statuses')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignId('approval_status_id')->nullable()->default(2)->constrained('approval_statuses')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('active_status_id')->nullable()->default(1)
+                ->constrained('default_statuses')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('job_visibility_status_id')->nullable()->default(1)
+                ->constrained('job_visibility_statuses')->nullOnDelete()->cascadeOnUpdate();
 
             $table->unsignedTinyInteger('min_age')->nullable();
             $table->unsignedTinyInteger('max_age')->nullable();
@@ -107,8 +114,6 @@ return new class extends Migration
             $table->foreignId('job_type_id')->nullable()->constrained('job_types')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_level_id')->nullable()->constrained('job_levels')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_experience_id')->nullable()->constrained('job_experiences')->nullOnDelete()->cascadeOnUpdate();
-
-            $table->unsignedBigInteger('view')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
@@ -132,6 +137,24 @@ return new class extends Migration
                 ->comment('Quyền lợi');
             $table->string('working_hour')->nullable()
                 ->comment('Thời gian làm việc');
+
+            $table->timestamps();
+        });
+
+        Schema::create('job_moderation_status_logs', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('job_listing_id')
+                ->constrained('job_listings')
+                ->cascadeOnDelete();
+            $table->foreignId('job_moderation_status_id')
+                ->constrained('job_moderation_statuses')
+                ->cascadeOnDelete();
+            $table->text('note')->nullable()
+                ->comment('Comment chỉnh sửa');
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -194,12 +217,14 @@ return new class extends Migration
         Schema::dropIfExists('currencies');
         Schema::dropIfExists('job_salary_types');
         Schema::dropIfExists('job_salaries');
-        Schema::dropIfExists('approval_statuses');
+        Schema::dropIfExists('job_moderation_statuses');
+        Schema::dropIfExists('job_visibility_statuses');
         Schema::dropIfExists('positions');
         Schema::dropIfExists('job_age_ranges');
         Schema::dropIfExists('job_education_levels');
         Schema::dropIfExists('job_listings');
         Schema::dropIfExists('job_listing_details');
+        Schema::dropIfExists('job_moderation_status_logs');
         Schema::dropIfExists('job_locations');
         Schema::dropIfExists('job_position');
         Schema::dropIfExists('job_contacts');

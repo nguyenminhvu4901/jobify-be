@@ -6,8 +6,10 @@ use App\Enums\RouteNames\JobSeries\JobEducationLevelEnum;
 use App\Enums\RouteNames\JobSeries\JobExperienceEnum;
 use App\Enums\RouteNames\JobSeries\JobLevelEnum;
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
+use App\Enums\RouteNames\JobSeries\JobModerationStatusEnum;
 use App\Enums\RouteNames\JobSeries\JobSalaryTypeEnum;
 use App\Enums\RouteNames\JobSeries\JobTypeEnum;
+use App\Enums\RouteNames\JobSeries\JobVisibilityStatusEnum;
 use App\Enums\RouteNames\JobSeries\PositionEnum;
 use App\Http\Controllers\API\JobSeries\CurrencyController;
 use App\Http\Controllers\API\JobSeries\JobAgeRangeController;
@@ -15,8 +17,10 @@ use App\Http\Controllers\API\JobSeries\JobEducationLevelController;
 use App\Http\Controllers\API\JobSeries\JobExperienceController;
 use App\Http\Controllers\API\JobSeries\JobLevelController;
 use App\Http\Controllers\API\JobSeries\JobListingController;
+use App\Http\Controllers\API\JobSeries\JobModerationStatusController;
 use App\Http\Controllers\API\JobSeries\JobSalaryTypeController;
 use App\Http\Controllers\API\JobSeries\JobTypeController;
+use App\Http\Controllers\API\JobSeries\JobVisibilityStatusController;
 use App\Http\Controllers\API\JobSeries\PositionController;
 use Illuminate\Support\Facades\Route;
 
@@ -77,6 +81,18 @@ Route::group(
             Route::get('/list-all-job-salary-type', [
                 JobSalaryTypeController::class, 'getListJobSalaryType'
             ])->name(JobSalaryTypeEnum::LIST_ALL_JOB_SALARY_TYPE->value);
+        });
+
+        Route::group(['prefix' => 'job-moderation-status', 'as' => 'jobModerationStatus.'], function () {
+            Route::get('/list-all-job-moderation-status', [
+                JobModerationStatusController::class, 'getListJobModerationStatus'
+            ])->name(JobModerationStatusEnum::LIST_ALL_JOB_MODERATION_STATUS->value);
+        });
+
+        Route::group(['prefix' => 'job-visibility-status', 'as' => 'jobVisibilityStatus.'], function () {
+            Route::get('/list-all-job-visibility-status', [
+                JobVisibilityStatusController::class, 'getListJobVisibilityStatus'
+            ])->name(JobVisibilityStatusEnum::LIST_ALL_JOB_VISIBILITY_STATUS->value);
         });
 
         Route::group(['prefix' => 'job-listing', 'as' => 'jobListing.'], function () {

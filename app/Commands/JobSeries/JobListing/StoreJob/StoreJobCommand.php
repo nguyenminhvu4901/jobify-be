@@ -23,17 +23,27 @@ readonly class StoreJobCommand implements CommandInterface
         /** @var StoreJobSalaryData[]|null */
         public array|null $jobSalaries,
 
+        public int $jobVisibilityStatusId,
+
         public int|null $jobTypeId,
         public int|null $jobLevelId,
         public int|null $jobExperienceId,
         public int|null $jobAgeRangeId,
         public int|null $jobEducationLevelId,
 
+        /** @var StoreJobLocationData[]|null */
         public array|null $jobLocations,
         public int $jobPositionMainId,
         public array|null $jobPositionSecondary,
+
+        /** @var StoreJobContactData[]|null */
         public array|null $jobContacts,
+
+        /** @var StoreJobListingDetailData[]|null */
         public array|null $jobListingDetails,
+
+        public int|null $minAge,
+        public int|null $maxAge
     )
     {
     }
@@ -51,14 +61,16 @@ readonly class StoreJobCommand implements CommandInterface
            title: $request->input('title'),
            quantityRecruitment: $request->input('quantity_recruitment'),
            genderId: $request->input('gender_id'),
-           publishDate: Carbon::parse($request->input('publish_date')),
-           expiryDate: Carbon::parse($request->input('expiry_date')),
+           publishDate: Carbon::createFromFormat('Y-m-d', $request->input('publish_date')),
+           expiryDate: Carbon::createFromFormat('Y-m-d', $request->input('expiry_date')),
 
            jobSalaries: $jobSalaries
                ? collect($jobSalaries)
                    ->map(fn ($item) => StoreJobSalaryData::fromArray($item))
                    ->all()
                : null,
+
+           jobVisibilityStatusId: $request->input('job_visibility_status_id'),
 
            jobTypeId: $request->input('job_type_id'),
            jobLevelId: $request->input('job_level_id'),
@@ -86,6 +98,9 @@ readonly class StoreJobCommand implements CommandInterface
                     ->map(fn ($item) => StoreJobListingDetailData::fromArray($item))
                     ->all()
                 : null,
+
+           minAge: $request->input('min_age'),
+           maxAge: $request->input('max_age')
         );
     }
 }

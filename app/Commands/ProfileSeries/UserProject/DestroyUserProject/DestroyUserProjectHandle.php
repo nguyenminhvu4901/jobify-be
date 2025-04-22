@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserProject\DestroyUserProject;
 
 use App\Repositories\ProfileSeries\UserProject\UserProjectRepository;
 use App\Repositories\ProfileSeries\UserProjectResource\UserProjectResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserProjectHandle

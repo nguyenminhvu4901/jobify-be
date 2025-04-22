@@ -81,6 +81,11 @@ class JobSaveRequest extends FormRequest
                 new SalaryRangeRule($this->input('job_salaries.0.from'))
             ],
 
+            'job_visibility_status_id' => [
+                'bail', 'required', 'integer', 'in:1,2',
+                'exists:job_visibility_statuses,id'
+            ],
+
             'job_type_id' => [
                 'bail', 'nullable', 'integer', 'exists:job_types,id',
             ],
@@ -156,6 +161,9 @@ class JobSaveRequest extends FormRequest
             'job_listing_details.0.working_hour' => [
                 'bail', 'nullable', 'string', 'max:255'
             ],
+
+            'min_age' => ['bail', 'nullable', 'integer', 'gt:0', 'lt:100'],
+            'max_age' => ['bail', 'nullable', 'integer', 'gt:0', 'lt:100', 'gt:min_age'],
         ];
     }
 

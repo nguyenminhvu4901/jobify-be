@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserCourse\DestroyUserCourse;
 
 use App\Repositories\ProfileSeries\UserCourse\UserCourseRepository;
 use App\Repositories\ProfileSeries\UserCourseResource\UserCourseResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserCourseHandle

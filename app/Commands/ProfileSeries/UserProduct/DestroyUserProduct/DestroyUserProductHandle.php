@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserProduct\DestroyUserProduct;
 
 use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
 use App\Repositories\ProfileSeries\UserProductResource\UserProductResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserProductHandle

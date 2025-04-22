@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Repositories\JobSeries\JobLocation;
+
+use App\Entities\JobSeries\JobLocation\JobLocation;
+use App\Repositories\BaseRepository;
+
+class JobLocationRepositoryEloquent extends BaseRepository implements JobLocationRepository
+{
+    /**
+     * @return string
+     */
+    public function model(): string
+    {
+        return JobLocation::class;
+    }
+}

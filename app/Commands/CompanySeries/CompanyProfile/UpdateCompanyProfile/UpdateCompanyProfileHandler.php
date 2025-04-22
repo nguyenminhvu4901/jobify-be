@@ -23,32 +23,41 @@ class UpdateCompanyProfileHandler
      */
     public function handle(UpdateCompanyProfileCommand $command): array
     {
-        $result = $this->companyRepository->updateDataWithTransaction(
-            $this->prepareCompanyData($command),
-            $command->companyId
-        );
+        try {
+            $result = $this->companyRepository->updateDataWithTransaction(
+                $this->prepareCompanyData($command),
+                $command->companyId
+            );
 
-        if(!$result['success']){
+            if(!$result['success']){
+
+                return [
+                    'message' => __('messages.company.company_update_profile_error'),
+                    'error' => $result['error'] ?? null
+                ];
+            }
+
+            $result['data']->load(
+                [
+                    'user', 'gender', 'status', 'companyScale', 'companyBranches', 'companyWorkingDay',
+                    'operationTypes', 'businessSectors'
+                ]
+            );
+
+            $this->syncCompany($result['data'], $command);
+
+            return [
+                'data' => CompanyProfileWithUserDataResource::make($result['data']),
+                'message' => __('messages.company.company_update_profile_success')
+            ];
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.company.company_update_profile_error'),
-                'error' => $result['error'] ?? null
+                'error' => $e
             ];
         }
 
-        $result['data']->load(
-            [
-                'user', 'gender', 'status', 'companyScale', 'companyBranches', 'companyWorkingDay',
-                'operationTypes', 'businessSectors'
-            ]
-        );
-
-        $this->syncCompany($result['data'], $command);
-
-        return [
-            'data' => CompanyProfileWithUserDataResource::make($result['data']),
-            'message' => __('messages.company.company_update_profile_success')
-        ];
     }
 
     /**

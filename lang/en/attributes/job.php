@@ -40,4 +40,5 @@ return [
     'job_locations.*.job_location_id' => 'Location ID',
     'job_contacts.*.job_contact_id' => 'Contact ID',
     'job_listing_details.*.job_listing_detail_id' => 'Job Detail ID',
+    "job_visibility_status_id" => 'Job Visibility StatusEnum ID',
 ];

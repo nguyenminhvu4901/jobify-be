@@ -17,9 +17,9 @@ readonly class StoreJobContactData implements DataTransferObjectInterface
     public static function fromArray(array $data): static
     {
         return new self(
-            fullName: (string) ($data['full_name'] ?? ''),
-            email: (string) ($data['email'] ?? ''),
-            phoneNumber: (string) ($data['phone_number'] ?? '')
+            fullName: $data['full_name'] ?? null,
+            email: $data['email'] ?? null,
+            phoneNumber: $data['phone_number'] ?? null
         );
     }
 }

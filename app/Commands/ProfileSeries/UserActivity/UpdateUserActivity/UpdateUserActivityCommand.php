@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserActivity\UpdateUserActivity;
 
 use App\Commands\CommandInterface;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserActivityCommand implements CommandInterface

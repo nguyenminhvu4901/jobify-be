@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserProduct\UpdateUserProduct;
 
 use App\Commands\CommandInterface;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
 readonly class UpdateUserProductCommand implements CommandInterface

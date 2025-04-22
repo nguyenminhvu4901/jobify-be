@@ -3,7 +3,7 @@
 namespace App\Commands\ProfileSeries\UserCourse\UpdateUserCourse;
 
 use App\Commands\CommandInterface;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Illuminate\Foundation\Http\FormRequest;
 
 readonly class UpdateUserCourseCommand implements CommandInterface

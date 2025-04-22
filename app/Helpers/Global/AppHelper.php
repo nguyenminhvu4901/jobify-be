@@ -96,13 +96,17 @@ if (!function_exists('collectionPaginate')) {
 if (!function_exists('translatable_or_original')) {
     /**
      * @param string $key
-     * @param string $value
-     * @return string
+     * @param string|null $value
+     * @return string|null
      */
-    function translatable_or_original(string $key, string $value): string
+    function translatable_or_original(string $key, string|null $value): ?string
     {
-        $translated = __($key . '.' . $value);
-        return $translated !== $key . '.' . $value ? $translated : $value;
+        if(!empty($value)){
+            $translated = __($key . '.' . $value);
+            return $translated !== $key . '.' . $value ? $translated : $value;
+        }
+
+        return null;
     }
 }
 

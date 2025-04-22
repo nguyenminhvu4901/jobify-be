@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserCertification\DestroyUserCertification;
 
 use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepository;
 use App\Repositories\ProfileSeries\UserCertificationResource\UserCertificationResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserCertificationHandle

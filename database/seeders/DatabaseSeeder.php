@@ -15,8 +15,10 @@ use Database\Seeders\JobSeries\JobAgeRanges\JobAgeRangeSeeder;
 use Database\Seeders\JobSeries\JobEducationLevels\JobEducationLevelSeeder;
 use Database\Seeders\JobSeries\JobExperiences\JobExperienceSeeder;
 use Database\Seeders\JobSeries\JobLevels\JobLevelSeeder;
+use Database\Seeders\JobSeries\JobModerationStatus\JobModerationStatusSeeder;
 use Database\Seeders\JobSeries\JobSalaryType\JobSalaryTypeSeeder;
 use Database\Seeders\JobSeries\JobTypes\JobTypeSeeder;
+use Database\Seeders\JobSeries\JobVisibilityStatus\JobVisibilityStatusSeeder;
 use Database\Seeders\JobSeries\Positions\PositionSeeder;
 use Database\Seeders\Roles\RoleSeeder;
 use Database\Seeders\Users\UserSeeder;
@@ -50,6 +52,8 @@ class DatabaseSeeder extends Seeder
             PositionSeeder::class,
             CurrencySeeder::class,
             JobSalaryTypeSeeder::class,
+            JobModerationStatusSeeder::class,
+            JobVisibilityStatusSeeder::class,
 
             RoleSeeder::class,
             UserSeeder::class

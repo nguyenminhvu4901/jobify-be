@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserPrize\DestroyUserPrize;
 
 use App\Repositories\ProfileSeries\UserPrize\UserPrizeRepository;
 use App\Repositories\ProfileSeries\UserPrizeResource\UserPrizeResourceRepository;
-use App\Services\AttachmentResource\AttachmentResourceService;
+use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 

@@ -4,7 +4,7 @@ namespace App\Commands\ProfileSeries\UserActivity\UpdateUserActivity;
 
 use App\Http\Resources\ProfileSeries\UserActivity\UserActivityResource;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
-use App\Services\UserActivity\UserActivityService;
+use App\Services\ProfileSeries\UserActivity\UserActivityService;
 
 class UpdateUserActivityHandle
 {
