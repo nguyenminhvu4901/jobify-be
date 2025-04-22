@@ -161,6 +161,9 @@ class JobSaveRequest extends FormRequest
             'job_listing_details.0.working_hour' => [
                 'bail', 'nullable', 'string', 'max:255'
             ],
+
+            'min_age' => ['bail', 'nullable', 'integer', 'gt:0', 'lt:100'],
+            'max_age' => ['bail', 'nullable', 'integer', 'gt:0', 'lt:100', 'gt:min_age'],
         ];
     }
 

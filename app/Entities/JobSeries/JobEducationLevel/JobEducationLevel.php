@@ -23,7 +23,7 @@ class JobEducationLevel extends BaseModel implements Transformable
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => translatable_or_original("data/job_series/job_education_levels.name", $value)
+            get: fn (string|null $value) => translatable_or_original("data/job_series/job_education_levels.name", $value)
         );
     }
 

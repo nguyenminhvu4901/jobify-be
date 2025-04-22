@@ -2,9 +2,9 @@
 
 return [
     'name' => [
-        'draft' => 'Chờ duyệt',
-        'published' => 'Đã duyệt',
-        'paused' => 'Từ chối',
+        'draft' => 'Bản nháp',
+        'published' => 'Đang tuyển',
+        'paused' => 'Tạm dừng',
         'expired' => 'Hết hạn',
         'closed' => 'Đã đóng',
     ]

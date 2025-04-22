@@ -489,4 +489,43 @@ abstract class BaseRepository extends Repository
     {
         return $this->model->with($relationship)->where($columnName, $operation, $columnValue)->select($columns);
     }
+
+    /**
+     * @param array $attributes
+     * @return array
+     */
+    public function insertTransaction(array $attributes): array
+    {
+        DB::beginTransaction();
+
+        try {
+            $inserted = $this->model->insert($attributes);
+
+            if (!$inserted) {
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.create_resource_failed'),
+                ];
+            }
+
+            DB::commit();
+
+            return [
+                'success' => true,
+                'message' => __('messages.response.create_resource_success'),
+            ];
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => __('messages.response.create_resource_failed'),
+                'error' => $e->getMessage(),
+            ];
+        }
+
+    }
 }

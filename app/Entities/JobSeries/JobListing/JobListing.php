@@ -10,18 +10,17 @@ use App\Traits\Scope\BaseScopeTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class JobListing extends BaseModel implements Transformable, Explored
+class JobListing extends BaseModel implements Transformable
 {
     use TransformableTrait,
         HasFactory,
         Sluggable,
         JobListingRelationship,
-        Searchable,
+//        Searchable,
         SoftDeletes,
         JobListingScope,
         BaseScopeTrait;
@@ -47,7 +46,6 @@ class JobListing extends BaseModel implements Transformable, Explored
         'job_experience_id',
         'job_age_range_id',
         'job_education_level_id',
-        'view',
         'min_age',
         'max_age'
     ];
@@ -64,10 +62,12 @@ class JobListing extends BaseModel implements Transformable, Explored
         ];
     }
 
-    public function mappableAs(): array
+    public function toSearchableArray(): array
     {
-        return [
+        $array = $this->toArray();
 
-        ];
+        $array['id'] = $this->id;
+        $array['title'] = $this->title;
+        return $array;
     }
 }

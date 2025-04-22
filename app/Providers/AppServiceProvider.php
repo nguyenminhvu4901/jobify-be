@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Scout\EngineManager;
+use JeroenG\Explorer\Infrastructure\Scout\ElasticEngine;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,5 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        resolve(EngineManager::class)->extend('explorer', function () {
+            return $this->app->make(ElasticEngine::class);
+        });
     }
 }

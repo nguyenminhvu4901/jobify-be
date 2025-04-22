@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\File;
 
-$routeFiles = File::glob(__DIR__ . '/apiRoutes/*.php');
+$routeFiles = File::allFiles(__DIR__ . '/apiRoutes');
 
-foreach ($routeFiles as $routeFile) {
-    require_once $routeFile;
+foreach ($routeFiles as $file) {
+    if ($file->getExtension() === 'php') {
+        require_once $file->getPathname();
+    }
 }

@@ -35,7 +35,14 @@ class GetDetailJobByJobIdHandler
                 CacheTTL::HARD->value,
                 fn() => $this->jobListingRepository->findWithRelationships(
                     id: $command->jobId,
-                    relationship: ['companies']
+                    relationship: [
+                        'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
+                        'jobListingDetail',
+                        'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
+                        'positions', 'jobContact',
+                        'jobLocation' => fn ($query) => $query->with(['province', 'district', 'ward']),
+                        'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels'
+                    ]
                 )
             );
 

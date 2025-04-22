@@ -40,10 +40,17 @@ class GetListAllJobByCompanyHandler
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->jobListingRepository
-                    ->withRelationships(['companies'])
-                    ->whereByCompanyId($command->companyId)
-                    ->get()
+                fn() => $this->jobListingRepository->getJobListingsByCompanyId(
+                    $command->companyId,
+                    [
+                        'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
+                        'jobListingDetail',
+                        'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
+                        'positions', 'jobContact',
+                        'jobLocation' => fn ($query) => $query->with(['province', 'district', 'ward']),
+                        'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels'
+                    ]
+                )
             );
 
             return [

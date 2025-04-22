@@ -90,8 +90,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
 
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('title', 512);
+            $table->string('slug', 512)->unique();
 
             $table->integer('quantity_recruitment')->default(0)->comment('Số lượng tuyển');
             $table->foreignId('gender_id')->nullable()->constrained('default_genders')->nullOnDelete()->cascadeOnUpdate();
@@ -114,8 +114,6 @@ return new class extends Migration
             $table->foreignId('job_type_id')->nullable()->constrained('job_types')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_level_id')->nullable()->constrained('job_levels')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_experience_id')->nullable()->constrained('job_experiences')->nullOnDelete()->cascadeOnUpdate();
-
-            $table->unsignedBigInteger('view')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
@@ -154,8 +152,11 @@ return new class extends Migration
             $table->text('note')->nullable()
                 ->comment('Comment chỉnh sửa');
             $table->foreignId('created_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
+
+            $table->timestamps();
         });
 
         Schema::create('job_locations', function (Blueprint $table) {

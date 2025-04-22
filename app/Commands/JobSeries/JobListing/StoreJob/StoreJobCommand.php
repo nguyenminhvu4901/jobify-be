@@ -41,6 +41,9 @@ readonly class StoreJobCommand implements CommandInterface
 
         /** @var StoreJobListingDetailData[]|null */
         public array|null $jobListingDetails,
+
+        public int|null $minAge,
+        public int|null $maxAge
     )
     {
     }
@@ -67,7 +70,7 @@ readonly class StoreJobCommand implements CommandInterface
                    ->all()
                : null,
 
-            jobVisibilityStatusId: $request->input('job_visibility_status_id'),
+           jobVisibilityStatusId: $request->input('job_visibility_status_id'),
 
            jobTypeId: $request->input('job_type_id'),
            jobLevelId: $request->input('job_level_id'),
@@ -95,6 +98,9 @@ readonly class StoreJobCommand implements CommandInterface
                     ->map(fn ($item) => StoreJobListingDetailData::fromArray($item))
                     ->all()
                 : null,
+
+           minAge: $request->input('min_age'),
+           maxAge: $request->input('max_age')
         );
     }
 }
