@@ -2,6 +2,7 @@
 
 namespace App\Entities\JobSeries\JobListingDetail;
 
+use App\Entities\JobSeries\JobListingDetail\Traits\JobListingDetailScope;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
@@ -9,7 +10,7 @@ use Prettus\Repository\Traits\TransformableTrait;
 
 class JobListingDetail extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory;
+    use TransformableTrait, HasFactory, JobListingDetailScope;
 
     protected $table = 'job_listing_details';
 

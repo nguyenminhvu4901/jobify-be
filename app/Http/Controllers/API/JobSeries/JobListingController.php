@@ -10,6 +10,8 @@ use App\Commands\JobSeries\JobListing\GetListAllJobByCompany\GetListAllJobByComp
 use App\Commands\JobSeries\JobListing\GetListAllJobByCompany\GetListAllJobByCompanyHandler;
 use App\Commands\JobSeries\JobListing\StoreJob\StoreJobCommand;
 use App\Commands\JobSeries\JobListing\StoreJob\StoreJobHandler;
+use App\Commands\JobSeries\JobListing\UpdateJob\UpdateJobCommand;
+use App\Commands\JobSeries\JobListing\UpdateJob\UpdateJobHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobSeries\JobListing\JobSaveRequest;
 use App\Http\Requests\JobSeries\JobListing\JobSearchRequest;
@@ -117,6 +119,10 @@ class JobListingController extends Controller
         );
     }
 
+    /**
+     * @param JobSaveRequest $request
+     * @return JsonResponse
+     */
     public function storeJob(JobSaveRequest $request): JsonResponse
     {
 
@@ -126,6 +132,34 @@ class JobListingController extends Controller
         );
 
         $result = $this->bus->dispatch(StoreJobCommand::withForm($request));
+
+        if(!empty($result['data'])){
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    /**
+     * @param JobSaveRequest $request
+     * @return JsonResponse
+     */
+    public function updateJob(JobSaveRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateJobCommand::class,
+            UpdateJobHandler::class
+        );
+
+        $result = $this->bus->dispatch(UpdateJobCommand::withForm($request));
 
         if(!empty($result['data'])){
 

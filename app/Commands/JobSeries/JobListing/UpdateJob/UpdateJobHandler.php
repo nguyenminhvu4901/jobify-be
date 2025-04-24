@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands\JobSeries\JobListing\StoreJob;
+namespace App\Commands\JobSeries\JobListing\UpdateJob;
 
 use App\Entities\JobSeries\JobListing\JobListing;
 use App\Http\Resources\JobSeries\JobListings\JobListingResource;
@@ -12,11 +12,11 @@ use App\Services\JobSeries\JobLocation\JobLocationService;
 use App\Services\JobSeries\JobPosition\JobPositionService;
 use App\Services\JobSeries\JobSalary\JobSalaryService;
 
-class StoreJobHandler
+class UpdateJobHandler
 {
     public function __construct(
         protected JobListingRepository $jobListingRepository,
-        protected JobListingService    $jobListingService,
+        protected JobListingService $jobListingService,
         protected JobSalaryService $jobSalaryService,
         protected JobListingDetailService $jobListingDetailService,
         protected JobLocationService $jobLocationService,
@@ -26,13 +26,15 @@ class StoreJobHandler
     {
     }
 
-    public function handle(StoreJobCommand $command): array
+    public function handle(UpdateJobCommand $command): array
     {
         try {
-            $jobSalary = $this->jobSalaryService->storeJobSalary($command->jobSalaries);
+            $jobSalary = $this->jobSalaryService->updateJobSalary(
+                $command->jobSalaries, $command->jobListingId
+            );
 
-            $jobListing = $this->jobListingService->storeJobListing(
-                $command, $jobSalary['data']->id ?? null
+            $jobListing = $this->jobListingService->updateJobListing(
+                $command, $jobSalary['data']?->id ?? null
             );
 
             if(empty($jobListing['data'])){
@@ -41,7 +43,7 @@ class StoreJobHandler
                 ];
             }
 
-            $this->storeJobListingRelationship($command, $jobListing['data']);
+            $this->updateJobListingRelationship($command, $jobListing['data']);
 
             $jobListing['data']->load([
                 'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
@@ -54,7 +56,6 @@ class StoreJobHandler
                 'data' => JobListingResource::make($jobListing['data']),
                 'message' => __('messages.profile.user_update_profile_success'),
             ];
-
         }catch (\Exception $e){
 
             return [
@@ -65,29 +66,27 @@ class StoreJobHandler
     }
 
     /**
-     * @param StoreJobCommand $command
+     * @param UpdateJobCommand $command
      * @param JobListing $jobListing
      * @return void
      */
-    private function storeJobListingRelationship(StoreJobCommand $command, JobListing $jobListing): void
+    private function updateJobListingRelationship(UpdateJobCommand $command, JobListing $jobListing): void
     {
-        $this->jobListingDetailService->storeJobListingDetail(
+        $this->jobListingDetailService->updateJobListingDetail(
             $command->jobListingDetails ?? null, $jobListing->id
         );
 
-        $this->jobLocationService->storeJobLocations(
+        $this->jobLocationService->processUpsertJobLocations(
             $command->jobLocations ?? null, $jobListing->id
         );
 
-        $this->jobPositionService->storeJobPosition(
+        $this->jobPositionService->updateJobPosition(
             $command->jobPositionMainId,
             $jobListing->id,
             $command->jobPositionSecondary
         );
 
-        $this->jobListingRepository->syncStoreJobModerationStatus($jobListing);
-
-        $this->jobContactService->storeJobContacts(
+        $this->jobContactService->processUpsertJobContacts(
             $command->jobContacts ?? null, $jobListing->id
         );
     }

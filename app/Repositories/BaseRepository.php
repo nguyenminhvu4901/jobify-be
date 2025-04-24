@@ -526,6 +526,43 @@ abstract class BaseRepository extends Repository
                 'error' => $e->getMessage(),
             ];
         }
+    }
 
+    /**
+     * @param string $col
+     * @param array $values
+     * @return array
+     */
+    public function massDeleteTransaction(string $col, array $values): array
+    {
+        DB::beginTransaction();
+
+        try {
+            $deletedRows = $this->model->whereIn($col, $values)->delete();
+
+            if ($deletedRows === 0) {
+                DB::rollBack();
+
+                return [
+                    'success' => false,
+                    'message' => __('messages.response.delete_resource_failed'),
+                ];
+            }
+
+            DB::commit();
+
+            return [
+                'success' => true,
+                'message' => __('messages.response.delete_resource_success'),
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => __('messages.response.delete_resource_failed'),
+                'error' => $e->getMessage(),
+            ];
+        }
     }
 }
