@@ -6,7 +6,7 @@ use App\Commands\CommandInterface;
 use App\DataTransferObjects\JobSeries\JobContacts\JobContactData;
 use App\DataTransferObjects\JobSeries\JobListingDetails\JobListingDetailData;
 use App\DataTransferObjects\JobSeries\JobLocations\JobLocationData;
-use App\DataTransferObjects\JobSeries\JobSalaries\JobSalaryData;
+use App\DataTransferObjects\JobSeries\Salaries\SalaryData;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -21,7 +21,7 @@ readonly class UpdateJobCommand implements CommandInterface
         public Carbon $publishDate,
         public Carbon $expiryDate,
 
-        /** @var JobSalaryData[]|null */
+        /** @var SalaryData[]|null */
         public array|null $jobSalaries,
 
         public int $jobVisibilityStatusId,
@@ -68,7 +68,7 @@ readonly class UpdateJobCommand implements CommandInterface
 
             jobSalaries: $jobSalaries
                 ? collect($jobSalaries)
-                    ->map(fn ($item) => JobSalaryData::fromArray($item))
+                    ->map(fn ($item) => SalaryData::fromArray($item))
                     ->all()
                 : null,
 

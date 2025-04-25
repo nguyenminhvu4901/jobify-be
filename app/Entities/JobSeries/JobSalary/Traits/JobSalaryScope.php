@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait JobSalaryScope
 {
-    public function scopeWhereFirstByJobListingId(Builder $query, int $jobListingId): Builder
+    /**
+     * @param Builder $query
+     * @param $jobListingId
+     * @return Builder
+     */
+    public function scopeWhereByJobListingId(Builder $query, $jobListingId): Builder
     {
-        return $query->whereHas('jobListing', function ($q) use ($jobListingId){
-            return $q->where('id', $jobListingId);
-        });
+        return $query->where('job_listing_id', $jobListingId);
     }
 }

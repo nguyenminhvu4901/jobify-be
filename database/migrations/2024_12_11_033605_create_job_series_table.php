@@ -45,7 +45,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('job_salaries', function (Blueprint $table) {
+        Schema::create('salaries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedBigInteger('job_salary_type_id')->nullable();
@@ -110,7 +110,6 @@ return new class extends Migration
             $table->foreignId('job_age_range_id')->nullable()->constrained('job_age_ranges')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_education_level_id')->nullable()->constrained('job_education_levels')->nullOnDelete()->cascadeOnUpdate();
 
-            $table->foreignId('job_salary_id')->nullable()->constrained('job_salaries')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_type_id')->nullable()->constrained('job_types')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_level_id')->nullable()->constrained('job_levels')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('job_experience_id')->nullable()->constrained('job_experiences')->nullOnDelete()->cascadeOnUpdate();
@@ -138,6 +137,13 @@ return new class extends Migration
             $table->string('working_hour')->nullable()
                 ->comment('Thời gian làm việc');
 
+            $table->timestamps();
+        });
+
+        Schema::create('job_salary', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('job_listing_id')->nullable();
+            $table->unsignedBigInteger('salary_id')->nullable();
             $table->timestamps();
         });
 
@@ -216,7 +222,7 @@ return new class extends Migration
         Schema::dropIfExists('job_experiences');
         Schema::dropIfExists('currencies');
         Schema::dropIfExists('job_salary_types');
-        Schema::dropIfExists('job_salaries');
+        Schema::dropIfExists('salaries');
         Schema::dropIfExists('job_moderation_statuses');
         Schema::dropIfExists('job_visibility_statuses');
         Schema::dropIfExists('positions');
@@ -224,6 +230,7 @@ return new class extends Migration
         Schema::dropIfExists('job_education_levels');
         Schema::dropIfExists('job_listings');
         Schema::dropIfExists('job_listing_details');
+        Schema::dropIfExists('job_salary');
         Schema::dropIfExists('job_moderation_status_logs');
         Schema::dropIfExists('job_locations');
         Schema::dropIfExists('job_position');

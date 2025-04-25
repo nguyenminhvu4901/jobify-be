@@ -40,7 +40,6 @@ class JobListing extends BaseModel implements Transformable
         'active_status_id',
         'job_visibility_status_id',
 
-        'job_salary_id',
         'job_type_id',
         'job_level_id',
         'job_experience_id',

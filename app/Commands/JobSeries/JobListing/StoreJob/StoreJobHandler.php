@@ -29,11 +29,7 @@ class StoreJobHandler
     public function handle(StoreJobCommand $command): array
     {
         try {
-            $jobSalary = $this->jobSalaryService->storeJobSalary($command->jobSalaries);
-
-            $jobListing = $this->jobListingService->storeJobListing(
-                $command, $jobSalary['data']->id ?? null
-            );
+            $jobListing = $this->jobListingService->storeJobListing($command);
 
             if(empty($jobListing['data'])){
                 return [
@@ -45,7 +41,7 @@ class StoreJobHandler
 
             $jobListing['data']->load([
                 'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
-                'jobListingDetail',  'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
+                'jobListingDetail',  'salaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
                 'positions', 'jobContact', 'jobLocation' => fn ($query) => $query->with(['province', 'district', 'ward']),
                 'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels'
             ]);
@@ -71,6 +67,8 @@ class StoreJobHandler
      */
     private function storeJobListingRelationship(StoreJobCommand $command, JobListing $jobListing): void
     {
+        $this->jobSalaryService->massStoreJobSalary($command->jobSalaries, $jobListing->id);
+
         $this->jobListingDetailService->storeJobListingDetail(
             $command->jobListingDetails ?? null, $jobListing->id
         );

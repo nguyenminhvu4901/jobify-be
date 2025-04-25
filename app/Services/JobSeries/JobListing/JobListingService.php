@@ -20,43 +20,37 @@ class JobListingService
 
     /**
      * @param StoreJobCommand $command
-     * @param int|null $jobSalaryId
      * @return array
      */
     public function storeJobListing(
-        StoreJobCommand $command,
-        int|null $jobSalaryId
+        StoreJobCommand $command
     ): array
     {
         return $this->jobListingRepository->storeDataWithTransaction(
-            $this->jobListingTransformer($command, $jobSalaryId)
+            $this->jobListingTransformer($command)
         );
     }
 
     /**
      * @param UpdateJobCommand $command
-     * @param int|null $jobSalaryId
      * @return array
      */
     public function updateJobListing(
-        UpdateJobCommand $command,
-        int|null $jobSalaryId
+        UpdateJobCommand $command
     ): array
     {
         return $this->jobListingRepository->updateDataWithTransaction(
-            $this->jobListingTransformer($command, $jobSalaryId),
+            $this->jobListingTransformer($command),
             $command->jobListingId
         );
     }
 
     /**
      * @param StoreJobCommand|UpdateJobCommand $command
-     * @param int|null $jobSalaryId
      * @return array
      */
     private function jobListingTransformer(
-        StoreJobCommand|UpdateJobCommand $command,
-        int|null $jobSalaryId
+        StoreJobCommand|UpdateJobCommand $command
     ): array
     {
         return [
@@ -68,7 +62,6 @@ class JobListingService
             'expiry_date' => $command->expiryDate,
             'active_status_id' => StatusEnum::ACTIVE->value,
             'job_visibility_status_id' => $command->jobVisibilityStatusId,
-            'job_salary_id' => $jobSalaryId ?? null,
             'job_type_id' => $command->jobTypeId ?? null,
             'job_level_id' => $command->jobLevelId ?? null,
             'job_experience_id' => $command->jobExperienceId ?? null,

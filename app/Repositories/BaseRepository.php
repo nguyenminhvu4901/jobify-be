@@ -279,14 +279,18 @@ abstract class BaseRepository extends Repository
 
     /**
      * @param array $attributes
+     * @param array|string $relationships
      * @return array|false[]
      */
-    public function storeDataWithTransaction(array $attributes = []): array
+    public function storeDataWithTransaction(
+        array $attributes = [],
+        array|string $relationships = []
+    ): array
     {
         DB::beginTransaction();
 
         try {
-            $data = $this->model->create($attributes);
+            $data = $this->model->with($relationships)->create($attributes);
 
             if(!$data){
                 DB::rollBack();

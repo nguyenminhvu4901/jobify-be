@@ -39,8 +39,8 @@ class JobSaveRequest extends FormRequest
             JobListingEnum::PREFIX->value . JobListingEnum::UPDATE_JOB->value => [
                 ...$this->getCommonRules(),
                 'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
-                'job_salaries.*.job_salary_id' => [
-                    'bail', 'nullable', 'integer', 'exists:job_salaries,id'
+                'job_salaries.*.salary_id' => [
+                    'bail', 'nullable', 'integer', 'exists:salaries,id'
                 ],
                 'job_locations.*.job_location_id' => [
                     'bail', 'nullable', 'integer', 'exists:job_locations,id'
@@ -66,19 +66,19 @@ class JobSaveRequest extends FormRequest
             'publish_date' => ['bail', 'required', 'date', 'after_or_equal:today'],
             'expiry_date' => ['bail', 'required', 'date', 'after:publish_date'],
 
-            'job_salaries' => ['bail', 'required', 'array', 'size:1'],
-            'job_salaries.0.currency_id' => [
+            'job_salaries' => ['bail', 'required', 'array'],
+            'job_salaries.*.currency_id' => [
                 'bail', 'required', 'integer', 'exists:currencies,id'
             ],
-            'job_salaries.0.job_salary_type_id' => [
+            'job_salaries.*.job_salary_type_id' => [
                 'bail', 'required', 'integer', 'exists:job_salary_types,id'
             ],
-            'job_salaries.0.from' => [
+            'job_salaries.*.from' => [
                 'bail', 'nullable', 'numeric', 'min:0'
             ],
-            'job_salaries.0.to' => [
+            'job_salaries.*.to' => [
                 'bail', 'nullable', 'numeric', 'min:0',
-                new SalaryRangeRule($this->input('job_salaries.0.from'))
+                new SalaryRangeRule()
             ],
 
             'job_visibility_status_id' => [

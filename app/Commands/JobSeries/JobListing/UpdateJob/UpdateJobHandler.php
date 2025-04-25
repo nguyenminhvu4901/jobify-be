@@ -29,13 +29,7 @@ class UpdateJobHandler
     public function handle(UpdateJobCommand $command): array
     {
         try {
-            $jobSalary = $this->jobSalaryService->updateJobSalary(
-                $command->jobSalaries, $command->jobListingId
-            );
-
-            $jobListing = $this->jobListingService->updateJobListing(
-                $command, $jobSalary['data']?->id ?? null
-            );
+            $jobListing = $this->jobListingService->updateJobListing($command);
 
             if(empty($jobListing['data'])){
                 return [
@@ -43,7 +37,7 @@ class UpdateJobHandler
                 ];
             }
 
-            $this->updateJobListingRelationship($command, $jobListing['data']);
+            $this->updateJobListingRelationship($command);
 
             $jobListing['data']->load([
                 'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
@@ -67,27 +61,30 @@ class UpdateJobHandler
 
     /**
      * @param UpdateJobCommand $command
-     * @param JobListing $jobListing
      * @return void
      */
-    private function updateJobListingRelationship(UpdateJobCommand $command, JobListing $jobListing): void
+    private function updateJobListingRelationship(UpdateJobCommand $command): void
     {
+        $this->jobSalaryService->processUpdateJobSalary(
+            $command->jobSalaries, $command->jobListingId
+        );
+
         $this->jobListingDetailService->updateJobListingDetail(
-            $command->jobListingDetails ?? null, $jobListing->id
+            $command->jobListingDetails ?? null, $command->jobListingId
         );
 
         $this->jobLocationService->processUpsertJobLocations(
-            $command->jobLocations ?? null, $jobListing->id
+            $command->jobLocations ?? null, $command->jobListingId
         );
 
         $this->jobPositionService->updateJobPosition(
             $command->jobPositionMainId,
-            $jobListing->id,
+            $command->jobListingId,
             $command->jobPositionSecondary
         );
 
         $this->jobContactService->processUpsertJobContacts(
-            $command->jobContacts ?? null, $jobListing->id
+            $command->jobContacts ?? null, $command->jobListingId
         );
     }
 }
