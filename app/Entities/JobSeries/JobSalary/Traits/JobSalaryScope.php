@@ -2,17 +2,9 @@
 
 namespace App\Entities\JobSeries\JobSalary\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Traits\Scope\BaseJobScope;
 
 trait JobSalaryScope
 {
-    /**
-     * @param Builder $query
-     * @param $jobListingId
-     * @return Builder
-     */
-    public function scopeWhereByJobListingId(Builder $query, $jobListingId): Builder
-    {
-        return $query->where('job_listing_id', $jobListingId);
-    }
+    use BaseJobScope;
 }

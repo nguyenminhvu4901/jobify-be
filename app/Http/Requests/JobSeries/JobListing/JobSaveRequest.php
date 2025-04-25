@@ -3,6 +3,11 @@
 namespace App\Http\Requests\JobSeries\JobListing;
 
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
+use App\Rules\JobSeries\JobContact\ContactBelongsToJobListingRule;
+use App\Rules\JobSeries\JobListingDetail\JobListingDetailBelongsToJobListingRule;
+use App\Rules\JobSeries\JobLocation\LocationBelongsToJobListingRule;
+use App\Rules\JobSeries\JobPosition\JobSecondaryNotDuplicateMain;
+use App\Rules\JobSeries\JobSalary\SalaryBelongsToJobListingRule;
 use App\Rules\JobSeries\JobSalary\SalaryRangeRule;
 use App\Rules\PhoneNumberRule;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -40,16 +45,20 @@ class JobSaveRequest extends FormRequest
                 ...$this->getCommonRules(),
                 'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
                 'job_salaries.*.salary_id' => [
-                    'bail', 'nullable', 'integer', 'exists:salaries,id'
+                    'bail', 'nullable', 'integer', 'exists:salaries,id',
+                    new SalaryBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_locations.*.job_location_id' => [
-                    'bail', 'nullable', 'integer', 'exists:job_locations,id'
+                    'bail', 'nullable', 'integer', 'exists:job_locations,id',
+                    new LocationBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_contacts.*.job_contact_id' => [
-                    'bail', 'nullable', 'integer', 'exists:job_contacts,id'
+                    'bail', 'nullable', 'integer', 'exists:job_contacts,id',
+                    new ContactBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_listing_details.*.job_listing_detail_id' => [
-                    'bail', 'nullable', 'integer', 'exists:job_listing_details,id'
+                    'bail', 'nullable', 'integer', 'exists:job_listing_details,id',
+                    new JobListingDetailBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
             ],
             default => [],
@@ -124,7 +133,7 @@ class JobSaveRequest extends FormRequest
             ],
 
             'job_position_secondary' => [
-                'bail', 'nullable', 'array', 'size:2'
+                'bail', 'nullable', 'array', 'size:2', new JobSecondaryNotDuplicateMain()
             ],
             'job_position_secondary.*' => [
                 'bail', 'nullable', 'integer', 'exists:positions,id'

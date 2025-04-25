@@ -175,7 +175,11 @@ return [
         'company_id_user_id_mismatch' => 'Mã công ty và mã người dùng không khớp!',
         'company_id_branch_id_mismatch' => 'Mã công ty và mã chi nhánh không khớp!',
         'company_id_benefit_id_mismatch' => 'Mã công ty và mã phúc lợi không khớp!',
-
+        'job_position_secondary_conflict' => 'Danh mục nghề phụ không được trùng với Danh mục nghề chính.',
+        'salary_not_belongs_to_job' => 'Mức lương được chọn không thuộc về tin tuyển dụng đã chọn.',
+        'location_not_belongs_to_job' => "Địa điểm được chọn không thuộc tin tuyển dụng tương ứng.",
+        'contact_not_belongs_to_job' => "Thông tin liên hệ được chọn không thuộc tin tuyển dụng tương ứng.",
+        'job_listing_detail_not_belongs_to_job' => "Thông tin chi tiết không khớp với tin tuyển dụng tương ứng.",
 
     ],
 

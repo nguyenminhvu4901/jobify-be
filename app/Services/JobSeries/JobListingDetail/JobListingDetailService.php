@@ -47,7 +47,7 @@ class JobListingDetailService
         if (!empty($listingDetailData->jobListingDetailId)) {
             return $this->jobListingDetailRepository->updateDataWithTransaction(
                 $this->jobListingDetail($listingDetailData, $jobListingId),
-                $listingDetailData->jobSalaryId
+                $listingDetailData->jobListingDetailId
             );
         }
 
@@ -60,7 +60,6 @@ class JobListingDetailService
 
             return $this->jobListingDetailRepository->storeDataWithTransaction(
                 $this->jobListingDetail($listingDetailData, $jobListingId),
-
             );
         }
 

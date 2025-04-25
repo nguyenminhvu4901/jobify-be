@@ -42,28 +42,20 @@ class JobContactService
         int                       $jobListingId
     ): void
     {
-        DB::beginTransaction();
+        $jobContactCollection = collect($jobContactData);
 
-        try {
-            $jobContactCollection = collect($jobContactData);
+        $idsDelete = $this->getJobLocationIdsToDel($jobContactData, $jobListingId);
+        $this->destroyJobContacts($idsDelete);
 
-            $idsDelete = $this->getJobLocationIdsToDel($jobContactData, $jobListingId);
-            $this->destroyJobContacts($idsDelete);
+        $jobContactCollection->filter(fn($item) => !empty($item->jobContactId))
+            ->each(fn($contact) => $this->updateJobContact($contact, $jobListingId));
 
-            $jobContactCollection->filter(fn($item) => !empty($item->jobContactId))
-                ->each(fn($contact) => $this->updateJobContact($contact, $jobListingId));
+        $jobContactsToInsert = $jobContactCollection
+            ->filter(fn($item) => empty($item->jobContactId))
+            ->values();
 
-            $jobContactsToInsert = $jobContactCollection
-                ->filter(fn($item) => empty($item->jobLocationId))
-                ->values();
-
-            if ($jobContactsToInsert->isNotEmpty()) {
-                $this->storeJobContacts($jobContactsToInsert->all(), $jobListingId);
-            }
-
-            DB::commit();
-        }catch (\Exception $e){
-            DB::rollBack();
+        if ($jobContactsToInsert->isNotEmpty()) {
+            $this->storeJobContacts($jobContactsToInsert->all(), $jobListingId);
         }
     }
 
