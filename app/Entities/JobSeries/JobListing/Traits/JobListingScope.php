@@ -15,4 +15,19 @@ trait JobListingScope
     {
         return $query->where('company_id', $companyId);
     }
+
+    /**
+     * @param Builder $query
+     * @param int $companyId
+     * @param int $jobListingId
+     * @return bool
+     */
+    public function scopeCheckExistCompanyIdAndJobId(
+        Builder $query, int $companyId, int $jobListingId
+    ): bool
+    {
+        return $query->where('company_id', $companyId)
+            ->where('id', $jobListingId)
+            ->exists();
+    }
 }

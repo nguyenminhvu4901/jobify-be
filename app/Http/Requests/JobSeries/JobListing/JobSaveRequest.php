@@ -4,6 +4,7 @@ namespace App\Http\Requests\JobSeries\JobListing;
 
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
 use App\Rules\JobSeries\JobContact\ContactBelongsToJobListingRule;
+use App\Rules\JobSeries\JobListing\CompanyBelongsToJobListingRule;
 use App\Rules\JobSeries\JobListingDetail\JobListingDetailBelongsToJobListingRule;
 use App\Rules\JobSeries\JobLocation\LocationBelongsToJobListingRule;
 use App\Rules\JobSeries\JobPosition\JobSecondaryNotDuplicateMain;
@@ -43,7 +44,10 @@ class JobSaveRequest extends FormRequest
 
             JobListingEnum::PREFIX->value . JobListingEnum::UPDATE_JOB->value => [
                 ...$this->getCommonRules(),
-                'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
+                'job_listing_id' => [
+                    'bail', 'required', 'integer', 'exists:job_listings,id',
+                    new CompanyBelongsToJobListingRule($this->input('company_id'))
+                ],
                 'job_salaries.*.salary_id' => [
                     'bail', 'nullable', 'integer', 'exists:salaries,id',
                     new SalaryBelongsToJobListingRule($this->input('job_listing_id'))

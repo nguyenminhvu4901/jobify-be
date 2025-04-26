@@ -2,7 +2,6 @@
 
 namespace App\Commands\JobSeries\JobListing\UpdateJob;
 
-use App\Entities\JobSeries\JobListing\JobListing;
 use App\Http\Resources\JobSeries\JobListings\JobListingResource;
 use App\Repositories\JobSeries\JobListing\JobListingRepository;
 use App\Services\JobSeries\JobContact\JobContactService;

@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class DefaultStatus extends BaseModel implements Transformable
 {
@@ -19,4 +20,14 @@ class DefaultStatus extends BaseModel implements Transformable
     public const FILLABLE_FIELDS = [
         'status'
     ];
+
+    /**
+     * @return Attribute
+     */
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value)
+        );
+    }
 }

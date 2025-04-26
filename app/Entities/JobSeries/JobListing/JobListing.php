@@ -23,7 +23,8 @@ class JobListing extends BaseModel implements Transformable
 //        Searchable,
         SoftDeletes,
         JobListingScope,
-        BaseScopeTrait;
+        BaseScopeTrait,
+        SoftDeletes;
 
     protected $table = JobListingEnum::TABLE->value;
 

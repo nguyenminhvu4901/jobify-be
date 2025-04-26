@@ -42,4 +42,5 @@ return [
     "job_contacts.*.job_contact_id" => 'Mã liên hệ',
     "job_listing_details.*.job_listing_detail_id" => 'Mã thông tin chi tiết',
     "job_visibility_status_id" => 'Mã Trạng thái hiển thị công việc',
+    "active_status_id" => 'Mã Trạng thái'
 ];

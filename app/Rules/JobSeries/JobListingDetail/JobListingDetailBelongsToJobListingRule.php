@@ -10,7 +10,7 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 class JobListingDetailBelongsToJobListingRule implements ValidationRule
 {
     public function __construct(
-        protected int $jobListingId
+        protected int|null $jobListingId
     )
     {
     }

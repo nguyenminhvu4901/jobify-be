@@ -192,7 +192,7 @@ return [
         'location_not_belongs_to_job' => "The selected location does not belong to the corresponding job listing.",
         'contact_not_belongs_to_job' => "The selected contact is not associated with the corresponding job listing.",
         'job_listing_detail_not_belongs_to_job' => "The selected job detail is not associated with the specified job listing.",
-
+        'job_listing_detail_not_belongs_to_company' => "The job listing detail does not belong to the selected company."
     ],
 
     /*
