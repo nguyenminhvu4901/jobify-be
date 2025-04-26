@@ -7,4 +7,8 @@ interface PositionRepository
     public function getListPositionPaginate(int|null $limit);
 
     public function getListLeafPosition(array $columns = ['*']);
+
+    public function getListLeafPositionExcludeMainPositionId(
+        int $excludeId = null, array $columns = ['*']
+    ): mixed;
 }

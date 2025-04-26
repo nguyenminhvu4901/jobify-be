@@ -41,4 +41,16 @@ class PositionRepositoryEloquent extends BaseRepository implements PositionRepos
     {
         return $this->model->select($columns)->leafNodes();
     }
+
+    /**
+     * @param int|null $excludeId
+     * @param array|string[] $columns $
+     * @return mixed
+     */
+    public function getListLeafPositionExcludeMainPositionId(
+        int $excludeId = null, array $columns = ['*']
+    ): mixed
+    {
+        return $this->model->select($columns)->leafNodesExcludeId($excludeId);
+    }
 }

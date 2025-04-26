@@ -17,4 +17,6 @@ enum PositionEnum: string
     case MAIN_PRIORITY = '1';
 
     case SECONDARY_PRIORITY = '2';
+
+    case LIST_SECONDARY_POSITION = 'listSecondaryPosition';
 }
