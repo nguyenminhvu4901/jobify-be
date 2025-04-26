@@ -69,6 +69,10 @@ Route::group(
             Route::get('/list-leaf-position', [
                 PositionController::class, 'getListLeafPosition'
             ])->name(PositionEnum::LIST_LEAF_POSITION->value);
+
+            Route::get('/list-secondary-position', [
+                PositionController::class, 'getListSecondaryPosition'
+            ])->name(PositionEnum::LIST_SECONDARY_POSITION->value);
         });
 
         Route::group(['prefix' => 'currency', 'as' => 'currency.'], function () {

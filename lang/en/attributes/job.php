@@ -41,5 +41,6 @@ return [
     'job_contacts.*.job_contact_id' => 'Contact ID',
     'job_listing_details.*.job_listing_detail_id' => 'Job Detail ID',
     "job_visibility_status_id" => 'Job Visibility StatusEnum ID',
-    "active_status_id" => 'Active Status ID'
+    "active_status_id" => 'Active Status ID',
+    'main_position_id' => 'Main Position ID'
 ];

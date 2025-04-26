@@ -28,14 +28,6 @@ trait JobApplicationRelationship
     }
 
     /**
-     * @return BelongsTo
-     */
-    public function applicationStatus(): BelongsTo
-    {
-        return $this->belongsTo(ApplicationStatus::class, 'application_status_id', 'id');
-    }
-
-    /**
      * @return HasMany
      */
     public function applicationCV(): HasMany

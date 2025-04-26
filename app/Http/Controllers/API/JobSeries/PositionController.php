@@ -6,7 +6,10 @@ use App\Commands\JobSeries\Position\GetListLeafPosition\GetListLeafPositionComma
 use App\Commands\JobSeries\Position\GetListLeafPosition\GetListLeafPositionHandler;
 use App\Commands\JobSeries\Position\GetListPosition\GetListPositionCommand;
 use App\Commands\JobSeries\Position\GetListPosition\GetListPositionHandler;
+use App\Commands\JobSeries\Position\GetListSecondaryPosition\GetListSecondaryPositionCommand;
+use App\Commands\JobSeries\Position\GetListSecondaryPosition\GetListSecondaryPositionHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JobSeries\Position\JobPositionRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
@@ -63,6 +66,35 @@ class PositionController extends Controller
         );
 
         $result = $this->bus->dispatch(new GetListLeafPositionCommand());
+
+        if(!empty($result['data'])){
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    /**
+     * @param JobPositionRequest $request
+     * @return JsonResponse
+     */
+    public function getListSecondaryPosition(JobPositionRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetListSecondaryPositionCommand::class,
+            GetListSecondaryPositionHandler::class
+        );
+
+        $result = $this->bus->dispatch(GetListSecondaryPositionCommand::withForm($request));
 
         if(!empty($result['data'])){
 

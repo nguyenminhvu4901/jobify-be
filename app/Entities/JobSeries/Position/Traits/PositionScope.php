@@ -44,6 +44,18 @@ trait PositionScope
 
     /**
      * @param Builder $query
+     * @param int|null $excludeId
+     * @return mixed
+     */
+    public function scopeLeafNodesExcludeId(Builder $query, ?int $excludeId): mixed
+    {
+        return $query
+            ->when($excludeId, fn($q) => $q->where('id', '!=', $excludeId))
+            ->leaves();
+    }
+
+    /**
+     * @param Builder $query
      * @param int $nodeId
      * @return mixed
      */

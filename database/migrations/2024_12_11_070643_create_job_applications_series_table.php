@@ -24,12 +24,8 @@ return new class extends Migration
                 ->comment('Người ứng tuyển')->nullable();
             $table->unsignedBigInteger('job_listing_id')
                 ->comment('Công việc')->nullable();
-            $table->unsignedBigInteger('application_status_id')
-                ->comment('Trạng thái ứng tuyển')->nullable();
             $table->date('applied_at')->comment('Ngày ứng tuyển')->default(now());
             $table->text('cover_letter')->comment('Thư giới thiệu đến nhà tuyển dụng')->nullable();
-            $table->text('rejection_reason')->comment('Lý do từ chối')->nullable();
-            $table->date('hired_at')->comment('Ngày được ứng tuyển')->nullable();
 
             $table->foreign('user_id')->references('id')
                 ->on('users')
@@ -37,11 +33,26 @@ return new class extends Migration
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
                  ->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('application_status_id')->references('id')
-                ->on('application_statuses')
-                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('job_application_status', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('application_status_id');
+            $table->unsignedBigInteger('job_application_id');
+            $table->string('reject_reason', 512)->nullable();
+            $table->date('hired_at')->comment('Ngày được ứng tuyển')->nullable();
+            $table->timestamps();
+
+            $table->foreign('application_status_id')
+                ->references('id')->on('application_statuses')
+                ->onDelete('cascade');
+
+            $table->foreign('job_application_id')
+                ->references('id')->on('job_applications')
+                ->onDelete('cascade');
         });
 
         Schema::create('application_cv', function (Blueprint $table) {
