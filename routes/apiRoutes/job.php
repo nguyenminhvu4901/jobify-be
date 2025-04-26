@@ -115,6 +115,18 @@ Route::group(
             Route::post('/store-job', [
                 JobListingController::class, 'storeJob'
             ])->name(JobListingEnum::STORE_JOB->value);
+
+            Route::put('/update-job', [
+                JobListingController::class, 'updateJob'
+            ])->name(JobListingEnum::UPDATE_JOB->value);
+
+            Route::patch('/update-job-active-status', [
+                JobListingController::class, 'updateJobActiveStatus'
+            ])->name(JobListingEnum::UPDATE_JOB_ACTIVE_STATUS->value);
+
+            Route::delete('/destroy-job', [
+                JobListingController::class, 'destroyJob'
+            ])->name(JobListingEnum::DESTROY_JOB->value);
         });
     }
 );

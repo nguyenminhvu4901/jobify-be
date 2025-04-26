@@ -5,18 +5,23 @@ namespace App\Commands\JobSeries\JobListing\StoreJob;
 use App\Entities\JobSeries\JobListing\JobListing;
 use App\Http\Resources\JobSeries\JobListings\JobListingResource;
 use App\Repositories\JobSeries\JobListing\JobListingRepository;
-use App\Repositories\JobSeries\JobLocation\JobLocationRepository;
-use App\Repositories\JobSeries\JobPosition\JobPositionRepository;
-use App\Services\JobSeries\JobListing\StoreJobDataTransformer;
+use App\Services\JobSeries\JobContact\JobContactService;
+use App\Services\JobSeries\JobListing\JobListingService;
+use App\Services\JobSeries\JobListingDetail\JobListingDetailService;
+use App\Services\JobSeries\JobLocation\JobLocationService;
+use App\Services\JobSeries\JobPosition\JobPositionService;
+use App\Services\JobSeries\JobSalary\JobSalaryService;
 
 class StoreJobHandler
 {
     public function __construct(
         protected JobListingRepository $jobListingRepository,
-        protected StoreJobDataTransformer $storeJobDataTransformer,
-        protected JobLocationRepository $jobLocationRepository,
-        protected JobPositionRepository $jobPositionRepository,
-
+        protected JobListingService    $jobListingService,
+        protected JobSalaryService $jobSalaryService,
+        protected JobListingDetailService $jobListingDetailService,
+        protected JobLocationService $jobLocationService,
+        protected JobContactService $jobContactService,
+        protected JobPositionService $jobPositionService
     )
     {
     }
@@ -24,11 +29,7 @@ class StoreJobHandler
     public function handle(StoreJobCommand $command): array
     {
         try {
-            $jobSalary = $this->storeJobDataTransformer->storeJobSalary($command->jobSalaries);
-
-            $jobListing = $this->storeJobDataTransformer->saveJobListing(
-                $command, $jobSalary['data']->id ?? null
-            );
+            $jobListing = $this->jobListingService->storeJobListing($command);
 
             if(empty($jobListing['data'])){
                 return [
@@ -40,7 +41,7 @@ class StoreJobHandler
 
             $jobListing['data']->load([
                 'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
-                'jobListingDetail',  'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
+                'jobListingDetail',  'salaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
                 'positions', 'jobContact', 'jobLocation' => fn ($query) => $query->with(['province', 'district', 'ward']),
                 'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels'
             ]);
@@ -59,17 +60,24 @@ class StoreJobHandler
         }
     }
 
+    /**
+     * @param StoreJobCommand $command
+     * @param JobListing $jobListing
+     * @return void
+     */
     private function storeJobListingRelationship(StoreJobCommand $command, JobListing $jobListing): void
     {
-        $this->storeJobDataTransformer->saveJobListingDetail(
+        $this->jobSalaryService->massStoreJobSalary($command->jobSalaries, $jobListing->id);
+
+        $this->jobListingDetailService->storeJobListingDetail(
             $command->jobListingDetails ?? null, $jobListing->id
         );
 
-        $this->storeJobDataTransformer->saveJobLocations(
+        $this->jobLocationService->storeJobLocations(
             $command->jobLocations ?? null, $jobListing->id
         );
 
-        $this->storeJobDataTransformer->saveJobPosition(
+        $this->jobPositionService->storeJobPosition(
             $command->jobPositionMainId,
             $jobListing->id,
             $command->jobPositionSecondary
@@ -77,7 +85,7 @@ class StoreJobHandler
 
         $this->jobListingRepository->syncStoreJobModerationStatus($jobListing);
 
-        $this->storeJobDataTransformer->saveJobContacts(
+        $this->jobContactService->storeJobContacts(
             $command->jobContacts ?? null, $jobListing->id
         );
     }

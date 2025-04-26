@@ -187,6 +187,12 @@ return [
         'company_id_user_id_mismatch' => 'CompanySeries ID and user ID do not match!',
         'company_id_branch_id_mismatch' => 'CompanySeries ID and CompanySeries Branch ID do not match!',
         'company_id_benefit_id_mismatch' => 'CompanySeries ID and CompanySeries Benefit ID do not match!',
+        'job_position_secondary_conflict' => 'Secondary positions must not contain the main position.',
+        'salary_not_belongs_to_job' => 'The selected salary does not belong to the given job listing.',
+        'location_not_belongs_to_job' => "The selected location does not belong to the corresponding job listing.",
+        'contact_not_belongs_to_job' => "The selected contact is not associated with the corresponding job listing.",
+        'job_listing_detail_not_belongs_to_job' => "The selected job detail is not associated with the specified job listing.",
+        'job_listing_detail_not_belongs_to_company' => "The job listing detail does not belong to the selected company."
     ],
 
     /*

@@ -14,4 +14,15 @@ class JobLocationRepositoryEloquent extends BaseRepository implements JobLocatio
     {
         return JobLocation::class;
     }
+
+
+    /**
+     * @param int $jobListingId
+     * @return mixed
+     */
+    public function getJobLocationIdsByJobListingId(int $jobListingId): mixed
+    {
+        return $this->model->whereByJobListingId($jobListingId)->pluck('id')->values();
+    }
+
 }

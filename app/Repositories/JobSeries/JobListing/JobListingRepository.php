@@ -21,9 +21,11 @@ interface JobListingRepository
     ): mixed;
 
     /**
-     * @param $companyId
+     * @param int $companyId
      * @param array $relationships
      * @return mixed
      */
-    public function getJobListingsByCompanyId($companyId, array $relationships = []): mixed;
+    public function getJobListingsByCompanyId(int $companyId, array $relationships = []): mixed;
+
+    public function checkExistsByCompanyIdAndJobListingId(int $companyId, int $jobListingId);
 }

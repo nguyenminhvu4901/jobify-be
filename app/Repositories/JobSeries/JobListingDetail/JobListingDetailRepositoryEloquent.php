@@ -14,4 +14,13 @@ class JobListingDetailRepositoryEloquent extends BaseRepository implements JobLi
     {
         return JobListingDetail::class;
     }
+
+    /**
+     * @param int $jobListingId
+     * @return mixed
+     */
+    public function getFirstByJobListingId(int $jobListingId): mixed
+    {
+        return $this->model->whereByJobListingId($jobListingId)->first();
+    }
 }

@@ -4,9 +4,10 @@ namespace App\DataTransferObjects\JobSeries\JobLocations;
 
 use App\DataTransferObjects\DataTransferObjectInterface;
 
-readonly class StoreJobLocationData implements DataTransferObjectInterface
+readonly class JobLocationData implements DataTransferObjectInterface
 {
     /**
+     * @param int|null $jobLocationId
      * @param string $branchName
      * @param int $provinceId
      * @param int $districtId
@@ -14,6 +15,7 @@ readonly class StoreJobLocationData implements DataTransferObjectInterface
      * @param string|null $address
      */
     public function __construct(
+        public int|null $jobLocationId,
         public string $branchName,
         public int $provinceId,
         public int $districtId,
@@ -31,6 +33,7 @@ readonly class StoreJobLocationData implements DataTransferObjectInterface
     public static function fromArray(array $data): static
     {
         return new self(
+            jobLocationId: $data['job_location_id'] ?? null,
             branchName: $data['branch_name'],
             provinceId: (int) $data['province_id'],
             districtId: (int) $data['district_id'],

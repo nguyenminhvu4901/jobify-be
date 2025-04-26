@@ -7,14 +7,17 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class SalaryRangeRule implements ValidationRule
 {
-    public function __construct(
-        protected int|float|null $from
-    ) {}
-
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!is_null($this->from) && !is_null($value) && $value <= $this->from) {
-            $fail(__('validation.custom.job_salaries_greater_than_from'));
+        preg_match('/job_salaries\.(\d+)\.to/', $attribute, $matches);
+        $index = $matches[1] ?? null;
+
+        if (!is_null($index)) {
+            $from = request()->input("job_salaries.$index.from");
+
+            if (!is_null($from) && !is_null($value) && $value <= $from) {
+                $fail(__('validation.custom.job_salaries_greater_than_from'));
+            }
         }
     }
 }

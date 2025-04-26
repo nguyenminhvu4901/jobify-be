@@ -37,8 +37,10 @@ return [
     "job_listing_details.0.working_hour" => 'Thời gian làm việc',
     "job_listing_id" => "Mã công việc",
     "job_salaries.*.job_salary_id" => 'Mã mức lương',
+    "job_salaries.*.salary_id" => 'Mã mức lương',
     "job_locations.*.job_location_id" => 'Mã địa điểm',
     "job_contacts.*.job_contact_id" => 'Mã liên hệ',
     "job_listing_details.*.job_listing_detail_id" => 'Mã thông tin chi tiết',
     "job_visibility_status_id" => 'Mã Trạng thái hiển thị công việc',
+    "active_status_id" => 'Mã Trạng thái'
 ];

@@ -3,10 +3,10 @@
 namespace App\Commands\JobSeries\JobListing\StoreJob;
 
 use App\Commands\CommandInterface;
-use App\DataTransferObjects\JobSeries\JobContacts\StoreJobContactData;
-use App\DataTransferObjects\JobSeries\JobListingDetails\StoreJobListingDetailData;
-use App\DataTransferObjects\JobSeries\JobLocations\StoreJobLocationData;
-use App\DataTransferObjects\JobSeries\JobSalaries\StoreJobSalaryData;
+use App\DataTransferObjects\JobSeries\JobContacts\JobContactData;
+use App\DataTransferObjects\JobSeries\JobListingDetails\JobListingDetailData;
+use App\DataTransferObjects\JobSeries\JobLocations\JobLocationData;
+use App\DataTransferObjects\JobSeries\Salaries\SalaryData;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -20,7 +20,7 @@ readonly class StoreJobCommand implements CommandInterface
         public Carbon $publishDate,
         public Carbon $expiryDate,
 
-        /** @var StoreJobSalaryData[]|null */
+        /** @var SalaryData[]|null */
         public array|null $jobSalaries,
 
         public int $jobVisibilityStatusId,
@@ -31,15 +31,15 @@ readonly class StoreJobCommand implements CommandInterface
         public int|null $jobAgeRangeId,
         public int|null $jobEducationLevelId,
 
-        /** @var StoreJobLocationData[]|null */
+        /** @var JobLocationData[]|null */
         public array|null $jobLocations,
         public int $jobPositionMainId,
         public array|null $jobPositionSecondary,
 
-        /** @var StoreJobContactData[]|null */
+        /** @var JobContactData[]|null */
         public array|null $jobContacts,
 
-        /** @var StoreJobListingDetailData[]|null */
+        /** @var JobListingDetailData[]|null */
         public array|null $jobListingDetails,
 
         public int|null $minAge,
@@ -66,7 +66,7 @@ readonly class StoreJobCommand implements CommandInterface
 
            jobSalaries: $jobSalaries
                ? collect($jobSalaries)
-                   ->map(fn ($item) => StoreJobSalaryData::fromArray($item))
+                   ->map(fn ($item) => SalaryData::fromArray($item))
                    ->all()
                : null,
 
@@ -80,7 +80,7 @@ readonly class StoreJobCommand implements CommandInterface
 
            jobLocations: $jobLocations
                ? collect($jobLocations)
-                   ->map(fn ($item) => StoreJobLocationData::fromArray($item))
+                   ->map(fn ($item) => JobLocationData::fromArray($item))
                    ->all()
                : null,
 
@@ -89,13 +89,13 @@ readonly class StoreJobCommand implements CommandInterface
 
            jobContacts: $jobContacts
                 ? collect($jobContacts)
-                    ->map(fn ($item) => StoreJobContactData::fromArray($item))
+                    ->map(fn ($item) => JobContactData::fromArray($item))
                     ->all()
                 : null,
 
            jobListingDetails: $jobListingDetails
                 ? collect($jobListingDetails)
-                    ->map(fn ($item) => StoreJobListingDetailData::fromArray($item))
+                    ->map(fn ($item) => JobListingDetailData::fromArray($item))
                     ->all()
                 : null,
 

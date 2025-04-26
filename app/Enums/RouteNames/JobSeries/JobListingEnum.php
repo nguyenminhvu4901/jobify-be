@@ -21,4 +21,8 @@ enum JobListingEnum: string
     case STORE_JOB = 'storeJob';
 
     case UPDATE_JOB = 'updateJob';
+
+    case UPDATE_JOB_ACTIVE_STATUS = 'updateJobActiveStatus';
+
+    case DESTROY_JOB = 'destroyJob';
 }

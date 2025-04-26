@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\JobSeries;
 
+use App\Commands\JobSeries\JobListing\DestroyJob\DestroyJobCommand;
+use App\Commands\JobSeries\JobListing\DestroyJob\DestroyJobHandler;
 use App\Commands\JobSeries\JobListing\GetDetailJobByJobId\GetDetailJobByJobIdCommand;
 use App\Commands\JobSeries\JobListing\GetDetailJobByJobId\GetDetailJobByJobIdHandler;
 use App\Commands\JobSeries\JobListing\GetListAllJob\GetListAllJobCommand;
@@ -10,9 +12,14 @@ use App\Commands\JobSeries\JobListing\GetListAllJobByCompany\GetListAllJobByComp
 use App\Commands\JobSeries\JobListing\GetListAllJobByCompany\GetListAllJobByCompanyHandler;
 use App\Commands\JobSeries\JobListing\StoreJob\StoreJobCommand;
 use App\Commands\JobSeries\JobListing\StoreJob\StoreJobHandler;
+use App\Commands\JobSeries\JobListing\UpdateJob\UpdateJobCommand;
+use App\Commands\JobSeries\JobListing\UpdateJob\UpdateJobHandler;
+use App\Commands\JobSeries\JobListing\UpdateJobActiveStatus\UpdateJobActiveStatusCommand;
+use App\Commands\JobSeries\JobListing\UpdateJobActiveStatus\UpdateJobActiveStatusHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobSeries\JobListing\JobSaveRequest;
 use App\Http\Requests\JobSeries\JobListing\JobSearchRequest;
+use App\Http\Requests\JobSeries\JobListing\JobStatusRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
@@ -117,6 +124,10 @@ class JobListingController extends Controller
         );
     }
 
+    /**
+     * @param JobSaveRequest $request
+     * @return JsonResponse
+     */
     public function storeJob(JobSaveRequest $request): JsonResponse
     {
 
@@ -133,6 +144,77 @@ class JobListingController extends Controller
                 data: $result['data'],
                 message: $result['message'],
             );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    /**
+     * @param JobSaveRequest $request
+     * @return JsonResponse
+     */
+    public function updateJob(JobSaveRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateJobCommand::class,
+            UpdateJobHandler::class
+        );
+
+        $result = $this->bus->dispatch(UpdateJobCommand::withForm($request));
+
+        if(!empty($result['data'])){
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    public function updateJobActiveStatus(JobStatusRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateJobActiveStatusCommand::class,
+            UpdateJobActiveStatusHandler::class
+        );
+
+        $result = $this->bus->dispatch(UpdateJobActiveStatusCommand::withForm($request));
+
+        if(!empty($result['data'])){
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
+    }
+
+    public function destroyJob(JobStatusRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            DestroyJobCommand::class, DestroyJobHandler::class
+        );
+
+        $result = $this->bus->dispatch(DestroyJobCommand::withForm($request));
+
+        if(!empty($result['jobListingDestroy'])){
+            return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
         return $this->responseError(

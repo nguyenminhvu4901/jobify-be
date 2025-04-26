@@ -19,4 +19,6 @@ enum JobModerationStatusEnum: string
     case REJECTED = '3';
 
     case NEEDS_REVISION = '4';
+
+    case CLOSED = '5';
 }

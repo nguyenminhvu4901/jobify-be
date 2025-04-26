@@ -3,6 +3,12 @@
 namespace App\Http\Requests\JobSeries\JobListing;
 
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
+use App\Rules\JobSeries\JobContact\ContactBelongsToJobListingRule;
+use App\Rules\JobSeries\JobListing\CompanyBelongsToJobListingRule;
+use App\Rules\JobSeries\JobListingDetail\JobListingDetailBelongsToJobListingRule;
+use App\Rules\JobSeries\JobLocation\LocationBelongsToJobListingRule;
+use App\Rules\JobSeries\JobPosition\JobSecondaryNotDuplicateMain;
+use App\Rules\JobSeries\JobSalary\SalaryBelongsToJobListingRule;
 use App\Rules\JobSeries\JobSalary\SalaryRangeRule;
 use App\Rules\PhoneNumberRule;
 use App\Traits\CustomDate\NormalizeDateTrait;
@@ -38,18 +44,25 @@ class JobSaveRequest extends FormRequest
 
             JobListingEnum::PREFIX->value . JobListingEnum::UPDATE_JOB->value => [
                 ...$this->getCommonRules(),
-                'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
-                'job_salaries.*.job_salary_id' => [
-                    'bail', 'nullable', 'integer', 'exists:job_salaries,id'
+                'job_listing_id' => [
+                    'bail', 'required', 'integer', 'exists:job_listings,id',
+                    new CompanyBelongsToJobListingRule($this->input('company_id'))
+                ],
+                'job_salaries.*.salary_id' => [
+                    'bail', 'nullable', 'integer', 'exists:salaries,id',
+                    new SalaryBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_locations.*.job_location_id' => [
-                    'bail', 'nullable', 'integer', 'exists:job_locations,id'
+                    'bail', 'nullable', 'integer', 'exists:job_locations,id',
+                    new LocationBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_contacts.*.job_contact_id' => [
-                    'bail', 'nullable', 'integer', 'exists:job_contacts,id'
+                    'bail', 'nullable', 'integer', 'exists:job_contacts,id',
+                    new ContactBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_listing_details.*.job_listing_detail_id' => [
-                    'bail', 'nullable', 'integer', 'exists:job_listing_details,id'
+                    'bail', 'nullable', 'integer', 'exists:job_listing_details,id',
+                    new JobListingDetailBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
             ],
             default => [],
@@ -66,19 +79,19 @@ class JobSaveRequest extends FormRequest
             'publish_date' => ['bail', 'required', 'date', 'after_or_equal:today'],
             'expiry_date' => ['bail', 'required', 'date', 'after:publish_date'],
 
-            'job_salaries' => ['bail', 'required', 'array', 'size:1'],
-            'job_salaries.0.currency_id' => [
+            'job_salaries' => ['bail', 'required', 'array'],
+            'job_salaries.*.currency_id' => [
                 'bail', 'required', 'integer', 'exists:currencies,id'
             ],
-            'job_salaries.0.job_salary_type_id' => [
+            'job_salaries.*.job_salary_type_id' => [
                 'bail', 'required', 'integer', 'exists:job_salary_types,id'
             ],
-            'job_salaries.0.from' => [
+            'job_salaries.*.from' => [
                 'bail', 'nullable', 'numeric', 'min:0'
             ],
-            'job_salaries.0.to' => [
+            'job_salaries.*.to' => [
                 'bail', 'nullable', 'numeric', 'min:0',
-                new SalaryRangeRule($this->input('job_salaries.0.from'))
+                new SalaryRangeRule()
             ],
 
             'job_visibility_status_id' => [
@@ -124,7 +137,7 @@ class JobSaveRequest extends FormRequest
             ],
 
             'job_position_secondary' => [
-                'bail', 'nullable', 'array', 'size:2'
+                'bail', 'nullable', 'array', 'size:2', new JobSecondaryNotDuplicateMain()
             ],
             'job_position_secondary.*' => [
                 'bail', 'nullable', 'integer', 'exists:positions,id'

@@ -19,6 +19,7 @@ use App\Entities\JobSeries\JobSalary\JobSalary;
 use App\Entities\JobSeries\JobType\JobType;
 use App\Entities\JobSeries\JobVisibilityStatus\JobVisibilityStatus;
 use App\Entities\JobSeries\Position\Position;
+use App\Entities\JobSeries\Salary\Salary;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -50,6 +51,15 @@ trait JobListingRelationship
     public function jobSalaries(): BelongsTo
     {
         return $this->belongsTo(JobSalary::class, 'job_salary_id', 'id');
+    }
+
+
+    /**
+     * @return BelongsToMany
+     */
+    public function salaries(): BelongsToMany
+    {
+        return $this->belongsToMany(Salary::class, JobSalary::class);
     }
 
     /**

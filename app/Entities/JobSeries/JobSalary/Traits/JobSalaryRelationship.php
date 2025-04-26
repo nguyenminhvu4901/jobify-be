@@ -2,8 +2,8 @@
 
 namespace App\Entities\JobSeries\JobSalary\Traits;
 
-use App\Entities\JobSeries\Currency\Currency;
-use App\Entities\JobSeries\JobSalaryType\JobSalaryType;
+use App\Entities\JobSeries\JobListing\JobListing;
+use App\Entities\JobSeries\Salary\Salary;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait JobSalaryRelationship
@@ -11,16 +11,15 @@ trait JobSalaryRelationship
     /**
      * @return BelongsTo
      */
-    public function currency(): BelongsTo
+    public function salaries(): BelongsTo
     {
-        return $this->belongsTo(Currency::class, 'currency_id', 'id');
+        return $this->belongsTo(Salary::class);
     }
-
     /**
      * @return BelongsTo
      */
-    public function jobSalaryType(): BelongsTo
+    public function jobListing(): BelongsTo
     {
-        return $this->belongsTo(JobSalaryType::class, 'job_salary_type_id', 'id');
+        return $this->belongsTo(JobListing::class, 'job_listing_id', 'id');
     }
 }
