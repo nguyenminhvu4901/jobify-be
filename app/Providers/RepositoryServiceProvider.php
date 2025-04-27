@@ -16,6 +16,14 @@ use App\Repositories\CompanySeries\CompanyWorkingDay\CompanyWorkingDayRepository
 use App\Repositories\CompanySeries\CompanyWorkingDay\CompanyWorkingDayRepositoryEloquent;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepository;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepositoryEloquent;
+use App\Repositories\JobApplicationSeries\ApplicationCV\ApplicationCVRepository;
+use App\Repositories\JobApplicationSeries\ApplicationCV\ApplicationCVRepositoryEloquent;
+use App\Repositories\JobApplicationSeries\ApplicationStatus\ApplicationStatusRepository;
+use App\Repositories\JobApplicationSeries\ApplicationStatus\ApplicationStatusRepositoryEloquent;
+use App\Repositories\JobApplicationSeries\JobApplication\JobApplicationRepository;
+use App\Repositories\JobApplicationSeries\JobApplication\JobApplicationRepositoryEloquent;
+use App\Repositories\JobApplicationSeries\JobApplicationStatus\JobApplicationStatusRepository;
+use App\Repositories\JobApplicationSeries\JobApplicationStatus\JobApplicationStatusRepositoryEloquent;
 use App\Repositories\JobSeries\Currency\CurrencyRepository;
 use App\Repositories\JobSeries\Currency\CurrencyRepositoryEloquent;
 use App\Repositories\JobSeries\JobAgeRange\JobAgeRangeRepository;
@@ -135,6 +143,10 @@ class RepositoryServiceProvider extends ServiceProvider
         JobPositionRepository::class => JobPositionRepositoryEloquent::class,
         JobContactRepository::class => JobContactRepositoryEloquent::class,
         JobListingDetailRepository::class => JobListingDetailRepositoryEloquent::class,
-        SalaryRepository::class => SalaryRepositoryEloquent::class
+        SalaryRepository::class => SalaryRepositoryEloquent::class,
+        JobApplicationRepository::class => JobApplicationRepositoryEloquent::class,
+        ApplicationStatusRepository::class => ApplicationStatusRepositoryEloquent::class,
+        JobApplicationStatusRepository::class => JobApplicationStatusRepositoryEloquent::class,
+        ApplicationCVRepository::class => ApplicationCVRepositoryEloquent::class
     ];
 }

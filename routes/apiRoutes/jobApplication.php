@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\RouteNames\ApplyJob\ApplicationStatusEnum;
+use App\Http\Controllers\API\JobApplicationSeries\ApplicationStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -13,6 +15,9 @@ Route::group(
         });
 
     Route::group(['prefix' => 'application-status', 'as' => 'applicationStatus.'], function () {
+        Route::get('/list-application-status', [
+            ApplicationStatusController::class, 'getListApplicationStatuses'
+        ])->name(ApplicationStatusEnum::LIST_APPLICATION_STATUS->value);
     });
     }
 );
