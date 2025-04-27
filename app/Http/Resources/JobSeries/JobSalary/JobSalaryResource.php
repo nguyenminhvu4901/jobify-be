@@ -18,6 +18,7 @@ class JobSalaryResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'job_listing_id' => $this->job_listing_id,
             'currency' => CurrencyResource::make($this->currency),
             'job_salary_type' => JobSalaryTypeResource::make($this->jobSalaryType),
             'from' => $this->from,

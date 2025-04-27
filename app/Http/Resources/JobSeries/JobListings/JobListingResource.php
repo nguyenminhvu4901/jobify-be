@@ -45,7 +45,7 @@ class JobListingResource extends JsonResource
 
             'job_listing_detail' => JobListingDetailResource::make($this->jobListingDetail),
 
-            'job_salaries' => JobSalaryResource::collection($this->salaries),
+            'job_salaries' => JobSalaryResource::collection($this->jobSalaries),
             'job_positions' => JobPositionResource::collection($this->positions),
             'job_contact' => JobContactResource::collection($this->jobContact),
             'job_locations' => JobLocationResource::collection($this->jobLocation),

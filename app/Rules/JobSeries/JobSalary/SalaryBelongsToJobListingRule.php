@@ -23,7 +23,7 @@ readonly class SalaryBelongsToJobListingRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $checkExists = JobSalary::whereByJobListingId($this->jobListingId)
-            ->where('salary_id', $value)
+            ->where('id', $value)
             ->doesntExist();
 
         if($checkExists){

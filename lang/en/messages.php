@@ -42,6 +42,15 @@ return [
         'job_destroy_profile_error' => 'Failed to delete',
     ],
 
+    'job-application' => [
+        'job_application_get_info_success' => 'Information retrieved successfully',
+        'job_application_get_info_error' => 'Failed to retrieve information',
+        'job_application_update_profile_success' => 'Saved successfully',
+        'job_application_update_profile_error' => 'Failed to save',
+        'job_application_destroy_profile_success' => 'Deleted successfully',
+        'job_application_destroy_profile_error' => 'Failed to delete',
+    ],
+
     'account_is_not_registered' => 'User is not registered',
 
     'user_is_not_logged_in' => 'The user is not logged in',

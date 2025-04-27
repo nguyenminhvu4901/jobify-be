@@ -41,7 +41,7 @@ class StoreJobHandler
 
             $jobListing['data']->load([
                 'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
-                'jobListingDetail',  'salaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
+                'jobListingDetail',  'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
                 'positions', 'jobContact', 'jobLocation' => fn ($query) => $query->with(['province', 'district', 'ward']),
                 'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels'
             ]);

@@ -13,10 +13,13 @@ class JobSalary extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, JobSalaryRelationship, JobSalaryScope;
 
-    protected $table = 'job_salary';
+    protected $table = 'job_salaries';
 
     public const FILLABLE_FIELDS = [
         'job_listing_id',
-        'salary_id'
+        'currency_id',
+        'job_salary_type_id',
+        'from',
+        'to'
     ];
 }

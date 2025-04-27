@@ -45,15 +45,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('salaries', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('currency_id')->nullable();
-            $table->unsignedBigInteger('job_salary_type_id')->nullable();
-            $table->decimal('from', 15, 4)->nullable();
-            $table->decimal('to', 15, 4)->nullable();
-            $table->timestamps();
-        });
-
         Schema::create('job_moderation_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -140,10 +131,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('job_salary', function (Blueprint $table) {
+        Schema::create('job_salaries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('job_listing_id')->nullable();
-            $table->unsignedBigInteger('salary_id')->nullable();
+            $table->unsignedBigInteger('currency_id')->nullable();
+            $table->unsignedBigInteger('job_salary_type_id')->nullable();
+            $table->decimal('from', 15, 4)->nullable();
+            $table->decimal('to', 15, 4)->nullable();
             $table->timestamps();
         });
 
@@ -222,7 +216,6 @@ return new class extends Migration
         Schema::dropIfExists('job_experiences');
         Schema::dropIfExists('currencies');
         Schema::dropIfExists('job_salary_types');
-        Schema::dropIfExists('salaries');
         Schema::dropIfExists('job_moderation_statuses');
         Schema::dropIfExists('job_visibility_statuses');
         Schema::dropIfExists('positions');
@@ -230,7 +223,7 @@ return new class extends Migration
         Schema::dropIfExists('job_education_levels');
         Schema::dropIfExists('job_listings');
         Schema::dropIfExists('job_listing_details');
-        Schema::dropIfExists('job_salary');
+        Schema::dropIfExists('job_salaries');
         Schema::dropIfExists('job_moderation_status_logs');
         Schema::dropIfExists('job_locations');
         Schema::dropIfExists('job_position');
