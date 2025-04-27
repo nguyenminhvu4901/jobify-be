@@ -22,7 +22,7 @@ class JobSalaryRepositoryEloquent extends BaseRepository implements JobSalaryRep
      */
     public function getJobSalaryIdsByJobListingId(int $jobListingId): mixed
     {
-        return $this->model->whereByJobListingId($jobListingId)->pluck('salary_id')->values();
+        return $this->model->whereByJobListingId($jobListingId)->pluck('id')->values();
     }
 
     /**
@@ -37,7 +37,7 @@ class JobSalaryRepositoryEloquent extends BaseRepository implements JobSalaryRep
         try {
             $jobSalary = $this->model
                     ->where('job_listing_id', $jobListingId)
-                    ->whereIn('salary_id', $jobSalaryIds)
+                    ->whereIn('id', $jobSalaryIds)
                     ->delete();
 
             DB::commit();

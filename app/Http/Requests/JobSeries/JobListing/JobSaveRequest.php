@@ -48,8 +48,8 @@ class JobSaveRequest extends FormRequest
                     'bail', 'required', 'integer', 'exists:job_listings,id',
                     new CompanyBelongsToJobListingRule($this->input('company_id'))
                 ],
-                'job_salaries.*.salary_id' => [
-                    'bail', 'nullable', 'integer', 'exists:salaries,id',
+                'job_salaries.*.job_salary_id' => [
+                    'bail', 'nullable', 'integer', 'exists:job_salaries,id',
                     new SalaryBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_locations.*.job_location_id' => [
