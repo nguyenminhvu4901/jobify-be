@@ -52,6 +52,7 @@ MONGO_USERNAME=root
 MONGO_PASSWORD=example
 ```
 
+sh .env in php8.3.ini in php-fpm:
 ```sh .env in php8.3.ini in php-fpm
 post_max_size = 500M
 upload_max_filesize = 500M
