@@ -2,7 +2,7 @@
 
 namespace App\Commands\JobApplicationSeries\ApplicationStatus\GetListApplicationStatus;
 
-use App\Enums\RouteNames\ApplyJob\ApplicationStatusEnum;
+use App\Enums\RouteNames\JobApplicationSeries\ApplicationStatusEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobApplicationSeries\ApplicationStatus\ApplicationStatusResource;
 use App\Repositories\JobApplicationSeries\ApplicationStatus\ApplicationStatusRepository;

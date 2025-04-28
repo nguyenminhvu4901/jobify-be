@@ -9,6 +9,22 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobVisibilityStatus newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobVisibilityStatus newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobVisibilityStatus query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobVisibilityStatus whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobVisibilityStatus whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobVisibilityStatus whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobVisibilityStatus whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class JobVisibilityStatus extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;

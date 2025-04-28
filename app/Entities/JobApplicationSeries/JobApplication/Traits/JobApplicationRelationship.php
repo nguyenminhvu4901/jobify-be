@@ -4,9 +4,11 @@ namespace App\Entities\JobApplicationSeries\JobApplication\Traits;
 
 use App\Entities\JobApplicationSeries\ApplicationCV\ApplicationCV;
 use App\Entities\JobApplicationSeries\ApplicationStatus\ApplicationStatus;
+use App\Entities\JobApplicationSeries\JobApplicationStatus\JobApplicationStatus;
 use App\Entities\JobSeries\JobListing\JobListing;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait JobApplicationRelationship
@@ -34,5 +36,23 @@ trait JobApplicationRelationship
     {
         return $this->hasMany(ApplicationCV::class);
 
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function applicationStatuses(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            ApplicationStatus::class, JobApplicationStatus::class
+        )->withPivot(['rejection_reason', 'hired_at'])->withTimestamps();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function jobApplicationStatus(): HasMany
+    {
+        return $this->hasMany(JobApplicationStatus::class);
     }
 }

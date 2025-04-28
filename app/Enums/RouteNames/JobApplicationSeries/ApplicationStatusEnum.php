@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\RouteNames\ApplyJob;
+namespace App\Enums\RouteNames\JobApplicationSeries;
 
 enum ApplicationStatusEnum: string
 {

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Entities\CompanySeries\Company\Company;
 use App\Entities\CompanySeries\CompanyBenefit\CompanyBenefit;
 use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
+use App\Entities\JobApplicationSeries\JobApplication\JobApplication;
 use App\Entities\JobSeries\JobListing\JobListing;
 use App\Entities\JobSeries\JobListingDetail\JobListingDetail;
 use App\Entities\ProfileSeries\UserActivity\UserActivity;
@@ -22,6 +23,7 @@ use App\Models\User;
 use App\Observers\Company\CompanyBenefitObserver;
 use App\Observers\Company\CompanyBranchObserver;
 use App\Observers\Company\CompanyObserver;
+use App\Observers\JobApplicationSeries\JobApplicationObserver;
 use App\Observers\JobSeries\JobListingObserver;
 use App\Observers\Profile\UserActivityObserver;
 use App\Observers\Profile\UserCertificationObserver;
@@ -55,7 +57,8 @@ class ObserverServiceProvider extends ServiceProvider
         CompanyBranch::class => CompanyBranchObserver::class,
         CompanyBenefit::class => CompanyBenefitObserver::class,
         JobListing::class => JobListingObserver::class,
-        JobListingDetail::class => JobListingObserver::class
+        JobListingDetail::class => JobListingObserver::class,
+        JobApplication::class => JobApplicationObserver::class
     ];
 
     /**
