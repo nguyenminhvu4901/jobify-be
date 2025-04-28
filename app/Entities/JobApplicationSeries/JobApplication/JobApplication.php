@@ -41,6 +41,12 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereUserIdAndJobListingId(int $userId, int $jobListingId)
+ * @property string $full_name
+ * @property string $email
+ * @property string $phone_number
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereFullName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication wherePhoneNumber($value)
  * @mixin \Eloquent
  */
 class JobApplication extends BaseModel implements Transformable
@@ -52,6 +58,11 @@ class JobApplication extends BaseModel implements Transformable
     public const FILLABLE_FIELDS = [
         'user_id',
         'job_listing_id',
+
+        'full_name',
+        'email',
+        'phone_number',
+
         'applied_at',
         'cover_letter',
     ];

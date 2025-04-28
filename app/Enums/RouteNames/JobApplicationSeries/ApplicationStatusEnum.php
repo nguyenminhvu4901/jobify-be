@@ -11,4 +11,6 @@ enum ApplicationStatusEnum: string
     case TABLE = 'application_statuses';
 
     case LIST_APPLICATION_STATUS = 'getListApplicationStatuses';
+
+    case PENDING = '1';
 }

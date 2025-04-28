@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait JobApplicationRelationship
 {
@@ -30,11 +31,11 @@ trait JobApplicationRelationship
     }
 
     /**
-     * @return HasMany
+     * @return HasOne
      */
-    public function applicationCV(): HasMany
+    public function applicationCV(): HasOne
     {
-        return $this->hasMany(ApplicationCV::class);
+        return $this->hasOne(ApplicationCV::class);
 
     }
 
@@ -45,7 +46,7 @@ trait JobApplicationRelationship
     {
         return $this->belongsToMany(
             ApplicationStatus::class, JobApplicationStatus::class
-        )->withPivot(['rejection_reason', 'hired_at'])->withTimestamps();
+        )->withPivot(['reject_reason', 'hired_at'])->withTimestamps();
     }
 
     /**

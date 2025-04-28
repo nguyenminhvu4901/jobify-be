@@ -8,8 +8,11 @@ use App\Commands\JobApplicationSeries\JobApplication\GetListJobApplicationByJobS
 use App\Commands\JobApplicationSeries\JobApplication\GetListJobApplicationByJobSeeker\GetListJobApplicationByJobSeekerHandler;
 use App\Commands\JobApplicationSeries\JobApplication\GetListJobSeekerApplyJob\GetListJobSeekerApplyJobCommand;
 use App\Commands\JobApplicationSeries\JobApplication\GetListJobSeekerApplyJob\GetListJobSeekerApplyJobHandler;
+use App\Commands\JobApplicationSeries\JobApplication\StoreJobSeekerApplyJob\StoreJobSeekerApplyJobCommand;
+use App\Commands\JobApplicationSeries\JobApplication\StoreJobSeekerApplyJob\StoreJobSeekerApplyJobHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobApplicationSeries\JobApplication\JobApplicationRequest;
+use App\Http\Requests\JobApplicationSeries\JobApplication\SaveJobApplicationRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
@@ -70,7 +73,8 @@ class JobApplicationController extends Controller
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
-                cache: $result['cache'] ?? null
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
             );
         }
 
@@ -99,6 +103,35 @@ class JobApplicationController extends Controller
                 data: $result['data'],
                 message: $result['message'],
                 cache: $result['cache'] ?? null
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null,
+        );
+    }
+
+    /**
+     * @param SaveJobApplicationRequest $request
+     * @return JsonResponse
+     */
+    public function storeJobSeekerApplyJob(SaveJobApplicationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            StoreJobSeekerApplyJobCommand::class,
+            StoreJobSeekerApplyJobHandler::class
+        );
+
+        $result = $this->bus->dispatch(StoreJobSeekerApplyJobCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
             );
         }
 

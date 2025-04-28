@@ -24,6 +24,12 @@ return new class extends Migration
                 ->comment('Người ứng tuyển')->nullable();
             $table->unsignedBigInteger('job_listing_id')
                 ->comment('Công việc')->nullable();
+
+            $table->string('full_name');
+            $table->string('email');
+            $table->string('phone_number');
+
+
             $table->date('applied_at')->comment('Ngày ứng tuyển')->default(now());
             $table->text('cover_letter')->comment('Thư giới thiệu đến nhà tuyển dụng')->nullable();
 

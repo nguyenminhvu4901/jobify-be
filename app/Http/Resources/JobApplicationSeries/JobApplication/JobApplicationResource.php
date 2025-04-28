@@ -21,11 +21,11 @@ class JobApplicationResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => UserResource::make($this->users),
-            'job_listing' => JobListingResource::make($this->jobListings),
             'applied_at' => formatDate($this->applied_at),
             'cover_letter' => $this->cover_letter,
             'application_statuses' => JobApplicationStatusResource::collection($this->applicationStatuses),
-            'application_cv' => ApplicationCVResource::collection($this->applicationCV),
+            'application_cv' => ApplicationCVResource::make($this->applicationCV),
+            'job_listing' => JobListingResource::make($this->jobListings),
         ];
     }
 }

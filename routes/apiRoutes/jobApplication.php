@@ -24,6 +24,10 @@ Route::group(
             Route::get('/list-job-seeker-apply-job', [
                 JobApplicationController::class, 'getListJobSeekerApplyJob'
             ])->name(JobApplicationEnum::LIST_JOB_SEEKER_APPLY_JOB->value);
+
+            Route::post('/store-job-seeker-apply-job', [
+                JobApplicationController::class, 'storeJobSeekerApplyJob'
+            ])->name(JobApplicationEnum::STORE_JOB_SEEKER_APPLY_JOB->value);
         });
 
     Route::group(['prefix' => 'application-status', 'as' => 'applicationStatus.'], function () {

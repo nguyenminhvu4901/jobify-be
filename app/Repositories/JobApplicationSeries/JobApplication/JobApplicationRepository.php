@@ -2,6 +2,8 @@
 
 namespace App\Repositories\JobApplicationSeries\JobApplication;
 
+use App\Entities\JobApplicationSeries\JobApplication\JobApplication;
+
 interface JobApplicationRepository
 {
     public function findByUserIdAndJobIdWithRelationships(
@@ -18,4 +20,6 @@ interface JobApplicationRepository
     public function getByJobListingIdAndJobIdWithRelationships(
         int $jobListingId, array|string $relationships, $limit = null,
     ): mixed;
+
+    public function syncJobApplicationStatus(int $jobApplicationId, int|null $applicationStatusId = null);
 }

@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'job_application_id' => 'Job Application ID'
+    'job_application_id' => 'Job Application ID',
+    'application_cv' => 'File CV'
 ];

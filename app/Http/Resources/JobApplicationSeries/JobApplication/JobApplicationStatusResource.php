@@ -18,7 +18,7 @@ class JobApplicationStatusResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'rejection_reason' => $this->pivot?->rejection_reason,
+            'reject_reason' => $this->pivot?->reject_reason,
             'hired_at' => $this->pivot?->hired_at ? formatDate($this->pivot->hired_at) : null,
         ];
     }
