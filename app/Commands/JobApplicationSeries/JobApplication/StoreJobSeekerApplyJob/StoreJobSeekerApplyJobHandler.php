@@ -38,6 +38,7 @@ class StoreJobSeekerApplyJobHandler
             $this->jobApplicationRepository->syncJobApplicationStatus($result['data']->id);
 
             $this->applicationCVService->processSaveCV($command->applicationCV, $result['data']);
+
             return [
                 'data' => JobApplicationResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success'),

@@ -31,14 +31,12 @@ class ApplicationCVService
      */
     public function processSaveCV(UploadedFile $uploadedFile, JobApplication $jobApplication): array
     {
-        $filenameWithoutExtension = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $fileNameSlug = Str::slug($filenameWithoutExtension);
-
-        $pathFile = $this->storeFileCV($uploadedFile, $jobApplication);
+        $fileName = $this->generateSlugFilename($uploadedFile);
+        $filePath = $this->storeFileCV($uploadedFile, $jobApplication);
 
         return $this->applicationCVRepository->storeDataWithTransaction([
-            'title' => $fileNameSlug,
-            'path' => $pathFile,
+            'title' => $fileName,
+            'path' => $filePath,
             'job_application_id' => $jobApplication->id
         ]);
     }
@@ -54,8 +52,27 @@ class ApplicationCVService
     {
         $user = $this->userRepository->find($jobApplication->user_id);
 
-        $path = 'files/cv/' . $jobApplication?->jobListings?->slug . '/' . extractEmailPrefix($user->email);
+        $path = sprintf(
+            'files/cv/%s/%s',
+            $jobApplication?->jobListings?->slug,
+            extractEmailPrefix($user->email)
+        );
 
         return $this->storeImage($uploadedFile, $path, $user);
+    }
+
+    /**
+     *
+     * @param UploadedFile $uploadedFile
+     * @return string
+     */
+    private function generateSlugFilename(UploadedFile $uploadedFile): string
+    {
+        $filenameWithoutExtension = pathinfo(
+            $uploadedFile->getClientOriginalName(),
+            PATHINFO_FILENAME
+        );
+
+        return Str::slug($filenameWithoutExtension);
     }
 }
