@@ -180,7 +180,9 @@ return [
         'location_not_belongs_to_job' => "Địa điểm được chọn không thuộc tin tuyển dụng tương ứng.",
         'contact_not_belongs_to_job' => "Thông tin liên hệ được chọn không thuộc tin tuyển dụng tương ứng.",
         'job_listing_detail_not_belongs_to_job' => "Thông tin chi tiết không khớp với tin tuyển dụng tương ứng.",
-        'job_listing_detail_not_belongs_to_company' => "Chi tiết bài đăng tuyển dụng không thuộc về công ty đã chọn."
+        'job_listing_detail_not_belongs_to_company' => "Chi tiết bài đăng tuyển dụng không thuộc về công ty đã chọn.",
+        'job_application_not_found' => 'Không tìm thấy đơn ứng tuyển tương ứng.',
+        'job_application_status_not_belongs_to_application' => 'Trạng thái đơn ứng tuyển không thuộc về đơn ứng tuyển đã chọn.',
     ],
 
     /*

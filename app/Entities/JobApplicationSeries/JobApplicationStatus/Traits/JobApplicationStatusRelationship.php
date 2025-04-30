@@ -13,7 +13,7 @@ trait JobApplicationStatusRelationship
      */
     public function applicationStatuses(): BelongsTo
     {
-        return $this->belongsTo(ApplicationStatus::class);
+        return $this->belongsTo(ApplicationStatus::class, 'application_status_id', 'id');
     }
 
     /**
@@ -21,6 +21,6 @@ trait JobApplicationStatusRelationship
      */
     public function jobApplications(): BelongsTo
     {
-        return $this->belongsTo(JobApplication::class);
+        return $this->belongsTo(JobApplication::class, 'job_application_id', 'id');
     }
 }

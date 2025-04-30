@@ -4,14 +4,13 @@ namespace App\Http\Requests\JobApplicationSeries\JobApplication;
 
 use App\Enums\RouteNames\JobApplicationSeries\JobApplicationEnum;
 use App\Rules\PhoneNumberRule;
-use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SaveJobApplicationRequest extends FormRequest
 {
-    use FailedValidation, NormalizeDateTrait;
+    use FailedValidation;
     /**
      * Determine if the user is authorized to make this request.
      */

@@ -10,8 +10,11 @@ use App\Commands\JobApplicationSeries\JobApplication\GetListJobSeekerApplyJob\Ge
 use App\Commands\JobApplicationSeries\JobApplication\GetListJobSeekerApplyJob\GetListJobSeekerApplyJobHandler;
 use App\Commands\JobApplicationSeries\JobApplication\StoreJobSeekerApplyJob\StoreJobSeekerApplyJobCommand;
 use App\Commands\JobApplicationSeries\JobApplication\StoreJobSeekerApplyJob\StoreJobSeekerApplyJobHandler;
+use App\Commands\JobApplicationSeries\JobApplication\UpdateJobApplicationStatus\UpdateJobApplicationStatusCommand;
+use App\Commands\JobApplicationSeries\JobApplication\UpdateJobApplicationStatus\UpdateJobApplicationStatusHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobApplicationSeries\JobApplication\JobApplicationRequest;
+use App\Http\Requests\JobApplicationSeries\JobApplication\JobApplicationStatusRequest;
 use App\Http\Requests\JobApplicationSeries\JobApplication\SaveJobApplicationRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
@@ -132,6 +135,34 @@ class JobApplicationController extends Controller
                 message: $result['message'],
                 cache: $result['cache'] ?? null,
                 pagination: $result['pagination'] ?? null
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null,
+        );
+    }
+
+    /**
+     * @param JobApplicationStatusRequest $request
+     * @return JsonResponse
+     */
+    public function updateJobApplicationStatus(JobApplicationStatusRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            UpdateJobApplicationStatusCommand::class,
+            UpdateJobApplicationStatusHandler::class
+        );
+
+        $result = $this->bus->dispatch(UpdateJobApplicationStatusCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null
             );
         }
 

@@ -7,15 +7,19 @@ if (!function_exists('formatDateTime')) {
     /**
      *
      * @param string|null $datetime
-     * @return string
+     * @return ?string
      */
-    function formatDateTime(?string $datetime): string
+    function formatDateTime(?string $datetime): ?string
     {
-        try {
-            return Carbon::parse($datetime)->format('H:i:s d-m-Y');
-        } catch (Exception $e) {
-            return Carbon::now()->format('H:i:s d-m-Y');
+        if (empty($datetime)) {
+            return null;
         }
+
+        if (!Carbon::hasFormatWithModifiers($datetime, 'Y-m-d H:i:s')) {
+            return null;
+        }
+
+        return Carbon::createFromFormat('Y-m-d H:i:s', $datetime)->format('H:i:s d-m-Y');
     }
 }
 
@@ -23,17 +27,22 @@ if (!function_exists('formatDate')) {
     /**
      *
      * @param string|null $date
-     * @return string
+     * @return ?string
      */
-    function formatDate(?string $date): string
+    function formatDate(?string $date): ?string
     {
+        if (empty($date)) {
+            return null;
+        }
+
         try {
             return Carbon::parse($date)->format('d-m-Y');
-        } catch (Exception $e) {
-            return Carbon::now()->format('d-m-Y');
+        } catch (\Exception $e) {
+            return null;
         }
     }
 }
+
 
 if (!function_exists('addTimestamps')) {
     /**

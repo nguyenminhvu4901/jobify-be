@@ -9,7 +9,7 @@ use Prettus\Repository\Traits\TransformableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * 
+ *
  *
  * @property-read \App\Entities\JobApplicationSeries\ApplicationStatus\ApplicationStatus|null $applicationStatuses
  * @property-read \App\Entities\JobApplicationSeries\JobApplication\JobApplication|null $jobApplications

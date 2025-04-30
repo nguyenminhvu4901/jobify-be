@@ -28,6 +28,14 @@ Route::group(
             Route::post('/store-job-seeker-apply-job', [
                 JobApplicationController::class, 'storeJobSeekerApplyJob'
             ])->name(JobApplicationEnum::STORE_JOB_SEEKER_APPLY_JOB->value);
+
+            Route::post('/store-job-seeker-apply-job', [
+                JobApplicationController::class, 'storeJobSeekerApplyJob'
+            ])->name(JobApplicationEnum::STORE_JOB_SEEKER_APPLY_JOB->value);
+
+            Route::patch('/update-job-application-status', [
+                JobApplicationController::class, 'updateJobApplicationStatus'
+            ])->name(ApplicationStatusEnum::UPDATE_JOB_APPLICATION_STATUS->value);
         });
 
     Route::group(['prefix' => 'application-status', 'as' => 'applicationStatus.'], function () {

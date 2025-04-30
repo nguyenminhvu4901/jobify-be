@@ -4,7 +4,6 @@ namespace App\Http\Resources\JobApplicationSeries\JobApplication;
 
 use App\Http\Resources\Auth\UserResource;
 use App\Http\Resources\JobApplicationSeries\ApplicationCV\ApplicationCVResource;
-use App\Http\Resources\JobApplicationSeries\ApplicationStatus\ApplicationStatusResource;
 use App\Http\Resources\JobSeries\JobListings\JobListingResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
