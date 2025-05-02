@@ -48,10 +48,6 @@ class UpdateUserCertificationHandle
 
             }
 
-            $result['data']->load([
-                'user', 'userCertificationResources.contentType'
-            ]);
-
             return [
                 'data' => UserCertificationResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')

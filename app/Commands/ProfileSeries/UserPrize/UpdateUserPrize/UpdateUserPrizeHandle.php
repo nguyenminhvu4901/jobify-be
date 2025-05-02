@@ -45,8 +45,6 @@ class UpdateUserPrizeHandle
                 );
             }
 
-            $result['data']->load(['userPrizeResources.contentType', 'user']);
-
             return [
                 'data' => UserPrizeResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')

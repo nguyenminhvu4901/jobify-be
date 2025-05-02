@@ -37,13 +37,6 @@ class UpdateCompanyProfileHandler
                 ];
             }
 
-            $result['data']->load(
-                [
-                    'user', 'gender', 'status', 'companyScale', 'companyBranches', 'companyWorkingDay',
-                    'operationTypes', 'businessSectors'
-                ]
-            );
-
             $this->syncCompany($result['data'], $command);
 
             return [

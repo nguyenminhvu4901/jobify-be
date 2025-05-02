@@ -28,8 +28,6 @@ class StoreUserLocationHandle
                 ];
             }
 
-            $result['data']->load(['user', 'province', 'district', 'ward']);
-
             return [
                 'data' => UserLocationResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')

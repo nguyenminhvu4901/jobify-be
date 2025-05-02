@@ -32,8 +32,6 @@ class UpdateUserSkillHandle
                 ];
             }
 
-            $result['data']->load(['user', 'rate']);
-
             return [
                 'data' => UserSkillResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')

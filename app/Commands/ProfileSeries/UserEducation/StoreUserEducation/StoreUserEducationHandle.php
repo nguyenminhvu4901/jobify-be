@@ -35,8 +35,6 @@ class StoreUserEducationHandle
                 ];
             }
 
-            $result['data']->load('user');
-
             return [
                 'data' => UserEducationResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')
