@@ -36,8 +36,6 @@ class StoreCompanyBenefitHandler
                 ];
             }
 
-            $result['data']->load('companies');
-
             return [
                 'data' => CompanyBenefitResource::make($result['data']),
                 'message' => __('messages.company.company_update_profile_success')

@@ -6,6 +6,7 @@ return [
     App\Providers\MacroServiceProvider::class,
     App\Providers\ObserverServiceProvider::class,
     App\Providers\RateLimitServiceProvider::class,
+    App\Providers\RelationshipServiceProvider::class,
     App\Providers\RepositoryServiceProvider::class,
     Joselfonseca\LaravelTactician\Providers\LaravelTacticianServiceProvider::class,
     Prettus\Repository\Providers\RepositoryServiceProvider::class,

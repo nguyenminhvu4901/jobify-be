@@ -45,10 +45,6 @@ class UpdateUserExperienceHandler
                 );
             }
 
-            $result['data']->load([
-                'user', 'userExperienceResource.contentType'
-            ]);
-
             return [
                 'data' => UserExperienceResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')

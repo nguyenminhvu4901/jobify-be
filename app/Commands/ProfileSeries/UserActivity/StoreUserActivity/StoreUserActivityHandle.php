@@ -56,8 +56,6 @@ class StoreUserActivityHandle
                 }
             }
 
-            $result['data']->load(['userActivityResources.contentType', 'user']);
-
             return [
                 'data' => UserActivityResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')

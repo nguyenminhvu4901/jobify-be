@@ -47,8 +47,6 @@ class UpdateUserProjectHandle
                 );
             }
 
-            $result['data']->load(['userProjectResources.contentType', 'user']);
-
             return [
                 'data' => UserProjectResource::make($result['data']),
                 'message' => __('messages.profile.user_update_profile_success')

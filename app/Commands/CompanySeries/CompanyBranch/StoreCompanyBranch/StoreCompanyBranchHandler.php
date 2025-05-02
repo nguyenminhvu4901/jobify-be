@@ -36,10 +36,6 @@ class StoreCompanyBranchHandler
                 ];
             }
 
-            $result['data']->load(
-                ['province', 'district', 'ward', 'company']
-            );
-
             return [
                 'data' => CompanyBranchResource::make($result['data']),
                 'message' => __('messages.company.company_update_profile_success')
