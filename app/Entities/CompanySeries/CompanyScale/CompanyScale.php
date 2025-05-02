@@ -10,6 +10,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Entities\CompanySeries\Company\Company|null $company
+ * @property-read mixed $display
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyScale newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyScale newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyScale query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyScale whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyScale whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyScale whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyScale whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyScale whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class CompanyScale extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory, CompanyScaleRelationship;

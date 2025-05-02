@@ -9,6 +9,25 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int|null $min_age
+ * @property int|null $max_age
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $display
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobAgeRange newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobAgeRange newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobAgeRange query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobAgeRange whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobAgeRange whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobAgeRange whereMaxAge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobAgeRange whereMinAge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|JobAgeRange whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class JobAgeRange extends BaseModel implements Transformable
 {
     use TransformableTrait, HasFactory;

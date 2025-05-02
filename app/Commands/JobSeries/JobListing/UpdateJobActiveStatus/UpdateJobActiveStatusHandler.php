@@ -27,6 +27,13 @@ class UpdateJobActiveStatusHandler
                 $this->prepareJobStatusData($command), $command->jobListingId
             );
 
+            if(!$jobListing['success']){
+                return [
+                    'message' => __('messages.job.job_update_profile_error'),
+                    'error' => $result['error'] ?? null
+                ];
+            }
+
             $jobListing['data']->load([
                 'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
                 'jobListingDetail',  'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),

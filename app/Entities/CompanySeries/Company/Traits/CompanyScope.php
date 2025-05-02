@@ -13,11 +13,7 @@ trait CompanyScope
      */
     public function scopeWhereUserId(Builder $query, $userId): Builder
     {
-        if(!empty($userId)){
-            return $query->where('user_id', $userId);
-        }
-
-        return $query;
+        return $query->when(!empty($userId), fn($q) => $q->where('user_id', $userId));
     }
 
     /**

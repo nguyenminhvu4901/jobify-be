@@ -13,10 +13,6 @@ trait CompanyBranchScope
      */
     public function scopeWhereByCompanyId(Builder $query, $companyId): Builder
     {
-        if(!empty($companyId)){
-            return $query->where('company_id', $companyId);
-        }
-
-        return $query;
+        return $query->when(!empty($companyId), fn($q) => $q->where('company_id', $companyId));
     }
 }
