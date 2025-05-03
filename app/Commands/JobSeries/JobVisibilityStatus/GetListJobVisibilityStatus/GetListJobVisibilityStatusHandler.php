@@ -10,35 +10,41 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListJobVisibilityStatusHandler
 {
+    /**
+     * @param JobVisibilityStatusRepository $jobVisibilityStatusRepository
+     */
     public function __construct(
         protected JobVisibilityStatusRepository $jobVisibilityStatusRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return array
+     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([JobVisibilityStatusEnum::TAG_NAME->value])->has(
-                JobVisibilityStatusEnum::LIST_ALL_JOB_VISIBILITY_STATUS->value
-            );
+                JobVisibilityStatusEnum::LIST_ALL_JOB_VISIBILITY_STATUS->value);
 
             $jobVisibilityStatuses = Cache::tags([JobVisibilityStatusEnum::TAG_NAME->value])
                 ->remember(
                     JobVisibilityStatusEnum::LIST_ALL_JOB_VISIBILITY_STATUS->value,
                     CacheTTL::HARD->value,
-                    fn () => $this->jobVisibilityStatusRepository->get()
+                    fn() => $this->jobVisibilityStatusRepository->get()
                 );
 
             return [
                 'data' => JobVisibilityStatusResource::collection($jobVisibilityStatuses),
                 'message' => __('messages.job.job_get_info_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

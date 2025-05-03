@@ -7,6 +7,9 @@ use App\Repositories\BaseRepository;
 
 class JobSalaryTypeRepositoryEloquent extends BaseRepository implements JobSalaryTypeRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return JobSalaryType::class;

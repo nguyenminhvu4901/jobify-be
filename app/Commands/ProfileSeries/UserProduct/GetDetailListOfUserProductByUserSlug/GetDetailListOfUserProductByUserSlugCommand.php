@@ -9,7 +9,8 @@ readonly class GetDetailListOfUserProductByUserSlugCommand implements CommandInt
 {
     public function __construct(
         public string $userSlug
-    ) {
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

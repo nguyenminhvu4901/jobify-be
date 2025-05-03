@@ -9,7 +9,6 @@ use App\Http\Resources\JobSeries\JobContact\JobContactResource;
 use App\Http\Resources\JobSeries\JobEducationLevel\JobEducationLevelResource;
 use App\Http\Resources\JobSeries\JobExperience\JobExperienceResource;
 use App\Http\Resources\JobSeries\JobLevel\JobLevelResource;
-use App\Http\Resources\JobSeries\JobListingDetail\JobListingDetailResource;
 use App\Http\Resources\JobSeries\JobLocation\JobLocationResource;
 use App\Http\Resources\JobSeries\JobModerationStatus\JobModerationStatusWithPivotResource;
 use App\Http\Resources\JobSeries\JobPosition\JobPositionResource;
@@ -18,6 +17,7 @@ use App\Http\Resources\JobSeries\JobTypes\JobTypeResource;
 use App\Http\Resources\JobSeries\JobVisibilityStatus\JobVisibilityStatusResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\JobSeries\JobListingDetail\JobListingDetailResource;
 
 class JobListingResource extends JsonResource
 {

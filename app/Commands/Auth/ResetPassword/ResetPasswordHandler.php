@@ -11,21 +11,28 @@ use Illuminate\Support\Str;
 
 class ResetPasswordHandler
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected UserRepository $userRepository
-    ) {
-    }
+    )
+    {}
 
+    /**
+     * @param ResetPasswordCommand $command
+     * @return Application|array|string|Translator|null
+     */
     public function handle(ResetPasswordCommand $command): Application|array|string|Translator|null
     {
         $credentials = [
             'email' => $command->email,
             'password' => $command->password,
             'password_confirmation' => $command->passwordConfirmation,
-            'token' => $command->token,
+            'token' => $command->token
         ];
 
-        $status = Password::reset(
+         $status = Password::reset(
             $credentials,
             function (User $user, $password) {
                 $user->forceFill([
@@ -35,8 +42,8 @@ class ResetPasswordHandler
             }
         );
 
-        return $status === Password::PASSWORD_RESET
-            ? __($status)
-            : null;
+         return $status === Password::PASSWORD_RESET
+             ? __($status)
+             : null;
     }
 }

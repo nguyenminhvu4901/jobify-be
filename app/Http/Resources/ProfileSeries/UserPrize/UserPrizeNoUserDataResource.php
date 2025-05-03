@@ -21,7 +21,7 @@ class UserPrizeNoUserDataResource extends JsonResource
             'organization' => $this->organization,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'user_prize_resource' => UserPrizeAttachmentResource::collection($this->userPrizeResources),
+            'user_prize_resource' => UserPrizeAttachmentResource::collection($this->userPrizeResources)
         ];
     }
 }

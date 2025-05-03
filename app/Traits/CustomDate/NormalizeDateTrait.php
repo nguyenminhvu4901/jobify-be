@@ -8,6 +8,9 @@ trait NormalizeDateTrait
 {
     /**
      * Normalize the date fields in the request.
+     *
+     * @param array $fields
+     * @return void
      */
     protected function normalizeDateFields(array $fields): void
     {
@@ -23,10 +26,13 @@ trait NormalizeDateTrait
 
     /**
      * Normalize a single date value to Y-m-d format.
+     *
+     * @param string|null $date
+     * @return string|null
      */
     private function normalizeDate(?string $date): ?string
     {
-        if (! $date) {
+        if (!$date) {
             return null;
         }
 
@@ -42,10 +48,12 @@ trait NormalizeDateTrait
         $month = (int) $month;
         $day = (int) $day;
 
-        if (! checkdate($month, $day, $year)) {
+        if (!checkdate($month, $day, $year)) {
             return $date;
         }
 
         return Carbon::createFromDate($year, $month, $day)->format('Y-m-d');
     }
+
+
 }

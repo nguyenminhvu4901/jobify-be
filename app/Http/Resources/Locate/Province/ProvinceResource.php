@@ -17,7 +17,7 @@ class ProvinceResource extends JsonResource
         return [
             'id' => $this->id,
             'code' => $this->code,
-            'province_name' => $this->province_name,
+            'province_name' => $this->province_name
         ];
     }
 }

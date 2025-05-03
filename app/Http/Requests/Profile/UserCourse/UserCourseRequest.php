@@ -13,10 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserCourseRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
-    use ValidatesAttachmentsTrait;
-
+    use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,6 +22,9 @@ class UserCourseRequest extends FormRequest
         return auth()->check();
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['start_date', 'end_date']);
@@ -41,15 +41,15 @@ class UserCourseRequest extends FormRequest
 
         $commonRules = $this->getCommonRules();
 
-        return match ($routeName) {
-            UserCourseEnum::PREFIX->value.UserCourseEnum::DETAIL_LIST_USER_COURSE->value => [
-                'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
+        return match ($routeName){
+            UserCourseEnum::PREFIX->value . UserCourseEnum::DETAIL_LIST_USER_COURSE->value => [
+                'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id']
             ],
-            UserCourseEnum::PREFIX->value.UserCourseEnum::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value => [
+            UserCourseEnum::PREFIX->value . UserCourseEnum::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserCourseEnum::PREFIX->value.UserCourseEnum::STORE->value => $commonRules,
-            UserCourseEnum::PREFIX->value.UserCourseEnum::UPDATE->value => [
+            UserCourseEnum::PREFIX->value . UserCourseEnum::STORE->value => $commonRules,
+            UserCourseEnum::PREFIX->value . UserCourseEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
@@ -62,12 +62,12 @@ class UserCourseRequest extends FormRequest
                         'user_course_resources',
                         'user_course_id',
                         'id'
-                    ),
-                ],
+                    )
+                ]
             ],
-            UserCourseEnum::PREFIX->value.UserCourseEnum::DESTROY->value => [
+            UserCourseEnum::PREFIX->value . UserCourseEnum::DESTROY->value => [
                 'user_course_id' => ['bail', 'required', 'integer', 'exists:user_courses,id'],
-                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug']
             ],
             default => []
         };
@@ -76,7 +76,7 @@ class UserCourseRequest extends FormRequest
     /**
      * @return array[]
      */
-    public function getCommonRules(): array
+    public function getCommonRules() :array
     {
         return [
             'name' => ['bail', 'required', 'string', 'max:255'],
@@ -88,7 +88,7 @@ class UserCourseRequest extends FormRequest
             'attachments' => ['bail', 'nullable', 'array', 'max:10'],
             'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
-            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id'],
+            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
         ];
     }
 
@@ -97,6 +97,6 @@ class UserCourseRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserCourseEnum::PREFIX->value.UserCourseEnum::STORE->value);
+        $this->processWithValidator($validator, UserCourseEnum::PREFIX->value . UserCourseEnum::STORE->value);
     }
 }

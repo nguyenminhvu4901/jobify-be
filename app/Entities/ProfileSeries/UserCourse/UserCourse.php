@@ -10,6 +10,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên Khóa học
@@ -22,7 +24,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\ProfileSeries\UserCourseResource\UserCourseResource> $userCourseResources
  * @property-read int|null $user_course_resources_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCourse newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCourse newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCourse query()
@@ -35,14 +36,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCourse whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCourse whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCourse whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class UserCourse extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserCourseRelationship;
+    use TransformableTrait, HasFactory, UserCourseRelationship;
 
     protected $table = UserCourseEnum::TABLE->value;
 
@@ -52,6 +50,6 @@ class UserCourse extends BaseModel implements Transformable
         'organization',
         'start_date',
         'end_date',
-        'description',
+        'description'
     ];
 }

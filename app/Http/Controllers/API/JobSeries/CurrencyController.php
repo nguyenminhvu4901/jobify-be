@@ -10,11 +10,18 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class CurrencyController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getListCurrency(): JsonResponse
     {
         $this->bus->addHandler(
@@ -24,7 +31,7 @@ class CurrencyController extends Controller
 
         $result = $this->bus->dispatch(new GetListCurrencyCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],

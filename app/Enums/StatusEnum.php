@@ -11,8 +11,7 @@ enum StatusEnum: int
     /**
      * @return StatusEnum[]
      */
-    public static function get(): array
-    {
+    public static function get(): array {
         return [
             'DEACTIVATE' => StatusEnum::DEACTIVATE,
             'ACTIVE' => StatusEnum::ACTIVE,

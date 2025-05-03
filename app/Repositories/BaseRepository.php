@@ -14,63 +14,92 @@ use Prettus\Repository\Eloquent\BaseRepository as Repository;
 abstract class BaseRepository extends Repository
 {
     /**
-     * @param  null  $slug
+     * @param null $slug
+     * @param array|string $columns
+     * @return null|User
      */
     public function findBySlug(
         $slug = null,
         array|string $columns = ['*']
-    ): ?User {
+    ): null|User
+    {
         return $this->model->where('slug', $slug)->select($columns)->firstOrFail();
     }
 
+    /**
+     * @param $userId
+     * @param array|string $columns
+     * @return mixed
+     */
     public function findByUserId(
         $userId,
         array|string $columns = ['*']
-    ): mixed {
+    ): mixed
+    {
         return $this->model->where('id', $userId)->select($columns)->first();
     }
 
+    /**
+     * @param $userSlug
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @param array|string $columns
+     * @return mixed
+     */
     public function getByRelationshipUserSlug(
         $userSlug,
         array|string $relationship = [],
         array $relationshipCallbacksToFilter = [],
         array|string $columns = ['*']
-    ): mixed {
+    ): mixed
+    {
         $query = $this->queryByUserSlug($userSlug, $relationship, $relationshipCallbacksToFilter);
 
         return $query->select($columns)->get();
     }
 
     /**
-     * @param  null  $limit
+     * @param $userSlug
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @param null $limit
+     * @return LengthAwarePaginator
      */
     public function paginateByRelationshipUserSlug(
         $userSlug,
         array|string $relationship = [],
         array $relationshipCallbacksToFilter = [],
         $limit = null
-    ): LengthAwarePaginator {
+    ): LengthAwarePaginator
+    {
         $query = $this->queryByUserSlug($userSlug, $relationship, $relationshipCallbacksToFilter);
 
         return $query->paginate($limit ?? PaginateEnum::PAGINATE_DEFAULT->value);
     }
 
+    /**
+     * @param $userSlug
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @return mixed
+     */
     private function queryByUserSlug(
         $userSlug,
         array|string $relationship = [],
         array $relationshipCallbacksToFilter = [],
-    ): mixed {
+    ): mixed
+    {
         $query = $this->model
             ->whereHas('user', function ($query) use ($userSlug) {
                 return $query->where('slug', $userSlug);
             });
 
-        if (! empty($relationship)) {
+        if(!empty($relationship)){
             $relationship = $this->loadRelationship($relationship);
 
-            if (! empty($relationshipCallbacksToFilter)) {
+            if(!empty($relationshipCallbacksToFilter)){
                 $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
-            } else {
+            }else{
                 $query->with($relationship);
             }
         }
@@ -78,24 +107,34 @@ abstract class BaseRepository extends Repository
         return $query;
     }
 
+
+    /**
+     * @param $userSlug
+     * @param $idColumn
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @param array|string $columns
+     * @return mixed
+     */
     public function findByRelationshipUserSlugAndColumnDetailId(
         $userSlug,
         $idColumn,
         array|string $relationship = [],
         array $relationshipCallbacksToFilter = [],
         array|string $columns = ['*']
-    ): mixed {
+    ): mixed
+    {
         $query = $this->model->where('id', $idColumn)
             ->whereHas('user', function ($query) use ($userSlug) {
                 return $query->where('slug', $userSlug);
             });
 
-        if (! empty($relationship)) {
+        if(!empty($relationship)){
             $relationship = $this->loadRelationship($relationship);
 
-            if (! empty($relationshipCallbacksToFilter)) {
+            if(!empty($relationshipCallbacksToFilter)){
                 $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
-            } else {
+            }else{
                 $query->with($relationship);
             }
         }
@@ -103,19 +142,26 @@ abstract class BaseRepository extends Repository
         return $query->select($columns)->firstOrFail();
     }
 
+    /**
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @param array|string $columns
+     * @return Collection
+     */
     public function getWithRelationship(
         array|string $relationship = [],
         array $relationshipCallbacksToFilter = [],
         array|string $columns = ['*']
-    ): Collection {
+    ): Collection
+    {
         $query = $this->model->newQuery();
 
-        if (! empty($relationship)) {
+        if(!empty($relationship)){
             $relationship = $this->loadRelationship($relationship);
 
-            if (! empty($relationshipCallbacksToFilter)) {
+            if(!empty($relationshipCallbacksToFilter)){
                 $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
-            } else {
+            }else{
                 $query->with($relationship);
             }
         }
@@ -123,23 +169,29 @@ abstract class BaseRepository extends Repository
         return $query->select($columns)->get();
     }
 
+
     /**
-     * @param  null  $limit
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @param null $limit
+     * @param array|string $columns
+     * @return LengthAwarePaginator
      */
     public function paginateWithRelationship(
         array|string $relationship = [],
         array $relationshipCallbacksToFilter = [],
         $limit = null,
         array|string $columns = ['*']
-    ): LengthAwarePaginator {
+    ): LengthAwarePaginator
+    {
         $query = $this->model->newQuery();
 
-        if (! empty($relationship)) {
+        if(!empty($relationship)){
             $relationship = $this->loadRelationship($relationship);
 
-            if (! empty($relationshipCallbacksToFilter)) {
+            if(!empty($relationshipCallbacksToFilter)){
                 $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
-            } else {
+            }else{
                 $query->with($relationship);
             }
         }
@@ -151,8 +203,13 @@ abstract class BaseRepository extends Repository
     }
 
     /**
-     * @param  null  $limit
-     * @param  string[]  $columns
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter
+     * @param array|string $orderColumn
+     * @param string $orderCondition
+     * @param null $limit
+     * @param string[] $columns
+     * @return CursorPaginator
      */
     public function cursorPaginateWithRelationship(
         array|string $relationship = [],
@@ -161,48 +218,58 @@ abstract class BaseRepository extends Repository
         string $orderCondition = 'asc',
         $limit = null,
         array|string $columns = ['*']
-    ): CursorPaginator {
+    ): CursorPaginator
+    {
         $query = $this->model->newQuery();
 
-        if (! empty($relationship)) {
+        if(!empty($relationship)){
             $relationship = $this->loadRelationship($relationship);
 
-            if (! empty($relationshipCallbacksToFilter)) {
+            if(!empty($relationshipCallbacksToFilter)){
                 $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
-            } else {
+            }else{
                 $query->with($relationship);
             }
         }
 
         return $query->orderBy($orderColumn, $orderCondition)
             ->cursorPaginate(
-                perPage: $limit ?? PaginateEnum::PAGINATE_DEFAULT->value,
-                columns: $columns
-            );
+            perPage: $limit ?? PaginateEnum::PAGINATE_DEFAULT->value,
+            columns: $columns
+        );
     }
 
+    /**
+     * @param $relationship
+     * @return array
+     */
     private function loadRelationship($relationship): array
     {
         return is_array($relationship) ? $relationship : [$relationship];
     }
 
     /**
-     * @param  array  $relationshipCallbacksToFilter  = []
+     * @param int|string $id
+     * @param array|string $relationship
+     * @param array $relationshipCallbacksToFilter = []
+     * @param array|string $columns
+     * @return mixed
      */
     public function findWithRelationships(
         int|string $id,
         array|string $relationship = [],
         array $relationshipCallbacksToFilter = [],
         array|string $columns = ['*']
-    ): mixed {
+    ): mixed
+    {
 
         $query = $this->model->newQuery();
-        if (! empty($relationship)) {
+        if(!empty($relationship)){
             $relationship = $this->loadRelationship($relationship);
 
-            if (! empty($relationshipCallbacksToFilter)) {
+            if(!empty($relationshipCallbacksToFilter)){
                 $query->with(array_merge($relationship, $relationshipCallbacksToFilter));
-            } else {
+            }else{
                 $query->with($relationship);
             }
         }
@@ -211,18 +278,21 @@ abstract class BaseRepository extends Repository
     }
 
     /**
+     * @param array $attributes
+     * @param array|string $relationships
      * @return array|false[]
      */
     public function storeDataWithTransaction(
         array $attributes = [],
         array|string $relationships = []
-    ): array {
+    ): array
+    {
         DB::beginTransaction();
 
         try {
             $data = $this->model->with($relationships)->create($attributes);
 
-            if (! $data) {
+            if(!$data){
                 DB::rollBack();
 
                 return [
@@ -239,19 +309,22 @@ abstract class BaseRepository extends Repository
                 'data' => $data->refresh(),
             ];
 
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
             DB::rollBack();
-
-            dd($e->getMessage());
 
             return [
                 'success' => false,
                 'message' => __('messages.response.create_resource_failed'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param array $attributes
+     * @param int|string $id
+     * @return array
+     */
     public function updateDataWithTransaction(array $attributes, int|string $id): array
     {
         DB::beginTransaction();
@@ -259,7 +332,7 @@ abstract class BaseRepository extends Repository
         try {
             $data = $this->model->find($id);
 
-            if (! $data) {
+            if(!$data){
                 DB::rollBack();
 
                 return [
@@ -270,7 +343,7 @@ abstract class BaseRepository extends Repository
 
             $isUpdated = $data->update($attributes);
 
-            if (! $isUpdated) {
+            if(!$isUpdated){
                 DB::rollBack();
 
                 return [
@@ -286,17 +359,21 @@ abstract class BaseRepository extends Repository
                 'message' => __('messages.response.update_resource_success'),
                 'data' => $data->refresh(),
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
             DB::rollBack();
 
             return [
                 'success' => false,
                 'message' => __('messages.response.update_resource_failed'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param int|string $id
+     * @return array
+     */
     public function destroyDataWithTransaction(int|string $id): array
     {
         DB::beginTransaction();
@@ -304,7 +381,7 @@ abstract class BaseRepository extends Repository
         try {
             $data = $this->model->find($id);
 
-            if (! $data) {
+            if(!$data){
                 DB::rollBack();
 
                 return [
@@ -315,7 +392,7 @@ abstract class BaseRepository extends Repository
 
             $isDeleted = $data->delete();
 
-            if (! $isDeleted) {
+            if(!$isDeleted){
                 DB::rollBack();
 
                 return [
@@ -329,68 +406,98 @@ abstract class BaseRepository extends Repository
             return [
                 'success' => true,
                 'message' => __('messages.response.delete_resource_success'),
-                'data' => $data,
+                'data' => $data
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e)
+        {
             DB::rollBack();
 
             return [
                 'success' => false,
                 'message' => __('messages.response.delete_resource_failed'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param array $ids
+     * @param array|string $columns
+     * @return mixed
+     */
     public function getByIds(
         array $ids,
         array|string $columns = ['*']
-    ): mixed {
+    ): mixed
+    {
         return $this->model->whereIn('id', $ids)->select($columns)->get();
     }
 
+    /**
+     * @param string $columnName
+     * @param int|string $columnValue
+     * @param string $operation
+     * @param array|string $relationship
+     * @param array|string $columns
+     * @return Collection
+     */
     public function getByValueColumn(
         string $columnName,
         int|string $columnValue,
-        string $operation = '=',
+        string $operation = "=",
         array|string $relationship = [],
         array|string $columns = ['*']
-    ): Collection {
+    ): Collection
+    {
         return $this->builderValueColumn(
-            $columnName,
-            $operation,
-            $columnValue,
-            $relationship,
-            $columns
+            $columnName, $operation, $columnValue, $relationship, $columns
         )->latest('id')->get();
     }
 
+    /**
+     * @param string $columnName
+     * @param int|string $columnValue
+     * @param string $operation
+     * @param array|string $relationship
+     * @param array|string $columns
+     * @return mixed
+     */
     public function findByValueColumn(
         string $columnName,
         int|string $columnValue,
-        string $operation = '=',
+        string $operation = "=",
         array|string $relationship = [],
         array|string $columns = ['*']
-    ): mixed {
+    ): mixed
+    {
         return $this->builderValueColumn(
-            $columnName,
-            $operation,
-            $columnValue,
-            $relationship,
-            $columns
+            $columnName, $operation, $columnValue, $relationship, $columns
         )->first();
     }
 
+    /**
+     * @param string $columnName
+     * @param int|string $columnValue
+     * @param string $operation
+     * @param array|string $relationship
+     * @param array|string $columns
+     * @return Builder
+     */
     private function builderValueColumn(
         string $columnName,
         int|string $columnValue,
-        string $operation = '=',
+        string $operation = "=",
         array|string $relationship = [],
         array|string $columns = ['*']
-    ): Builder {
+    ): Builder
+    {
         return $this->model->with($relationship)->where($columnName, $operation, $columnValue)->select($columns);
     }
 
+    /**
+     * @param array $attributes
+     * @return array
+     */
     public function insertTransaction(array $attributes): array
     {
         DB::beginTransaction();
@@ -398,7 +505,7 @@ abstract class BaseRepository extends Repository
         try {
             $inserted = $this->model->insert($attributes);
 
-            if (! $inserted) {
+            if (!$inserted) {
                 DB::rollBack();
 
                 return [
@@ -425,6 +532,11 @@ abstract class BaseRepository extends Repository
         }
     }
 
+    /**
+     * @param string $col
+     * @param array $values
+     * @return array
+     */
     public function massDeleteTransaction(string $col, array $values): array
     {
         DB::beginTransaction();

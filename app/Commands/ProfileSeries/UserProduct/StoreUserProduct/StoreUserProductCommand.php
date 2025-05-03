@@ -12,21 +12,22 @@ readonly class StoreUserProductCommand implements CommandInterface
         public string $name,
         public string $category,
         public string $finishedDate,
-        public ?string $description,
-        public ?array $attachments
-    ) {
+        public string|null $description,
+        public array|null  $attachments
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface
     {
         $attachments = AttachmentResourceService::handleAttachments($request, 'user_product_resource_id');
 
-        return new self(
-            name: $request->get('name'),
-            category: $request->get('category'),
-            finishedDate: $request->get('finished_date'),
-            description: $request->get('description'),
-            attachments: $attachments
-        );
+       return new self(
+           name: $request->get('name'),
+           category: $request->get('category'),
+           finishedDate: $request->get('finished_date'),
+           description: $request->get('description'),
+           attachments: $attachments
+       );
     }
 }

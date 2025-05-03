@@ -21,7 +21,7 @@ class UserPrizeAttachmentResource extends JsonResource
             'title' => $this->title,
             'path' => $this->path,
             'description' => $this->description,
-            'content_type' => new DefaultContentTypeResource($this->contentType),
+            'content_type' => new DefaultContentTypeResource($this->contentType)
         ];
     }
 }

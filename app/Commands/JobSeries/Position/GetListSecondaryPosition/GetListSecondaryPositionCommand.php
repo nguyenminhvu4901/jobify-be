@@ -9,7 +9,8 @@ readonly class GetListSecondaryPositionCommand implements CommandInterface
 {
     public function __construct(
         public int $mainPositionId
-    ) {
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

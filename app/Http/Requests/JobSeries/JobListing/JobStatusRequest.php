@@ -11,7 +11,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class JobStatusRequest extends FormRequest
 {
     use FailedValidation;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,13 +28,13 @@ class JobStatusRequest extends FormRequest
     {
         $routeName = request()->route()->getName();
 
-        return match ($routeName) {
-            JobListingEnum::PREFIX->value.JobListingEnum::UPDATE_JOB_ACTIVE_STATUS->value => [
+        return match ($routeName){
+            JobListingEnum::PREFIX->value . JobListingEnum::UPDATE_JOB_ACTIVE_STATUS->value => [
                 ...$this->getCommonRules(),
-                'active_status_id' => ['bail', 'required', 'integer', 'exists:default_statuses,id'],
+                'active_status_id' => ['bail', 'required', 'integer', 'exists:default_statuses,id']
             ],
-            JobListingEnum::PREFIX->value.JobListingEnum::DESTROY_JOB->value => [
-                ...$this->getCommonRules(),
+            JobListingEnum::PREFIX->value . JobListingEnum::DESTROY_JOB->value => [
+                ...$this->getCommonRules()
             ],
         };
     }
@@ -46,7 +45,7 @@ class JobStatusRequest extends FormRequest
             'company_id' => ['bail', 'required', 'integer', 'exists:companies,id'],
             'job_listing_id' => [
                 'bail', 'required', 'integer', 'exists:job_listings,id',
-                new CompanyBelongsToJobListingRule($this->input('company_id')),
+                new CompanyBelongsToJobListingRule($this->input('company_id'))
             ],
         ];
     }

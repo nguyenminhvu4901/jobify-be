@@ -9,6 +9,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_prize_id
  * @property string $title Tiêu đề
@@ -18,7 +20,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\DefaultSeries\DefaultContentType\DefaultContentType|null $contentType
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrizeResource newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrizeResource newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrizeResource query()
@@ -30,14 +31,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrizeResource whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrizeResource whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrizeResource whereUserPrizeId($value)
- *
  * @mixin \Eloquent
  */
 class UserPrizeResource extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserPrizeResourceRelationship;
+    use TransformableTrait, HasFactory, UserPrizeResourceRelationship;
 
     protected $table = 'user_prize_resources';
 
@@ -46,6 +44,6 @@ class UserPrizeResource extends BaseModel implements Transformable
         'title',
         'path',
         'description',
-        'content_type_id',
+        'content_type_id'
     ];
 }

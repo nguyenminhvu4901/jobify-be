@@ -7,6 +7,9 @@ use App\Repositories\BaseRepository;
 
 class CompanyWorkingDayRepositoryEloquent extends BaseRepository implements CompanyWorkingDayRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return CompanyWorkingDay::class;

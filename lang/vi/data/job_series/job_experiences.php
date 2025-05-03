@@ -11,5 +11,5 @@ return [
         '7_10_years' => '7–10 năm kinh nghiệm',
         '10_plus_years' => 'Trên 10 năm kinh nghiệm',
         'other' => 'Khác',
-    ],
+    ]
 ];

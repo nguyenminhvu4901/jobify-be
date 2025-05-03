@@ -27,8 +27,8 @@ class PersonalInfoController extends Controller
 {
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
-    }
+    )
+    {}
 
     /**
      * @OA\Get(
@@ -36,40 +36,31 @@ class PersonalInfoController extends Controller
      *     summary="Get Profile Current User",
      *     tags={"PersonalInfo"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\Response(
      *         response=200,
      *         description="Get user info successfully",
-     *
      *         @OA\JsonContent(
      *             type="object",
-     *
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info successfully"
      *             ),
      *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
-     *
      *     @OA\Response(
      *           response=401,
      *           description="The user is not logged in",
-     *
      *           @OA\JsonContent(
      *               type="object",
-     *
      *               @OA\Property(property="message", type="string", example="The user is not logged in"),
      *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
-     *
      *     @OA\Response(
      *         response=500,
      *         description="Get user info failed!",
-     *
      *         @OA\JsonContent(
      *             type="object",
-     *
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info failed!"
      *             ),
@@ -77,6 +68,8 @@ class PersonalInfoController extends Controller
      *         )
      *     )
      * )
+     *
+     * @return JsonResponse
      */
     public function getInformationCurrentUser(): JsonResponse
     {
@@ -84,12 +77,12 @@ class PersonalInfoController extends Controller
 
         $result = $this->bus->dispatch(new GetCurrentUserCommand());
 
-        if (! empty($result['data'])) {
-            return $this->responseSuccess(
-                data: $result['data'],
-                message: $result['message'],
-                cache: $result['cache'] ?? null
-            );
+        if(!empty($result['data'])){
+           return $this->responseSuccess(
+               data: $result['data'],
+               message: $result['message'],
+               cache: $result['cache'] ?? null
+           );
         }
 
         return $this->responseError(
@@ -99,6 +92,9 @@ class PersonalInfoController extends Controller
         );
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getInformationCVCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(
@@ -108,7 +104,7 @@ class PersonalInfoController extends Controller
 
         $result = $this->bus->dispatch(new GetInformationCVCurrentUserCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -131,17 +127,13 @@ class PersonalInfoController extends Controller
      *     description="Update Personal Profile",
      *     tags={"PersonalInfo"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\RequestBody(
      *         required=true,
-     *
      *         @OA\MediaType(
      *             mediaType="application/json",
-     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={"full_name", "phone_number", "position", "gender_id", "birth_date"},
-     *
      *                 @OA\Property(
      *                     property="full_name",
      *                     type="string",
@@ -184,40 +176,31 @@ class PersonalInfoController extends Controller
      *             ),
      *         )
      *     ),
-     *
      *     @OA\Response(
      *          response="200",
      *          description="Update Profile Successfully",
-     *
      *          @OA\JsonContent(
      *              type="object",
-     *
      *              @OA\Property(
      *                  property="message", type="string", example="Saved"
      *              ),
      *              @OA\Property(property="status_code", type="integer", example=200)
      *          )
      *     ),
-     *
      *     @OA\Response(
      *           response=401,
      *           description="The user is not logged in",
-     *
      *           @OA\JsonContent(
      *               type="object",
-     *
      *               @OA\Property(property="message", type="string", example="The user is not logged in"),
      *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
-     *
      *     @OA\Response(
      *            response="500",
      *            description="Update Profile Error",
-     *
      *            @OA\JsonContent(
      *                type="object",
-     *
      *                @OA\Property(
      *                    property="message", type="string", example="Save failed"
      *                ),
@@ -225,6 +208,9 @@ class PersonalInfoController extends Controller
      *            )
      *      ),
      * )
+     *
+     * @param UpdateUserProfileRequest $request
+     * @return JsonResponse
      */
     public function updateProfile(UpdateUserProfileRequest $request): JsonResponse
     {
@@ -232,7 +218,7 @@ class PersonalInfoController extends Controller
 
         $result = $this->bus->dispatch(UpdateProfileCommand::withForm($request));
 
-        if (! empty($result['user'])) {
+        if(!empty($result['user'])){
             return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 
@@ -250,15 +236,11 @@ class PersonalInfoController extends Controller
      *     description="Upload Avatar",
      *     tags={"PersonalInfo"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\RequestBody(
-     *
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
-     *
      *             @OA\Schema(
      *                 type="object",
-     *
      *                 @OA\Property(
      *                     property="avatar",
      *                     type="string",
@@ -268,40 +250,31 @@ class PersonalInfoController extends Controller
      *             )
      *         )
      *     ),
-     *
      *     @OA\Response(
      *           response="200",
      *           description="Update Profile Successfully",
-     *
      *           @OA\JsonContent(
      *               type="object",
-     *
      *               @OA\Property(
      *                   property="message", type="string", example="Saved"
      *               ),
      *               @OA\Property(property="status_code", type="integer", example=200)
      *           )
      *     ),
-     *
      *     @OA\Response(
      *           response=401,
      *           description="The user is not logged in",
-     *
      *           @OA\JsonContent(
      *               type="object",
-     *
      *               @OA\Property(property="message", type="string", example="The user is not logged in"),
      *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
-     *
      *     @OA\Response(
      *             response=500,
      *             description="Update Profile Error",
-     *
      *             @OA\JsonContent(
      *                 type="object",
-     *
      *                 @OA\Property(
      *                     property="message", type="string", example="Save failed"
      *                 ),
@@ -309,6 +282,9 @@ class PersonalInfoController extends Controller
      *             )
      *      ),
      * )
+     *
+     * @param UpdateUserProfileAvatarRequest $request
+     * @return JsonResponse
      */
     public function uploadAvatar(UpdateUserProfileAvatarRequest $request): JsonResponse
     {
@@ -316,7 +292,7 @@ class PersonalInfoController extends Controller
 
         $result = $this->bus->dispatch(UploadAvatarCommand::withForm($request));
 
-        if (! empty($result['user'])) {
+        if(!empty($result['user'])){
             return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
 

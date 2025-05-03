@@ -12,70 +12,90 @@ use Illuminate\Support\Collection;
 
 class UserProjectService
 {
-    use ImageHandler;
-    use VideoHandler;
+    use ImageHandler, VideoHandler;
 
+    /**
+     * @param AttachmentResourceService $attachmentResourceService
+     * @param UserProjectResourceRepository $userProjectResourceRepository
+     */
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
         protected UserProjectResourceRepository $userProjectResourceRepository
-    ) {
+    )
+    {
     }
 
     /**
+     * @param $attachment
      * @return void|null
      */
     public function saveAttachment($attachment)
     {
         return $this->attachmentResourceService->saveFileAttachment(
-            attachment: $attachment,
-            lastFolderName: 'projects'
+            attachment: $attachment, lastFolderName: 'projects'
         );
     }
 
+    /**
+     * @param array $attachment
+     * @param string|int $userProjectId
+     * @param string|null $pathStorage
+     * @return mixed
+     */
     public function storeUserProjectResource(
         array $attachment,
         string|int $userProjectId,
-        ?string $pathStorage
-    ): mixed {
+        string|null $pathStorage
+    ): mixed
+    {
         return $this->userProjectResourceRepository->storeDataWithTransaction([
             'user_project_id' => $userProjectId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id'],
+            'content_type_id' => $attachment['content_type_id']
         ]);
     }
 
+    /**
+     * @param array $attachment
+     * @param string|int $userProjectResourceId
+     * @param string|null $pathStorage
+     * @return mixed
+     */
     private function updateUserProjectResource(
         array $attachment,
         string|int $userProjectResourceId,
-        ?string $pathStorage
-    ): mixed {
+        string|null $pathStorage
+    ): mixed
+    {
         return $this->userProjectResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
                 'description' => $attachment['description'],
-                'content_type_id' => $attachment['content_type_id'],
-            ],
-            $userProjectResourceId
-        );
+                'content_type_id' => $attachment['content_type_id']
+            ], $userProjectResourceId);
     }
 
+    /**
+     * @param $attachments
+     * @param $userProjectResource
+     * @param $userProjectId
+     * @return null
+     */
     public function updateResourceAttachment(
-        $attachments,
-        $userProjectResource,
-        $userProjectId
-    ): null {
+        $attachments, $userProjectResource, $userProjectId
+    ): null
+    {
         $this->deleteUserProjectResourceAndAttachment(
-            attachments: $attachments,
-            userProjectResource: $userProjectResource
-        );
+            attachments: $attachments, userProjectResource: $userProjectResource);
 
-        foreach ($attachments as $attachment) {
-            if (! empty($attachment['user_project_resource_id'])) {
+        foreach ($attachments as $attachment)
+        {
+            if(!empty($attachment['user_project_resource_id'])){
                 $this->processUpdateAttachment($attachment);
-            } else {
+            }else{
 
                 $pathStorage = $this->saveAttachment($attachment);
 
@@ -90,6 +110,11 @@ class UserProjectService
         return null;
     }
 
+    /**
+     * @param $attachments
+     * @param $userProjectResource
+     * @return null
+     */
     private function deleteUserProjectResourceAndAttachment($attachments, $userProjectResource): null
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
@@ -101,8 +126,8 @@ class UserProjectService
         $listUserProjectResourceToDelete = $this->userProjectResourceRepository
             ->getByIds($listDelIds);
 
-        if (! empty($listUserProjectResourceToDelete)) {
-            $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
+        if(!empty($listUserProjectResourceToDelete)){
+             $listUserProjectResourceToDelete->map(function ($eachUserProjectResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserProjectResource);
                 $this->userProjectResourceRepository->destroyDataWithTransaction($eachUserProjectResource->id);
@@ -113,6 +138,7 @@ class UserProjectService
     }
 
     /**
+     * @param $attachment
      * @return LengthAwarePaginator|Collection|mixed|void|null
      */
     public function processUpdateAttachment($attachment)
@@ -123,9 +149,9 @@ class UserProjectService
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
         ) {
-            if (is_string($attachment['content'])) {
-                return;
-            } else {
+            if(is_string($attachment['content'])){
+                return ;
+            }else{
                 $this->attachmentResourceService->deleteFileAttachment($userProjectResource);
                 $pathStorage = $this->saveAttachment($attachment);
 
@@ -142,7 +168,7 @@ class UserProjectService
                 userProjectResourceId: $userProjectResource->id,
                 pathStorage: $attachment['content']
             );
-        } else {
+        }else {
             return null;
         }
     }

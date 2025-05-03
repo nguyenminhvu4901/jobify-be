@@ -22,6 +22,11 @@ class SanitizeInput
         return $next($request);
     }
 
+    /**
+     *
+     * @param mixed $data
+     * @return mixed
+     */
     private function sanitizeData(mixed $data): mixed
     {
         if (is_string($data)) {

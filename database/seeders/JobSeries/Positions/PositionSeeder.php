@@ -20,7 +20,7 @@ class PositionSeeder extends Seeder
         $this->seedNestedPositions();
     }
 
-    private function seedNestedPositions(?array $positions = null, ?Position $parent = null): void
+    private function seedNestedPositions(array $positions = null, Position $parent = null): void
     {
         $positions = $positions ?? config('jobify_data.job_series.positions');
 
@@ -36,7 +36,7 @@ class PositionSeeder extends Seeder
                 $node->save();
             }
 
-            if (! empty($children)) {
+            if (!empty($children)) {
                 $this->seedNestedPositions($children, $node);
             }
         }

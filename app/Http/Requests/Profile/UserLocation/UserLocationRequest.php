@@ -12,7 +12,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class UserLocationRequest extends FormRequest
 {
     use FailedValidation;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -32,21 +31,21 @@ class UserLocationRequest extends FormRequest
 
         $commonRules = $this->getCommonRules();
 
-        return match ($routeName) {
-            UserLocationEnum::PREFIX->value.UserLocationEnum::STORE->value => $commonRules,
-            UserLocationEnum::PREFIX->value.UserLocationEnum::UPDATE->value => [
+        return match ($routeName){
+            UserLocationEnum::PREFIX->value . UserLocationEnum::STORE->value => $commonRules,
+            UserLocationEnum::PREFIX->value . UserLocationEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserLocationEnum::PREFIX->value.UserLocationEnum::DESTROY->value => [
+            UserLocationEnum::PREFIX->value . UserLocationEnum::DESTROY->value => [
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserLocationEnum::PREFIX->value.UserLocationEnum::DETAIL_LIST_USER_LOCATION->value => [
+            UserLocationEnum::PREFIX->value . UserLocationEnum::DETAIL_LIST_USER_LOCATION->value => [
                 'user_location_id' => ['bail', 'required', 'integer', 'exists:user_locations,id'],
             ],
-            UserLocationEnum::PREFIX->value.UserLocationEnum::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value => [
+            UserLocationEnum::PREFIX->value . UserLocationEnum::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
             default => []
@@ -59,13 +58,13 @@ class UserLocationRequest extends FormRequest
             'province_id' => ['bail', 'nullable', 'integer', 'exists:provinces,id'],
             'district_id' => [
                 'bail', 'nullable', 'integer', 'exists:districts,id',
-                new CheckDistrictByProvinceRule($this->input('province_id')),
-            ],
+                new CheckDistrictByProvinceRule($this->input('province_id'))
+                ],
             'ward_id' => [
                 'bail', 'nullable', 'integer', 'exists:wards,id',
-                new CheckWardByDistrictRule($this->input('district_id')),
+                new CheckWardByDistrictRule($this->input('district_id'))
             ],
-            'address' => ['bail', 'nullable', 'string', 'max:512'],
+            'address' => ['bail', 'nullable', 'string', 'max:512']
         ];
     }
 }

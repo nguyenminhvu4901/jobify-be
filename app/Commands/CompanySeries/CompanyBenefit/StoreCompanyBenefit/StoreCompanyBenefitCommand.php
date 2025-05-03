@@ -7,13 +7,23 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class StoreCompanyBenefitCommand implements CommandInterface
 {
+    /**
+     * @param string|int $companyId
+     * @param string $benefitName
+     * @param string $benefitDescription
+     */
     public function __construct(
         public string|int $companyId,
         public string $benefitName,
         public string $benefitDescription
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(

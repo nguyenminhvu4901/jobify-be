@@ -27,16 +27,22 @@ class UserExperienceController extends Controller
 {
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+
+     */
     public function store(UserExperienceRequest $request): JsonResponse
     {
         $this->bus->addHandler(StoreUserExperienceCommand::class, StoreUserExperienceHandler::class);
 
         $result = $this->bus->dispatch(StoreUserExperienceCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -47,16 +53,17 @@ class UserExperienceController extends Controller
         );
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getListExperienceCurrentUser(): JsonResponse
     {
-        $this->bus->addHandler(
-            GetListExperienceCurrentUserCommand::class,
-            GetListExperienceCurrentUserHandler::class
-        );
+        $this->bus->addHandler(GetListExperienceCurrentUserCommand::class,
+            GetListExperienceCurrentUserHandler::class);
 
         $result = $this->bus->dispatch(new GetListExperienceCurrentUserCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -77,34 +84,30 @@ class UserExperienceController extends Controller
      *     summary="Get complete list of user experience",
      *     tags={"UserExperienceEnum"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *
      *         @OA\JsonContent(
      *             type="object",
-     *
      *             @OA\Property(property="message", type="string", example="Hello World")
      *         )
      *     ),
-     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
      *     )
      * )
+     * @param FormRequest $request
+     * @return JsonResponse
      */
     public function getCompleteListOfUserExperience(FormRequest $request): JsonResponse
     {
-        $this->bus->addHandler(
-            GetCompleteListOfUserExperienceCommand::class,
-            GetCompleteListOfUserExperienceHandler::class
-        );
+        $this->bus->addHandler(GetCompleteListOfUserExperienceCommand::class,
+            GetCompleteListOfUserExperienceHandler::class);
 
         $result = $this->bus->dispatch(GetCompleteListOfUserExperienceCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -120,16 +123,18 @@ class UserExperienceController extends Controller
         );
     }
 
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+     */
     public function getDetailListOfUserExperience(UserExperienceRequest $request): JsonResponse
     {
-        $this->bus->addHandler(
-            DetailListOfUserExperienceCommand::class,
-            DetailListOfUserExperienceHandle::class
-        );
+        $this->bus->addHandler(DetailListOfUserExperienceCommand::class,
+            DetailListOfUserExperienceHandle::class);
 
         $result = $this->bus->dispatch(DetailListOfUserExperienceCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -144,16 +149,18 @@ class UserExperienceController extends Controller
         );
     }
 
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+     */
     public function getDetailListOfUserExperienceByUserSlug(UserExperienceRequest $request): JsonResponse
     {
-        $this->bus->addHandler(
-            DetailListOfUserExperienceByUserSlugCommand::class,
-            DetailListOfUserExperienceByUserSlugHandle::class
-        );
+        $this->bus->addHandler(DetailListOfUserExperienceByUserSlugCommand::class,
+            DetailListOfUserExperienceByUserSlugHandle::class);
 
         $result = $this->bus->dispatch(DetailListOfUserExperienceByUserSlugCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -168,13 +175,17 @@ class UserExperienceController extends Controller
         );
     }
 
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+     */
     public function update(UserExperienceRequest $request): JsonResponse
     {
         $this->bus->addHandler(UpdateUserExperienceCommand::class, UpdateUserExperienceHandler::class);
 
         $result = $this->bus->dispatch(UpdateUserExperienceCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -185,13 +196,17 @@ class UserExperienceController extends Controller
         );
     }
 
+    /**
+     * @param UserExperienceRequest $request
+     * @return JsonResponse
+     */
     public function destroy(UserExperienceRequest $request): JsonResponse
     {
         $this->bus->addHandler(DestroyUserExperienceCommand::class, DestroyUserExperienceHandler::class);
 
         $result = $this->bus->dispatch(DestroyUserExperienceCommand::withForm($request));
 
-        if (! empty($result['userExperienceDestroy'])) {
+        if(!empty($result['userExperienceDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

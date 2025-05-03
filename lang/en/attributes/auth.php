@@ -9,5 +9,5 @@ return [
     'new_password' => 'New Password',
     'new_password_confirmation' => 'New Password Confirmation',
     'token' => 'Token',
-    'slug' => 'Slug',
+    'slug' => 'Slug'
 ];

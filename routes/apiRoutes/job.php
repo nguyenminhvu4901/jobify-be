@@ -28,108 +28,108 @@ Route::group(
     [
         'middleware' => ['api', 'auth', 'throttle:rateLimit'],
         'prefix' => 'job',
-        'as' => 'job.',
+        'as' => 'job.'
     ],
-    function () {
+    function() {
         Route::group(['prefix' => 'job-age-range', 'as' => 'jobAgeRange.'], function () {
             Route::get('/list-all-job-age-range', [
-                JobAgeRangeController::class, 'getListJobAgeRange',
+                JobAgeRangeController::class, 'getListJobAgeRange'
             ])->name(JobAgeRangeEnum::LIST_ALL_JOB_AGE_RANGE->value);
         });
 
         Route::group(['prefix' => 'job-type', 'as' => 'jobType.'], function () {
             Route::get('/list-all-job-type', [
-                JobTypeController::class, 'getListJobType',
+                JobTypeController::class, 'getListJobType'
             ])->name(JobTypeEnum::LIST_ALL_JOB_TYPE->value);
         });
 
         Route::group(['prefix' => 'job-level', 'as' => 'jobLevel.'], function () {
             Route::get('/list-all-job-level', [
-                JobLevelController::class, 'getListJobLevel',
+                JobLevelController::class, 'getListJobLevel'
             ])->name(JobLevelEnum::LIST_ALL_JOB_LEVEL->value);
         });
 
         Route::group(['prefix' => 'job-experience', 'as' => 'jobExperience.'], function () {
             Route::get('/list-all-job-experience', [
-                JobExperienceController::class, 'getListJobExperience',
+                JobExperienceController::class, 'getListJobExperience'
             ])->name(JobExperienceEnum::LIST_ALL_JOB_EXPERIENCE->value);
         });
 
         Route::group(['prefix' => 'job-education-level', 'as' => 'jobEducationLevel.'], function () {
             Route::get('/list-all-job-education-level', [
-                JobEducationLevelController::class, 'getListJobEducationLevel',
+                JobEducationLevelController::class, 'getListJobEducationLevel'
             ])->name(JobEducationLevelEnum::LIST_ALL_JOB_EDUCATION_LEVEL->value);
         });
 
         Route::group(['prefix' => 'position', 'as' => 'position.'], function () {
             Route::get('/list-all-position', [
-                PositionController::class, 'getListPosition',
+                PositionController::class, 'getListPosition'
             ])->name(PositionEnum::LIST_ALL_POSITION->value);
 
             Route::get('/list-leaf-position', [
-                PositionController::class, 'getListLeafPosition',
+                PositionController::class, 'getListLeafPosition'
             ])->name(PositionEnum::LIST_LEAF_POSITION->value);
 
             Route::get('/list-secondary-position', [
-                PositionController::class, 'getListSecondaryPosition',
+                PositionController::class, 'getListSecondaryPosition'
             ])->name(PositionEnum::LIST_SECONDARY_POSITION->value);
         });
 
         Route::group(['prefix' => 'currency', 'as' => 'currency.'], function () {
             Route::get('/list-all-currency', [
-                CurrencyController::class, 'getListCurrency',
+                CurrencyController::class, 'getListCurrency'
             ])->name(CurrencyEnum::LIST_ALL_CURRENCY->value);
         });
 
         Route::group(['prefix' => 'job-salary-type', 'as' => 'jobSalaryType.'], function () {
             Route::get('/list-all-job-salary-type', [
-                JobSalaryTypeController::class, 'getListJobSalaryType',
+                JobSalaryTypeController::class, 'getListJobSalaryType'
             ])->name(JobSalaryTypeEnum::LIST_ALL_JOB_SALARY_TYPE->value);
         });
 
         Route::group(['prefix' => 'job-moderation-status', 'as' => 'jobModerationStatus.'], function () {
             Route::get('/list-all-job-moderation-status', [
-                JobModerationStatusController::class, 'getListJobModerationStatus',
+                JobModerationStatusController::class, 'getListJobModerationStatus'
             ])->name(JobModerationStatusEnum::LIST_ALL_JOB_MODERATION_STATUS->value);
         });
 
         Route::group(['prefix' => 'job-visibility-status', 'as' => 'jobVisibilityStatus.'], function () {
             Route::get('/list-all-job-visibility-status', [
-                JobVisibilityStatusController::class, 'getListJobVisibilityStatus',
+                JobVisibilityStatusController::class, 'getListJobVisibilityStatus'
             ])->name(JobVisibilityStatusEnum::LIST_ALL_JOB_VISIBILITY_STATUS->value);
         });
 
         Route::group(['prefix' => 'job-listing', 'as' => 'jobListing.'], function () {
             Route::get('/list-all-jobs', [
-                JobListingController::class, 'getListAllJobs',
+                JobListingController::class, 'getListAllJobs'
             ])->name(JobListingEnum::LIST_ALL_JOBS->value);
 
             Route::get('/list-all-job-by-company', [
-                JobListingController::class, 'getListAllJobsByCompany',
+                JobListingController::class, 'getListAllJobsByCompany'
             ])->name(JobListingEnum::LIST_ALL_JOBS_BY_COMPANY->value);
 
             Route::get('/detail-job', [
-                JobListingController::class, 'getDetailJobByJobId',
+                JobListingController::class, 'getDetailJobByJobId'
             ])->name(JobListingEnum::DETAIL_JOB_BY_JOB_ID->value);
 
             Route::get('/suggested-jobs', [
-                JobListingController::class, 'getSuggestedJob',
+                JobListingController::class, 'getSuggestedJob'
             ])->name(JobListingEnum::SUGGESTED_JOB->value);
 
             Route::post('/store-job', [
-                JobListingController::class, 'storeJob',
+                JobListingController::class, 'storeJob'
             ])->name(JobListingEnum::STORE_JOB->value);
 
             Route::put('/update-job', [
-                JobListingController::class, 'updateJob',
+                JobListingController::class, 'updateJob'
             ])->name(JobListingEnum::UPDATE_JOB->value);
 
             Route::patch('/update-job-active-status', [
-                JobListingController::class, 'updateJobActiveStatus',
+                JobListingController::class, 'updateJobActiveStatus'
             ])->name(JobListingEnum::UPDATE_JOB_ACTIVE_STATUS->value);
 
             Route::delete('/destroy-job', [
-                JobListingController::class, 'destroyJob',
+                JobListingController::class, 'destroyJob'
             ])->name(JobListingEnum::DESTROY_JOB->value);
         });
     }

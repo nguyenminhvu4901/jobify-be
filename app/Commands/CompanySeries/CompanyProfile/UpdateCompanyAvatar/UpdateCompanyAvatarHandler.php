@@ -10,11 +10,19 @@ class UpdateCompanyAvatarHandler
 {
     use ImageHandler;
 
+    /**
+     * @param CompanyRepository $companyRepository
+     */
     public function __construct(
         protected CompanyRepository $companyRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UpdateCompanyAvatarCommand $command
+     * @return array
+     */
     public function handle(UpdateCompanyAvatarCommand $command): array
     {
         try {
@@ -22,36 +30,36 @@ class UpdateCompanyAvatarHandler
 
             $company = $this->companyRepository->find($command->companyId);
 
-            if (! empty($command->avatar)) {
-                if (is_string($command->avatar)) {
-                    if ($command->avatar != $company?->avatar) {
+            if(!empty($command->avatar)){
+                if(is_string($command->avatar)){
+                    if($command->avatar != $company?->avatar){
                         $companyInfo = $this->processAvatarDefault($company);
                     }
-                } else {
+                }else{
                     $path = config('constants.path_company_avatar');
 
                     $pathStorage = $this->storeImage($command->avatar, $path, $user);
 
-                    $companyInfo = $this->companyRepository->updateDataWithTransaction([
-                        'avatar' => $pathStorage,
+                    $companyInfo =  $this->companyRepository->updateDataWithTransaction([
+                        'avatar' => $pathStorage
                     ], $company->id);
                 }
-            } else {
+            }else{
                 $companyInfo = $this->processAvatarDefault($company);
             }
 
-            if (! empty($companyInfo) && $companyInfo['success']) {
+            if(!empty($companyInfo) && $companyInfo['success']){
 
                 return [
                     'company' => CompanyProfileResource::make($companyInfo['data']->refresh()),
-                    'message' => __('messages.company.company_update_profile_success'),
+                    'message' => __('messages.company.company_update_profile_success')
                 ];
             }
 
             return [
                 'message' => __('messages.company.company_update_profile_error'),
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
@@ -60,13 +68,17 @@ class UpdateCompanyAvatarHandler
         }
     }
 
+    /**
+     * @param $company
+     * @return array|null
+     */
     private function processAvatarDefault($company): ?array
     {
         $status = $this->deleteImage($company->avatar);
 
-        if ($status) {
+        if($status){
             return $this->companyRepository->updateDataWithTransaction([
-                'avatar' => asset(config('constants.default_avatar')),
+                'avatar' => asset(config('constants.default_avatar'))
             ], $company->id);
         }
 

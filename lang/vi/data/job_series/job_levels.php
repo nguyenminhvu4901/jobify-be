@@ -27,5 +27,5 @@ return [
         'oversees_department_strategy_and_direction' => 'Định hướng chiến lược và quản lý cấp phòng ban',
         'top_level_leader_responsible_for_company_strategy' => 'Lãnh đạo cấp cao chịu trách nhiệm chiến lược công ty',
         'other_job_levels_not_classified_above' => 'Các cấp bậc công việc khác không nằm trong danh sách trên',
-    ],
+    ]
 ];

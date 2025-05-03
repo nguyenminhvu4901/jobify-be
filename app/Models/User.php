@@ -14,6 +14,8 @@ use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string|null $uuid
  * @property string $full_name
@@ -59,7 +61,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read int|null $user_projects_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\ProfileSeries\UserSkill\UserSkill> $userSkills
  * @property-read int|null $user_skills_count
- *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User isActive()
@@ -92,19 +93,18 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use CanResetPassword;
-    use HasFactory;
-    use HasRoles;
-    use Notifiable;
-    use Sluggable;
-    use SoftDeletes;
-    use UserRelationship;
-    use UserScope;
+    use HasFactory,
+        Notifiable,
+        HasRoles,
+        Sluggable,
+        SoftDeletes,
+        UserRelationship,
+        UserScope,
+        CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -120,7 +120,7 @@ class User extends Authenticatable implements JWTSubject
         'phone_number',
         'status_id',
         'current_role',
-        'avatar',
+        'avatar'
     ];
 
     /**
@@ -154,16 +154,22 @@ class User extends Authenticatable implements JWTSubject
         return [
             'slug' => [
                 'source' => 'full_name',
-                'onUpdate' => true,
-            ],
+                'onUpdate' => true
+            ]
         ];
     }
 
+    /**
+     * @return mixed
+     */
     public function getJWTIdentifier(): mixed
     {
         return $this->getKey();
     }
 
+    /**
+     * @return array
+     */
     public function getJWTCustomClaims(): array
     {
         return [];

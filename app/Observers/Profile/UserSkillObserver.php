@@ -10,6 +10,6 @@ class UserSkillObserver extends BaseObserver
 {
     protected array $cacheTag = [
         UserSkillEnum::TAG_NAME->value,
-        UserProfileEnum::TAG_NAME->value,
+        UserProfileEnum::TAG_NAME->value
     ];
 }

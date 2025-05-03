@@ -13,10 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserExperienceRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
-    use ValidatesAttachmentsTrait;
-
+    use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -37,13 +34,13 @@ class UserExperienceRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserExperienceEnum::PREFIX->value.UserExperienceEnum::STORE->value => $commonRules,
-            UserExperienceEnum::PREFIX->value.UserExperienceEnum::UPDATE->value => [
+            UserExperienceEnum::PREFIX->value . UserExperienceEnum::STORE->value => $commonRules,
+            UserExperienceEnum::PREFIX->value . UserExperienceEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
                 'attachments.*.user_experience_resource_id' => [
-                    'bail', 'nullable', 'integer', 'exists:user_experience_resources,id',
+                        'bail', 'nullable', 'integer', 'exists:user_experience_resources,id',
                     new UniqueArrayValues('attachments.*.user_experience_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_experience_id'),
@@ -51,23 +48,26 @@ class UserExperienceRequest extends FormRequest
                         'user_experience_resources',
                         'user_experience_id',
                         'id'
-                    ),
-                ],
+                    )
+                ]
             ],
-            UserExperienceEnum::PREFIX->value.UserExperienceEnum::DESTROY->value => [
+            UserExperienceEnum::PREFIX->value . UserExperienceEnum::DESTROY->value => [
+                    'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+                    'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
+            ],
+            UserExperienceEnum::PREFIX->value  . UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
-                'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
             ],
-            UserExperienceEnum::PREFIX->value.UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value => [
-                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
-            ],
-            UserExperienceEnum::PREFIX->value.UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE->value => [
-                'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id'],
+            UserExperienceEnum::PREFIX->value . UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE->value => [
+                'user_experience_id' => ['bail', 'required', 'integer', 'exists:user_experiences,id']
             ],
             default => [],
         };
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['start_date', 'end_date']);
@@ -85,7 +85,7 @@ class UserExperienceRequest extends FormRequest
             'attachments' => ['bail', 'nullable', 'array', 'max:10'],
             'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
-            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id'],
+            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
         ];
     }
 
@@ -94,6 +94,6 @@ class UserExperienceRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserExperienceEnum::PREFIX->value.UserExperienceEnum::STORE->value);
+        $this->processWithValidator($validator, UserExperienceEnum::PREFIX->value . UserExperienceEnum::STORE->value);
     }
 }

@@ -147,6 +147,6 @@ class RepositoryServiceProvider extends ServiceProvider
         JobApplicationRepository::class => JobApplicationRepositoryEloquent::class,
         ApplicationStatusRepository::class => ApplicationStatusRepositoryEloquent::class,
         JobApplicationStatusRepository::class => JobApplicationStatusRepositoryEloquent::class,
-        ApplicationCVRepository::class => ApplicationCVRepositoryEloquent::class,
+        ApplicationCVRepository::class => ApplicationCVRepositoryEloquent::class
     ];
 }

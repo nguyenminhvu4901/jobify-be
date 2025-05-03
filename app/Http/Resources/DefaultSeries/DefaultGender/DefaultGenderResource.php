@@ -16,7 +16,7 @@ class DefaultGenderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'gender' => $this->gender,
+            'gender' => $this->gender
         ];
     }
 }

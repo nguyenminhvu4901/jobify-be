@@ -8,29 +8,26 @@ use Illuminate\Filesystem\Filesystem;
 class MakeCommandHandler extends Command
 {
     protected $signature = 'make:command-handler {name}';
-
     protected $description = 'Create a directory inside app/Commands and generate Command & Handler files';
 
     public function handle(): void
     {
-        $name = preg_replace('/[\/\\\\]+/', '/', trim($this->argument('name'), '/\\'));
+        $name = preg_replace('/[\/\\\\]+/', '/', trim($this->argument('name'), "/\\"));
 
         if (empty($name) || str_contains($name, '.')) {
-            $this->components->error('Invalid name: Name cannot be empty or contain dots.');
-
+            $this->components->error("Invalid name: Name cannot be empty or contain dots.");
             return;
         }
 
-        if (! preg_match('/^[A-Za-z_][A-Za-z0-9_\/\\\\]*$/', $name)) {
+        if (!preg_match('/^[A-Za-z_][A-Za-z0-9_\/\\\\]*$/', $name)) {
             $this->components->error("Invalid name: {$name}");
-
             return;
         }
 
         $filesystem = new Filesystem();
         $basePath = app_path('Commands');
 
-        if (! $filesystem->isDirectory($basePath)) {
+        if (!$filesystem->isDirectory($basePath)) {
             $filesystem->makeDirectory($basePath, 0755, true);
         }
 
@@ -42,15 +39,16 @@ class MakeCommandHandler extends Command
 
         $finalDirectory = "{$basePath}/{$parentPath}/{$className}";
 
-        if (! $filesystem->isDirectory($finalDirectory)) {
+        if (!$filesystem->isDirectory($finalDirectory)) {
             $filesystem->makeDirectory($finalDirectory, 0755, true);
         }
 
-        $namespace = 'App\\Commands'.(! empty($parentPath) ? '\\'.str_replace('/', '\\', $parentPath) : '')."\\{$className}";
+        $namespace = "App\\Commands" . (!empty($parentPath) ? "\\" . str_replace('/', '\\', $parentPath) : "") . "\\{$className}";
         $namespace = preg_replace('/\\\\+/', '\\', $namespace);
 
+
         $commandPath = "{$finalDirectory}/{$className}Command.php";
-        if (! $filesystem->exists($commandPath)) {
+        if (!$filesystem->exists($commandPath)) {
 
             $commandStub = <<<PHP
             <?php
@@ -69,7 +67,7 @@ class MakeCommandHandler extends Command
         }
 
         $handlerPath = "{$finalDirectory}/{$className}Handler.php";
-        if (! $filesystem->exists($handlerPath)) {
+        if (!$filesystem->exists($handlerPath)) {
 
             $handlerStub = <<<PHP
             <?php

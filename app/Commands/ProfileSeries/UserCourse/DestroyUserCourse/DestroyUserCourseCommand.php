@@ -9,8 +9,9 @@ readonly class DestroyUserCourseCommand implements CommandInterface
 {
     public function __construct(
         public string|int $userCourseId,
-        public string $userSlug
-    ) {
+        public string     $userSlug
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

@@ -12,74 +12,95 @@ use Illuminate\Support\Collection;
 
 class UserExperienceService
 {
-    use ImageHandler;
-    use VideoHandler;
+    use ImageHandler, VideoHandler;
 
+    /**
+     * @param AttachmentResourceService $attachmentResourceService
+     * @param UserExperienceResourceRepository $userExperienceResourceRepository
+     */
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
         protected UserExperienceResourceRepository $userExperienceResourceRepository,
-    ) {
-    }
+    )
+    {}
 
     /**
+     * @param $attachment
      * @return void|null
      */
     public function saveAttachment($attachment)
     {
         return $this->attachmentResourceService->saveFileAttachment(
-            attachment: $attachment,
-            lastFolderName: 'experiences'
+            attachment: $attachment, lastFolderName: 'experiences'
         );
     }
 
+
+    /**
+     * @param array $attachment
+     * @param string|int $userExperienceId
+     * @param string|null $pathStorage
+     * @return mixed
+     */
     public function storeUserExperienceResource(
         array $attachment,
         string|int $userExperienceId,
-        ?string $pathStorage
-    ): mixed {
+        string|null $pathStorage
+    ): mixed
+    {
         return $this->userExperienceResourceRepository->storeDataWithTransaction([
             'user_experience_id' => $userExperienceId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id'],
+            'content_type_id' => $attachment['content_type_id']
         ]);
     }
 
+
+    /**
+     * @param array $attachment
+     * @param string|int $userExperienceResourceId
+     * @param string|null $pathStorage
+     * @return mixed
+     */
     private function updateUserExperienceResource(
         array $attachment,
         string|int $userExperienceResourceId,
-        ?string $pathStorage
-    ): mixed {
+        string|null $pathStorage
+    ): mixed
+    {
         return $this->userExperienceResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
                 'description' => $attachment['description'],
-                'content_type_id' => $attachment['content_type_id'],
-            ],
-            $userExperienceResourceId
-        );
+                'content_type_id' => $attachment['content_type_id']
+            ], $userExperienceResourceId);
     }
 
+    /**
+     * @param $attachments
+     * @param $userExperienceResource
+     * @param $userExperienceId
+     * @return null
+     */
     public function updateResourceAttachment(
-        $attachments,
-        $userExperienceResource,
-        $userExperienceId
-    ): null {
+        $attachments, $userExperienceResource, $userExperienceId
+    ): null
+    {
         $this->deleteUserExperienceResourceAndAttachment(
-            attachments: $attachments,
-            userExperienceResource: $userExperienceResource
-        );
+            attachments: $attachments, userExperienceResource: $userExperienceResource);
 
-        foreach ($attachments as $attachment) {
-            if (! empty($attachment['user_experience_resource_id'])) {
+        foreach ($attachments as $attachment)
+        {
+            if(!empty($attachment['user_experience_resource_id'])){
 
                 $this->processUpdateAttachment($attachment);
-            } else {
+            }else{
                 $pathStorage = $this->saveAttachment($attachment);
 
-                $this->storeUserExperienceResource(
+                 $this->storeUserExperienceResource(
                     attachment: $attachment,
                     userExperienceId: $userExperienceId,
                     pathStorage: $pathStorage
@@ -90,6 +111,11 @@ class UserExperienceService
         return null;
     }
 
+    /**
+     * @param $attachments
+     * @param $userExperienceResource
+     * @return mixed
+     */
     private function deleteUserExperienceResourceAndAttachment($attachments, $userExperienceResource): mixed
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
@@ -101,7 +127,7 @@ class UserExperienceService
         $listUserExperienceResourceToDelete = $this->userExperienceResourceRepository
             ->getByIds($listDelIds);
 
-        if (! empty($listUserExperienceResourceToDelete)) {
+        if(!empty($listUserExperienceResourceToDelete)){
             return $listUserExperienceResourceToDelete->map(function ($eachUserExperienceResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserExperienceResource);
@@ -112,7 +138,9 @@ class UserExperienceService
         return null;
     }
 
+
     /**
+     * @param $attachment
      * @return LengthAwarePaginator|Collection|mixed|void|null
      */
     public function processUpdateAttachment($attachment)
@@ -123,9 +151,9 @@ class UserExperienceService
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
         ) {
-            if (is_string($attachment['content'])) {
-                return;
-            } else {
+            if(is_string($attachment['content'])){
+                return ;
+            }else{
                 $this->attachmentResourceService->deleteFileAttachment($userExperienceResource);
                 $pathStorage = $this->saveAttachment($attachment);
 
@@ -142,7 +170,7 @@ class UserExperienceService
                 userExperienceResourceId: $userExperienceResource->id,
                 pathStorage: $attachment['content']
             );
-        } else {
+        }else {
             return null;
         }
     }

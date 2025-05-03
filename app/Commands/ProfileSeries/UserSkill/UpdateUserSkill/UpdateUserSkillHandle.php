@@ -7,45 +7,53 @@ use App\Repositories\ProfileSeries\UserSkill\UserSkillRepository;
 
 class UpdateUserSkillHandle
 {
+    /**
+     * @param UserSkillRepository $userSkillRepository
+     */
     public function __construct(
         protected UserSkillRepository $userSkillRepository
-    ) {
-    }
+    ){}
 
+    /**
+     * @param UpdateUserSkillCommand $command
+     * @return array
+     */
     public function handle(UpdateUserSkillCommand $command): array
     {
         try {
             $result = $this->userSkillRepository->updateDataWithTransaction(
-                $this->prepareUserActivityData($command),
-                $command->userSkillId
+                $this->prepareUserActivityData($command), $command->userSkillId
             );
 
-            if (! $result['success']) {
+            if(!$result['success']){
                 return [
                     'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
             return [
                 'data' => UserSkillResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
-
+    /**
+     * @param UpdateUserSkillCommand $command
+     * @return array
+     */
     private function prepareUserActivityData(UpdateUserSkillCommand $command): array
     {
         return [
             'name' => $command->name,
             'rate_id' => $command->rateId,
-            'description' => $command->description,
+            'description' => $command->description
         ];
     }
 }

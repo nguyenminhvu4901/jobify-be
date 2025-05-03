@@ -8,12 +8,21 @@ use App\Services\ProfileSeries\UserExperience\UserExperienceService;
 
 class StoreUserExperienceHandler
 {
+    /**
+     * @param UserExperienceRepository $userExperienceRepository
+     * @param UserExperienceService $userExperienceService
+     */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository,
         protected UserExperienceService $userExperienceService
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param StoreUserExperienceCommand $command
+     * @return array
+     */
     public function handle(StoreUserExperienceCommand $command): array
     {
         try {
@@ -21,21 +30,23 @@ class StoreUserExperienceHandler
                 $this->prepareUserActivityData($command)
             );
 
-            if (! $result['success']) {
+            if(!$result['success']){
 
                 return [
                     'message' => __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
-            if (! empty($command->attachments)) {
+            if(!empty($command->attachments))
+            {
                 $attachments = $command->attachments;
 
-                foreach ($attachments as $attachment) {
+                foreach ($attachments as $attachment)
+                {
                     $pathStorage = $this->userExperienceService->saveAttachment($attachment);
 
-                    if (! empty($pathStorage)) {
+                    if(!empty($pathStorage)){
                         $this->userExperienceService->storeUserExperienceResource(
                             attachment: $attachment,
                             userExperienceId: $result['data']->id,
@@ -47,17 +58,21 @@ class StoreUserExperienceHandler
 
             return [
                 'data' => UserExperienceResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param StoreUserExperienceCommand $command
+     * @return array
+     */
     private function prepareUserActivityData(StoreUserExperienceCommand $command): array
     {
         return [
@@ -65,8 +80,8 @@ class StoreUserExperienceHandler
             'name' => $command->name,
             'position' => $command->position,
             'is_working' => $command->isWorking,
-            'start_date' => $command->startDate,
-            'end_date' => $command->endDate,
+            'start_date'=> $command->startDate,
+            'end_date' => $command->endDate
         ];
     }
 }

@@ -13,6 +13,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $name
  * @property int $_lft
@@ -25,7 +27,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\JobSeries\JobListing\JobListing> $jobListings
  * @property-read int|null $job_listings_count
  * @property-read Position|null $parent
- *
  * @method static \Kalnoy\Nestedset\Collection<int, static> all($columns = ['*'])
  * @method static \Kalnoy\Nestedset\QueryBuilder<static>|Position ancestors(int $nodeId)
  * @method static \Kalnoy\Nestedset\QueryBuilder<static>|Position ancestorsAndSelf($id, array $columns = [])
@@ -89,16 +90,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Kalnoy\Nestedset\QueryBuilder<static>|Position withDepthRootOrdered()
  * @method static \Kalnoy\Nestedset\QueryBuilder<static>|Position withDescendantsAndSelfIds(int $id)
  * @method static \Kalnoy\Nestedset\QueryBuilder<static>|Position withoutRoot()
- *
  * @mixin \Eloquent
  */
 class Position extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use NodeTrait;
-    use PositionRelationship;
-    use PositionScope;
-    use TransformableTrait;
+    use TransformableTrait, HasFactory, NodeTrait, PositionRelationship, PositionScope;
 
     /**
      * @var string
@@ -109,9 +105,12 @@ class Position extends BaseModel implements Transformable
         'name',
         '_lft',
         '_rgt',
-        'parent_id',
+        'parent_id'
     ];
 
+    /**
+     * @return Attribute
+     */
     protected function name(): Attribute
     {
         return Attribute::make(

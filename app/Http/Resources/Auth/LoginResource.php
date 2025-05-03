@@ -10,7 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class LoginResource extends JsonResource
 {
     use UserResourceTrait;
-
     /**
      * Transform the resource into an array.
      *

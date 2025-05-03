@@ -24,11 +24,18 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserPrizeController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getListPrizeCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(
@@ -38,7 +45,7 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(new GetListPrizeCurrentUserCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -53,6 +60,10 @@ class UserPrizeController extends Controller
         );
     }
 
+    /**
+     * @param FormRequest $request
+     * @return JsonResponse
+     */
     public function getCompleteListOfUserPrize(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -62,7 +73,7 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(GetCompleteListOfUserPrizeCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -78,6 +89,10 @@ class UserPrizeController extends Controller
         );
     }
 
+    /**
+     * @param UserPrizeRequest $request
+     * @return JsonResponse
+     */
     public function getDetailListOfUserPrize(UserPrizeRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -87,7 +102,7 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserPrizeCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -102,6 +117,10 @@ class UserPrizeController extends Controller
         );
     }
 
+    /**
+     * @param UserPrizeRequest $request
+     * @return JsonResponse
+     */
     public function getDetailListOfUserPrizeByUserSlug(UserPrizeRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -111,7 +130,7 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserPrizeByUserSlugCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -126,6 +145,10 @@ class UserPrizeController extends Controller
         );
     }
 
+    /**
+     * @param UserPrizeRequest $request
+     * @return JsonResponse
+     */
     public function store(UserPrizeRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -135,7 +158,7 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(StoreUserPrizeCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -146,6 +169,10 @@ class UserPrizeController extends Controller
         );
     }
 
+    /**
+     * @param UserPrizeRequest $request
+     * @return JsonResponse
+     */
     public function update(UserPrizeRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -155,7 +182,7 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserPrizeCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -166,6 +193,10 @@ class UserPrizeController extends Controller
         );
     }
 
+    /**
+     * @param UserPrizeRequest $request
+     * @return JsonResponse
+     */
     public function destroy(UserPrizeRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -175,7 +206,7 @@ class UserPrizeController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserPrizeCommand::withForm($request));
 
-        if (! empty($result['userPrizeDestroy'])) {
+        if(!empty($result['userPrizeDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

@@ -8,12 +8,21 @@ use App\Services\ProfileSeries\UserCertification\UserCertificationService;
 
 class UpdateUserCertificationHandle
 {
+    /**
+     * @param UserCertificationRepository $userCertificationRepository
+     * @param UserCertificationService $userCertificationService
+     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository,
         protected UserCertificationService $userCertificationService
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UpdateUserCertificationCommand $command
+     * @return array
+     */
     public function handle(UpdateUserCertificationCommand $command): array
     {
         try {
@@ -22,14 +31,14 @@ class UpdateUserCertificationHandle
                 $command->userCertificationId
             );
 
-            if (! $result['success']) {
+            if(!$result['success']){
                 return [
                     'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
-            if (! empty($command->attachments)) {
+            if(!empty($command->attachments)){
 
                 $this->userCertificationService->updateResourceAttachment(
                     attachments: $command->attachments,
@@ -41,25 +50,29 @@ class UpdateUserCertificationHandle
 
             return [
                 'data' => UserCertificationResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param UpdateUserCertificationCommand $command
+     * @return array
+     */
     private function prepareUserActivityData(UpdateUserCertificationCommand $command): array
     {
         return [
             'name' => $command->name,
             'organization' => $command->organization,
             'is_no_expiration' => $command->isNoExpiration,
-            'start_date' => $command->startDate,
-            'end_date' => $command->endDate,
+            'start_date'=> $command->startDate,
+            'end_date' => $command->endDate
         ];
     }
 }

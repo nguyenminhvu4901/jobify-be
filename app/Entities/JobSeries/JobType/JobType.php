@@ -11,11 +11,12 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobType query()
@@ -23,21 +24,21 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobType whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobType whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class JobType extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use JobTypeRelationShip;
-    use TransformableTrait;
+    use TransformableTrait, HasFactory, JobTypeRelationShip;
 
     protected $table = JobTypeEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
-        'type',
+        'type'
     ];
 
+    /**
+     * @return Attribute
+     */
     protected function type(): Attribute
     {
         return Attribute::make(

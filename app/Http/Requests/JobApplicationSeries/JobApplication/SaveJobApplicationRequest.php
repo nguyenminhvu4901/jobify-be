@@ -11,7 +11,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class SaveJobApplicationRequest extends FormRequest
 {
     use FailedValidation;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -30,7 +29,7 @@ class SaveJobApplicationRequest extends FormRequest
         $routeName = request()->route()->getName();
 
         return match ($routeName) {
-            JobApplicationEnum::PREFIX->value.JobApplicationEnum::STORE_JOB_SEEKER_APPLY_JOB->value => [
+            JobApplicationEnum::PREFIX->value . JobApplicationEnum::STORE_JOB_SEEKER_APPLY_JOB->value => [
                 'user_id' => ['bail', 'required', 'integer', 'exists:users,id'],
                 'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
                 'full_name' => ['bail', 'required', 'string'],

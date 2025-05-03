@@ -6,12 +6,14 @@ use App\Entities\CompanySeries\Company\Company;
 
 /**
  * Interface UserRepository.
+ *
+ * @package namespace App\Repositories;
  */
 interface CompanyRepository
 {
     public function create(array $attributes);
 
-    public function syncOperationTypes(Company $company, ?array $operationTypes);
+    public function syncOperationTypes(Company $company, array|null $operationTypes);
 
-    public function syncBusinessSectors(Company $company, ?array $operationTypes);
+    public function syncBusinessSectors(Company $company, array|null $operationTypes);
 }

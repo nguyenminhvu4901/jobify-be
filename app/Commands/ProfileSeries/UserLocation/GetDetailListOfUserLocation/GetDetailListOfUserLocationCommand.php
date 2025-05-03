@@ -9,7 +9,8 @@ readonly class GetDetailListOfUserLocationCommand implements CommandInterface
 {
     public function __construct(
         public int|string $userLocationId
-    ) {
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

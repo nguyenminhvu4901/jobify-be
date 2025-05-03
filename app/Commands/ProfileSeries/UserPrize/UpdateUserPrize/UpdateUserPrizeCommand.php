@@ -12,11 +12,12 @@ readonly class UpdateUserPrizeCommand implements CommandInterface
         public string|int $userPrizeId,
         public string $userSlug,
         public string $name,
-        public ?string $organization,
+        public string|null $organization,
         public string $startDate,
-        public ?string $endDate,
-        public ?array $attachments
-    ) {
+        public string|null $endDate,
+        public array|null  $attachments
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

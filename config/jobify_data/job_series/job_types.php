@@ -18,3 +18,4 @@ return [
         ['id' => 1000, 'type' => 'other'],
     ],
 ];
+

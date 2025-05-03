@@ -7,6 +7,9 @@ use App\Repositories\BaseRepository;
 
 class JobVisibilityStatusRepositoryEloquent extends BaseRepository implements JobVisibilityStatusRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return JobVisibilityStatus::class;

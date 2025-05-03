@@ -8,7 +8,6 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="CurrentUserEducationResource",
  *     type="object",
- *
  *     @OA\Property(property="id", type="integer", example=2),
  *     @OA\Property(property="user_id", type="integer", example=123),
  *     @OA\Property(property="school_name", type="string", example="Harvard University"),
@@ -18,6 +17,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="end_year", type="integer", example=2019)
  * )
  */
+
 class CurrentUserEducationResourceSwagger
 {
+
 }

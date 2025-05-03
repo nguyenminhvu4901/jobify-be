@@ -16,7 +16,7 @@ class PhoneNumberRule implements ValidationRule
     {
         $regex = '/^\+?[0-9]{10,15}$/';
 
-        if (! preg_match($regex, $value)) {
+        if (!preg_match($regex, $value)) {
             $fail(__('validation.phone_rule', ['name' => 'phone_number']));
         }
     }

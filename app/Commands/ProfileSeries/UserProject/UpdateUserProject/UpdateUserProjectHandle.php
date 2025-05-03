@@ -8,12 +8,21 @@ use App\Services\ProfileSeries\UserProject\UserProjectService;
 
 class UpdateUserProjectHandle
 {
+    /**
+     * @param UserProjectRepository $userProjectRepository
+     * @param UserProjectService $userProjectService
+     */
     public function __construct(
         protected UserProjectRepository $userProjectRepository,
         protected UserProjectService $userProjectService
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UpdateUserProjectCommand $command
+     * @return array
+     */
     public function handle(UpdateUserProjectCommand $command): array
     {
         try {
@@ -22,14 +31,14 @@ class UpdateUserProjectHandle
                 $command->userProjectId
             );
 
-            if (! $result['success']) {
+            if(!$result['success']){
                 return [
                     'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
-            if (! empty($command->attachments)) {
+            if(!empty($command->attachments)){
 
                 $this->userProjectService->updateResourceAttachment(
                     attachments: $command->attachments,
@@ -40,17 +49,21 @@ class UpdateUserProjectHandle
 
             return [
                 'data' => UserProjectResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param UpdateUserProjectCommand $command
+     * @return array
+     */
     private function prepareUserActivityData(UpdateUserProjectCommand $command): array
     {
         return [
@@ -61,9 +74,9 @@ class UpdateUserProjectHandle
             'mission' => $command->mission,
             'technology' => $command->technology,
             'is_working' => $command->isWorking,
-            'start_date' => $command->startDate,
+            'start_date'=> $command->startDate,
             'end_date' => $command->endDate,
-            'description' => $command->description,
+            'description' => $command->description
         ];
     }
 }

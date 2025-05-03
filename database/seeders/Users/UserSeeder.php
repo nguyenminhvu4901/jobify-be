@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => Hash::make('Admin@12'),
             'phone_number' => '0912345678',
-            'current_role' => DefaultRole::ADMIN,
+            'current_role' => DefaultRole::ADMIN
         ]);
 
         $userAdmin->syncRoles(DefaultRole::ADMIN);

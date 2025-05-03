@@ -8,28 +8,35 @@ use App\Services\ProfileSeries\UserCourse\UserCourseService;
 
 class UpdateUserCourseHandle
 {
+    /**
+     * @param UserCourseRepository $userCourseRepository
+     * @param UserCourseService $userCourseService
+     */
     public function __construct(
         protected UserCourseRepository $userCourseRepository,
         protected UserCourseService $userCourseService
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UpdateUserCourseCommand $command
+     * @return array
+     */
     public function handle(UpdateUserCourseCommand $command): array
     {
         try {
             $result = $this->userCourseRepository->updateDataWithTransaction(
-                $this->prepareUserActivityData($command),
-                $command->userCourseId
-            );
+                $this->prepareUserActivityData($command), $command->userCourseId);
 
-            if (! $result['success']) {
+            if(!$result['success']){
                 return [
                     'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
-            if (! empty($command->attachments)) {
+            if(!empty($command->attachments)){
 
                 $this->userCourseService->updateResourceAttachment(
                     attachments: $command->attachments,
@@ -40,25 +47,29 @@ class UpdateUserCourseHandle
 
             return [
                 'data' => UserCourseResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param UpdateUserCourseCommand $command
+     * @return array
+     */
     private function prepareUserActivityData(UpdateUserCourseCommand $command): array
     {
         return [
             'name' => $command->name,
             'organization' => $command->organization,
-            'start_date' => $command->startDate,
+            'start_date'=> $command->startDate,
             'end_date' => $command->endDate,
-            'description' => $command->description,
+            'description' => $command->description
         ];
     }
 }

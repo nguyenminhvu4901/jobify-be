@@ -7,11 +7,12 @@ use App\DataTransferObjects\DataTransferObjectInterface;
 readonly class JobContactData implements DataTransferObjectInterface
 {
     public function __construct(
-        public ?int $jobContactId,
+        public int|null $jobContactId,
         public string $fullName,
         public string $email,
         public string $phoneNumber
-    ) {
+    )
+    {
     }
 
     public static function fromArray(array $data): static

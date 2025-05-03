@@ -10,19 +10,18 @@ readonly class UniqueArrayValues implements ValidationRule
 {
     public function __construct(
         protected ?string $requestName
-    ) {
-    }
+    ) {}
 
     /**
      * Run the validation rule.
      *
-     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
+     * @param Closure(string, ?string=): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $values = request()->input($this->requestName);
 
-        if (! is_array($values)) {
+        if (!is_array($values)) {
             return;
         }
 

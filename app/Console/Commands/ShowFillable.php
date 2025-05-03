@@ -7,24 +7,21 @@ use Illuminate\Console\Command;
 class ShowFillable extends Command
 {
     protected $signature = 'model:fillable {model}';
-
     protected $description = 'Show fillable fields of a model';
 
     public function handle()
     {
         $modelClass = $this->argument('model');
 
-        if (! class_exists($modelClass)) {
+        if (!class_exists($modelClass)) {
             $this->error("Model class {$modelClass} does not exist.");
-
             return 1;
         }
 
-        $model = new $modelClass();
+        $model = new $modelClass;
 
-        if (! method_exists($model, 'getFillable')) {
+        if (!method_exists($model, 'getFillable')) {
             $this->error("Class {$modelClass} is not a valid Eloquent model.");
-
             return 1;
         }
 

@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListLeafPositionHandler
 {
+    /**
+     * @param PositionRepository $positionRepository
+     */
     public function __construct(
         protected PositionRepository $positionRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetListLeafPositionCommand $command
+     * @return array
+     */
     public function handle(GetListLeafPositionCommand $command): array
     {
         try {
@@ -32,7 +40,7 @@ class GetListLeafPositionHandler
                     $command
                 ),
                 CacheTTL::HARD->value,
-                fn () => $this->positionRepository
+                fn() => $this->positionRepository
                     ->getListLeafPosition(
                         ['id', 'name']
                     )
@@ -41,13 +49,13 @@ class GetListLeafPositionHandler
             return [
                 'data' => LeafPositionResource::collection($positions),
                 'message' => __('messages.job.job_get_info_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

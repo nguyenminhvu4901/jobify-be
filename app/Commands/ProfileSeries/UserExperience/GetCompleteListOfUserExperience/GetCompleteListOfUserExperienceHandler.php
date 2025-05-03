@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserExperienceHandler
 {
+    /**
+     * @param UserExperienceRepository $userExperienceRepository
+     */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetCompleteListOfUserExperienceCommand $command
+     * @return array
+     */
     public function handle(GetCompleteListOfUserExperienceCommand $command): array
     {
         try {
@@ -32,7 +40,7 @@ class GetCompleteListOfUserExperienceHandler
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn () => $this->userExperienceRepository->paginateWithRelationship(
+                fn() => $this->userExperienceRepository->paginateWithRelationship(
                     relationship: ['userExperienceResource.contentType', 'user'],
                     limit: $command->limit
                 )
@@ -42,13 +50,13 @@ class GetCompleteListOfUserExperienceHandler
                 'data' => UserExperienceResource::collection($userExperiences),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($userExperiences ?? []),
+                'pagination' => formatPaginationData($userExperiences ?? [])
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

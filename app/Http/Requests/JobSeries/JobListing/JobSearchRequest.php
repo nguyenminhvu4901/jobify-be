@@ -10,9 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class JobSearchRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
-
+    use FailedValidation, NormalizeDateTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -31,16 +29,19 @@ class JobSearchRequest extends FormRequest
         $routeName = request()->route()->getName();
 
         return match ($routeName) {
-            JobListingEnum::PREFIX->value.JobListingEnum::LIST_ALL_JOBS_BY_COMPANY->value => [
-                'company_id' => ['bail', 'required', 'integer', 'exists:companies,id'],
+            JobListingEnum::PREFIX->value . JobListingEnum::LIST_ALL_JOBS_BY_COMPANY->value => [
+                'company_id' => ['bail', 'required', 'integer', 'exists:companies,id']
             ],
-            JobListingEnum::PREFIX->value.JobListingEnum::DETAIL_JOB_BY_JOB_ID->value => [
-                'job_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
+            JobListingEnum::PREFIX->value . JobListingEnum::DETAIL_JOB_BY_JOB_ID->value => [
+                'job_id' => ['bail', 'required', 'integer', 'exists:job_listings,id']
             ],
             default => [],
         };
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['publish_date', 'expiry_date', 'created_at', 'updated_at']);

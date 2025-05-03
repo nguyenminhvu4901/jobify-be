@@ -10,6 +10,6 @@ class CompanyBenefitObserver extends BaseObserver
 {
     protected array $cacheTag = [
         CompanyProfileEnum::TAG_NAME->value,
-        CompanyBenefitEnum::TAG_NAME->value,
+        CompanyBenefitEnum::TAG_NAME->value
     ];
 }

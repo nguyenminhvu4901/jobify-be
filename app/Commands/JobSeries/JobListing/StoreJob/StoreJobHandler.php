@@ -16,13 +16,14 @@ class StoreJobHandler
 {
     public function __construct(
         protected JobListingRepository $jobListingRepository,
-        protected JobListingService $jobListingService,
+        protected JobListingService    $jobListingService,
         protected JobSalaryService $jobSalaryService,
         protected JobListingDetailService $jobListingDetailService,
         protected JobLocationService $jobLocationService,
         protected JobContactService $jobContactService,
         protected JobPositionService $jobPositionService
-    ) {
+    )
+    {
     }
 
     public function handle(StoreJobCommand $command): array
@@ -30,10 +31,9 @@ class StoreJobHandler
         try {
             $jobListing = $this->jobListingService->storeJobListing($command);
 
-            if (empty($jobListing['data'])) {
-
+            if(empty($jobListing['data'])){
                 return [
-                    'message' => __('messages.job.job_update_profile_error'),
+                    'message' => __('messages.job.job_update_profile_error')
                 ];
             }
 
@@ -44,26 +44,30 @@ class StoreJobHandler
                 'message' => __('messages.profile.user_update_profile_success'),
             ];
 
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
+
             return [
                 'message' => __('messages.job.job_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param StoreJobCommand $command
+     * @param JobListing $jobListing
+     * @return void
+     */
     private function storeJobListingRelationship(StoreJobCommand $command, JobListing $jobListing): void
     {
         $this->jobSalaryService->massStoreJobSalary($command->jobSalaries, $jobListing->id);
 
         $this->jobListingDetailService->storeJobListingDetail(
-            $command->jobListingDetails ?? null,
-            $jobListing->id
+            $command->jobListingDetails ?? null, $jobListing->id
         );
 
         $this->jobLocationService->storeJobLocations(
-            $command->jobLocations ?? null,
-            $jobListing->id
+            $command->jobLocations ?? null, $jobListing->id
         );
 
         $this->jobPositionService->storeJobPosition(
@@ -75,8 +79,7 @@ class StoreJobHandler
         $this->jobListingRepository->syncStoreJobModerationStatus($jobListing);
 
         $this->jobContactService->storeJobContacts(
-            $command->jobContacts ?? null,
-            $jobListing->id
+            $command->jobContacts ?? null, $jobListing->id
         );
     }
 }

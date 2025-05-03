@@ -12,7 +12,8 @@ class GetDetailJobByJobIdHandler
 {
     public function __construct(
         protected JobListingRepository $jobListingRepository
-    ) {
+    )
+    {
     }
 
     public function handle(GetDetailJobByJobIdCommand $command)
@@ -32,7 +33,7 @@ class GetDetailJobByJobIdHandler
                     $command
                 ),
                 CacheTTL::HARD->value,
-                fn () => $this->jobListingRepository->findWithRelationships(
+                fn() => $this->jobListingRepository->findWithRelationships(
                     id: $command->jobId,
                     relationship: [
                         'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
@@ -40,7 +41,7 @@ class GetDetailJobByJobIdHandler
                         'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
                         'positions', 'jobContact',
                         'jobLocation' => fn ($query) => $query->with(['province', 'district', 'ward']),
-                        'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels',
+                        'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels'
                     ]
                 )
             );
@@ -50,11 +51,11 @@ class GetDetailJobByJobIdHandler
                 'message' => __('messages.job.job_get_info_success'),
                 'cache' => $cache,
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

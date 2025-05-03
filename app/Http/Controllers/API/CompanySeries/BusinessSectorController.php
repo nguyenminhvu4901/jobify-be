@@ -10,11 +10,17 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class BusinessSectorController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
-    }
+    )
+    {}
 
+    /**
+     * @return JsonResponse
+     */
     public function getListAllBusinessSector(): JsonResponse
     {
         $this->bus->addHandler(
@@ -24,7 +30,7 @@ class BusinessSectorController extends Controller
 
         $result = $this->bus->dispatch(new GetListAllBusinessSectorCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],

@@ -26,11 +26,19 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class JobListingController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return JsonResponse
+     */
     public function getListAllJobs(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -40,7 +48,7 @@ class JobListingController extends Controller
 
         $result = $this->bus->dispatch(GetListAllJobCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -57,6 +65,10 @@ class JobListingController extends Controller
         );
     }
 
+    /**
+     * @param JobSearchRequest $request
+     * @return JsonResponse
+     */
     public function getListAllJobsByCompany(JobSearchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -66,7 +78,7 @@ class JobListingController extends Controller
 
         $result = $this->bus->dispatch(GetListAllJobByCompanyCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -83,6 +95,10 @@ class JobListingController extends Controller
         );
     }
 
+    /**
+     * @param JobSearchRequest $request
+     * @return JsonResponse
+     */
     public function getDetailJobByJobId(JobSearchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -92,7 +108,7 @@ class JobListingController extends Controller
 
         $result = $this->bus->dispatch(GetDetailJobByJobIdCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -108,6 +124,10 @@ class JobListingController extends Controller
         );
     }
 
+    /**
+     * @param JobSaveRequest $request
+     * @return JsonResponse
+     */
     public function storeJob(JobSaveRequest $request): JsonResponse
     {
 
@@ -118,7 +138,7 @@ class JobListingController extends Controller
 
         $result = $this->bus->dispatch(StoreJobCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -133,6 +153,10 @@ class JobListingController extends Controller
         );
     }
 
+    /**
+     * @param JobSaveRequest $request
+     * @return JsonResponse
+     */
     public function updateJob(JobSaveRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -142,7 +166,7 @@ class JobListingController extends Controller
 
         $result = $this->bus->dispatch(UpdateJobCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -166,7 +190,7 @@ class JobListingController extends Controller
 
         $result = $this->bus->dispatch(UpdateJobActiveStatusCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -184,13 +208,12 @@ class JobListingController extends Controller
     public function destroyJob(JobStatusRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-            DestroyJobCommand::class,
-            DestroyJobHandler::class
+            DestroyJobCommand::class, DestroyJobHandler::class
         );
 
         $result = $this->bus->dispatch(DestroyJobCommand::withForm($request));
 
-        if (! empty($result['jobListingDestroy'])) {
+        if(!empty($result['jobListingDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

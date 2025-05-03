@@ -19,7 +19,7 @@ class JobApplicationStatusResource extends JsonResource
             'job_application_id' => $this->job_application_id,
             'application_status' => ApplicationStatusResource::make($this->applicationStatuses),
             'reject_reason' => $this->reject_reason,
-            'hired_at' => formatDate($this->hired_at),
+            'hired_at' => formatDate($this->hired_at)
         ];
     }
 }

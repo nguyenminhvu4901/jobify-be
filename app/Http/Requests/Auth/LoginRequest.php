@@ -10,7 +10,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class LoginRequest extends FormRequest
 {
     use FailedValidation;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,7 +27,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['bail', 'required', 'string'],
-            'password' => ['bail', 'required', new PasswordRule()],
+            'password' => ['bail', 'required', new PasswordRule()]
         ];
     }
 }

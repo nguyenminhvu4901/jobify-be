@@ -9,7 +9,8 @@ class UpdateUserLocationHandle
 {
     public function __construct(
         protected UserLocationRepository $userLocationRepository
-    ) {
+    )
+    {
     }
 
     public function handle(UpdateUserLocationCommand $command)
@@ -20,26 +21,30 @@ class UpdateUserLocationHandle
                 $command->userLocationId
             );
 
-            if (! $result['success']) {
+            if(!$result['success']){
                 return [
                     'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
             return [
                 'data' => UserLocationResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param UpdateUserLocationCommand $command
+     * @return array
+     */
     private function prepareUserLocationData(UpdateUserLocationCommand $command): array
     {
         return [
@@ -47,7 +52,7 @@ class UpdateUserLocationHandle
             'province_id' => $command->provinceId,
             'district_id' => $command->districtId,
             'ward_id' => $command->wardId,
-            'address' => $command->address,
+            'address' => $command->address
         ];
     }
 }

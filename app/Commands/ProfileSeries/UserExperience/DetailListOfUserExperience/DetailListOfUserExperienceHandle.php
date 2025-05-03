@@ -12,7 +12,8 @@ class DetailListOfUserExperienceHandle
 {
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository
-    ) {
+    )
+    {
     }
 
     public function handle(DetailListOfUserExperienceCommand $command): array
@@ -31,28 +32,28 @@ class DetailListOfUserExperienceHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn () => $this->userExperienceRepository->findWithRelationships(
+                fn() => $this->userExperienceRepository->findWithRelationships(
                     id: $command->userExperienceId,
                     relationship: ['user', 'userExperienceResource.contentType']
                 )
             );
 
-            if (empty($userExperience)) {
+            if(empty($userExperience)){
                 return [
-                    'message' => __('messages.profile.user_get_profile_error'),
+                    'message' => __('messages.profile.user_get_profile_error')
                 ];
             }
 
             return [
                 'data' => UserExperienceResource::make($userExperience),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

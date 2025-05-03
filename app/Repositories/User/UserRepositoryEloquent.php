@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Class UserRepositoryEloquent.
+ *
+ * @package namespace App\Repositories;
  */
 class UserRepositoryEloquent extends BaseRepository implements UserRepository
 {
     /**
      * Specify Model class name
+     *
+     * @return string
      */
     public function model(): string
     {
@@ -23,6 +27,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     }
 
     /**
+     * @param array $attributes
      * @return LengthAwarePaginator|Collection|mixed|null
      */
     public function create(array $attributes): mixed
@@ -38,13 +43,17 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             DB::commit();
 
             return $user->refresh();
-        } catch (Exception) {
+        }catch (Exception){
             DB::rollBack();
 
             return null;
         }
     }
 
+    /**
+     * @param array $attributes
+     * @return User|null
+     */
     public function changePassword(array $attributes): ?User
     {
         DB::beginTransaction();
@@ -53,13 +62,13 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             $user = $this->findBySlug($attributes['slug'] ?? null);
 
             $user->update([
-                'password' => $attributes['new_password'],
+                'password' => $attributes['new_password']
             ]);
 
             DB::commit();
 
             return $user;
-        } catch (Exception) {
+        }catch (Exception){
             DB::rollBack();
 
             return null;
@@ -67,6 +76,8 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     }
 
     /**
+     * @param array $attributes
+     * @param $id
      * @return LengthAwarePaginator|Collection|mixed|null
      */
     public function update(array $attributes, $id): mixed
@@ -81,7 +92,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
             DB::commit();
 
             return $user;
-        } catch (Exception) {
+        }catch (Exception){
             DB::rollBack();
 
             return null;

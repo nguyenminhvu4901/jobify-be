@@ -12,7 +12,6 @@ use Illuminate\Validation\Rule;
 class JobSeekerRegisterRequest extends FormRequest
 {
     use FailedValidation;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -32,7 +31,7 @@ class JobSeekerRegisterRequest extends FormRequest
             'full_name' => ['bail', 'required', 'string', 'max:255'],
             'email' => [
                 'bail', 'required', 'string', 'email',
-                Rule::unique('users', 'email')->whereNull('deleted_at'),
+                Rule::unique('users', 'email')->whereNull('deleted_at')
             ],
             'password' => [
                 'bail', 'required', 'string', new PasswordRule(),

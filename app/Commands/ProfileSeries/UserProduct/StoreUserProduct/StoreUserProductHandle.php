@@ -11,7 +11,8 @@ class StoreUserProductHandle
     public function __construct(
         protected UserProductRepository $userProductRepository,
         protected UserProductService $userProductService
-    ) {
+    )
+    {
     }
 
     public function handle(StoreUserProductCommand $command): array
@@ -21,21 +22,23 @@ class StoreUserProductHandle
                 $this->prepareUserActivityData($command)
             );
 
-            if (! $result['success']) {
+            if(!$result['success']){
 
                 return [
                     'message' => __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
-            if (! empty($command->attachments)) {
+            if(!empty($command->attachments))
+            {
                 $attachments = $command->attachments;
 
-                foreach ($attachments as $attachment) {
+                foreach ($attachments as $attachment)
+                {
                     $pathStorage = $this->userProductService->saveAttachment($attachment);
 
-                    if (! empty($pathStorage)) {
+                    if(!empty($pathStorage)){
                         $this->userProductService->storeUserProductResource(
                             attachment: $attachment,
                             userProductId: $result['data']->id,
@@ -47,17 +50,21 @@ class StoreUserProductHandle
 
             return [
                 'data' => UserProductResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param StoreUserProductCommand $command
+     * @return array
+     */
     private function prepareUserActivityData(StoreUserProductCommand $command): array
     {
         return [
@@ -65,7 +72,7 @@ class StoreUserProductHandle
             'name' => $command->name,
             'category' => $command->category,
             'finished_date' => $command->finishedDate,
-            'description' => $command->description,
+            'description' => $command->description
         ];
     }
 }

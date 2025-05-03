@@ -13,10 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserProductRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
-    use ValidatesAttachmentsTrait;
-
+    use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -37,14 +34,14 @@ class UserProductRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserProductEnum::PREFIX->value.UserProductEnum::DETAIL_LIST_USER_PRODUCT->value => [
-                'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
+            UserProductEnum::PREFIX->value . UserProductEnum::DETAIL_LIST_USER_PRODUCT->value => [
+                'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id']
             ],
-            UserProductEnum::PREFIX->value.UserProductEnum::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value => [
+            UserProductEnum::PREFIX->value . UserProductEnum::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserProductEnum::PREFIX->value.UserProductEnum::STORE->value => $commonRules,
-            UserProductEnum::PREFIX->value.UserProductEnum::UPDATE->value => [
+            UserProductEnum::PREFIX->value . UserProductEnum::STORE->value => $commonRules,
+            UserProductEnum::PREFIX->value. UserProductEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
@@ -57,10 +54,10 @@ class UserProductRequest extends FormRequest
                         'user_product_resources',
                         'user_product_id',
                         'id'
-                    ),
-                ],
+                    )
+                ]
             ],
-            UserProductEnum::PREFIX->value.UserProductEnum::DESTROY->value => [
+            UserProductEnum::PREFIX->value . UserProductEnum::DESTROY->value => [
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -78,10 +75,13 @@ class UserProductRequest extends FormRequest
             'attachments' => ['bail', 'nullable', 'array', 'max:10'],
             'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
-            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id'],
+            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
         ];
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['finished_date']);
@@ -92,6 +92,6 @@ class UserProductRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserProductEnum::PREFIX->value.UserProductEnum::STORE->value);
+        $this->processWithValidator($validator, UserProductEnum::PREFIX->value . UserProductEnum::STORE->value);
     }
 }

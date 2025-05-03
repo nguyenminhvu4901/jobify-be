@@ -10,11 +10,20 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserActivityHandle
 {
+    /**
+     * @param UserActivityRepository $userActivityRepository
+     */
     public function __construct(
         protected UserActivityRepository $userActivityRepository
-    ) {
+    )
+    {
     }
 
+
+    /**
+     * @param GetCompleteListOfUserActivityCommand $command
+     * @return array
+     */
     public function handle(GetCompleteListOfUserActivityCommand $command): array
     {
         try {
@@ -32,7 +41,7 @@ class GetCompleteListOfUserActivityHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn () => $this->userActivityRepository->paginateWithRelationship(
+                fn() => $this->userActivityRepository->paginateWithRelationship(
                     relationship: ['userActivityResources.contentType', 'user'],
                     limit: $command->limit
                 )
@@ -42,12 +51,12 @@ class GetCompleteListOfUserActivityHandle
                 'data' => JobListingResource::collection($userActivities),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($userActivities ?? []),
+                'pagination' => formatPaginationData($userActivities ?? [])
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

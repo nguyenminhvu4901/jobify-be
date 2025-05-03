@@ -8,25 +8,37 @@ use Illuminate\Support\Facades\DB;
 
 class JobSalaryRepositoryEloquent extends BaseRepository implements JobSalaryRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return JobSalary::class;
     }
 
+    /**
+     * @param int $jobListingId
+     * @return mixed
+     */
     public function getJobSalaryIdsByJobListingId(int $jobListingId): mixed
     {
         return $this->model->whereByJobListingId($jobListingId)->pluck('id')->values();
     }
 
+    /**
+     * @param int $jobListingId
+     * @param array $jobSalaryIds
+     * @return array
+     */
     public function detachJobSalary(int $jobListingId, array $jobSalaryIds): array
     {
         DB::beginTransaction();
 
         try {
             $jobSalary = $this->model
-                ->where('job_listing_id', $jobListingId)
-                ->whereIn('id', $jobSalaryIds)
-                ->delete();
+                    ->where('job_listing_id', $jobListingId)
+                    ->whereIn('id', $jobSalaryIds)
+                    ->delete();
 
             DB::commit();
 
@@ -34,7 +46,7 @@ class JobSalaryRepositoryEloquent extends BaseRepository implements JobSalaryRep
                 'success' => true,
                 'message' => __('messages.response.delete_resource_success'),
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
             DB::rollBack();
 
             return [

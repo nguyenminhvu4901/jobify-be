@@ -8,9 +8,10 @@ use Illuminate\Foundation\Http\FormRequest;
 readonly class DestroyUserLocationCommand implements CommandInterface
 {
     public function __construct(
-        public string $userSlug,
+        public string     $userSlug,
         public int|string $userLocationId
-    ) {
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

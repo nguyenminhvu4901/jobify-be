@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Redis;
 class CacheCleanupCommand extends Command
 {
     protected $signature = 'cache:clear-redis';
-
     protected $description = 'Delete all Redis cache if keys exceed 1,000,000.';
 
+    /**
+     * @return void
+     */
     public function handle(): void
     {
         $redis = Redis::connection('cache');
@@ -23,7 +25,7 @@ class CacheCleanupCommand extends Command
             Cache::flush();
             Log::info("Deleted all cache because Redis had $totalKeys keys.");
         } else {
-            Log::warning('Redis cache is below the limit, no need to delete.');
+            Log::warning("Redis cache is below the limit, no need to delete.");
         }
     }
 }

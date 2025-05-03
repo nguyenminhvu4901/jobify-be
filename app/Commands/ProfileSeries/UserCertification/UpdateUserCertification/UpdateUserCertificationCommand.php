@@ -8,18 +8,33 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class UpdateUserCertificationCommand implements CommandInterface
 {
+    /**
+     * @param string $userSlug
+     * @param int $userCertificationId
+     * @param string $name
+     * @param string|null $organization
+     * @param bool $isNoExpiration
+     * @param string $startDate
+     * @param string|null $endDate
+     * @param array|null $attachments
+     */
     public function __construct(
-        public string $userSlug,
-        public int $userCertificationId,
-        public string $name,
-        public ?string $organization,
-        public bool $isNoExpiration,
-        public string $startDate,
-        public ?string $endDate,
-        public ?array $attachments
-    ) {
+        public string      $userSlug,
+        public int         $userCertificationId,
+        public string      $name,
+        public string|null $organization,
+        public bool        $isNoExpiration,
+        public string      $startDate,
+        public string|null $endDate,
+        public array|null  $attachments
+    )
+    {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         $attachments = AttachmentResourceService::handleAttachments($request, 'user_certification_resource_id');

@@ -20,7 +20,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class InformationCVCurrentUserResource extends JsonResource
 {
     use UserResourceTrait;
-
     /**
      * Transform the resource into an array.
      *
@@ -41,7 +40,7 @@ class InformationCVCurrentUserResource extends JsonResource
             'user_prizes' => UserPrizeNoUserDataResource::collection($this->userPrizes),
             'user_products' => UserProductNoUserDataResource::collection($this->userProducts),
             'user_activities' => UserActivityNoUserDataResource::collection($this->userActivities),
-            'user_locations' => UserLocationNoUserDataResource::collection($this->userLocations),
+            'user_locations' => UserLocationNoUserDataResource::collection($this->userLocations)
         ];
     }
 }

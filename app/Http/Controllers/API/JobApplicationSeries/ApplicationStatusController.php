@@ -12,9 +12,13 @@ class ApplicationStatusController extends Controller
 {
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getListApplicationStatuses(): JsonResponse
     {
         $this->bus->addHandler(
@@ -24,7 +28,7 @@ class ApplicationStatusController extends Controller
 
         $result = $this->bus->dispatch(new GetListApplicationStatusCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],

@@ -10,35 +10,41 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListAllCompanyScaleHandler
 {
+    /**
+     * @param CompanyScaleRepository $companyScaleRepository
+     */
     public function __construct(
         protected CompanyScaleRepository $companyScaleRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return array
+     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([CompanyScaleEnum::TAG_NAME->value])->has(
-                CompanyScaleEnum::LIST_ALL_COMPANY_SCALE->value
-            );
+                CompanyScaleEnum::LIST_ALL_COMPANY_SCALE->value);
 
             $companyScales = Cache::tags([CompanyScaleEnum::TAG_NAME->value])
                 ->remember(
                     CompanyScaleEnum::LIST_ALL_COMPANY_SCALE->value,
                     CacheTTL::HARD->value,
-                    fn () => $this->companyScaleRepository->get()
+                    fn() => $this->companyScaleRepository->get()
                 );
 
             return [
                 'data' => CompanyScaleResource::collection($companyScales),
                 'message' => __('messages.company.company_get_info_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.company.company_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
 

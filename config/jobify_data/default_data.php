@@ -4,68 +4,68 @@ return [
     'statuses' => [
         [
             'id' => 1,
-            'status' => 'active',
+            'status' => 'active'
         ],
         [
             'id' => 2,
-            'status' => 'deactivate',
-        ],
+            'status' => 'deactivate'
+        ]
     ],
 
     'rates' => [
         [
             'id' => 1,
-            'rate' => '1 star',
+            'rate' => '1 star'
         ],
         [
             'id' => 2,
-            'rate' => '2 star',
+            'rate' => '2 star'
         ],
         [
             'id' => 3,
-            'rate' => '3 star',
+            'rate' => '3 star'
         ],
         [
             'id' => 4,
-            'rate' => '4 star',
+            'rate' => '4 star'
         ],
         [
             'id' => 5,
-            'rate' => '5 star',
+            'rate' => '5 star'
         ],
     ],
 
     'genders' => [
         [
             'id' => 1,
-            'gender' => 'male',
+            'gender' => 'male'
         ],
         [
             'id' => 2,
-            'gender' => 'female',
+            'gender' => 'female'
         ],
         [
             'id' => 3,
-            'gender' => 'other',
-        ],
+            'gender' => 'other'
+        ]
     ],
 
     'content_types' => [
         [
             'id' => 1,
-            'content_type' => 'image',
+            'content_type' => 'image'
         ],
         [
             'id' => 2,
-            'content_type' => 'file',
+            'content_type' => 'file'
         ],
         [
             'id' => 3,
-            'content_type' => 'url',
+            'content_type' => 'url'
         ],
         [
             'id' => 4,
-            'content_type' => 'video',
+            'content_type' => 'video'
         ],
-    ],
+    ]
 ];

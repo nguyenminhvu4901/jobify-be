@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserEducationByUserSlugHandle
 {
+    /**
+     * @param UserEducationRepository $userEducationRepository
+     */
     public function __construct(
         protected UserEducationRepository $userEducationRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetDetailListOfUserEducationByUserSlugCommand $command
+     * @return array
+     */
     public function handle(GetDetailListOfUserEducationByUserSlugCommand $command): array
     {
         try {
@@ -31,7 +39,7 @@ class GetDetailListOfUserEducationByUserSlugHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn () => $this->userEducationRepository->getByRelationshipUserSlug(
+                fn() =>  $this->userEducationRepository->getByRelationshipUserSlug(
                     userSlug: $command->userSlug,
                     relationship: 'user'
                 )
@@ -40,13 +48,13 @@ class GetDetailListOfUserEducationByUserSlugHandle
             return [
                 'data' => UserEducationResource::collection($userEducation),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

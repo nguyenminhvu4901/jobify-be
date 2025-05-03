@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListAllJobByCompanyHandler
 {
+    /**
+     * @param JobListingRepository $jobListingRepository
+     */
     public function __construct(
         protected JobListingRepository $jobListingRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetListAllJobByCompanyCommand $command
+     * @return array
+     */
     public function handle(GetListAllJobByCompanyCommand $command): array
     {
         try {
@@ -32,7 +40,7 @@ class GetListAllJobByCompanyHandler
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn () => $this->jobListingRepository->getJobListingsByCompanyId(
+                fn() => $this->jobListingRepository->getJobListingsByCompanyId(
                     $command->companyId,
                     [
                         'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
@@ -40,7 +48,7 @@ class GetListAllJobByCompanyHandler
                         'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
                         'positions', 'jobContact',
                         'jobLocation' => fn ($query) => $query->with(['province', 'district', 'ward']),
-                        'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels',
+                        'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels'
                     ]
                 )
             );
@@ -49,13 +57,13 @@ class GetListAllJobByCompanyHandler
                 'data' => JobListingResource::collection($jobListingsByCompany),
                 'message' => __('messages.job.job_get_info_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($jobListingsByCompany),
+                'pagination' => formatPaginationData($jobListingsByCompany)
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

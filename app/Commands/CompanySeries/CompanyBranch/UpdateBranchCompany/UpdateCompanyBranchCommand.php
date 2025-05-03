@@ -7,6 +7,15 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class UpdateCompanyBranchCommand implements CommandInterface
 {
+    /**
+     * @param string|int $companyBranchId
+     * @param string $branchName
+     * @param string|int $companyId
+     * @param string|int $provinceId
+     * @param string|int $districtId
+     * @param string|int|null $wardId
+     * @param string|null $address
+     */
     public function __construct(
         public string|int $companyBranchId,
         public string|int $companyId,
@@ -14,10 +23,15 @@ readonly class UpdateCompanyBranchCommand implements CommandInterface
         public string|int $provinceId,
         public string|int $districtId,
         public string|int|null $wardId,
-        public ?string $address
-    ) {
+        public string|null $address
+    )
+    {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(

@@ -6,16 +6,30 @@ use App\DataTransferObjects\DataTransferObjectInterface;
 
 readonly class JobLocationData implements DataTransferObjectInterface
 {
+    /**
+     * @param int|null $jobLocationId
+     * @param string $branchName
+     * @param int $provinceId
+     * @param int $districtId
+     * @param int|null $wardId
+     * @param string|null $address
+     */
     public function __construct(
-        public ?int $jobLocationId,
+        public int|null $jobLocationId,
         public string $branchName,
         public int $provinceId,
         public int $districtId,
-        public ?int $wardId,
-        public ?string $address
-    ) {
+        public int|null $wardId,
+        public string|null $address
+    )
+    {
     }
 
+
+    /**
+     * @param array $data
+     * @return static
+     */
     public static function fromArray(array $data): static
     {
         return new self(

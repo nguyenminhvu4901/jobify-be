@@ -7,6 +7,9 @@ use App\Repositories\BaseRepository;
 
 class JobExperienceRepositoryEloquent extends BaseRepository implements JobExperienceRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return JobExperience::class;

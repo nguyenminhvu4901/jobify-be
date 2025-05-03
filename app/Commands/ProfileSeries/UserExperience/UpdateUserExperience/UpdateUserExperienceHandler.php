@@ -8,28 +8,36 @@ use App\Services\ProfileSeries\UserExperience\UserExperienceService;
 
 class UpdateUserExperienceHandler
 {
+    /**
+     * @param UserExperienceRepository $userExperienceRepository
+     * @param UserExperienceService $userExperienceService
+     */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository,
         protected UserExperienceService $userExperienceService
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UpdateUserExperienceCommand $command
+     * @return array
+     */
     public function handle(UpdateUserExperienceCommand $command): array
     {
         try {
             $result = $this->userExperienceRepository->updateDataWithTransaction(
-                $this->prepareUserActivityData($command),
-                $command->userExperienceId
-            );
+                $this->prepareUserActivityData($command), $command->userExperienceId);
 
-            if (! $result['success']) {
+            if(!$result['success']){
                 return [
                     'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
-            if (! empty($command->attachments)) {
+            if(!empty($command->attachments))
+            {
                 $this->userExperienceService->updateResourceAttachment(
                     attachments: $command->attachments,
                     userExperienceResource: $result['data']->userExperienceResource,
@@ -39,17 +47,21 @@ class UpdateUserExperienceHandler
 
             return [
                 'data' => UserExperienceResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param UpdateUserExperienceCommand $command
+     * @return array
+     */
     private function prepareUserActivityData(UpdateUserExperienceCommand $command): array
     {
         return [
@@ -57,7 +69,7 @@ class UpdateUserExperienceHandler
             'position' => $command->position,
             'is_working' => $command->isWorking,
             'start_date' => $command->startDate,
-            'end_date' => $command->endDate,
+            'end_date' => $command->endDate
         ];
     }
 }

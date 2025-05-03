@@ -17,7 +17,7 @@ class DistrictDefaultResource extends JsonResource
         return [
             'id' => $this->id,
             'code' => $this->code,
-            'district_name' => $this->district_name,
+            'district_name' => $this->district_name
         ];
     }
 }

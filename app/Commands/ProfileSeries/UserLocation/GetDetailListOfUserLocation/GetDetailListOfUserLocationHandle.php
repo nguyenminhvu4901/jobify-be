@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserLocationHandle
 {
+    /**
+     * @param UserLocationRepository $userLocationRepository
+     */
     public function __construct(
         protected UserLocationRepository $userLocationRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetDetailListOfUserLocationCommand $command
+     * @return array
+     */
     public function handle(GetDetailListOfUserLocationCommand $command): array
     {
         try {
@@ -31,28 +39,27 @@ class GetDetailListOfUserLocationHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn () => $this->userLocationRepository->findWithRelationships(
+                fn() => $this->userLocationRepository->findWithRelationships(
                     id: $command->userLocationId,
                     relationship: 'user'
-                )
-            );
+                ));
 
-            if (empty($userLocation)) {
+            if(empty($userLocation)){
                 return [
-                    'message' => __('messages.profile.user_get_profile_error'),
+                    'message' => __('messages.profile.user_get_profile_error')
                 ];
             }
 
             return [
                 'data' => UserLocationResource::make($userLocation),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

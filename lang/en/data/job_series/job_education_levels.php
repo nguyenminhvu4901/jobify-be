@@ -9,5 +9,6 @@ return [
         'bachelor' => 'Bachelor\'s degree',
         'master' => 'Master\'s degree',
         'phd' => 'Doctorate (PhD)',
-    ],
+    ]
 ];
+

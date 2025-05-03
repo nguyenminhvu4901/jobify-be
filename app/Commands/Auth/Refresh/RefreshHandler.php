@@ -8,17 +8,24 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RefreshHandler
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected UserRepository $userRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return array
+     */
     public function handle(): array
     {
         try {
             $newToken = JWTAuth::refresh(JWTAuth::getToken());
 
-            if (! empty($newToken)) {
+            if(!empty($newToken)){
                 return [
                     'user' => LoginResource::make(auth()->user()),
                     'message' => __('messages.authentication.user_login_success'),
@@ -28,11 +35,11 @@ class RefreshHandler
             return [
                 'message' => __('messages.authentication.user_login_error'),
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.authentication.user_login_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

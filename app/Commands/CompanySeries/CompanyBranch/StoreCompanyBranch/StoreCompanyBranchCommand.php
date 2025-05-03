@@ -7,16 +7,29 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class StoreCompanyBranchCommand implements CommandInterface
 {
+    /**
+     * @param string|int $companyId
+     * @param string $branchName
+     * @param string|int $provinceId
+     * @param string|int $districtId
+     * @param string|int|null $wardId
+     * @param string|null $address
+     */
     public function __construct(
         public string|int $companyId,
         public string $branchName,
         public string|int $provinceId,
         public string|int $districtId,
         public string|int|null $wardId,
-        public ?string $address
-    ) {
+        public string|null $address
+    )
+    {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(

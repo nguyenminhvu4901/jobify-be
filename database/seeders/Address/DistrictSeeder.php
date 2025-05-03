@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Address;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +14,7 @@ class DistrictSeeder extends Seeder
     public function run(): void
     {
         $districts = [
-            ['id' => `id`, 'province_id' => `province_id`, 'code' => `code`, 'district_name' => ' `district_name`', 'created_at' => ' `created_at`', 'updated_at' => ' `updated_at`'],
+            ['id' => `id`, 'province_id' =>  `province_id`, 'code' =>  `code`, 'district_name' => ' `district_name`', 'created_at' => ' `created_at`', 'updated_at' => ' `updated_at`'],
             ['id' => 1, 'province_id' => 1, 'code' => 1, 'district_name' => 'Quận Ba Đình', 'created_at' => '2023-04-06 04:26:41.772733', 'updated_at' => '2023-04-06 04:26:41.772733'],
             ['id' => 2, 'province_id' => 1, 'code' => 2, 'district_name' => 'Quận Hoàn Kiếm', 'created_at' => '2023-04-06 04:26:41.772733', 'updated_at' => '2023-04-06 04:26:41.772733'],
             ['id' => 3, 'province_id' => 1, 'code' => 3, 'district_name' => 'Quận Tây Hồ', 'created_at' => '2023-04-06 04:26:41.772733', 'updated_at' => '2023-04-06 04:26:41.772733'],
@@ -718,7 +719,7 @@ class DistrictSeeder extends Seeder
             ['id' => 970, 'province_id' => 96, 'code' => 970, 'district_name' => 'Huyện Đầm Dơi', 'created_at' => '2023-04-06 04:26:41.772733', 'updated_at' => '2023-04-06 04:26:41.772733'],
             ['id' => 971, 'province_id' => 96, 'code' => 971, 'district_name' => 'Huyện Năm Căn', 'created_at' => '2023-04-06 04:26:41.772733', 'updated_at' => '2023-04-06 04:26:41.772733'],
             ['id' => 972, 'province_id' => 96, 'code' => 972, 'district_name' => 'Huyện Phú Tân', 'created_at' => '2023-04-06 04:26:41.772733', 'updated_at' => '2023-04-06 04:26:41.772733'],
-            ['id' => 973, 'province_id' => 96, 'code' => 973, 'district_name' => 'Huyện Ngọc Hiển', 'created_at' => '2023-04-06 04:26:41.772733', 'updated_at' => '2023-04-06 04:26:41.772733'],
+            ['id' => 973, 'province_id' => 96, 'code' => 973, 'district_name' => 'Huyện Ngọc Hiển', 'created_at' => '2023-04-06 04:26:41.772733', 'updated_at' => '2023-04-06 04:26:41.772733']
         ];
 
         DB::table('districts')->insert($districts);

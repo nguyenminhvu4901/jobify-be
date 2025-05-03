@@ -10,6 +10,6 @@ class UserCertificationObserver extends BaseObserver
 {
     protected array $cacheTag = [
         UserCertificationEnum::TAG_NAME->value,
-        UserProfileEnum::TAG_NAME->value,
+        UserProfileEnum::TAG_NAME->value
     ];
 }

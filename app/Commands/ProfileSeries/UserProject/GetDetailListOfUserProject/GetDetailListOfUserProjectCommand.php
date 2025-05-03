@@ -9,7 +9,8 @@ readonly class GetDetailListOfUserProjectCommand implements CommandInterface
 {
     public function __construct(
         public int|string $userProjectId
-    ) {
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

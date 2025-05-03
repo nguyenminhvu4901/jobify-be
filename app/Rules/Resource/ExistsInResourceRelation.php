@@ -13,28 +13,29 @@ readonly class ExistsInResourceRelation implements ValidationRule
         protected string|int|null $foreignValue,
         protected string $foreignTable,
         protected string $localTable,
-        protected ?string $foreignKey = 'user_example_id',
-        protected ?string $localKey = 'id'
-    ) {
+        protected string|null $foreignKey = "user_example_id",
+        protected string|null $localKey = "id"
+    )
+    {
     }
 
     /**
      * Run the validation rule.
      *
-     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
+     * @param Closure(string, ?string=): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (empty($this->foreignValue)) {
+        if(empty($this->foreignValue)){
             return;
         }
 
         $exists = DB::table($this->localTable)
-            ->where($this->localKey, $value)
-            ->where($this->foreignKey, $this->foreignValue)
-            ->exists();
+                    ->where($this->localKey, $value)
+                    ->where($this->foreignKey, $this->foreignValue)
+                    ->exists();
 
-        if (! $exists) {
+        if (!$exists) {
             $fail(__('validation.custom.invalid_attachment'));
         }
     }

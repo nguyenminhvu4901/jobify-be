@@ -6,10 +6,13 @@ use App\Entities\JobSeries\JobLocation\Traits\JobLocationRelationship;
 use App\Entities\JobSeries\JobLocation\Traits\JobLocationScope;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $job_listing_id
  * @property int|null $province_id
@@ -22,7 +25,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Entities\Locate\District\District|null $district
  * @property-read \App\Entities\Locate\Province\Province|null $province
  * @property-read \App\Entities\Locate\Ward\Ward|null $ward
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobLocation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobLocation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobLocation query()
@@ -36,15 +38,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobLocation whereProvinceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobLocation whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobLocation whereWardId($value)
- *
  * @mixin \Eloquent
  */
 class JobLocation extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use JobLocationRelationship;
-    use JobLocationScope;
-    use TransformableTrait;
+    use TransformableTrait, HasFactory, JobLocationRelationship, JobLocationScope;
 
     protected $table = 'job_locations';
 
@@ -54,6 +52,6 @@ class JobLocation extends BaseModel implements Transformable
         'district_id',
         'ward_id',
         'branch_name',
-        'address',
+        'address'
     ];
 }

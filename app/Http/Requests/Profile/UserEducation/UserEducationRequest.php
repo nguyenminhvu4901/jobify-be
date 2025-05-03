@@ -10,9 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserEducationRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
-
+    use FailedValidation, NormalizeDateTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -32,22 +30,22 @@ class UserEducationRequest extends FormRequest
 
         $commonRule = $this->defineCommonRule();
 
-        return match ($routeName) {
-            UserEducationEnum::PREFIX->value.UserEducationEnum::STORE->value => $commonRule,
-            UserEducationEnum::PREFIX->value.UserEducationEnum::DETAIL_LIST_USER_EDUCATION->value => [
-                'user_education_id' => ['bail', 'required', 'integer', 'exists:user_educations,id'],
+        return match ($routeName){
+            UserEducationEnum::PREFIX->value . UserEducationEnum::STORE->value => $commonRule,
+            UserEducationEnum::PREFIX->value . UserEducationEnum::DETAIL_LIST_USER_EDUCATION->value => [
+                "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            UserEducationEnum::PREFIX->value.UserEducationEnum::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value => [
-                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+            UserEducationEnum::PREFIX->value . UserEducationEnum::DETAIL_LIST_USER_EDUCATION_BY_USER_SLUG->value => [
+                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
-            UserEducationEnum::PREFIX->value.UserEducationEnum::UPDATE->value => [
+            UserEducationEnum::PREFIX->value . UserEducationEnum::UPDATE->value => [
                 ...$commonRule,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
-                'user_education_id' => ['bail', 'required', 'integer', 'exists:user_educations,id'],
+                "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id']
             ],
-            UserEducationEnum::PREFIX->value.UserEducationEnum::DESTROY->value => [
-                'user_education_id' => ['bail', 'required', 'integer', 'exists:user_educations,id'],
-                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+            UserEducationEnum::PREFIX->value . UserEducationEnum::DESTROY->value => [
+                "user_education_id" => ['bail', 'required', 'integer', 'exists:user_educations,id'],
+                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
             ],
             default => []
         };
@@ -65,10 +63,13 @@ class UserEducationRequest extends FormRequest
             'is_studying' => ['bail', 'required', 'boolean'],
             'start_date' => ['bail', 'required', 'date_format:Y-m-d'],
             'end_date' => ['bail', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
-            'description' => ['bail', 'nullable', 'string'],
+            'description' => ['bail', 'nullable', 'string']
         ];
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['start_date', 'end_date']);

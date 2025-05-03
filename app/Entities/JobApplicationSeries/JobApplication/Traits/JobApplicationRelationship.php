@@ -14,30 +14,44 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait JobApplicationRelationship
 {
+    /**
+     * @return BelongsTo
+     */
     public function users(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function jobListings(): BelongsTo
     {
         return $this->belongsTo(JobListing::class, 'job_listing_id', 'id');
     }
 
+    /**
+     * @return HasOne
+     */
     public function applicationCV(): HasOne
     {
         return $this->hasOne(ApplicationCV::class);
 
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function applicationStatuses(): BelongsToMany
     {
         return $this->belongsToMany(
-            ApplicationStatus::class,
-            JobApplicationStatus::class
+            ApplicationStatus::class, JobApplicationStatus::class
         )->withPivot(['reject_reason', 'hired_at'])->withTimestamps();
     }
 
+    /**
+     * @return HasMany
+     */
     public function jobApplicationStatus(): HasMany
     {
         return $this->hasMany(JobApplicationStatus::class);

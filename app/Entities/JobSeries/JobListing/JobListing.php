@@ -10,12 +10,13 @@ use App\Traits\Scope\BaseScopeTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $company_id
  * @property string $title
@@ -58,7 +59,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \Kalnoy\Nestedset\Collection<int, \App\Entities\JobSeries\Position\Position> $positions
  * @property-read int|null $positions_count
  * @property-read \App\Entities\DefaultSeries\DefaultStatus\DefaultStatus|null $status
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListing checkExistCompanyIdAndJobId(int $companyId, int $jobListingId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListing findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListing newModelQuery()
@@ -92,20 +92,19 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListing withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListing withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListing withoutTrashed()
- *
  * @mixin \Eloquent
  */
-class JobListing extends BaseModel implements Explored, Transformable
+class JobListing extends BaseModel implements Transformable
 {
-    use BaseScopeTrait;
-    use HasFactory;
-    use JobListingRelationship;
-    use JobListingScope;
-    use Searchable;
-    use Sluggable;
-    use SoftDeletes;
-    use SoftDeletes;
-    use TransformableTrait;
+    use TransformableTrait,
+        HasFactory,
+        Sluggable,
+        JobListingRelationship,
+//        Searchable,
+        SoftDeletes,
+        JobListingScope,
+        BaseScopeTrait,
+        SoftDeletes;
 
     protected $table = JobListingEnum::TABLE->value;
 
@@ -128,7 +127,7 @@ class JobListing extends BaseModel implements Explored, Transformable
         'job_age_range_id',
         'job_education_level_id',
         'min_age',
-        'max_age',
+        'max_age'
     ];
 
     /**
@@ -138,26 +137,17 @@ class JobListing extends BaseModel implements Explored, Transformable
     {
         return [
             'slug' => [
-                'source' => 'title',
-            ],
+                'source' => 'title'
+            ]
         ];
     }
 
     public function toSearchableArray(): array
     {
-        return $this->toArray();
-    }
+        $array = $this->toArray();
 
-    public function searchableAs(): string
-    {
-        return 'job_listings_index';
-    }
-
-    public function mappableAs(): array
-    {
-        return [
-            'id' => 'keyword',
-            'title' => 'text',
-        ];
+        $array['id'] = $this->id;
+        $array['title'] = $this->title;
+        return $array;
     }
 }

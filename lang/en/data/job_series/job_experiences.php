@@ -11,5 +11,6 @@ return [
         '7_10_years' => '7–10 years of experience',
         '10_plus_years' => 'More than 10 years of experience',
         'other' => 'Other',
-    ],
+    ]
 ];
+

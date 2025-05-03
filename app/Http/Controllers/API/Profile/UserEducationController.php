@@ -29,12 +29,16 @@ use OpenApi\Annotations as OA;
  *     description="User Education Information and Action",
  * )
  */
+
 class UserEducationController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
-    }
+    )
+    {}
 
     /**
      * @OA\Get(
@@ -42,14 +46,11 @@ class UserEducationController extends Controller
      *     summary="Get List Education Current User",
      *     tags={"User Education"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\Response(
      *         response=200,
      *         description="Get user info successfully",
-     *
      *         @OA\JsonContent(
      *             type="object",
-     *
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info successfully"
      *             ),
@@ -57,31 +58,24 @@ class UserEducationController extends Controller
      *             @OA\Property(
      *                  property="data",
      *                  type="array",
-     *
      *                  @OA\Items(ref="#/components/schemas/CurrentUserEducationResource")
      *             ),
      *         )
      *     ),
-     *
      *     @OA\Response(
      *           response=401,
      *           description="The user is not logged in",
-     *
      *           @OA\JsonContent(
      *               type="object",
-     *
      *               @OA\Property(property="message", type="string", example="The user is not logged in"),
      *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
-     *
      *     @OA\Response(
      *          response=500,
      *          description="Get user info failed!",
-     *
      *          @OA\JsonContent(
      *              type="object",
-     *
      *              @OA\Property(
      *                  property="message", type="string", example="Get user info failed!"
      *              ),
@@ -89,6 +83,8 @@ class UserEducationController extends Controller
      *          )
      *      )
      * ),
+     *
+     * @return JsonResponse
      */
     public function getListEducationCurrentUser(): JsonResponse
     {
@@ -99,7 +95,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(new GetListEducationCurrentUserCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -117,17 +113,13 @@ class UserEducationController extends Controller
      *     description="Store User Education",
      *     tags={"User Education"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\RequestBody(
      *         required=true,
-     *
      *         @OA\MediaType(
      *             mediaType="application/json",
-     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={"name", "major", "is_studying", "start_date"},
-     *
      *                 @OA\Property(
      *                     property="name",
      *                     type="string",
@@ -169,40 +161,31 @@ class UserEducationController extends Controller
      *             )
      *         )
      *     ),
-     *
      *      @OA\Response(
      *            response="200",
      *            description="Store User Education Successfully",
-     *
      *            @OA\JsonContent(
      *                type="object",
-     *
      *                @OA\Property(
      *                    property="message", type="string", example="Saved"
      *                ),
      *                @OA\Property(property="status_code", type="integer", example=200)
      *            )
      *      ),
-     *
      *     @OA\Response(
      *           response=401,
      *           description="The user is not logged in",
-     *
      *           @OA\JsonContent(
      *               type="object",
-     *
      *               @OA\Property(property="message", type="string", example="The user is not logged in"),
      *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
-     *
      *       @OA\Response(
      *             response="500",
      *             description="Store User Education Fail",
-     *
      *             @OA\JsonContent(
      *                 type="object",
-     *
      *                 @OA\Property(
      *                     property="message", type="string", example="Fail"
      *                 ),
@@ -210,6 +193,9 @@ class UserEducationController extends Controller
      *             )
      *       ),
      * )
+     *
+     * @param UserEducationRequest $request
+     * @return JsonResponse
      */
     public function store(UserEducationRequest $request): JsonResponse
     {
@@ -220,7 +206,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(StoreUserEducationCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -237,27 +223,21 @@ class UserEducationController extends Controller
      *     summary="Get Complete List User Education",
      *     tags={"UserEducationEnum"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\Response(
      *         response="200",
      *         description="Get user info successfully",
-     *
      *         @OA\JsonContent(
      *             type="object",
-     *
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info successfully"
      *             )
      *         )
      *     ),
-     *
      *     @OA\Response(
      *         response="401",
      *         description="Unauthenticated - Token is invalid or missing",
-     *
      *         @OA\JsonContent(
      *             type="object",
-     *
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
@@ -265,14 +245,11 @@ class UserEducationController extends Controller
      *             )
      *         )
      *     ),
-     *
      *     @OA\Response(
      *         response="500",
      *         description="Get user info failed!",
-     *
      *         @OA\JsonContent(
      *             type="object",
-     *
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
@@ -281,6 +258,9 @@ class UserEducationController extends Controller
      *         )
      *     )
      * )
+     *
+     * @param FormRequest $request
+     * @return JsonResponse
      */
     public function getCompleteListOfUserEducation(FormRequest $request): JsonResponse
     {
@@ -291,7 +271,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(GetCompleteListOfUserEducationCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -314,37 +294,29 @@ class UserEducationController extends Controller
      *      summary="Get Detail List User Education",
      *      tags={"UserEducationEnum"},
      *      security={{"bearerAuth": {}}},
-     *
      *      @OA\Parameter(
      *         name="user_education_id",
      *         in="query",
      *         required=true,
-     *
      *         @OA\Schema(type="integer"),
      *         description="Thông tin Id của User Education",
      *         example=1
      *     ),
-     *
      *     @OA\Response(
      *          response="200",
      *          description="Get user info successfully",
-     *
      *          @OA\JsonContent(
      *              type="object",
-     *
      *              @OA\Property(
      *                  property="message", type="string", example="Get user info successfully"
      *              )
      *          )
      *      ),
-     *
      *      @OA\Response(
      *          response="401",
      *          description="Unauthenticated - Token is invalid or missing",
-     *
      *          @OA\JsonContent(
      *              type="object",
-     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -352,14 +324,11 @@ class UserEducationController extends Controller
      *              )
      *          )
      *      ),
-     *
      *      @OA\Response(
      *          response="500",
      *          description="Get user info failed!",
-     *
      *          @OA\JsonContent(
      *              type="object",
-     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -368,6 +337,9 @@ class UserEducationController extends Controller
      *          )
      *      )
      * )
+     *
+     * @param UserEducationRequest $request
+     * @return JsonResponse
      */
     public function getDetailListOfUserEducation(UserEducationRequest $request): JsonResponse
     {
@@ -378,7 +350,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserEducationCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -399,37 +371,29 @@ class UserEducationController extends Controller
      *      summary="Get Detail List User Education By User Slug",
      *      tags={"UserEducationEnum"},
      *      security={{"bearerAuth": {}}},
-     *
      *      @OA\Parameter(
      *         name="user_slug",
      *         in="query",
      *         required=true,
-     *
      *         @OA\Schema(type="string"),
      *         description="Thông tin Slug của User",
      *         example="user-admin"
      *     ),
-     *
      *     @OA\Response(
      *          response="200",
      *          description="Get user info successfully",
-     *
      *          @OA\JsonContent(
      *              type="object",
-     *
      *              @OA\Property(
      *                  property="message", type="string", example="Get user info successfully"
      *              )
      *          )
      *      ),
-     *
      *      @OA\Response(
      *          response="401",
      *          description="Unauthenticated - Token is invalid or missing",
-     *
      *          @OA\JsonContent(
      *              type="object",
-     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -437,14 +401,11 @@ class UserEducationController extends Controller
      *              )
      *          )
      *      ),
-     *
      *      @OA\Response(
      *          response="500",
      *          description="Get user info failed!",
-     *
      *          @OA\JsonContent(
      *              type="object",
-     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -453,6 +414,9 @@ class UserEducationController extends Controller
      *          )
      *      )
      * )
+     *
+     * @param UserEducationRequest $request
+     * @return JsonResponse
      */
     public function getDetailListOfUserEducationByUserSlug(UserEducationRequest $request): JsonResponse
     {
@@ -463,7 +427,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserEducationByUserSlugCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -485,17 +449,13 @@ class UserEducationController extends Controller
      *     description="Update User Education",
      *     tags={"User Education"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\RequestBody(
      *         required=true,
-     *
      *         @OA\MediaType(
      *             mediaType="application/json",
-     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={"user_education_id", "name", "major", "is_studying", "start_date"},
-     *
      *                 @OA\Property(
      *                      property="user_education_id",
      *                      type="integer",
@@ -543,40 +503,31 @@ class UserEducationController extends Controller
      *             )
      *         )
      *     ),
-     *
      *     @OA\Response(
      *             response="200",
      *             description="Update User Education Successfully",
-     *
      *             @OA\JsonContent(
      *                 type="object",
-     *
      *                 @OA\Property(
      *                     property="message", type="string", example="Saved"
      *                 ),
      *                 @OA\Property(property="status_code", type="integer", example=200)
      *             )
      *      ),
-     *
      *     @OA\Response(
      *            response=401,
      *            description="The user is not logged in",
-     *
      *            @OA\JsonContent(
      *                type="object",
-     *
      *                @OA\Property(property="message", type="string", example="The user is not logged in"),
      *                @OA\Property(property="status_code", type="integer", example=401)
      *            )
      *      ),
-     *
      *      @OA\Response(
      *              response="500",
      *              description="Update User Education Fail",
-     *
      *              @OA\JsonContent(
      *                  type="object",
-     *
      *                  @OA\Property(
      *                      property="message", type="string", example="Fail"
      *                  ),
@@ -584,6 +535,9 @@ class UserEducationController extends Controller
      *              )
      *       ),
      * )
+     *
+     * @param UserEducationRequest $request
+     * @return JsonResponse
      */
     public function update(UserEducationRequest $request): JsonResponse
     {
@@ -594,7 +548,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserEducationCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -612,17 +566,13 @@ class UserEducationController extends Controller
      *     description="Destroy User Education",
      *     tags={"User Education"},
      *     security={{"bearerAuth": {}}},
-     *
      *     @OA\RequestBody(
      *         required=true,
-     *
      *         @OA\MediaType(
      *             mediaType="application/json",
-     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={"user_education_id", "user_slug"},
-     *
      *                 @OA\Property(
      *                     property="user_education_id",
      *                     type="integer",
@@ -638,40 +588,31 @@ class UserEducationController extends Controller
      *             )
      *         )
      *     ),
-     *
      *     @OA\Response(
      *              response="200",
      *              description="Destroy User Education Successfully",
-     *
      *              @OA\JsonContent(
      *                  type="object",
-     *
      *                  @OA\Property(
      *                      property="message", type="string", example="Saved"
      *                  ),
      *                  @OA\Property(property="status_code", type="integer", example=200)
      *              )
      *      ),
-     *
      *     @OA\Response(
      *             response=401,
      *             description="The user is not logged in",
-     *
      *             @OA\JsonContent(
      *                 type="object",
-     *
      *                 @OA\Property(property="message", type="string", example="The user is not logged in"),
      *                 @OA\Property(property="status_code", type="integer", example=401)
      *             )
      *       ),
-     *
      *      @OA\Response(
      *               response="500",
      *               description="Destroy User Education Fail",
-     *
      *               @OA\JsonContent(
      *                   type="object",
-     *
      *                   @OA\Property(
      *                       property="message", type="string", example="Fail"
      *                   ),
@@ -679,6 +620,9 @@ class UserEducationController extends Controller
      *               )
      *       ),
      * )
+     *
+     * @param UserEducationRequest $request
+     * @return JsonResponse
      */
     public function destroy(UserEducationRequest $request): JsonResponse
     {
@@ -689,7 +633,7 @@ class UserEducationController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserEducationCommand::withForm($request));
 
-        if (! empty($result['userEducationDestroy'])) {
+        if(!empty($result['userEducationDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

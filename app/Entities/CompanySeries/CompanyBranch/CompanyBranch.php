@@ -12,6 +12,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $branch_name
  * @property int|null $company_id
@@ -25,7 +27,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Entities\Locate\District\District|null $district
  * @property-read \App\Entities\Locate\Province\Province|null $province
  * @property-read \App\Entities\Locate\Ward\Ward|null $ward
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBranch newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBranch newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBranch query()
@@ -42,16 +43,12 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBranch whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBranch whereWardId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBranch withRelationships(array|string|null $relationships)
- *
  * @mixin \Eloquent
  */
 class CompanyBranch extends BaseModel implements Transformable
 {
-    use BaseScopeTrait;
-    use CompanyBranchRelationship;
-    use CompanyBranchScope;
-    use HasFactory;
-    use TransformableTrait;
+    use TransformableTrait, HasFactory,
+        CompanyBranchRelationship, CompanyBranchScope, BaseScopeTrait;
 
     protected $table = CompanyBranchEnum::TABLE->value;
 
@@ -61,6 +58,6 @@ class CompanyBranch extends BaseModel implements Transformable
         'province_id',
         'district_id',
         'ward_id',
-        'address',
+        'address'
     ];
 }

@@ -7,15 +7,20 @@ use App\DataTransferObjects\DataTransferObjectInterface;
 readonly class JobListingDetailData implements DataTransferObjectInterface
 {
     public function __construct(
-        public ?int $jobListingDetailId,
-        public ?string $description,
-        public ?string $requirement,
-        public ?string $income,
-        public ?string $benefit,
-        public ?string $working_hour
-    ) {
+        public int|null $jobListingDetailId,
+        public string|null $description,
+        public string|null $requirement,
+        public string|null $income,
+        public string|null $benefit,
+        public string|null $working_hour
+    )
+    {
     }
 
+    /**
+     * @param array $data
+     * @return static
+     */
     public static function fromArray(array $data): static
     {
         return new self(

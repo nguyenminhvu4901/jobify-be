@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserProductHandle
 {
+    /**
+     * @param UserProductRepository $userProductRepository
+     */
     public function __construct(
         protected UserProductRepository $userProductRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetDetailListOfUserProductCommand $command
+     * @return array
+     */
     public function handle(GetDetailListOfUserProductCommand $command): array
     {
         try {
@@ -32,27 +40,27 @@ class GetDetailListOfUserProductHandle
                         $command
                     ),
                     CacheTTL::REMEMBER->value,
-                    fn () => $this->userProductRepository->findWithRelationships(
+                    fn() => $this->userProductRepository->findWithRelationships(
                         $command->userProductId,
                         ['user', 'userProductResources.contentType']
                     )
                 );
 
-            if (empty($userProduct)) {
+            if(empty($userProduct)){
                 return [
-                    'message' => __('messages.profile.user_get_profile_error'),
+                    'message' => __('messages.profile.user_get_profile_error')
                 ];
             }
 
             return [
                 'data' => UserProductResource::make($userProduct),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

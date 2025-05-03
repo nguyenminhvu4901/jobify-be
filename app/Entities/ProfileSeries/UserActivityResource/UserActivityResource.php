@@ -5,10 +5,13 @@ namespace App\Entities\ProfileSeries\UserActivityResource;
 use App\Entities\ProfileSeries\UserActivityResource\Traits\UserActivityResourceRelationship;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_activity_id
  * @property string $title Tiêu đề
@@ -19,7 +22,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\DefaultSeries\DefaultContentType\DefaultContentType|null $contentType
  * @property-read \App\Entities\ProfileSeries\UserActivity\UserActivity|null $userActivity
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivityResource newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivityResource newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivityResource query()
@@ -31,14 +33,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivityResource whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivityResource whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivityResource whereUserActivityId($value)
- *
  * @mixin \Eloquent
  */
 class UserActivityResource extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserActivityResourceRelationship;
+    use TransformableTrait, HasFactory, UserActivityResourceRelationship;
 
     protected $table = 'user_activity_resources';
 
@@ -47,6 +46,6 @@ class UserActivityResource extends BaseModel implements Transformable
         'title',
         'path',
         'description',
-        'content_type_id',
+        'content_type_id'
     ];
 }

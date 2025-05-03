@@ -11,37 +11,38 @@ class MakeService extends Command
      * @var string
      */
     protected $signature = 'make:service {name}';
-
     /**
      * @var string
      */
     protected $description = 'Create folder and file for Services folder';
 
+    /**
+     * @return void
+     */
     public function handle(): void
     {
-        $name = preg_replace('/[\/\\\\]+/', '/', trim($this->argument('name'), '/\\'));
+        $name = preg_replace('/[\/\\\\]+/', '/', trim($this->argument('name'), "/\\"));
 
-        if (! preg_match('/^[A-Za-z_][A-Za-z0-9_\/\\\\]*$/', $name)) {
+        if (!preg_match('/^[A-Za-z_][A-Za-z0-9_\/\\\\]*$/', $name)) {
             $this->components->error("Invalid service name: {$name}");
-
             return;
         }
 
         $servicePath = app_path("Services/{$name}.php");
         $filesystem = new Filesystem();
 
-        if (! $filesystem->isDirectory(app_path('Services'))) {
+        if (!$filesystem->isDirectory(app_path('Services'))) {
             $filesystem->makeDirectory(app_path('Services'), 0755, true);
         }
 
         $directory = dirname($servicePath);
-        if (! $filesystem->isDirectory($directory)) {
+        if (!$filesystem->isDirectory($directory)) {
             $filesystem->makeDirectory($directory, 0755, true);
         }
 
-        if (! $filesystem->exists($servicePath)) {
+        if (!$filesystem->exists($servicePath)) {
             $className = class_basename($name);
-            $namespace = 'App\\Services';
+            $namespace = "App\\Services";
 
             $subNamespace = trim(str_replace('/', '\\', dirname($name)), '.');
             if ($subNamespace !== '') {

@@ -4,6 +4,8 @@ namespace App\Repositories\CompanySeries\CompanyBranch;
 
 /**
  * Interface UserRepository.
+ *
+ * @package namespace App\Repositories;
  */
 interface CompanyBranchRepository
 {

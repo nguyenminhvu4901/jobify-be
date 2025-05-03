@@ -11,22 +11,27 @@ class JobSeekerRegisterHandler
 {
     public function __construct(
         protected UserRepository $userRepository,
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param JobSeekerRegisterCommand $command
+     * @return array
+     */
     public function handle(JobSeekerRegisterCommand $command): array
     {
         try {
-            $jobSeeker = $this->userRepository->create([
+            $jobSeeker =  $this->userRepository->create([
                 'full_name' => $command->fullName,
                 'email' => $command->email,
                 'password' => $command->password,
                 'phone_number' => $command->phoneNumber,
                 'current_role' => DefaultRole::JOBSEEKER,
-                'role' => DefaultRole::JOBSEEKER,
+                'role' => DefaultRole::JOBSEEKER
             ]);
 
-            if (! empty($jobSeeker)) {
+            if(!empty($jobSeeker)){
                 $jobSeeker->notify(new UserRegisteredNotification());
 
                 return [
@@ -38,11 +43,11 @@ class JobSeekerRegisterHandler
             return [
                 'message' => __('messages.authentication.user_register_error'),
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.authentication.user_register_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

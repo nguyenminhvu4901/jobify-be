@@ -10,7 +10,7 @@ return [
         'user_register_success' => 'Registration successfully',
         'user_register_error' => 'Registration error',
         'account_has_been_locked' => 'Account has been locked',
-        'wrong_account' => 'Wrong account or password',
+        'wrong_account' => 'Wrong account or password'
     ],
 
     'profile' => [
@@ -89,6 +89,6 @@ return [
         'method_not_allowed' => 'Method Not Allowed',
         'not_found' => 'Not Found',
         'multiple_errors_occurred' => 'Multiple Errors Occurred',
-        'an_unexpected_error_occurred' => 'An Unexpected Error Occurred',
-    ],
+        'an_unexpected_error_occurred' => 'An Unexpected Error Occurred'
+    ]
 ];

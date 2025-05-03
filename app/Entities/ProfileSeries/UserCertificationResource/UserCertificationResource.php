@@ -9,6 +9,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_certification_id
  * @property string $title Tiêu đề
@@ -19,7 +21,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\DefaultSeries\DefaultContentType\DefaultContentType|null $contentType
  * @property-read \App\Entities\ProfileSeries\UserCertification\UserCertification|null $userCertification
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertificationResource newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertificationResource newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertificationResource query()
@@ -31,14 +32,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertificationResource whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertificationResource whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertificationResource whereUserCertificationId($value)
- *
  * @mixin \Eloquent
  */
 class UserCertificationResource extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserCertificationResourceRelationship;
+    use TransformableTrait, HasFactory, UserCertificationResourceRelationship;
 
     protected $table = 'user_certification_resources';
 
@@ -47,6 +45,6 @@ class UserCertificationResource extends BaseModel implements Transformable
         'title',
         'path',
         'description',
-        'content_type_id',
+        'content_type_id'
     ];
 }

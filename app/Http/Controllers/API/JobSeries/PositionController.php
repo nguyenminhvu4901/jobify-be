@@ -16,11 +16,19 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class PositionController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return JsonResponse
+     */
     public function getListPosition(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -30,7 +38,7 @@ class PositionController extends Controller
 
         $result = $this->bus->dispatch(GetListPositionCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -47,6 +55,9 @@ class PositionController extends Controller
         );
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getListLeafPosition(): JsonResponse
     {
         $this->bus->addHandler(
@@ -56,7 +67,7 @@ class PositionController extends Controller
 
         $result = $this->bus->dispatch(new GetListLeafPositionCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -72,6 +83,10 @@ class PositionController extends Controller
         );
     }
 
+    /**
+     * @param JobPositionRequest $request
+     * @return JsonResponse
+     */
     public function getListSecondaryPosition(JobPositionRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -81,7 +96,7 @@ class PositionController extends Controller
 
         $result = $this->bus->dispatch(GetListSecondaryPositionCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],

@@ -18,8 +18,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class JobSaveRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
+    use FailedValidation, NormalizeDateTrait;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -38,32 +37,32 @@ class JobSaveRequest extends FormRequest
     {
         $routeName = request()->route()->getName();
 
-        return match ($routeName) {
-            JobListingEnum::PREFIX->value.JobListingEnum::STORE_JOB->value => [
-                ...$this->getCommonRules(),
+        return match ($routeName){
+            JobListingEnum::PREFIX->value . JobListingEnum::STORE_JOB->value => [
+               ...$this->getCommonRules()
             ],
 
-            JobListingEnum::PREFIX->value.JobListingEnum::UPDATE_JOB->value => [
+            JobListingEnum::PREFIX->value . JobListingEnum::UPDATE_JOB->value => [
                 ...$this->getCommonRules(),
                 'job_listing_id' => [
                     'bail', 'required', 'integer', 'exists:job_listings,id',
-                    new CompanyBelongsToJobListingRule($this->input('company_id')),
+                    new CompanyBelongsToJobListingRule($this->input('company_id'))
                 ],
                 'job_salaries.*.job_salary_id' => [
                     'bail', 'nullable', 'integer', 'exists:job_salaries,id',
-                    new SalaryBelongsToJobListingRule($this->input('job_listing_id')),
+                    new SalaryBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_locations.*.job_location_id' => [
                     'bail', 'nullable', 'integer', 'exists:job_locations,id',
-                    new LocationBelongsToJobListingRule($this->input('job_listing_id')),
+                    new LocationBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_contacts.*.job_contact_id' => [
                     'bail', 'nullable', 'integer', 'exists:job_contacts,id',
-                    new ContactBelongsToJobListingRule($this->input('job_listing_id')),
+                    new ContactBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
                 'job_listing_details.*.job_listing_detail_id' => [
                     'bail', 'nullable', 'integer', 'exists:job_listing_details,id',
-                    new JobListingDetailBelongsToJobListingRule($this->input('job_listing_id')),
+                    new JobListingDetailBelongsToJobListingRule($this->input('job_listing_id'))
                 ],
             ],
             default => [],
@@ -82,22 +81,22 @@ class JobSaveRequest extends FormRequest
 
             'job_salaries' => ['bail', 'required', 'array'],
             'job_salaries.*.currency_id' => [
-                'bail', 'required', 'integer', 'exists:currencies,id',
+                'bail', 'required', 'integer', 'exists:currencies,id'
             ],
             'job_salaries.*.job_salary_type_id' => [
-                'bail', 'required', 'integer', 'exists:job_salary_types,id',
+                'bail', 'required', 'integer', 'exists:job_salary_types,id'
             ],
             'job_salaries.*.from' => [
-                'bail', 'nullable', 'numeric', 'min:0',
+                'bail', 'nullable', 'numeric', 'min:0'
             ],
             'job_salaries.*.to' => [
                 'bail', 'nullable', 'numeric', 'min:0',
-                new SalaryRangeRule(),
+                new SalaryRangeRule()
             ],
 
             'job_visibility_status_id' => [
                 'bail', 'required', 'integer', 'in:1,2',
-                'exists:job_visibility_statuses,id',
+                'exists:job_visibility_statuses,id'
             ],
 
             'job_type_id' => [
@@ -118,62 +117,62 @@ class JobSaveRequest extends FormRequest
 
             'job_locations' => ['bail', 'required', 'array'],
             'job_locations.*.branch_name' => [
-                'bail', 'required', 'string', 'max:255',
+                'bail', 'required', 'string', 'max:255'
             ],
             'job_locations.*.province_id' => [
-                'bail', 'required', 'integer', 'exists:provinces,id',
+                'bail', 'required', 'integer', 'exists:provinces,id'
             ],
             'job_locations.*.district_id' => [
-                'bail', 'required', 'integer', 'exists:districts,id',
+                'bail', 'required', 'integer', 'exists:districts,id'
             ],
             'job_locations.*.ward_id' => [
-                'bail', 'nullable', 'integer', 'exists:wards,id',
+                'bail', 'nullable', 'integer', 'exists:wards,id'
             ],
             'job_locations.*.address' => [
-                'bail', 'nullable', 'string', 'max:255',
+                'bail', 'nullable', 'string', 'max:255'
             ],
 
             'job_position_main_id' => [
-                'bail', 'required', 'integer', 'exists:positions,id',
+                'bail', 'required', 'integer', 'exists:positions,id'
             ],
 
             'job_position_secondary' => [
-                'bail', 'nullable', 'array', 'size:2', new JobSecondaryNotDuplicateMain(),
+                'bail', 'nullable', 'array', 'size:2', new JobSecondaryNotDuplicateMain()
             ],
             'job_position_secondary.*' => [
-                'bail', 'nullable', 'integer', 'exists:positions,id',
+                'bail', 'nullable', 'integer', 'exists:positions,id'
             ],
 
             'job_contacts' => [
-                'bail', 'nullable', 'array',
+                'bail', 'nullable', 'array'
             ],
             'job_contacts.*.full_name' => [
-                'bail', 'required', 'string', 'max:255',
+                'bail', 'required', 'string', 'max:255'
             ],
             'job_contacts.*.email' => [
-                'bail', 'required', 'string', 'email', 'max:255',
+                'bail', 'required', 'string', 'email', 'max:255'
             ],
             'job_contacts.*.phone_number' => [
-                'bail', 'required', 'string', new PhoneNumberRule(),
+                'bail', 'required', 'string', new PhoneNumberRule()
             ],
 
             'job_listing_details' => [
-                'bail', 'nullable', 'array', 'size:1',
+                'bail', 'nullable', 'array', 'size:1'
             ],
             'job_listing_details.0.description' => [
-                'bail', 'nullable', 'string', 'max:16000',
+                'bail', 'nullable', 'string', 'max:16000'
             ],
             'job_listing_details.0.requirement' => [
-                'bail', 'nullable', 'string', 'max:16000',
+                'bail', 'nullable', 'string', 'max:16000'
             ],
             'job_listing_details.0.income' => [
-                'bail', 'nullable', 'string', 'max:16000',
+                'bail', 'nullable', 'string', 'max:16000'
             ],
             'job_listing_details.0.benefit' => [
-                'bail', 'nullable', 'string', 'max:16000',
+                'bail', 'nullable', 'string', 'max:16000'
             ],
             'job_listing_details.0.working_hour' => [
-                'bail', 'nullable', 'string', 'max:255',
+                'bail', 'nullable', 'string', 'max:255'
             ],
 
             'min_age' => ['bail', 'nullable', 'integer', 'gt:0', 'lt:100'],
@@ -181,6 +180,9 @@ class JobSaveRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['publish_date', 'expiry_date', 'created_at', 'updated_at']);

@@ -7,6 +7,9 @@ use App\Repositories\BaseRepository;
 
 class JobAgeRangeRepositoryEloquent extends BaseRepository implements JobAgeRangeRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return JobAgeRange::class;

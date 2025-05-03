@@ -19,7 +19,7 @@ class WardResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'ward_name' => $this->ward_name,
-            'district' => DistrictResource::make($this?->district),
+            'district' => DistrictResource::make($this?->district)
         ];
     }
 }

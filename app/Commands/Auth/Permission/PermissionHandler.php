@@ -10,5 +10,6 @@ class PermissionHandler
 
     public function handle()
     {
+
     }
 }

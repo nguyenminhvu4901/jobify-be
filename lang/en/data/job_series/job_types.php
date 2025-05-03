@@ -16,5 +16,5 @@ return [
         'contract' => 'Contract',
         'volunteer' => 'Volunteer',
         'other' => 'Other',
-    ],
+    ]
 ];

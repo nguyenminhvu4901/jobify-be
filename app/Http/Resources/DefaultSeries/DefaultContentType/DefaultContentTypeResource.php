@@ -16,7 +16,7 @@ class DefaultContentTypeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'content_type' => $this->content_type,
+            'content_type' => $this->content_type
         ];
     }
 }

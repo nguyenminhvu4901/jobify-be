@@ -22,7 +22,7 @@ class UserProductResource extends JsonResource
             'category' => $this->category,
             'finished_date' => $this->finished_date,
             'description' => $this->description,
-            'user_product_resource' => UserProductAttachmentResource::collection($this->userProductResources),
+            'user_product_resource' => UserProductAttachmentResource::collection($this->userProductResources)
         ];
     }
 }

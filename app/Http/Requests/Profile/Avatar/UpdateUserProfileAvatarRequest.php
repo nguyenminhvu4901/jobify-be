@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateUserProfileAvatarRequest extends FormRequest
 {
     use FailedValidation;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,7 +25,7 @@ class UpdateUserProfileAvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => ['bail', 'nullable'],
+            'avatar' => ['bail', 'nullable']
         ];
     }
 
@@ -37,7 +36,7 @@ class UpdateUserProfileAvatarRequest extends FormRequest
         });
 
         $validator->sometimes('avatar', ['string'], function ($input) {
-            return ! request()->hasFile('avatar');
+            return !request()->hasFile('avatar');
         });
     }
 }

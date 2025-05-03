@@ -4,20 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        // Hình thức làm việc
+        //Hình thức làm việc
         Schema::create('job_types', function (Blueprint $table) {
             $table->id();
             $table->string('type');
             $table->timestamps();
         });
 
-        // Cấp bậc
+        //Cấp bậc
         Schema::create('job_levels', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -25,7 +26,7 @@ return new class () extends Migration {
             $table->timestamps();
         });
 
-        // Kinh nghiệm
+        //Kinh nghiệm
         Schema::create('job_experiences', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -169,7 +170,7 @@ return new class () extends Migration {
 
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
-                ->nullOnDelete()->cascadeOnUpdate();
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -182,10 +183,10 @@ return new class () extends Migration {
 
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
-                ->nullOnDelete()->cascadeOnUpdate();
+                 ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('position_id')->references('id')
                 ->on('positions')
-                ->nullOnDelete()->cascadeOnUpdate();
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -199,7 +200,7 @@ return new class () extends Migration {
 
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
-                ->nullOnDelete()->cascadeOnUpdate();
+                 ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });

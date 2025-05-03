@@ -27,5 +27,5 @@ return [
         'oversees_department_strategy_and_direction' => 'Oversees department strategy and direction',
         'top_level_leader_responsible_for_company_strategy' => 'Top-level leader responsible for company strategy',
         'other_job_levels_not_classified_above' => 'Other job levels not listed above',
-    ],
+    ]
 ];

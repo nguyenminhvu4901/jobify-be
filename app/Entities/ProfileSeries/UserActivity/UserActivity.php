@@ -10,6 +10,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên sản phẩm
@@ -22,7 +24,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\ProfileSeries\UserActivityResource\UserActivityResource> $userActivityResources
  * @property-read int|null $user_activity_resources_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivity newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivity newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivity query()
@@ -35,14 +36,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivity whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivity whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserActivity whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class UserActivity extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserActivityRelationship;
+    use TransformableTrait, HasFactory, UserActivityRelationship;
 
     protected $table = UserActivityEnum::TABLE->value;
 
@@ -52,6 +50,6 @@ class UserActivity extends BaseModel implements Transformable
         'position',
         'start_date',
         'end_date',
-        'description',
+        'description'
     ];
 }

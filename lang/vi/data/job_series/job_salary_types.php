@@ -7,6 +7,6 @@ return [
         'range' => 'Khoảng',
         'fixed' => 'Cố định',
         'negotiable' => 'Thỏa thuận',
-        'unpaid' => 'Không lương',
-    ],
+        'unpaid' => 'Không lương'
+    ]
 ];

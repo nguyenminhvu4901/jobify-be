@@ -10,7 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CurrentUserCertificationResource extends JsonResource
 {
     use UserResourceTrait;
-
     /**
      * Transform the resource into an array.
      *
@@ -21,7 +20,7 @@ class CurrentUserCertificationResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'certifications' => UserCertificationNoUserDataResource::collection($this->userCertifications),
+            'certifications' => UserCertificationNoUserDataResource::collection($this->userCertifications)
         ];
     }
 }

@@ -21,7 +21,7 @@ class CompanyBranchResource extends JsonResource
             'company_id' => $this->company_id,
             'branch_name' => $this->branch_name,
             'province' => new ProvinceResource($this->province),
-            'district' => new DistrictResource($this->district),
+            'district' => new DistrictResource($this->district)
         ];
     }
 }

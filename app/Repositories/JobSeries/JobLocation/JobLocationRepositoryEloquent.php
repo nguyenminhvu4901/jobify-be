@@ -7,13 +7,22 @@ use App\Repositories\BaseRepository;
 
 class JobLocationRepositoryEloquent extends BaseRepository implements JobLocationRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return JobLocation::class;
     }
 
+
+    /**
+     * @param int $jobListingId
+     * @return mixed
+     */
     public function getJobLocationIdsByJobListingId(int $jobListingId): mixed
     {
         return $this->model->whereByJobListingId($jobListingId)->pluck('id')->values();
     }
+
 }

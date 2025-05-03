@@ -12,9 +12,13 @@ class OperationTypeController extends Controller
 {
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getListAllOperationType(): JsonResponse
     {
         $this->bus->addHandler(
@@ -24,7 +28,7 @@ class OperationTypeController extends Controller
 
         $result = $this->bus->dispatch(new GetListAllOperationTypeCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],

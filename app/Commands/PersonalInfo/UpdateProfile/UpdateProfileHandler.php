@@ -11,20 +11,29 @@ class UpdateProfileHandler
 {
     use ImageHandler;
 
+    /**
+     * @param UserRepository $userRepository
+     * @param UserProfileRepository $userProfileRepository
+     */
     public function __construct(
         protected UserRepository $userRepository,
         protected UserProfileRepository $userProfileRepository
-    ) {
-    }
+    )
+    {}
 
+
+    /**
+     * @param UpdateProfileCommand $command
+     * @return array
+     */
     public function handle(UpdateProfileCommand $command): array
     {
         try {
             $userId = auth()->user()->id;
 
-            $user = $this->userRepository->update([
+            $user =  $this->userRepository->update([
                 'full_name' => $command->fullName,
-                'phone_number' => $command->phoneNumber,
+                'phone_number' => $command->phoneNumber
             ], $userId);
 
             $this->userProfileRepository->updateOrCreateUserProfile(
@@ -34,24 +43,24 @@ class UpdateProfileHandler
                     'position' => $command->position,
                     'gender_id' => $command->gender,
                     'birth_date' => $command->birthDate,
-                    'description' => $command->description,
+                    'description' => $command->description
                 ]
             );
 
-            if (! empty($user)) {
+            if(!empty($user)){
                 return [
                     'user' => UserProfileResource::make($user->refresh()),
-                    'message' => __('messages.profile.user_update_profile_success'),
+                    'message' => __('messages.profile.user_update_profile_success')
                 ];
             }
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

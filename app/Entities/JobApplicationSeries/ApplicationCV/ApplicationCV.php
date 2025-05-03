@@ -9,6 +9,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $job_application_id
  * @property string $title
@@ -16,7 +18,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\JobApplicationSeries\JobApplication\JobApplication|null $jobApplications
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ApplicationCV newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ApplicationCV newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ApplicationCV query()
@@ -26,18 +27,15 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ApplicationCV wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ApplicationCV whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ApplicationCV whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class ApplicationCV extends BaseModel implements Transformable
 {
-    use ApplicationCVRelationship;
-    use HasFactory;
-    use TransformableTrait;
+    use TransformableTrait, HasFactory, ApplicationCVRelationship;
 
     protected $table = 'application_cv';
 
     public const FILLABLE_FIELDS = [
-        'title', 'path', 'job_application_id',
+        'title', 'path', 'job_application_id'
     ];
 }

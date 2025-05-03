@@ -7,6 +7,9 @@ use App\Repositories\BaseRepository;
 
 class UserExperienceResourceRepositoryEloquent extends BaseRepository implements UserExperienceResourceRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return UserExperienceResource::class;

@@ -12,9 +12,13 @@ class CompanyWorkingDayController extends Controller
 {
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getListAllWorkingDay(): JsonResponse
     {
         $this->bus->addHandler(
@@ -24,7 +28,7 @@ class CompanyWorkingDayController extends Controller
 
         $result = $this->bus->dispatch(new GetListAllWorkingDayCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],

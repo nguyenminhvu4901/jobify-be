@@ -5,8 +5,24 @@ namespace App\Commands\CompanySeries\CompanyProfile\UpdateCompanyProfile;
 use App\Commands\CommandInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ *
+ */
 readonly class UpdateCompanyProfileCommand implements CommandInterface
 {
+    /**
+     * @param string|int $userId
+     * @param string|int $companyId
+     * @param string $companyName
+     * @param string|int $companyScaleId
+     * @param string|int $genderId
+     * @param string|int|null $companyWorkingDayId
+     * @param string|null $website
+     * @param string|null $description
+     * @param string|int|null $taxCode
+     * @param array|null $operationTypes
+     * @param array|null $businessSectors
+     */
     public function __construct(
         public string|int $userId,
         public string|int $companyId,
@@ -14,14 +30,19 @@ readonly class UpdateCompanyProfileCommand implements CommandInterface
         public string|int $companyScaleId,
         public string|int $genderId,
         public string|int|null $companyWorkingDayId,
-        public ?string $website,
-        public ?string $description,
+        public string|null $website,
+        public string|null $description,
         public string|int|null $taxCode,
-        public ?array $operationTypes,
-        public ?array $businessSectors,
-    ) {
+        public array|null $operationTypes,
+        public array|null $businessSectors,
+    )
+    {
     }
 
+    /**
+     * @param FormRequest $request
+     * @return CommandInterface
+     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(

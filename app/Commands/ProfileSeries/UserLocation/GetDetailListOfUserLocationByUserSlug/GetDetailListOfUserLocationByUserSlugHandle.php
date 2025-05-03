@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserLocationByUserSlugHandle
 {
+    /**
+     * @param UserLocationRepository $userLocationRepository
+     */
     public function __construct(
         protected UserLocationRepository $userLocationRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetDetailListOfUserLocationByUserSlugCommand $command
+     * @return array
+     */
     public function handle(GetDetailListOfUserLocationByUserSlugCommand $command): array
     {
         try {
@@ -31,7 +39,7 @@ class GetDetailListOfUserLocationByUserSlugHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn () => $this->userLocationRepository->getByRelationshipUserSlug(
+                fn() =>  $this->userLocationRepository->getByRelationshipUserSlug(
                     userSlug: $command->userSlug,
                     relationship: ['user', 'province', 'district', 'ward']
                 )
@@ -40,13 +48,13 @@ class GetDetailListOfUserLocationByUserSlugHandle
             return [
                 'data' => UserLocationResource::collection($userLocation),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

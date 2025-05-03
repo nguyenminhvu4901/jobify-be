@@ -21,7 +21,8 @@ class UpdateJobHandler
         protected JobLocationService $jobLocationService,
         protected JobContactService $jobContactService,
         protected JobPositionService $jobPositionService
-    ) {
+    )
+    {
     }
 
     public function handle(UpdateJobCommand $command): array
@@ -29,9 +30,9 @@ class UpdateJobHandler
         try {
             $jobListing = $this->jobListingService->updateJobListing($command);
 
-            if (empty($jobListing['data'])) {
+            if(empty($jobListing['data'])){
                 return [
-                    'message' => __('messages.job.job_update_profile_error'),
+                    'message' => __('messages.job.job_update_profile_error')
                 ];
             }
 
@@ -41,30 +42,31 @@ class UpdateJobHandler
                 'data' => JobListingResource::make($jobListing['data']),
                 'message' => __('messages.profile.user_update_profile_success'),
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job.job_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param UpdateJobCommand $command
+     * @return void
+     */
     private function updateJobListingRelationship(UpdateJobCommand $command): void
     {
         $this->jobSalaryService->processUpdateJobSalary(
-            $command->jobSalaries,
-            $command->jobListingId
+            $command->jobSalaries, $command->jobListingId
         );
 
         $this->jobListingDetailService->updateJobListingDetail(
-            $command->jobListingDetails ?? null,
-            $command->jobListingId
+            $command->jobListingDetails ?? null, $command->jobListingId
         );
 
         $this->jobLocationService->processUpsertJobLocations(
-            $command->jobLocations ?? null,
-            $command->jobListingId
+            $command->jobLocations ?? null, $command->jobListingId
         );
 
         $this->jobPositionService->updateJobPosition(
@@ -74,8 +76,7 @@ class UpdateJobHandler
         );
 
         $this->jobContactService->processUpsertJobContacts(
-            $command->jobContacts ?? null,
-            $command->jobListingId
+            $command->jobContacts ?? null, $command->jobListingId
         );
     }
 }

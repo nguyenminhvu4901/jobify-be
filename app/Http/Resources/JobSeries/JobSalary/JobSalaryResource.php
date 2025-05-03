@@ -22,7 +22,7 @@ class JobSalaryResource extends JsonResource
             'currency' => CurrencyResource::make($this->currency),
             'job_salary_type' => JobSalaryTypeResource::make($this->jobSalaryType),
             'from' => $this->from,
-            'to' => $this->to,
+            'to' => $this->to
         ];
     }
 }

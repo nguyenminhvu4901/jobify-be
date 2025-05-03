@@ -10,35 +10,41 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListJobExperienceHandler
 {
+    /**
+     * @param JobExperienceRepository $jobExperienceRepository
+     */
     public function __construct(
         protected JobExperienceRepository $jobExperienceRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return array
+     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([JobExperienceEnum::TAG_NAME->value])->has(
-                JobExperienceEnum::LIST_ALL_JOB_EXPERIENCE->value
-            );
+                JobExperienceEnum::LIST_ALL_JOB_EXPERIENCE->value);
 
             $jobExperiences = Cache::tags([JobExperienceEnum::TAG_NAME->value])
                 ->remember(
                     JobExperienceEnum::LIST_ALL_JOB_EXPERIENCE->value,
                     CacheTTL::HARD->value,
-                    fn () => $this->jobExperienceRepository->get()
+                    fn() => $this->jobExperienceRepository->get()
                 );
 
             return [
                 'data' => JobExperienceResource::collection($jobExperiences),
                 'message' => __('messages.job.job_get_info_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

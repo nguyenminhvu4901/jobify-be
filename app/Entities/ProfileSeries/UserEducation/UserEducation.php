@@ -10,6 +10,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên trường
@@ -21,7 +23,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEducation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEducation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEducation query()
@@ -35,14 +36,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEducation whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEducation whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEducation whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class UserEducation extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserEducationRelationship;
+    use TransformableTrait, HasFactory, UserEducationRelationship;
 
     protected $table = UserEducationEnum::TABLE->value;
 
@@ -53,6 +51,6 @@ class UserEducation extends BaseModel implements Transformable
         'is_studying',
         'start_date',
         'end_date',
-        'description',
+        'description'
     ];
 }

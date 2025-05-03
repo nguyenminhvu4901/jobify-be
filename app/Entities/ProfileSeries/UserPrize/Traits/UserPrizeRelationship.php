@@ -9,11 +9,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait UserPrizeRelationship
 {
+    /**
+     * @return HasMany
+     */
     public function userPrizeResources(): HasMany
     {
         return $this->hasMany(UserPrizeResource::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

@@ -12,7 +12,7 @@ class CheckGuest
     /**
      * Handle an incoming request.
      *
-     * @param  Closure(Request): (Response)  $next
+     * @param Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -22,7 +22,7 @@ class CheckGuest
             if (Auth::guard($guard)->check()) {
                 return response()->json([
                     'message' => __('messages.user_logged_in'),
-                    'status_code' => Response::HTTP_FORBIDDEN,
+                    'status_code' => Response::HTTP_FORBIDDEN
                 ], Response::HTTP_FORBIDDEN);
             }
         }

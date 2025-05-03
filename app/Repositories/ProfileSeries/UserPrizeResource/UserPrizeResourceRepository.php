@@ -5,7 +5,6 @@ namespace App\Repositories\ProfileSeries\UserPrizeResource;
 interface UserPrizeResourceRepository
 {
     public function getByIds(array $userActivityResourceIds);
-
     public function storeDataWithTransaction(array $attributes);
 
     public function updateDataWithTransaction(array $attributes, string|int $userPrizeResourceId);

@@ -13,9 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserActivityRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
-    use ValidatesAttachmentsTrait;
+    use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -37,8 +35,8 @@ class UserActivityRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserActivityEnum::PREFIX->value.UserActivityEnum::STORE->value => $commonRules,
-            UserActivityEnum::PREFIX->value.UserActivityEnum::UPDATE->value => [
+            UserActivityEnum::PREFIX->value . UserActivityEnum::STORE->value => $commonRules,
+            UserActivityEnum::PREFIX->value . UserActivityEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
@@ -51,16 +49,16 @@ class UserActivityRequest extends FormRequest
                         'user_activity_resources',
                         'user_activity_id',
                         'id'
-                    ),
-                ],
+                    )
+                ]
             ],
-            UserActivityEnum::PREFIX->value.UserActivityEnum::DETAIL_LIST_USER_ACTIVITY->value => [
-                'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
+            UserActivityEnum::PREFIX->value . UserActivityEnum::DETAIL_LIST_USER_ACTIVITY->value => [
+                'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id']
             ],
-            UserActivityEnum::PREFIX->value.UserActivityEnum::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value => [
+            UserActivityEnum::PREFIX->value . UserActivityEnum::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserActivityEnum::PREFIX->value.UserActivityEnum::DESTROY->value => [
+            UserActivityEnum::PREFIX->value . UserActivityEnum::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
             ],
@@ -71,7 +69,7 @@ class UserActivityRequest extends FormRequest
     /**
      * @return array[]
      */
-    private function getCommonRules(): array
+    private function getCommonRules() :array
     {
         return [
             'name' => ['bail', 'required', 'string', 'max:255'],
@@ -83,10 +81,13 @@ class UserActivityRequest extends FormRequest
             'attachments' => ['bail', 'nullable', 'array', 'max:10'],
             'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
-            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id'],
+            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
         ];
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['start_date', 'end_date']);
@@ -97,6 +98,6 @@ class UserActivityRequest extends FormRequest
      */
     protected function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserActivityEnum::PREFIX->value.UserActivityEnum::STORE->value);
+        $this->processWithValidator($validator, UserActivityEnum::PREFIX->value . UserActivityEnum::STORE->value);
     }
 }

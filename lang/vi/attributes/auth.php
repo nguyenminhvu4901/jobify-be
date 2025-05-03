@@ -9,5 +9,5 @@ return [
     'new_password' => 'Mật khẩu mới',
     'new_password_confirmation' => 'Xác nhận mật khẩu mới',
     'token' => 'Token',
-    'slug' => 'Slug',
+    'slug' => 'Slug'
 ];

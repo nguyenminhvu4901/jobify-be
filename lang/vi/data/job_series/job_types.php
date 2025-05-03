@@ -16,5 +16,5 @@ return [
         'contract' => 'Hợp đồng',
         'volunteer' => 'Tình nguyện viên',
         'other' => 'Khác',
-    ],
+    ]
 ];

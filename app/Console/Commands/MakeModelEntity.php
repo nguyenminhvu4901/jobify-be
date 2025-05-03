@@ -17,31 +17,33 @@ class MakeModelEntity extends Command
      */
     protected $description = 'Create folder and file for Entities folder';
 
+    /**
+     * @return void
+     */
     public function handle(): void
     {
-        $name = preg_replace('/[\/\\\\]+/', '/', trim($this->argument('name'), '/\\'));
+        $name = preg_replace('/[\/\\\\]+/', '/', trim($this->argument('name'), "/\\"));
 
-        if (! preg_match('/^[A-Za-z_][A-Za-z0-9_\/\\\\]*$/', $name)) {
+        if (!preg_match('/^[A-Za-z_][A-Za-z0-9_\/\\\\]*$/', $name)) {
             $this->components->error("Invalid entity name: {$name}");
-
             return;
         }
 
         $entityPath = app_path("Entities/{$name}.php");
         $filesystem = new Filesystem();
 
-        if (! $filesystem->isDirectory(app_path('Entities'))) {
+        if (!$filesystem->isDirectory(app_path('Entities'))) {
             $filesystem->makeDirectory(app_path('Entities'), 0755, true);
         }
 
         $directory = dirname($entityPath);
-        if (! $filesystem->isDirectory($directory)) {
+        if (!$filesystem->isDirectory($directory)) {
             $filesystem->makeDirectory($directory, 0755, true);
         }
 
-        if (! $filesystem->exists($entityPath)) {
+        if (!$filesystem->exists($entityPath)) {
             $className = class_basename($name);
-            $namespace = 'App\\Entities';
+            $namespace = "App\\Entities";
 
             $subNamespace = trim(str_replace('/', '\\', dirname($name)), '.');
             if ($subNamespace !== '') {

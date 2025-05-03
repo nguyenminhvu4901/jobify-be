@@ -6,6 +6,6 @@ return [
         ['id' => 2, 'name' => 'approved'],
         ['id' => 3, 'name' => 'rejected'],
         ['id' => 4, 'name' => 'needs_revision'],
-        ['id' => 5, 'name' => 'closed'],
+        ['id' => 5, 'name' => 'closed']
     ],
 ];

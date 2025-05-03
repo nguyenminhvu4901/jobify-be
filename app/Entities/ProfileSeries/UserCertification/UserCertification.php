@@ -10,6 +10,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên chứng chỉ
@@ -22,7 +24,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\ProfileSeries\UserCertificationResource\UserCertificationResource> $userCertificationResources
  * @property-read int|null $user_certification_resources_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertification newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertification query()
@@ -35,14 +36,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertification whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertification whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCertification whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class UserCertification extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserCertificationRelationship;
+    use TransformableTrait, HasFactory, UserCertificationRelationship;
 
     protected $table = UserCertificationEnum::TABLE->value;
 
@@ -52,6 +50,6 @@ class UserCertification extends BaseModel implements Transformable
         'organization',
         'is_no_expiration',
         'start_date',
-        'end_date',
+        'end_date'
     ];
 }

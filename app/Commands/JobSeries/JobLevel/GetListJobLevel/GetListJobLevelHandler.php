@@ -12,33 +12,36 @@ class GetListJobLevelHandler
 {
     public function __construct(
         protected JobLevelRepository $jobLevelRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return array
+     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([JobLevelEnum::TAG_NAME->value])->has(
-                JobLevelEnum::LIST_ALL_JOB_LEVEL->value
-            );
+                JobLevelEnum::LIST_ALL_JOB_LEVEL->value);
 
             $jobLevels = Cache::tags([JobLevelEnum::TAG_NAME->value])
                 ->remember(
                     JobLevelEnum::LIST_ALL_JOB_LEVEL->value,
                     CacheTTL::HARD->value,
-                    fn () => $this->jobLevelRepository->get()
+                    fn() => $this->jobLevelRepository->get()
                 );
 
             return [
                 'data' => JobLevelResource::collection($jobLevels),
                 'message' => __('messages.job.job_get_info_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

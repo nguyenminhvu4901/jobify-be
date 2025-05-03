@@ -8,6 +8,6 @@ use App\Observers\BaseObserver;
 class JobApplicationObserver extends BaseObserver
 {
     protected array $cacheTag = [
-        JobApplicationEnum::TAG_NAME->value,
+        JobApplicationEnum::TAG_NAME->value
     ];
 }

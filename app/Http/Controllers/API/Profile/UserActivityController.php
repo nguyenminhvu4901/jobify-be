@@ -26,9 +26,13 @@ class UserActivityController extends Controller
 {
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getListActivityCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(
@@ -38,7 +42,7 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(new GetListActivityCurrentUserCommand());
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -53,6 +57,10 @@ class UserActivityController extends Controller
         );
     }
 
+    /**
+     * @param FormRequest $request
+     * @return JsonResponse
+     */
     public function getCompleteListOfUserActivity(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -62,7 +70,7 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(GetCompleteListOfUserActivityCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -78,6 +86,10 @@ class UserActivityController extends Controller
         );
     }
 
+    /**
+     * @param UserActivityRequest $request
+     * @return JsonResponse
+     */
     public function getDetailListOfUserActivity(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -87,7 +99,7 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserActivityCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -103,6 +115,10 @@ class UserActivityController extends Controller
         );
     }
 
+    /**
+     * @param UserActivityRequest $request
+     * @return JsonResponse
+     */
     public function getDetailListOfUserActivityByUserSlug(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -112,7 +128,7 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserActivityByUserSlugCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -127,6 +143,10 @@ class UserActivityController extends Controller
         );
     }
 
+    /**
+     * @param UserActivityRequest $request
+     * @return JsonResponse
+     */
     public function store(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -136,7 +156,7 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(StoreUserActivityCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -147,6 +167,10 @@ class UserActivityController extends Controller
         );
     }
 
+    /**
+     * @param UserActivityRequest $request
+     * @return JsonResponse
+     */
     public function update(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -156,7 +180,7 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserActivityCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -167,6 +191,10 @@ class UserActivityController extends Controller
         );
     }
 
+    /**
+     * @param UserActivityRequest $request
+     * @return JsonResponse
+     */
     public function destroy(UserActivityRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -176,7 +204,7 @@ class UserActivityController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserActivityCommand::withForm($request));
 
-        if (! empty($result['userActivityDestroy'])) {
+        if(!empty($result['userActivityDestroy'])){
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

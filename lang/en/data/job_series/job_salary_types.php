@@ -7,6 +7,6 @@ return [
         'range' => 'Range',
         'fixed' => 'Fixed',
         'negotiable' => 'Negotiable',
-        'unpaid' => 'Unpaid',
-    ],
+        'unpaid' => 'Unpaid'
+    ]
 ];

@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListSecondaryPositionHandler
 {
+    /**
+     * @param PositionRepository $positionRepository
+     */
     public function __construct(
         protected PositionRepository $positionRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetListSecondaryPositionCommand $command
+     * @return array
+     */
     public function handle(GetListSecondaryPositionCommand $command): array
     {
         try {
@@ -32,7 +40,7 @@ class GetListSecondaryPositionHandler
                     $command
                 ),
                 CacheTTL::HARD->value,
-                fn () => $this->positionRepository
+                fn() => $this->positionRepository
                     ->getListLeafPositionExcludeMainPositionId(
                         $command->mainPositionId,
                         ['id', 'name']
@@ -42,13 +50,13 @@ class GetListSecondaryPositionHandler
             return [
                 'data' => LeafPositionResource::collection($subPositions),
                 'message' => __('messages.job.job_get_info_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

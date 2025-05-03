@@ -11,13 +11,14 @@ class CompanyBelongsToBenefitRule implements ValidationRule
 {
     public function __construct(
         protected string|int $companyBenefitId
-    ) {
+    )
+    {
     }
 
     /**
      * Run the validation rule.
      *
-     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
+     * @param Closure(string, ?string=): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -25,7 +26,7 @@ class CompanyBelongsToBenefitRule implements ValidationRule
             ->whereCompanyBenefitId($this->companyBenefitId)
             ->doesntExist();
 
-        if ($checkExists) {
+        if($checkExists){
             $fail(__('validation.custom.company_id_benefit_id_mismatch'));
         }
     }

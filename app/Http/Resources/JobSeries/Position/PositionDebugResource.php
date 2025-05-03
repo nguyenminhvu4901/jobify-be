@@ -21,7 +21,7 @@ class PositionDebugResource extends JsonResource
             '_rgt' => $this->_rgt,
             'parent_id' => $this->parent_id,
             'depth' => $this->depth,
-            'children' => PositionResource::collection($this->children),
+            'children' => PositionResource::collection($this->children)
         ];
     }
 }

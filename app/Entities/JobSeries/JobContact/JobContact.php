@@ -10,6 +10,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $job_listing_id
  * @property string $full_name
@@ -17,7 +19,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property string $phone_number
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobContact newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobContact newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobContact query()
@@ -29,15 +30,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobContact whereJobListingId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobContact wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobContact whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class JobContact extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use JobContactRelationship;
-    use JobContactScope;
-    use TransformableTrait;
+    use TransformableTrait, HasFactory, JobContactRelationship, JobContactScope;
 
     protected $table = 'job_contacts';
 

@@ -7,6 +7,9 @@ use App\Repositories\BaseRepository;
 
 class UserCourseResourceRepositoryEloquent extends BaseRepository implements UserCourseResourceRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return UserCourseResource::class;

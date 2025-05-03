@@ -8,12 +8,21 @@ use App\Services\ProfileSeries\UserActivity\UserActivityService;
 
 class UpdateUserActivityHandle
 {
+    /**
+     * @param UserActivityRepository $userActivityRepository
+     * @param UserActivityService $userActivityService
+     */
     public function __construct(
         protected UserActivityRepository $userActivityRepository,
         protected UserActivityService $userActivityService
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UpdateUserActivityCommand $command
+     * @return array
+     */
     public function handle(UpdateUserActivityCommand $command): array
     {
         try {
@@ -22,14 +31,14 @@ class UpdateUserActivityHandle
                 $command->userActivityId
             );
 
-            if (! $result['success']) {
+            if(!$result['success']){
                 return [
                     'message' => $result['message'] ?? __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
-            if (! empty($command->attachments)) {
+            if(!empty($command->attachments)){
 
                 $this->userActivityService->updateResourceAttachment(
                     attachments: $command->attachments,
@@ -40,17 +49,21 @@ class UpdateUserActivityHandle
 
             return [
                 'data' => UserActivityResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.user_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }
 
+    /**
+     * @param UpdateUserActivityCommand $command
+     * @return array
+     */
     private function prepareUserActivityData(UpdateUserActivityCommand $command): array
     {
         return [

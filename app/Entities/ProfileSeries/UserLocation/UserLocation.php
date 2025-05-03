@@ -10,6 +10,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property int|null $province_id Tỉnh, thành phố
@@ -22,7 +24,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Entities\Locate\Province\Province|null $province
  * @property-read \App\Models\User|null $user
  * @property-read \App\Entities\Locate\Ward\Ward|null $ward
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserLocation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserLocation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserLocation query()
@@ -34,14 +35,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserLocation whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserLocation whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserLocation whereWardId($value)
- *
  * @mixin \Eloquent
  */
 class UserLocation extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserLocationRelationship;
+    use TransformableTrait, HasFactory, UserLocationRelationship;
 
     protected $table = UserLocationEnum::TABLE->value;
 
@@ -52,6 +50,6 @@ class UserLocation extends BaseModel implements Transformable
         'province_id',
         'district_id',
         'ward_id',
-        'address',
+        'address'
     ];
 }

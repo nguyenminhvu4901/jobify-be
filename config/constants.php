@@ -7,5 +7,5 @@ return [
 
     'path_company_avatar' => 'images/companies/avatars',
 
-    'default_avatar' => 'images/default_avatar.jpeg',
+    'default_avatar' => 'images/default_avatar.jpeg'
 ];

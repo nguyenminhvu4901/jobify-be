@@ -12,27 +12,30 @@ use Illuminate\Support\Collection;
 
 class UserActivityService
 {
-    use ImageHandler;
-    use VideoHandler;
+    use ImageHandler, VideoHandler;
 
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
         protected UserActivityResourceRepository $userActivityResourceRepository
-    ) {
+    )
+    {
     }
 
     /**
+     * @param $attachment
      * @return void|null
      */
     public function saveAttachment($attachment)
     {
         return $this->attachmentResourceService->saveFileAttachment(
-            attachment: $attachment,
-            lastFolderName: 'activities'
+            attachment: $attachment, lastFolderName: 'activities'
         );
     }
 
     /**
+     * @param $attachment
+     * @param $userActivityId
+     * @param $pathStorage
      * @return LengthAwarePaginator|Collection|mixed
      */
     public function storeUserActivityResource($attachment, $userActivityId, $pathStorage): mixed
@@ -42,34 +45,44 @@ class UserActivityService
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id'],
+            'content_type_id' => $attachment['content_type_id']
         ]);
     }
 
+    /**
+     * @param $attachment
+     * @param $userActivityResourceId
+     * @param $pathStorage
+     * @return array
+     */
     private function updateUserActivityResource($attachment, $userActivityResourceId, $pathStorage): array
     {
         return $this->userActivityResourceRepository->updateDataWithTransaction([
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id'],
+            'content_type_id' => $attachment['content_type_id']
         ], $userActivityResourceId);
     }
 
+    /**
+     * @param $attachments
+     * @param $userActivityResource
+     * @param $userActivityId
+     * @return void
+     */
     public function updateResourceAttachment(
-        $attachments,
-        $userActivityResource,
-        $userActivityId
-    ): void {
+        $attachments, $userActivityResource, $userActivityId
+    ): void
+    {
         $this->deleteUserActivityResourceAndAttachment(
-            attachments: $attachments,
-            userActivityResource: $userActivityResource
-        );
+            attachments: $attachments, userActivityResource: $userActivityResource);
 
-        foreach ($attachments as $attachment) {
-            if (! empty($attachment['user_activity_resource_id'])) {
+        foreach ($attachments as $attachment)
+        {
+            if(!empty($attachment['user_activity_resource_id'])){
                 $this->processUpdateAttachment($attachment);
-            } else {
+            }else{
                 $pathStorage = $this->saveAttachment($attachment);
                 $this->storeUserActivityResource(
                     attachment: $attachment,
@@ -81,6 +94,7 @@ class UserActivityService
     }
 
     /**
+     * @param $attachment
      * @return array|void|null
      */
     private function processUpdateAttachment($attachment)
@@ -91,9 +105,9 @@ class UserActivityService
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
         ) {
-            if (is_string($attachment['content'])) {
-                return;
-            } else {
+            if(is_string($attachment['content'])){
+                return ;
+            }else{
                 $this->attachmentResourceService->deleteFileAttachment($userActivityResource);
 
                 $pathStorage = $this->saveAttachment($attachment);
@@ -111,11 +125,16 @@ class UserActivityService
                 userActivityResourceId: $userActivityResource->id,
                 pathStorage: $attachment['content']
             );
-        } else {
+        }else {
             return null;
         }
     }
 
+    /**
+     * @param $attachments
+     * @param $userActivityResource
+     * @return mixed
+     */
     private function deleteUserActivityResourceAndAttachment($attachments, $userActivityResource): mixed
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
@@ -127,7 +146,7 @@ class UserActivityService
         $listUserActivityResourceToDelete = $this->userActivityResourceRepository
             ->getByIds($listDelIds);
 
-        if (! empty($listUserActivityResourceToDelete)) {
+        if(!empty($listUserActivityResourceToDelete)){
             return $listUserActivityResourceToDelete->map(function ($eachUserActivityResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserActivityResource);

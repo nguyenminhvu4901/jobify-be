@@ -15,7 +15,7 @@ interface UserCertificationRepository
     public function paginateWithRelationship(
         array|string $relationship = [],
         array $relationshipCallbacksToFilter = [],
-        $limit = null
+                     $limit = null
     ): LengthAwarePaginator;
 
     public function findWithRelationships(

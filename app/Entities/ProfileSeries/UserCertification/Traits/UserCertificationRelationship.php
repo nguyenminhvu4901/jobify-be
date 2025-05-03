@@ -9,11 +9,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait UserCertificationRelationship
 {
+    /**
+     * @return HasMany
+     */
     public function userCertificationResources(): HasMany
     {
         return $this->hasMany(UserCertificationResource::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

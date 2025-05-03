@@ -11,13 +11,13 @@ class LocationBelongsToJobListingRule implements ValidationRule
 {
     public function __construct(
         protected int $jobListingId
-    ) {
+    )
+    {
     }
-
     /**
      * Run the validation rule.
      *
-     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
+     * @param Closure(string, ?string=): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -25,7 +25,7 @@ class LocationBelongsToJobListingRule implements ValidationRule
             ->where('id', $value)
             ->doesntExist();
 
-        if ($checkExists) {
+        if($checkExists){
             $fail(__('validation.custom.location_not_belongs_to_job'));
         }
     }

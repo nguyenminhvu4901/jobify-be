@@ -8,11 +8,19 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UpdateCompanyBenefitHandler
 {
+    /**
+     * @param CompanyBenefitRepository $companyBenefitRepository
+     */
     public function __construct(
         protected CompanyBenefitRepository $companyBenefitRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UpdateCompanyBenefitCommand $command
+     * @return array
+     */
     public function handle(UpdateCompanyBenefitCommand $command): array
     {
         try {
@@ -21,28 +29,32 @@ class UpdateCompanyBenefitHandler
                 $command->companyBenefitId
             );
 
-            if (! $result['success']) {
+            if(!$result['success']){
 
                 return [
                     'message' => __('messages.company.company_update_profile_error'),
-                    'error' => $result['error'] ?? null,
+                    'error' => $result['error'] ?? null
                 ];
             }
 
             return [
                 'data' => CompanyBenefitResource::make($result['data']),
-                'message' => __('messages.company.company_update_profile_success'),
+                'message' => __('messages.company.company_update_profile_success')
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.company.company_update_profile_error'),
                 'error' => $e,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
             ];
         }
     }
 
+    /**
+     * @param UpdateCompanyBenefitCommand $command
+     * @return array
+     */
     private function prepareCompanyData(UpdateCompanyBenefitCommand $command): array
     {
         return [

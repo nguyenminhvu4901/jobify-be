@@ -21,11 +21,19 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class JobApplicationController extends Controller
 {
+    /**
+     * @param CommandBusInterface $bus
+     */
     public function __construct(
         protected CommandBusInterface $bus
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param JobApplicationRequest $request
+     * @return JsonResponse
+     */
     public function getListJobApplicationByJobSeeker(JobApplicationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -35,7 +43,7 @@ class JobApplicationController extends Controller
 
         $result = $this->bus->dispatch(GetListJobApplicationByJobSeekerCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -51,6 +59,10 @@ class JobApplicationController extends Controller
         );
     }
 
+    /**
+     * @param JobApplicationRequest $request
+     * @return JsonResponse
+     */
     public function getDetailJobApplicationJobSeeker(JobApplicationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -60,7 +72,7 @@ class JobApplicationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailJobApplicationJobSeekerCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -76,6 +88,10 @@ class JobApplicationController extends Controller
         );
     }
 
+    /**
+     * @param JobApplicationRequest $request
+     * @return JsonResponse
+     */
     public function getListJobSeekerApplyJob(JobApplicationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -85,7 +101,7 @@ class JobApplicationController extends Controller
 
         $result = $this->bus->dispatch(GetListJobSeekerApplyJobCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -100,6 +116,10 @@ class JobApplicationController extends Controller
         );
     }
 
+    /**
+     * @param SaveJobApplicationRequest $request
+     * @return JsonResponse
+     */
     public function storeJobSeekerApplyJob(SaveJobApplicationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -109,7 +129,7 @@ class JobApplicationController extends Controller
 
         $result = $this->bus->dispatch(StoreJobSeekerApplyJobCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -125,6 +145,10 @@ class JobApplicationController extends Controller
         );
     }
 
+    /**
+     * @param JobApplicationStatusRequest $request
+     * @return JsonResponse
+     */
     public function updateJobApplicationStatus(JobApplicationStatusRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -134,7 +158,7 @@ class JobApplicationController extends Controller
 
         $result = $this->bus->dispatch(UpdateJobApplicationStatusCommand::withForm($request));
 
-        if (! empty($result['data'])) {
+        if(!empty($result['data'])){
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],

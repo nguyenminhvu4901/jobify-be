@@ -11,7 +11,8 @@ readonly class SalaryBelongsToJobListingRule implements ValidationRule
 {
     public function __construct(
         protected int $jobListingId
-    ) {
+    )
+    {
     }
 
     /**
@@ -25,7 +26,7 @@ readonly class SalaryBelongsToJobListingRule implements ValidationRule
             ->where('id', $value)
             ->doesntExist();
 
-        if ($checkExists) {
+        if($checkExists){
             $fail(__('validation.custom.salary_not_belongs_to_job'));
         }
     }

@@ -13,10 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserProjectRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
-    use ValidatesAttachmentsTrait;
-
+    use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -37,14 +34,14 @@ class UserProjectRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserProjectEnum::PREFIX->value.UserProjectEnum::DETAIL_LIST_USER_PROJECT->value => [
-                'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
+            UserProjectEnum::PREFIX->value . UserProjectEnum::DETAIL_LIST_USER_PROJECT->value => [
+                'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id']
             ],
-            UserProjectEnum::PREFIX->value.UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value => [
+            UserProjectEnum::PREFIX->value . UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserProjectEnum::PREFIX->value.UserProjectEnum::STORE->value => $commonRules,
-            UserProjectEnum::PREFIX->value.UserProjectEnum::UPDATE->value => [
+            UserProjectEnum::PREFIX->value . UserProjectEnum::STORE->value => $commonRules,
+            UserProjectEnum::PREFIX->value . UserProjectEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
@@ -57,10 +54,10 @@ class UserProjectRequest extends FormRequest
                         'user_project_resources',
                         'user_project_id',
                         'id'
-                    ),
-                ],
+                    )
+                ]
             ],
-            UserProjectEnum::PREFIX->value.UserProjectEnum::DESTROY->value => [
+            UserProjectEnum::PREFIX->value . UserProjectEnum::DESTROY->value => [
                 'user_project_id' => ['bail', 'required', 'integer', 'exists:user_projects,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -85,10 +82,13 @@ class UserProjectRequest extends FormRequest
             'attachments' => ['bail', 'nullable', 'array', 'max:10'],
             'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
-            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id'],
+            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
         ];
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['start_date', 'end_date']);
@@ -99,6 +99,6 @@ class UserProjectRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserProjectEnum::PREFIX->value.UserProjectEnum::STORE->value);
+        $this->processWithValidator($validator, UserProjectEnum::PREFIX->value . UserProjectEnum::STORE->value);
     }
 }

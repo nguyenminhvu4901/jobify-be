@@ -12,10 +12,11 @@ class StoreUserActivityCommand implements CommandInterface
         public string $name,
         public string $position,
         public string $startDate,
-        public ?string $endDate,
-        public ?string $description,
-        public ?array $attachments
-    ) {
+        public string|null $endDate,
+        public string|null $description,
+        public array|null  $attachments
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

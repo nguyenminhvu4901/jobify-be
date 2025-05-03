@@ -10,7 +10,8 @@ readonly class DestroyUserPrizeCommand implements CommandInterface
     public function __construct(
         public string $userSlug,
         public int|string $userPrizeId
-    ) {
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

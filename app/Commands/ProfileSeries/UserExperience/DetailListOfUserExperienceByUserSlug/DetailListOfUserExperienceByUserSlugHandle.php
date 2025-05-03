@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class DetailListOfUserExperienceByUserSlugHandle
 {
+    /**
+     * @param UserExperienceRepository $userExperienceRepository
+     */
     public function __construct(
         protected UserExperienceRepository $userExperienceRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param DetailListOfUserExperienceByUserSlugCommand $command
+     * @return array
+     */
     public function handle(DetailListOfUserExperienceByUserSlugCommand $command): array
     {
         try {
@@ -31,7 +39,7 @@ class DetailListOfUserExperienceByUserSlugHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn () => $this->userExperienceRepository->getByRelationshipUserSlug(
+                fn() => $this->userExperienceRepository->getByRelationshipUserSlug(
                     userSlug: $command->userSlug,
                     relationship: ['userExperienceResource.contentType', 'user']
                 )
@@ -40,13 +48,13 @@ class DetailListOfUserExperienceByUserSlugHandle
             return [
                 'data' => UserExperienceResource::collection($userExperiences),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache,
+                'cache' => $cache
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

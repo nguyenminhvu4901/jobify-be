@@ -7,12 +7,19 @@ use Illuminate\Support\Str;
 
 trait VideoHandler
 {
+    /**
+     * @param $file
+     * @param $path
+     * @param $user
+     * @return string|null
+     */
     public function storeVideo($file, $path, $user): ?string
     {
-        if (! empty($file)) {
+        if(!empty($file))
+        {
             $prefixEmail = extractEmailPrefix($user->email);
 
-            $fileName = $prefixEmail.'-'.Str::random(50).'.'.$file->extension();
+            $fileName = $prefixEmail . '-' . Str::random(50).'.'.$file->extension();
 
             $file->storeAs('public/'.$path.'/'.$fileName);
 
@@ -22,9 +29,17 @@ trait VideoHandler
         return null;
     }
 
+    /**
+     * @param $file
+     * @param $path
+     * @param $oldPath
+     * @param $user
+     * @return string|null
+     */
     public function updateVideo($file, $path, $oldPath, $user): ?string
     {
-        if (! empty($file)) {
+        if(!empty($file))
+        {
             $this->deleteVideo($oldPath);
 
             return $this->storeVideo($file, $path, $user);
@@ -33,6 +48,10 @@ trait VideoHandler
         return null;
     }
 
+    /**
+     * @param $absolutePath
+     * @return bool
+     */
     public function deleteVideo($absolutePath): bool
     {
         $path = parse_url($absolutePath, PHP_URL_PATH);

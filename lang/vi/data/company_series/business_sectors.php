@@ -42,7 +42,7 @@ return [
         'agriculture_forestry_fisheries' => 'Nông nghiệp, Lâm nghiệp & Thủy sản',
         'finance' => 'Tài chính',
         'general_trade' => 'Thương mại tổng hợp',
-        'other' => 'Ngành nghề khác',
+        'other' => 'Ngành nghề khác'
     ],
 
     'description' => [
@@ -86,6 +86,6 @@ return [
         'farming_forestry_and_fishing_industries' => 'Ngành nông nghiệp, lâm nghiệp và thủy sản',
         'financial_management_and_investment_services' => 'Quản lý tài chính và dịch vụ đầu tư',
         'wholesale_and_distributive_trade' => 'Thương mại bán buôn và phân phối',
-        'miscellaneous_and_unclassified_businesses' => 'Các ngành nghề khác và chưa được phân loại',
-    ],
+        'miscellaneous_and_unclassified_businesses' => 'Các ngành nghề khác và chưa được phân loại'
+    ]
 ];

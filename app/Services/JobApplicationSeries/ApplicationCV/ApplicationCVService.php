@@ -13,12 +13,22 @@ class ApplicationCVService
 {
     use ImageHandler;
 
+    /**
+     * @param ApplicationCVRepository $applicationCVRepository
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         protected ApplicationCVRepository $applicationCVRepository,
         protected UserRepository $userRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param JobApplication $jobApplication
+     * @return array
+     */
     public function processSaveCV(UploadedFile $uploadedFile, JobApplication $jobApplication): array
     {
         $fileName = $this->generateSlugFilename($uploadedFile);
@@ -27,14 +37,19 @@ class ApplicationCVService
         return $this->applicationCVRepository->storeDataWithTransaction([
             'title' => $fileName,
             'path' => $filePath,
-            'job_application_id' => $jobApplication->id,
+            'job_application_id' => $jobApplication->id
         ]);
     }
 
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param JobApplication $jobApplication
+     * @return string|null
+     */
     private function storeFileCV(
-        UploadedFile $uploadedFile,
-        JobApplication $jobApplication
-    ): ?string {
+        UploadedFile $uploadedFile, JobApplication $jobApplication
+    ): ?string
+    {
         $user = $this->userRepository->find($jobApplication->user_id);
 
         $path = sprintf(
@@ -46,6 +61,11 @@ class ApplicationCVService
         return $this->storeImage($uploadedFile, $path, $user);
     }
 
+    /**
+     *
+     * @param UploadedFile $uploadedFile
+     * @return string
+     */
     private function generateSlugFilename(UploadedFile $uploadedFile): string
     {
         $filenameWithoutExtension = pathinfo(

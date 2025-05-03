@@ -3,6 +3,7 @@
 namespace Database\Seeders\Permissions;
 
 use App\Entities\Permission\Permission;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

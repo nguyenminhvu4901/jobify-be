@@ -10,7 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CurrentUserLocationResource extends JsonResource
 {
     use UserResourceTrait;
-
     /**
      * Transform the resource into an array.
      *
@@ -21,7 +20,7 @@ class CurrentUserLocationResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'locations' => UserLocationNoUserDataResource::collection($this->userLocations),
+            'locations' => UserLocationNoUserDataResource::collection($this->userLocations)
         ];
     }
 }

@@ -11,7 +11,6 @@ use Illuminate\Validation\Rule;
 class ResetPasswordRequest extends FormRequest
 {
     use FailedValidation;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -31,7 +30,7 @@ class ResetPasswordRequest extends FormRequest
             'token' => ['required'],
             'email' => [
                 'bail', 'required', 'string', 'email',
-                Rule::exists('users', 'email')->whereNull('deleted_at'),
+                Rule::exists('users', 'email')->whereNull('deleted_at')
             ],
             'password' => [
                 'bail', 'required', 'string', new PasswordRule(),

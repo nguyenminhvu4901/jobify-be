@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see https://github.com/pionl/laravel-chunk-upload
  */

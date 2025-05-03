@@ -10,9 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserProfileRequest extends FormRequest
 {
-    use FailedValidation;
-    use NormalizeDateTrait;
-
+    use FailedValidation, NormalizeDateTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -38,6 +36,9 @@ class UpdateUserProfileRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['birth_date']);

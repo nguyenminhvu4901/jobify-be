@@ -11,7 +11,8 @@ readonly class CompanyBelongsToUserRule implements ValidationRule
 {
     public function __construct(
         protected string|int $userId
-    ) {
+    )
+    {
     }
 
     /**
@@ -25,7 +26,7 @@ readonly class CompanyBelongsToUserRule implements ValidationRule
             ->whereUserId($this->userId)
             ->doesntExist();
 
-        if ($checkExists) {
+        if($checkExists){
             $fail(__('validation.custom.company_id_user_id_mismatch'));
         }
     }

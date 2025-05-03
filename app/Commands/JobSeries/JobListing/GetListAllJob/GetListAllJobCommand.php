@@ -8,16 +8,17 @@ use Illuminate\Foundation\Http\FormRequest;
 readonly class GetListAllJobCommand implements CommandInterface
 {
     public function __construct(
-        public ?int $limit,
-        public ?string $page
-    ) {
+        public int|null $limit,
+        public string|null $page
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(
             limit: $request->input('limit') ?? null,
-            page: $request->input('page') ?? null,
+            page:  $request->input('page') ?? null,
         );
     }
 }

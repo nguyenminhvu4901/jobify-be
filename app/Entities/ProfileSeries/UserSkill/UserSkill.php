@@ -10,6 +10,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên kỹ năng
@@ -19,7 +21,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\DefaultSeries\DefaultRate\DefaultRate|null $rate
  * @property-read \App\Models\User|null $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSkill newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSkill newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSkill query()
@@ -30,14 +31,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSkill whereRateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSkill whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSkill whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class UserSkill extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserSkillRelationship;
+    use TransformableTrait, HasFactory, UserSkillRelationship;
 
     protected $table = UserSkillEnum::TABLE->value;
 
@@ -45,6 +43,6 @@ class UserSkill extends BaseModel implements Transformable
         'user_id',
         'name',
         'rate_id',
-        'description',
+        'description'
     ];
 }

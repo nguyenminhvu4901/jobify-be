@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListJobSeekerApplyJobHandler
 {
+    /**
+     * @param JobApplicationRepository $jobApplicationRepository
+     */
     public function __construct(
         protected JobApplicationRepository $jobApplicationRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param GetListJobSeekerApplyJobCommand $command
+     * @return array
+     */
     public function handle(GetListJobSeekerApplyJobCommand $command): array
     {
         try {
@@ -32,11 +40,11 @@ class GetListJobSeekerApplyJobHandler
                         $command
                     ),
                     CacheTTL::HARD->value,
-                    fn () => $this->jobApplicationRepository->getByJobListingIdAndJobIdWithRelationships(
+                    fn() => $this->jobApplicationRepository->getByJobListingIdAndJobIdWithRelationships(
                         jobListingId: $command->jobListingId,
                         relationships: [
                             'users', 'jobListings', 'applicationCV', 'applicationStatuses',
-                            'jobApplicationStatus.applicationStatuses',
+                            'jobApplicationStatus.applicationStatuses'
                         ],
                         limit: $command->limit
                     )
@@ -46,13 +54,13 @@ class GetListJobSeekerApplyJobHandler
                 'data' => JobApplicationResource::collection($jobApplication),
                 'message' => __('messages.job-application.job_application_get_info_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($jobApplication),
+                'pagination' => formatPaginationData($jobApplication)
             ];
-        } catch (\Exception $e) {
+        }catch (\Exception $e){
 
             return [
                 'message' => __('messages.job-application.job_application_get_info_error'),
-                'error' => $e,
+                'error' => $e
             ];
         }
     }

@@ -7,5 +7,5 @@ return [
         'paused' => 'Tạm dừng',
         'expired' => 'Hết hạn',
         'closed' => 'Đã đóng',
-    ],
+    ]
 ];

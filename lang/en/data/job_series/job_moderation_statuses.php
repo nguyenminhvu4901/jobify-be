@@ -6,6 +6,7 @@ return [
         'approved' => 'Approved',
         'rejected' => 'Rejected',
         'needs_revision' => 'Needs revision',
-        'closed' => 'Closed',
-    ],
+        'closed' => 'Closed'
+    ]
 ];
+

@@ -8,11 +8,18 @@ use App\Repositories\BaseRepository;
 
 class PositionRepositoryEloquent extends BaseRepository implements PositionRepository
 {
+    /**
+     * @return string
+     */
     public function model(): string
     {
         return Position::class;
     }
 
+    /**
+     * @param int|null $limit
+     * @return mixed
+     */
     public function getListPositionPaginate(?int $limit): mixed
     {
         $roots = $this->model->withDepthRootOrdered()
@@ -20,7 +27,6 @@ class PositionRepositoryEloquent extends BaseRepository implements PositionRepos
 
         $roots->getCollection()->transform(function ($root) {
             $root->setRelation('children', $root->descendants()->withDepthOrderedToTree());
-
             return $root;
         });
 
@@ -28,7 +34,8 @@ class PositionRepositoryEloquent extends BaseRepository implements PositionRepos
     }
 
     /**
-     * @param  array|string[]  $columns  $
+     * @param array|string[] $columns $
+     * @return mixed
      */
     public function getListLeafPosition(array $columns = ['*']): mixed
     {
@@ -36,12 +43,14 @@ class PositionRepositoryEloquent extends BaseRepository implements PositionRepos
     }
 
     /**
-     * @param  array|string[]  $columns  $
+     * @param int|null $excludeId
+     * @param array|string[] $columns $
+     * @return mixed
      */
     public function getListLeafPositionExcludeMainPositionId(
-        ?int $excludeId = null,
-        array $columns = ['*']
-    ): mixed {
+        int $excludeId = null, array $columns = ['*']
+    ): mixed
+    {
         return $this->model->select($columns)->leafNodesExcludeId($excludeId);
     }
 }

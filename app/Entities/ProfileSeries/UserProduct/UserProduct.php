@@ -10,6 +10,8 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên sản phẩm
@@ -21,7 +23,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\ProfileSeries\UserProductResource\UserProductResource> $userProductResources
  * @property-read int|null $user_product_resources_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProduct newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProduct newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProduct query()
@@ -33,14 +34,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProduct whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProduct whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProduct whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class UserProduct extends BaseModel implements Transformable
 {
-    use HasFactory;
-    use TransformableTrait;
-    use UserProductRelationship;
+    use TransformableTrait, HasFactory, UserProductRelationship;
 
     protected $table = UserProductEnum::TABLE->value;
 
@@ -49,6 +47,6 @@ class UserProduct extends BaseModel implements Transformable
         'name',
         'category',
         'finished_date',
-        'description',
+        'description'
     ];
 }

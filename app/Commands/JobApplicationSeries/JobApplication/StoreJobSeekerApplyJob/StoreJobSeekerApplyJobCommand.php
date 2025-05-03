@@ -14,9 +14,10 @@ readonly class StoreJobSeekerApplyJobCommand implements CommandInterface
         public string $fullName,
         public string $email,
         public string $phoneNumber,
-        public ?string $coverLetter,
+        public string|null $coverLetter,
         public UploadedFile $applicationCV
-    ) {
+    )
+    {
     }
 
     public static function withForm(FormRequest $request): self
@@ -31,4 +32,5 @@ readonly class StoreJobSeekerApplyJobCommand implements CommandInterface
             applicationCV: $request->file('application_cv')
         );
     }
+
 }

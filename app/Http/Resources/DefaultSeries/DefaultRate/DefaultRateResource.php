@@ -18,7 +18,7 @@ class DefaultRateResource extends JsonResource
             'id' => $this->id,
             'rate' => $this->rate,
             'created_at' => formatDateTime($this->created_at),
-            'updated_at' => formatDateTime($this->updated_at),
+            'updated_at' => formatDateTime($this->updated_at)
         ];
     }
 }
