@@ -9,100 +9,65 @@ class JobSalaryService
 {
     public function __construct(
         protected JobSalaryRepository $jobSalaryRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param array|null $jobSalaryData
-     * @param int $jobListingId
-     * @return void
-     */
     public function massStoreJobSalary(
-        array|null $jobSalaryData,
+        ?array $jobSalaryData,
         int $jobListingId
-    ): void
-    {
-        foreach ($jobSalaryData as $data){
+    ): void {
+        foreach ($jobSalaryData as $data) {
             $this->storeJobSalary($data, $jobListingId);
         }
     }
 
-    /**
-     * @param SalaryData $jobSalaryData
-     * @param int $jobListingId
-     * @return void
-     */
     private function storeJobSalary(
         SalaryData $jobSalaryData,
         int $jobListingId
-    ): void
-    {
+    ): void {
         $this->jobSalaryRepository->storeDataWithTransaction(
             $this->salariesTransformer($jobSalaryData, $jobListingId),
             ['jobListings']
         );
     }
 
-    /**
-     * @param array|null $jobSalaryData
-     * @param int $jobListingId
-     * @return void
-     */
     public function processUpdateJobSalary(
-        array|null $jobSalaryData,
-        int        $jobListingId
+        ?array $jobSalaryData,
+        int $jobListingId
     ): void {
         $idsDelete = $this->getJobSalaryIdsToDel($jobSalaryData, $jobListingId);
         $this->deleteJobSalary($idsDelete);
 
-        foreach ($jobSalaryData as $data){
-            if(!empty($data->salaryId)){
+        foreach ($jobSalaryData as $data) {
+            if (! empty($data->salaryId)) {
                 $this->updateJobSalary($data, $jobListingId);
-            }else{
+            } else {
                 $this->storeJobSalary($data, $jobListingId);
             }
         }
     }
 
-    /**
-     * @param SalaryData $jobSalaryData
-     * @param int $jobListingId
-     * @return array
-     */
     public function updateJobSalary(
         SalaryData $jobSalaryData,
-        int        $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         return $this->jobSalaryRepository->updateDataWithTransaction(
             $this->salariesTransformer($jobSalaryData, $jobListingId),
             $jobSalaryData->salaryId
         );
     }
 
-    /**
-     * @param array $jobSalaryIds
-     * @return array
-     */
     public function deleteJobSalary(
         array $jobSalaryIds,
-    ): array
-    {
+    ): array {
 
         return $this->jobSalaryRepository->massDeleteTransaction('id', $jobSalaryIds);
     }
 
-    /**
-     * @param array $jobSalaryData
-     * @param int $jobListingId
-     * @return array
-     */
     private function getJobSalaryIdsToDel(
         array $jobSalaryData,
-        int   $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         $jobSalaryIdsRq = collect($jobSalaryData)->pluck('jobSalaryId')->filter()->values();
 
         $jobSalaryIdsDB = $this->jobSalaryRepository->getJobSalaryIdsByJobListingId($jobListingId);
@@ -112,16 +77,10 @@ class JobSalaryService
         return $idsToDelete->values()->toArray();
     }
 
-    /**
-     * @param SalaryData|null $jobSalaryData
-     * @param int $jobListingId
-     * @return array
-     */
     private function salariesTransformer(
-        SalaryData|null $jobSalaryData,
-        int   $jobListingId
-    ): array
-    {
+        ?SalaryData $jobSalaryData,
+        int $jobListingId
+    ): array {
         return [
             'job_listing_id' => $jobListingId,
             'currency_id' => $jobSalaryData->currencyId,

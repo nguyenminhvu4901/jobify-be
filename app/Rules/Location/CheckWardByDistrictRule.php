@@ -11,9 +11,9 @@ class CheckWardByDistrictRule implements ValidationRule
 {
     public function __construct(
         protected string|int|null $districtId
-    )
-    {
+    ) {
     }
+
     /**
      * Run the validation rule.
      *
@@ -25,7 +25,7 @@ class CheckWardByDistrictRule implements ValidationRule
             ->whereDistrictId($this->districtId)
             ->doesntExist();
 
-        if(!$checkWard){
+        if (! $checkWard) {
             $fail(__('validation.custom.invalid_ward_in_district'));
         }
     }

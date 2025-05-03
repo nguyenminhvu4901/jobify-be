@@ -10,12 +10,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobExperience newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobExperience newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobExperience query()
@@ -23,27 +22,24 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobExperience whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobExperience whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobExperience whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class JobExperience extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory;
+    use HasFactory;
+    use TransformableTrait;
 
     protected $table = JobExperienceEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
-        'name'
+        'name',
     ];
 
-    /**
-     * @return Attribute
-     */
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>
-            translatable_or_original("data/job_series/job_experiences.name", $value)
+            get: fn (string $value) => translatable_or_original('data/job_series/job_experiences.name', $value)
         );
     }
-
 }

@@ -9,16 +9,15 @@ use Illuminate\Foundation\Http\FormRequest;
 readonly class UpdateUserCourseCommand implements CommandInterface
 {
     public function __construct(
-        public string      $userSlug,
-        public int|string  $userCourseId,
-        public string      $name,
-        public string|null $organization,
-        public string      $startDate,
-        public string|null $endDate,
-        public string|null $description,
-        public array|null  $attachments
-    )
-    {
+        public string $userSlug,
+        public int|string $userCourseId,
+        public string $name,
+        public ?string $organization,
+        public string $startDate,
+        public ?string $endDate,
+        public ?string $description,
+        public ?array $attachments
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

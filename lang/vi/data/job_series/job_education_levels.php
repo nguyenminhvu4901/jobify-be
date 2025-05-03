@@ -9,5 +9,5 @@ return [
         'bachelor' => 'Đại học',
         'master' => 'Thạc sĩ',
         'phd' => 'Tiến sĩ',
-    ]
+    ],
 ];

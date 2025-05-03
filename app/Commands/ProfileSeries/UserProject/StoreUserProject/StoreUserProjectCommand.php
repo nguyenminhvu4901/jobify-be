@@ -14,14 +14,13 @@ readonly class StoreUserProjectCommand implements CommandInterface
         public string $member,
         public string $position,
         public string $mission,
-        public string|null $technology,
+        public ?string $technology,
         public bool $isWorking,
         public string $startDate,
-        public string|null $endDate,
-        public string|null $description,
-        public array|null  $attachments
-    )
-    {
+        public ?string $endDate,
+        public ?string $description,
+        public ?array $attachments
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

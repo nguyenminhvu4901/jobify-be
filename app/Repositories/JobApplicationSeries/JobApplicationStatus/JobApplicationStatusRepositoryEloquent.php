@@ -7,9 +7,6 @@ use App\Repositories\BaseRepository;
 
 class JobApplicationStatusRepositoryEloquent extends BaseRepository implements JobApplicationStatusRepository
 {
-    /**
-     * @return string
-     */
     public function model(): string
     {
         return JobApplicationStatus::class;

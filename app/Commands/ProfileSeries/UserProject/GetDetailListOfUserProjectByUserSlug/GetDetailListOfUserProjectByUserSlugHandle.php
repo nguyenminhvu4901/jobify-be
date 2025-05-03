@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserProjectByUserSlugHandle
 {
-    /**
-     * @param UserProjectRepository $userProjectRepository
-     */
     public function __construct(
         protected UserProjectRepository $userProjectRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetDetailListOfUserProjectByUserSlugCommand $command
-     * @return array
-     */
     public function handle(GetDetailListOfUserProjectByUserSlugCommand $command): array
     {
         try {
@@ -30,7 +22,8 @@ class GetDetailListOfUserProjectByUserSlugHandle
                 generateCacheName(
                     UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
                     $command
-                ));
+                )
+            );
 
             $userProject = Cache::tags([UserProjectEnum::TAG_NAME->value])->remember(
                 generateCacheName(
@@ -38,7 +31,7 @@ class GetDetailListOfUserProjectByUserSlugHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userProjectRepository->getByRelationshipUserSlug(
+                fn () => $this->userProjectRepository->getByRelationshipUserSlug(
                     $command->userSlug,
                     ['userProjectResources.contentType', 'user']
                 )
@@ -47,13 +40,13 @@ class GetDetailListOfUserProjectByUserSlugHandle
             return [
                 'data' => UserProjectResource::collection($userProject),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

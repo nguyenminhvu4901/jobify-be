@@ -7,9 +7,6 @@ use App\Repositories\BaseRepository;
 
 class UserProductRepositoryEloquent extends BaseRepository implements UserProductRepository
 {
-    /**
-     * @return string
-     */
     public function model(): string
     {
         return UserProduct::class;

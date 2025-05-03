@@ -10,29 +10,23 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListCourseCurrentUserHandle
 {
-    /**
-     * @param UserRepository $userRepository
-     */
     public function __construct(
         protected UserRepository $userRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return array
-     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([UserCourseEnum::TAG_NAME->value])->has(
-                UserCourseEnum::LIST_COURSE_CURRENT_USER->value . auth()->user()->id);
+                UserCourseEnum::LIST_COURSE_CURRENT_USER->value.auth()->user()->id
+            );
 
             $userCourse = Cache::tags([UserCourseEnum::TAG_NAME->value])
                 ->remember(
-                    UserCourseEnum::LIST_COURSE_CURRENT_USER->value . auth()->user()->id,
+                    UserCourseEnum::LIST_COURSE_CURRENT_USER->value.auth()->user()->id,
                     CacheTTL::REMEMBER->value,
-                    function() {
+                    function () {
 
                         return $this->userRepository->findWithRelationships(
                             id: auth()->user()->id,
@@ -44,29 +38,30 @@ class GetListCourseCurrentUserHandle
                                             'userCourseResources' => function ($query) {
                                                 $query->orderByDesc('id')
                                                     ->with('contentType');
-                                            }
+                                            },
                                         ]);
-                                }
+                                },
                             ]
                         );
-                    });
+                    }
+                );
 
-            if(empty($userCourse)){
+            if (empty($userCourse)) {
 
                 return [
-                    'message' => __('messages.profile.user_get_profile_error')
+                    'message' => __('messages.profile.user_get_profile_error'),
                 ];
             }
 
             return [
                 'data' => CurrentUserCourseResource::make($userCourse),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

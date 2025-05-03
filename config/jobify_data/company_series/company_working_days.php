@@ -38,5 +38,5 @@ return [
             'id' => 1000,
             'working_day' => 'working_day_other',
         ],
-    ]
+    ],
 ];

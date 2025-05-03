@@ -9,8 +9,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int $job_listing_id
  * @property string|null $description Nội dung tuyển dụng
@@ -20,6 +18,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property string|null $working_hour Thời gian làm việc
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListingDetail newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListingDetail newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListingDetail query()
@@ -33,11 +32,14 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListingDetail whereRequirement($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListingDetail whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListingDetail whereWorkingHour($value)
+ *
  * @mixin \Eloquent
  */
 class JobListingDetail extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, JobListingDetailScope;
+    use HasFactory;
+    use JobListingDetailScope;
+    use TransformableTrait;
 
     protected $table = 'job_listing_details';
 
@@ -47,6 +49,6 @@ class JobListingDetail extends BaseModel implements Transformable
         'requirement',
         'income',
         'benefit',
-        'working_hour'
+        'working_hour',
     ];
 }

@@ -7,31 +7,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class UpdateUserEducationCommand implements CommandInterface
 {
-    /**
-     * @param int|string $userEducationId
-     * @param string $name
-     * @param string $major
-     * @param bool|int|string $isStudying
-     * @param string $startDate
-     * @param string|null $endDate
-     * @param string|null $description
-     */
     public function __construct(
-        public int|string      $userEducationId,
-        public string          $name,
-        public string          $major,
+        public int|string $userEducationId,
+        public string $name,
+        public string $major,
         public bool|int|string $isStudying,
-        public string          $startDate,
-        public string|null     $endDate,
-        public ?string         $description
-    )
-    {
+        public string $startDate,
+        public ?string $endDate,
+        public ?string $description
+    ) {
     }
 
-    /**
-     * @param FormRequest $request
-     * @return CommandInterface
-     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(

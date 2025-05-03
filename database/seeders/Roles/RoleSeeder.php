@@ -19,8 +19,7 @@ class RoleSeeder extends Seeder
 
         $listRoles = config('jobify_data.roles.roles');
 
-        foreach ($listRoles as $role)
-        {
+        foreach ($listRoles as $role) {
             Role::create($role);
         }
     }

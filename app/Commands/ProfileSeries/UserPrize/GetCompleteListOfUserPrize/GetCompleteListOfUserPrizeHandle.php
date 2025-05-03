@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserPrizeHandle
 {
-    /**
-     * @param UserPrizeRepository $userPrizeRepository
-     */
     public function __construct(
         protected UserPrizeRepository $userPrizeRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetCompleteListOfUserPrizeCommand $command
-     * @return array
-     */
     public function handle(GetCompleteListOfUserPrizeCommand $command): array
     {
         try {
@@ -40,7 +32,7 @@ class GetCompleteListOfUserPrizeHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userPrizeRepository->getWithRelationship(
+                fn () => $this->userPrizeRepository->getWithRelationship(
                     ['userPrizeResources.contentType', 'user']
                 )
             );
@@ -49,12 +41,12 @@ class GetCompleteListOfUserPrizeHandle
                 'data' => UserPrizeResource::collection($userPrizes),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($userPrizes ?? [])
+                'pagination' => formatPaginationData($userPrizes ?? []),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

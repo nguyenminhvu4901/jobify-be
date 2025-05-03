@@ -22,7 +22,7 @@ class UserSkillNoUserDataResource extends JsonResource
             'rate' => new DefaultRateResource($this->rate),
             'description' => $this->description,
             'created_at' => formatDateTime($this->created_at),
-            'updated_at' => formatDateTime($this->updated_at)
+            'updated_at' => formatDateTime($this->updated_at),
         ];
     }
 }

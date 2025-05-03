@@ -9,17 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait UserActivityRelationship
 {
-    /**
-     * @return BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    /**
-     * @return HasMany
-     */
     public function userActivityResources(): HasMany
     {
         return $this->hasMany(UserActivityResource::class);

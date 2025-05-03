@@ -21,7 +21,7 @@ class MacroServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Collection::macro('toUpper', function () {
-            return $this->map(fn($value) => strtoupper($value));
+            return $this->map(fn ($value) => strtoupper($value));
         });
     }
 }

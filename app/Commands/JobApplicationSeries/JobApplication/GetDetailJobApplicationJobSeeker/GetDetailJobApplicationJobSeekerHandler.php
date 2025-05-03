@@ -12,8 +12,7 @@ class GetDetailJobApplicationJobSeekerHandler
 {
     public function __construct(
         protected JobApplicationRepository $jobApplicationRepository
-    )
-    {
+    ) {
     }
 
     public function handle(GetDetailJobApplicationJobSeekerCommand $command): array
@@ -33,13 +32,13 @@ class GetDetailJobApplicationJobSeekerHandler
                         $command
                     ),
                     CacheTTL::HARD->value,
-                    fn() => $this->jobApplicationRepository->findByUserIdAndJobIdWithRelationships(
+                    fn () => $this->jobApplicationRepository->findByUserIdAndJobIdWithRelationships(
                         jobApplicationId: $command->jobApplicationId,
                         userId: $command->userId,
                         jobListingId: $command->jobListingId,
                         relationships: [
                             'users', 'jobListings', 'applicationCV', 'applicationStatuses',
-                            'jobApplicationStatus.applicationStatuses'
+                            'jobApplicationStatus.applicationStatuses',
                         ]
                     )
                 );
@@ -47,13 +46,13 @@ class GetDetailJobApplicationJobSeekerHandler
             return [
                 'data' => JobApplicationResource::collection($jobApplication),
                 'message' => __('messages.job-application.job_application_get_info_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.job-application.job_application_get_info_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

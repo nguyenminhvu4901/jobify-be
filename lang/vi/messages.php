@@ -10,7 +10,7 @@ return [
         'user_register_success' => 'Đăng ký thành công',
         'user_register_error' => 'Đăng ký không thành công',
         'account_has_been_locked' => 'Tài khoản đã bị khóa',
-        'wrong_account' => 'Sai tài khoản hoặc mật khẩu'
+        'wrong_account' => 'Sai tài khoản hoặc mật khẩu',
     ],
 
     'profile' => [
@@ -87,6 +87,6 @@ return [
         'method_not_allowed' => 'Phương thức này không được hỗ trợ',
         'not_found' => 'Không tìm thấy',
         'multiple_errors_occurred' => 'Đã xảy ra nhiều lỗi',
-        'an_unexpected_error_occurred' => 'Đã xảy ra lỗi không mong muốn'
-    ]
+        'an_unexpected_error_occurred' => 'Đã xảy ra lỗi không mong muốn',
+    ],
 ];

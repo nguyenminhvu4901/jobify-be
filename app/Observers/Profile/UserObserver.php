@@ -10,12 +10,12 @@ use Ramsey\Uuid\Uuid;
 class UserObserver extends BaseObserver
 {
     protected array $cacheTag = [
-        UserProfileEnum::TAG_NAME->value
+        UserProfileEnum::TAG_NAME->value,
     ];
 
     public function creating(User $user): void
     {
-        if (!$user->uuid) {
+        if (! $user->uuid) {
             $user->uuid = Uuid::uuid4()->toString();
         }
     }

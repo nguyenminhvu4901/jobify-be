@@ -13,7 +13,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserPrizeRequest extends FormRequest
 {
-    use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
+    use FailedValidation;
+    use NormalizeDateTrait;
+    use ValidatesAttachmentsTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -34,14 +37,14 @@ class UserPrizeRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserPrizeEnum::PREFIX->value . UserPrizeEnum::DETAIL_LIST_USER_PRIZE->value => [
-                'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id']
+            UserPrizeEnum::PREFIX->value.UserPrizeEnum::DETAIL_LIST_USER_PRIZE->value => [
+                'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
             ],
-            UserPrizeEnum::PREFIX->value . UserPrizeEnum::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value => [
+            UserPrizeEnum::PREFIX->value.UserPrizeEnum::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserPrizeEnum::PREFIX->value . UserPrizeEnum::STORE->value => $commonRules,
-            UserPrizeEnum::PREFIX->value . UserPrizeEnum::UPDATE->value => [
+            UserPrizeEnum::PREFIX->value.UserPrizeEnum::STORE->value => $commonRules,
+            UserPrizeEnum::PREFIX->value.UserPrizeEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
@@ -54,10 +57,10 @@ class UserPrizeRequest extends FormRequest
                         'user_prize_resources',
                         'user_prize_id',
                         'id'
-                    )
-                ]
+                    ),
+                ],
             ],
-            UserPrizeEnum::PREFIX->value . UserPrizeEnum::DESTROY->value => [
+            UserPrizeEnum::PREFIX->value.UserPrizeEnum::DESTROY->value => [
                 'user_prize_id' => ['bail', 'required', 'integer', 'exists:user_prizes,id'],
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
@@ -75,14 +78,10 @@ class UserPrizeRequest extends FormRequest
             'attachments' => ['bail', 'nullable', 'array', 'max:10'],
             'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
-            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
+            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id'],
         ];
     }
 
-
-    /**
-     * @return void
-     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['start_date', 'end_date']);
@@ -93,6 +92,6 @@ class UserPrizeRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserPrizeEnum::PREFIX->value . UserPrizeEnum::STORE->value);
+        $this->processWithValidator($validator, UserPrizeEnum::PREFIX->value.UserPrizeEnum::STORE->value);
     }
 }

@@ -16,7 +16,7 @@ class PasswordRule implements ValidationRule
     {
         $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,25}$/';
 
-        if (!preg_match($regex, $value)) {
+        if (! preg_match($regex, $value)) {
             $fail(__('validation.password_rule'));
         }
     }

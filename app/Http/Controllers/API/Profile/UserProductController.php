@@ -24,18 +24,11 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserProductController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function getListProductCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(
@@ -45,7 +38,7 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(new GetListProductCurrentUserCommand());
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -60,10 +53,6 @@ class UserProductController extends Controller
         );
     }
 
-    /**
-     * @param FormRequest $request
-     * @return JsonResponse
-     */
     public function getCompleteListOfUserProduct(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -73,7 +62,7 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(GetCompleteListOfUserProductCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -89,10 +78,6 @@ class UserProductController extends Controller
         );
     }
 
-    /**
-     * @param UserProductRequest $request
-     * @return JsonResponse
-     */
     public function getDetailListOfUserProduct(UserProductRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -102,7 +87,7 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserProductCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -117,10 +102,6 @@ class UserProductController extends Controller
         );
     }
 
-    /**
-     * @param UserProductRequest $request
-     * @return JsonResponse
-     */
     public function getDetailListOfUserProductByUserSlug(UserProductRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -130,7 +111,7 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserProductByUserSlugCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -145,10 +126,6 @@ class UserProductController extends Controller
         );
     }
 
-    /**
-     * @param UserProductRequest $request
-     * @return JsonResponse
-     */
     public function store(UserProductRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -158,7 +135,7 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(StoreUserProductCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -169,10 +146,6 @@ class UserProductController extends Controller
         );
     }
 
-    /**
-     * @param UserProductRequest $request
-     * @return JsonResponse
-     */
     public function update(UserProductRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -182,7 +155,7 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserProductCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -193,10 +166,6 @@ class UserProductController extends Controller
         );
     }
 
-    /**
-     * @param UserProductRequest $request
-     * @return JsonResponse
-     */
     public function destroy(UserProductRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -206,7 +175,7 @@ class UserProductController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserProductCommand::withForm($request));
 
-        if(!empty($result['userProductDestroy'])){
+        if (! empty($result['userProductDestroy'])) {
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

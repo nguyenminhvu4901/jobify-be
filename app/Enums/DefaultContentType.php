@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Enums;
+
 enum DefaultContentType: int
 {
     case IMAGE = 1;
@@ -17,7 +18,7 @@ enum DefaultContentType: int
             'IMAGE' => DefaultContentType::IMAGE,
             'FILE' => DefaultContentType::FILE,
             'URL' => DefaultContentType::URL,
-            'VIDEO' => DefaultContentType::VIDEO
+            'VIDEO' => DefaultContentType::VIDEO,
         ];
     }
 }

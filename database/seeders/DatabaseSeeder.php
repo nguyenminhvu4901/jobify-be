@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
             ApplicationStatusSeeder::class,
 
             RoleSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
         ]);
     }
 }

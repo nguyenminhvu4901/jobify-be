@@ -16,18 +16,11 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class CompanyController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function getDetailProfileCompanyCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(
@@ -37,7 +30,7 @@ class CompanyController extends Controller
 
         $result = $this->bus->dispatch(new GetDetailProfileCompanyCurrentUserCommand());
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -52,10 +45,6 @@ class CompanyController extends Controller
         );
     }
 
-    /**
-     * @param CompanyRequest $request
-     * @return JsonResponse
-     */
     public function updateCompanyProfile(CompanyRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -65,7 +54,7 @@ class CompanyController extends Controller
 
         $result = $this->bus->dispatch(UpdateCompanyProfileCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message']
@@ -79,10 +68,6 @@ class CompanyController extends Controller
         );
     }
 
-    /**
-     * @param CompanyAvatarRequest $request
-     * @return JsonResponse
-     */
     public function updateCompanyAvatar(CompanyAvatarRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -92,7 +77,7 @@ class CompanyController extends Controller
 
         $result = $this->bus->dispatch(UpdateCompanyAvatarCommand::withForm($request));
 
-        if(!empty($result['company'])){
+        if (! empty($result['company'])) {
             return $this->responseSuccess(data: $result['company'], message: $result['message']);
         }
 

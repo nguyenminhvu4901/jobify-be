@@ -9,9 +9,6 @@ trait UserScope
 {
     use BaseScopeTrait;
 
-    /**
-     * @return bool
-     */
     public function scopeIsActive(): bool
     {
         return $this->status_id == StatusEnum::ACTIVE->value;

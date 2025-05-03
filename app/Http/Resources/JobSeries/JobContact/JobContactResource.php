@@ -19,7 +19,7 @@ class JobContactResource extends JsonResource
             'job_listing_id' => $this->job_listing_id,
             'full_name' => $this->full_name,
             'email' => $this->email,
-            'phone_number' => $this->phone_number
+            'phone_number' => $this->phone_number,
         ];
     }
 }

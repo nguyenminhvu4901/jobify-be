@@ -11,11 +11,11 @@ class Language
     /**
      * Handle an incoming request.
      *
-     * @param Closure(Request): (Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->hasHeader('X-localization')) {
+        if ($request->hasHeader('X-localization')) {
             $lang = in_array($request->header('X-localization'), config('app.lang'))
                 ? $request->header('X-localization')
                 : config('app.locale');

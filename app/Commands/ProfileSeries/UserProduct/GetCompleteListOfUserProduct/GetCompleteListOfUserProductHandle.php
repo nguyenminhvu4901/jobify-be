@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserProductHandle
 {
-    /**
-     * @param UserProductRepository $userProductRepository
-     */
     public function __construct(
         protected UserProductRepository $userProductRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetCompleteListOfUserProductCommand $command
-     * @return array
-     */
     public function handle(GetCompleteListOfUserProductCommand $command): array
     {
         try {
@@ -40,7 +32,7 @@ class GetCompleteListOfUserProductHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userProductRepository->paginateWithRelationship(
+                fn () => $this->userProductRepository->paginateWithRelationship(
                     relationship: ['userProductResources.contentType', 'user'],
                     limit: $command->limit
                 )
@@ -50,12 +42,12 @@ class GetCompleteListOfUserProductHandle
                 'data' => UserProductResource::collection($userProducts),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($userProducts ?? [])
+                'pagination' => formatPaginationData($userProducts ?? []),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

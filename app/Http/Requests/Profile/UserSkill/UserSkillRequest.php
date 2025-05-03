@@ -10,6 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class UserSkillRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,25 +30,25 @@ class UserSkillRequest extends FormRequest
 
         $commonRules = $this->getCommonRules();
 
-       return match ($routeName){
-           UserSkillEnum::PREFIX->value . UserSkillEnum::STORE->value => $commonRules,
-           UserSkillEnum::PREFIX->value . UserSkillEnum::DETAIL_LIST_USER_SKILL->value => [
-                "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
-           ],
-           UserSkillEnum::PREFIX->value. UserSkillEnum::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value => [
-                "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
-           ],
-           UserSkillEnum::PREFIX->value . UserSkillEnum::UPDATE->value => [
-               ...$commonRules,
-               'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
-               "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id']
-           ],
-           UserSkillEnum::PREFIX->value . UserSkillEnum::DESTROY->value => [
-               "user_skill_id" => ['bail', 'required', 'integer', 'exists:user_skills,id'],
-               "user_slug" => ['bail', 'required', 'string', 'exists:users,slug']
-           ],
+        return match ($routeName) {
+            UserSkillEnum::PREFIX->value.UserSkillEnum::STORE->value => $commonRules,
+            UserSkillEnum::PREFIX->value.UserSkillEnum::DETAIL_LIST_USER_SKILL->value => [
+                'user_skill_id' => ['bail', 'required', 'integer', 'exists:user_skills,id'],
+            ],
+            UserSkillEnum::PREFIX->value.UserSkillEnum::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value => [
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+            ],
+            UserSkillEnum::PREFIX->value.UserSkillEnum::UPDATE->value => [
+                ...$commonRules,
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+                'user_skill_id' => ['bail', 'required', 'integer', 'exists:user_skills,id'],
+            ],
+            UserSkillEnum::PREFIX->value.UserSkillEnum::DESTROY->value => [
+                'user_skill_id' => ['bail', 'required', 'integer', 'exists:user_skills,id'],
+                'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
+            ],
             default => []
-       };
+        };
     }
 
     /**
@@ -58,7 +59,7 @@ class UserSkillRequest extends FormRequest
         return [
             'name' => ['bail', 'required', 'string', 'max:512'],
             'rate_id' => ['bail', 'nullable', 'integer', 'exists:default_rates,id'],
-            'description' => ['bail', 'nullable', 'string']
+            'description' => ['bail', 'nullable', 'string'],
         ];
     }
 }

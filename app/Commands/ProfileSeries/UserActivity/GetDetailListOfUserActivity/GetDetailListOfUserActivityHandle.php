@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserActivityHandle
 {
-    /**
-     * @param UserActivityRepository $userActivityRepository
-     */
     public function __construct(
         protected UserActivityRepository $userActivityRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetDetailListOfUserActivityCommand $command
-     * @return array
-     */
     public function handle(GetDetailListOfUserActivityCommand $command): array
     {
         try {
@@ -39,29 +31,28 @@ class GetDetailListOfUserActivityHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userActivityRepository->findWithRelationships(
+                fn () => $this->userActivityRepository->findWithRelationships(
                     id: $command->userActivityId,
                     relationship: ['user', 'userActivityResources.contentType']
                 )
             );
 
-
-            if(empty($userActivity)){
+            if (empty($userActivity)) {
                 return [
-                    'message' => __('messages.profile.user_get_profile_error')
+                    'message' => __('messages.profile.user_get_profile_error'),
                 ];
             }
 
             return [
                 'data' => UserActivityResource::make($userActivity),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

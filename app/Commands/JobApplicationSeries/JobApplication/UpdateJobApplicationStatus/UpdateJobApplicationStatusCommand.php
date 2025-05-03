@@ -12,10 +12,9 @@ readonly class UpdateJobApplicationStatusCommand implements CommandInterface
         public int $jobApplicationId,
         public int $applicationStatusId,
         public int $jobApplicationStatusId,
-        public string|null $rejectReason,
-        public Carbon|null $hiredAt
-    )
-    {
+        public ?string $rejectReason,
+        public ?Carbon $hiredAt
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

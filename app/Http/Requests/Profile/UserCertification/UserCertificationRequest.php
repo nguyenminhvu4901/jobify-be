@@ -13,7 +13,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserCertificationRequest extends FormRequest
 {
-    use FailedValidation, ValidatesAttachmentsTrait, NormalizeDateTrait;
+    use FailedValidation;
+    use NormalizeDateTrait;
+    use ValidatesAttachmentsTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -34,13 +37,13 @@ class UserCertificationRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            UserCertificationEnum::PREFIX->value . UserCertificationEnum::STORE->value => $commonRules,
-            UserCertificationEnum::PREFIX->value . UserCertificationEnum::UPDATE->value => [
+            UserCertificationEnum::PREFIX->value.UserCertificationEnum::STORE->value => $commonRules,
+            UserCertificationEnum::PREFIX->value.UserCertificationEnum::UPDATE->value => [
                 ...$commonRules,
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
                 'attachments.*.user_certification_resource_id' => [
-                        'bail', 'nullable', 'integer', 'exists:user_certification_resources,id',
+                    'bail', 'nullable', 'integer', 'exists:user_certification_resources,id',
                     new UniqueArrayValues('attachments.*.user_certification_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_certification_id'),
@@ -48,26 +51,23 @@ class UserCertificationRequest extends FormRequest
                         'user_certification_resources',
                         'user_certification_id',
                         'id'
-                    )
-                ]
+                    ),
+                ],
             ],
-            UserCertificationEnum::PREFIX->value . UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION->value => [
-                'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
+            UserCertificationEnum::PREFIX->value.UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION->value => [
+                'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
             ],
-            UserCertificationEnum::PREFIX->value . UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value  => [
+            UserCertificationEnum::PREFIX->value.UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION_BY_USER_SLUG->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
             ],
-            UserCertificationEnum::PREFIX->value .UserCertificationEnum::DESTROY->value => [
+            UserCertificationEnum::PREFIX->value.UserCertificationEnum::DESTROY->value => [
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
-                'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id']
+                'user_certification_id' => ['bail', 'required', 'integer', 'exists:user_certifications,id'],
             ],
             default => [],
         };
     }
 
-    /**
-     * @return void
-     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['start_date', 'end_date']);
@@ -76,7 +76,7 @@ class UserCertificationRequest extends FormRequest
     /**
      * @return array[]
      */
-    public function getCommonRules() :array
+    public function getCommonRules(): array
     {
         return [
             'name' => ['bail', 'required', 'string', 'max:255'],
@@ -88,7 +88,7 @@ class UserCertificationRequest extends FormRequest
             'attachments' => ['bail', 'nullable', 'array', 'max:10'],
             'attachments.*.title' => ['bail', 'required', 'string', 'max:255'],
             'attachments.*.description' => ['bail', 'required', 'string', 'max:255'],
-            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id']
+            'attachments.*.content_type_id' => ['bail', 'required', 'integer', 'exists:default_content_types,id'],
         ];
     }
 
@@ -97,6 +97,6 @@ class UserCertificationRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        $this->processWithValidator($validator, UserCertificationEnum::PREFIX->value . UserCertificationEnum::STORE->value);
+        $this->processWithValidator($validator, UserCertificationEnum::PREFIX->value.UserCertificationEnum::STORE->value);
     }
 }

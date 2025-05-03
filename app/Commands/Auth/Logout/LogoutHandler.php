@@ -6,20 +6,16 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LogoutHandler
 {
-    /**
-     * @param LogoutCommand $command
-     * @return array
-     */
     public function handle(LogoutCommand $command): array
     {
         try {
-            if(!empty($command->token)){
+            if (! empty($command->token)) {
                 $tokenInfo = JWTAuth::setToken($command->token)->invalidate(true);
 
-                if($tokenInfo){
+                if ($tokenInfo) {
                     return [
                         'logout' => true,
-                        'message' => __('messages.authentication.user_is_logged_out')
+                        'message' => __('messages.authentication.user_is_logged_out'),
                     ];
                 }
             }
@@ -29,11 +25,11 @@ class LogoutHandler
                 'message' => __('messages.authentication.user_logout_error'),
             ];
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'logout' => false,
                 'message' => __('messages.authentication.user_logout_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

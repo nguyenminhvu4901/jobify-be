@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseModel query()
+ *
  * @mixin \Eloquent
  */
 class BaseModel extends Model
@@ -18,7 +17,7 @@ class BaseModel extends Model
     {
         parent::__construct($attributes);
 
-        if (defined(static::class . '::FILLABLE_FIELDS')) {
+        if (defined(static::class.'::FILLABLE_FIELDS')) {
             $this->fillable = static::FILLABLE_FIELDS;
         }
     }

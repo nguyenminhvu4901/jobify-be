@@ -41,5 +41,5 @@ return [
     'attachments.*.user_experience_resource_id' => 'Tài nguyên kinh nghiệm',
     'attachments.*.user_certification_resource_id' => 'Tài nguyên chứng chỉ',
     'attachments.*.user_project_resource_id' => 'Tài nguyên dự án',
-    'attachments.*.user_activity_resource_id' => 'Tài nguyên hoạt động'
+    'attachments.*.user_activity_resource_id' => 'Tài nguyên hoạt động',
 ];

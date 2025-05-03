@@ -4,14 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        //Quy mô công ty
+        // Quy mô công ty
         Schema::create('company_scales', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -42,19 +41,19 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('company_scale_id')->references('id')->on('company_scales')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('company_working_day_id')->references('id')
                 ->on('company_working_days')->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('gender_id')->references('id')->on('default_genders')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('status_id')->references('id')->on('default_statuses')
                 ->onDelete('set null')->onUpdate('cascade');
 
             $table->fullText([
                 'name',
-                'slug'
+                'slug',
             ]);
         });
 
@@ -81,7 +80,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        //Loại hình hoạt động
+        // Loại hình hoạt động
         Schema::create('operation_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -90,7 +89,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        //Lĩnh vực hoạt động
+        // Lĩnh vực hoạt động
         Schema::create('business_sectors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -108,9 +107,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('operation_type_id')->references('id')->on('operation_types')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
         });
 
         Schema::create('company_business_sector', function (Blueprint $table) {
@@ -121,9 +120,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('business_sector_id')->references('id')->on('business_sectors')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
         });
     }
 

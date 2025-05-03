@@ -42,4 +42,3 @@ return [
     'attachments.*.user_certification_resource_id' => 'Certification Resource',
     'attachments.*.user_project_resource_id' => 'Project Resource',
 ];
-

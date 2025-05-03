@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 class RecruiterRegisterRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -32,7 +33,7 @@ class RecruiterRegisterRequest extends FormRequest
             'full_name' => ['bail', 'required', 'string', 'max:255'],
             'email' => [
                 'bail', 'required', 'string', 'email',
-                Rule::unique('users', 'email')->whereNull('deleted_at')
+                Rule::unique('users', 'email')->whereNull('deleted_at'),
             ],
             'password' => [
                 'bail', 'required', 'string',
@@ -42,14 +43,14 @@ class RecruiterRegisterRequest extends FormRequest
             'phone_number' => ['bail', 'required', 'string', new PhoneNumberRule()],
             'gender_id' => ['bail', 'required', 'integer', 'exists:default_genders,id'],
             'company_name' => ['bail', 'required', 'string', 'max:255'],
-            'company_scale_id' => ['bail', 'required', 'integer','exists:company_scales,id'],
+            'company_scale_id' => ['bail', 'required', 'integer', 'exists:company_scales,id'],
             'tax_code' => ['bail', 'required', 'string', 'max:255'],
             'branch_name' => ['bail', 'required', 'string'],
-            'province_id' => ['bail', 'required', 'integer','exists:provinces,id'],
+            'province_id' => ['bail', 'required', 'integer', 'exists:provinces,id'],
             'district_id' => [
                 'bail', 'required', 'integer', 'exists:districts,id',
-                new CheckDistrictByProvinceRule($this->input('province_id'))
-            ]
+                new CheckDistrictByProvinceRule($this->input('province_id')),
+            ],
         ];
     }
 }

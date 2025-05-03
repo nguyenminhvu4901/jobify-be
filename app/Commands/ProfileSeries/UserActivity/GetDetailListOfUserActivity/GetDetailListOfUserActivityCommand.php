@@ -9,8 +9,7 @@ readonly class GetDetailListOfUserActivityCommand implements CommandInterface
 {
     public function __construct(
         public int|string $userActivityId
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

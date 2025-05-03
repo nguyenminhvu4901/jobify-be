@@ -13,5 +13,5 @@ return [
         ['id' => 9, 'min_age' => 51,   'max_age' => 60],
         ['id' => 10, 'min_age' => 61,  'max_age' => null],
         ['id' => 1000, 'min_age' => null, 'max_age' => null],
-    ]
+    ],
 ];

@@ -8,17 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait JobApplicationStatusRelationship
 {
-    /**
-     * @return BelongsTo
-     */
     public function applicationStatuses(): BelongsTo
     {
         return $this->belongsTo(ApplicationStatus::class, 'application_status_id', 'id');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function jobApplications(): BelongsTo
     {
         return $this->belongsTo(JobApplication::class, 'job_application_id', 'id');

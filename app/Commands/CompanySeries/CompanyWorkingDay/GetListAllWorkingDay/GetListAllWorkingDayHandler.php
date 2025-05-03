@@ -12,36 +12,33 @@ class GetListAllWorkingDayHandler
 {
     public function __construct(
         protected CompanyWorkingDayRepository $companyWorkingDayRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return array
-     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([CompanyWorkingDayEnum::TAG_NAME->value])->has(
-                CompanyWorkingDayEnum::LIST_ALL_WORKING_DAY->value);
+                CompanyWorkingDayEnum::LIST_ALL_WORKING_DAY->value
+            );
 
             $companyWorkingDay = Cache::tags([CompanyWorkingDayEnum::TAG_NAME->value])
                 ->remember(
                     CompanyWorkingDayEnum::LIST_ALL_WORKING_DAY->value,
                     CacheTTL::HARD->value,
-                    fn() => $this->companyWorkingDayRepository->get()
+                    fn () => $this->companyWorkingDayRepository->get()
                 );
 
             return [
                 'data' => CompanyWorkingDayResource::collection($companyWorkingDay),
                 'message' => __('messages.company.company_get_info_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.company.company_get_info_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

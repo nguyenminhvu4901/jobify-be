@@ -10,33 +10,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait CompanyBranchRelationship
 {
-    /**
-     * @return BelongsTo
-     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id', 'id')->withDefault();
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class, 'province_id', 'id')->withDefault();
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function district(): BelongsTo
     {
         return $this->belongsTo(District::class, 'district_id', 'id')->withDefault();
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function ward(): BelongsTo
     {
         return $this->belongsTo(Ward::class, 'ward_id', 'id')->withDefault();

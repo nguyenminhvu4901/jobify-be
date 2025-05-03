@@ -26,7 +26,7 @@ class CompanyRegisterResource extends JsonResource
             'gender' => new DefaultGenderResource($this->gender),
             'tax_code' => $this->tax_code,
             'branches' => CompanyBranchResource::collection($this->companyBranches),
-            'avatar' => $this->avatar
+            'avatar' => $this->avatar,
         ];
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class MakeDtoCommand extends Command
 {
     protected $signature = 'make:dto {name}';
+
     protected $description = 'Create a new Data Transfer Object (DTO) class';
 
     public function handle(): void
@@ -19,11 +20,12 @@ class MakeDtoCommand extends Command
         $className = $name->afterLast('\\');
         $namespacePath = $name->beforeLast('\\')->__toString();
 
-        $namespace = 'App\\DataTransferObjects' . ($namespacePath ? '\\' . $namespacePath : '');
-        $path = app_path('DataTransferObjects/' . ($namespacePath ? str_replace('\\', '/', $namespacePath) . '/' : '') . $className . '.php');
+        $namespace = 'App\\DataTransferObjects'.($namespacePath ? '\\'.$namespacePath : '');
+        $path = app_path('DataTransferObjects/'.($namespacePath ? str_replace('\\', '/', $namespacePath).'/' : '').$className.'.php');
 
         if (File::exists($path)) {
             $this->error("DTO {$className} already exists!");
+
             return;
         }
 

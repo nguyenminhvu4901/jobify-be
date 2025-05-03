@@ -6,27 +6,15 @@ use App\DataTransferObjects\DataTransferObjectInterface;
 
 readonly class SalaryData implements DataTransferObjectInterface
 {
-    /**
-     * @param int|null $jobSalaryId
-     * @param int|string $currencyId
-     * @param int|string $jobSalaryTypeId
-     * @param string|null $from
-     * @param string|null $to
-     */
     public function __construct(
-        public int|null $jobSalaryId,
+        public ?int $jobSalaryId,
         public int|string $currencyId,
         public int|string $jobSalaryTypeId,
-        public string|null $from,
-        public string|null $to
-    )
-    {
+        public ?string $from,
+        public ?string $to
+    ) {
     }
 
-    /**
-     * @param array $data
-     * @return static
-     */
     public static function fromArray(array $data): static
     {
         return new self(

@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class JobSeekerRegisterResource extends JsonResource
 {
     use UserResourceTrait;
+
     /**
      * Transform the resource into an array.
      *
@@ -19,7 +20,7 @@ class JobSeekerRegisterResource extends JsonResource
     {
         return [
             ...$this->userData(),
-            'roles' => RoleResource::collection($this->roles)
+            'roles' => RoleResource::collection($this->roles),
         ];
     }
 }

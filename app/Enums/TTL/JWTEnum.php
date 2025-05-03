@@ -4,5 +4,5 @@ namespace App\Enums\TTL;
 
 enum JWTEnum: int
 {
-    case REMEMBER = 10080; //minutes
+    case REMEMBER = 10080; // minutes
 }

@@ -23,7 +23,7 @@ class UserExperienceResource extends JsonResource
             'is_working' => getStatus($this->is_working),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'user_experience_resource' => UserExperienceAttachmentResource::collection($this->userExperienceResource)
+            'user_experience_resource' => UserExperienceAttachmentResource::collection($this->userExperienceResource),
         ];
     }
 }

@@ -10,8 +10,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên dự án
@@ -29,6 +27,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\ProfileSeries\UserProjectResource\UserProjectResource> $userProjectResources
  * @property-read int|null $user_project_resources_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject query()
@@ -46,11 +45,14 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereTechnology($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class UserProject extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, UserProjectRelationship;
+    use HasFactory;
+    use TransformableTrait;
+    use UserProjectRelationship;
 
     protected $table = UserProjectEnum::TABLE->value;
 
@@ -65,6 +67,6 @@ class UserProject extends BaseModel implements Transformable
         'is_working',
         'start_date',
         'end_date',
-        'description'
+        'description',
     ];
 }

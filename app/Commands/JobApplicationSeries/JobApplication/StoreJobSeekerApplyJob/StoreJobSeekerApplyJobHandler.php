@@ -12,14 +12,9 @@ class StoreJobSeekerApplyJobHandler
     public function __construct(
         protected JobApplicationRepository $jobApplicationRepository,
         protected ApplicationCVService $applicationCVService
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param StoreJobSeekerApplyJobCommand $command
-     * @return array
-     */
     public function handle(StoreJobSeekerApplyJobCommand $command): array
     {
         try {
@@ -27,11 +22,11 @@ class StoreJobSeekerApplyJobHandler
                 $this->prepareJobApplicationData($command)
             );
 
-            if(empty($result['data'])){
+            if (empty($result['data'])) {
 
                 return [
                     'message' => __('messages.company.company_update_profile_error'),
-                    'error' => $result['error'] ?? null
+                    'error' => $result['error'] ?? null,
                 ];
             }
 
@@ -44,19 +39,15 @@ class StoreJobSeekerApplyJobHandler
                 'message' => __('messages.profile.user_update_profile_success'),
             ];
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.company.company_update_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }
 
-    /**
-     * @param StoreJobSeekerApplyJobCommand $command
-     * @return array
-     */
     private function prepareJobApplicationData(StoreJobSeekerApplyJobCommand $command): array
     {
         return [
@@ -66,7 +57,7 @@ class StoreJobSeekerApplyJobHandler
             'email' => $command->email,
             'phone_number' => $command->phoneNumber,
             'applied_at' => Carbon::now(),
-            'cover_letter' => $command->coverLetter
+            'cover_letter' => $command->coverLetter,
         ];
     }
 }

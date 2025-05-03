@@ -12,8 +12,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_id
  * @property int|null $company_scale_id
@@ -42,6 +40,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read int|null $operation_types_count
  * @property-read \App\Entities\DefaultSeries\DefaultStatus\DefaultStatus|null $status
  * @property-read \App\Models\User|null $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newQuery()
@@ -67,12 +66,17 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Company extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, Sluggable, SoftDeletes,
-        CompanyRelationship, CompanyScope;
+    use CompanyRelationship;
+    use CompanyScope;
+    use HasFactory;
+    use Sluggable;
+    use SoftDeletes;
+    use TransformableTrait;
 
     protected $table = 'companies';
 
@@ -87,7 +91,7 @@ class Company extends BaseModel implements Transformable
         'website',
         'description',
         'tax_code',
-        'avatar'
+        'avatar',
     ];
 
     /**
@@ -98,8 +102,8 @@ class Company extends BaseModel implements Transformable
         return [
             'slug' => [
                 'source' => 'name',
-                'onUpdate' => true
-            ]
+                'onUpdate' => true,
+            ],
         ];
     }
 }

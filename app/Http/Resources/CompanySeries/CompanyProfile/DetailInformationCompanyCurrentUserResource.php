@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class DetailInformationCompanyCurrentUserResource extends JsonResource
 {
     use UserResourceTrait;
+
     /**
      * Transform the resource into an array.
      *
@@ -20,7 +21,7 @@ class DetailInformationCompanyCurrentUserResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'company' => CompanyProfileResource::make($this?->company)
+            'company' => CompanyProfileResource::make($this?->company),
         ];
     }
 }

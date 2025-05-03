@@ -22,7 +22,7 @@ class UserEducationNoUserDataResource extends JsonResource
             'is_studying' => getStatus($this->is_studying),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'description' => $this->description
+            'description' => $this->description,
         ];
     }
 }

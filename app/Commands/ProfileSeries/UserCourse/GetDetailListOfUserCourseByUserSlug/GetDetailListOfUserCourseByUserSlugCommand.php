@@ -9,8 +9,7 @@ readonly class GetDetailListOfUserCourseByUserSlugCommand implements CommandInte
 {
     public function __construct(
         public string $userSlug
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

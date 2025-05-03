@@ -5,52 +5,52 @@ return [
         [
             'id' => 1,
             'name' => '10',
-            'description' => '<'
+            'description' => '<',
         ],
         [
             'id' => 2,
             'name' => '10 - 24',
-            'description' => '='
+            'description' => '=',
         ],
         [
             'id' => 3,
             'name' => '25 - 99',
-            'description' => '='
+            'description' => '=',
         ],
         [
             'id' => 4,
             'name' => '100 - 499',
-            'description' => '='
+            'description' => '=',
         ],
         [
             'id' => 5,
             'name' => '500 - 999',
-            'description' => '='
+            'description' => '=',
         ],
         [
             'id' => 6,
             'name' => '1000 - 4999',
-            'description' => '='
+            'description' => '=',
         ],
         [
             'id' => 7,
             'name' => '5000 - 9999',
-            'description' => '='
+            'description' => '=',
         ],
         [
             'id' => 8,
             'name' => '10000 - 19999',
-            'description' => '='
+            'description' => '=',
         ],
         [
             'id' => 9,
             'name' => '20000 - 49999',
-            'description' => '='
+            'description' => '=',
         ],
         [
             'id' => 10,
             'name' => '50000',
-            'description' => '>'
+            'description' => '>',
         ],
-    ]
+    ],
 ];

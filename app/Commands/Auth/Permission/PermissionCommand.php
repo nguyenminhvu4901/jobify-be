@@ -15,5 +15,4 @@ class PermissionCommand implements CommandInterface
     {
         return new self();
     }
-
 }

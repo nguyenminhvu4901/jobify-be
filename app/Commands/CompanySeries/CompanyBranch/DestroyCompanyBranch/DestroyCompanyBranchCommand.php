@@ -10,8 +10,7 @@ readonly class DestroyCompanyBranchCommand implements CommandInterface
     public function __construct(
         public string|int $companyBranchId,
         public string|int $companyId,
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

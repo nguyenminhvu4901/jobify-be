@@ -11,8 +11,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_id Người ứng tuyển
  * @property int|null $job_listing_id Công việc
@@ -29,6 +27,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read int|null $job_application_status_count
  * @property-read \App\Entities\JobSeries\JobListing\JobListing|null $jobListings
  * @property-read \App\Models\User|null $users
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication query()
@@ -41,17 +40,23 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereUserIdAndJobListingId(int $userId, int $jobListingId)
+ *
  * @property string $full_name
  * @property string $email
  * @property string $phone_number
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication whereFullName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobApplication wherePhoneNumber($value)
+ *
  * @mixin \Eloquent
  */
 class JobApplication extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, JobApplicationRelationship, JobApplicationScope;
+    use HasFactory;
+    use JobApplicationRelationship;
+    use JobApplicationScope;
+    use TransformableTrait;
 
     protected $table = JobApplicationEnum::TABLE->value;
 

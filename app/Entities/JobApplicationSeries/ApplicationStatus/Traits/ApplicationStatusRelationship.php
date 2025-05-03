@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait ApplicationStatusRelationship
 {
-    /**
-     * @return BelongsToMany
-     */
     public function jobListings(): BelongsToMany
     {
         return $this->belongsToMany(JobListing::class, JobApplicationStatus::class);

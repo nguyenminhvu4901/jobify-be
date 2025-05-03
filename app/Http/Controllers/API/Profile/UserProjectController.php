@@ -24,18 +24,11 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserProjectController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function getListProjectCurrentUser(): JsonResponse
     {
         $this->bus->addHandler(
@@ -45,7 +38,7 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(new GetListProjectCurrentUserCommand());
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -60,10 +53,6 @@ class UserProjectController extends Controller
         );
     }
 
-    /**
-     * @param FormRequest $request
-     * @return JsonResponse
-     */
     public function getCompleteListOfUserProject(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -73,7 +62,7 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(GetCompleteListOfUserProjectCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -89,10 +78,6 @@ class UserProjectController extends Controller
         );
     }
 
-    /**
-     * @param UserProjectRequest $request
-     * @return JsonResponse
-     */
     public function getDetailListOfUserProject(UserProjectRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -102,7 +87,7 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserProjectCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -117,10 +102,6 @@ class UserProjectController extends Controller
         );
     }
 
-    /**
-     * @param UserProjectRequest $request
-     * @return JsonResponse
-     */
     public function getDetailListOfUserProjectByUserSlug(UserProjectRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -130,7 +111,7 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserProjectByUserSlugCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -145,10 +126,6 @@ class UserProjectController extends Controller
         );
     }
 
-    /**
-     * @param UserProjectRequest $request
-     * @return JsonResponse
-     */
     public function store(UserProjectRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -158,7 +135,7 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(StoreUserProjectCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -169,10 +146,6 @@ class UserProjectController extends Controller
         );
     }
 
-    /**
-     * @param UserProjectRequest $request
-     * @return JsonResponse
-     */
     public function update(UserProjectRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -182,7 +155,7 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserProjectCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -193,10 +166,6 @@ class UserProjectController extends Controller
         );
     }
 
-    /**
-     * @param UserProjectRequest $request
-     * @return JsonResponse
-     */
     public function destroy(UserProjectRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -206,7 +175,7 @@ class UserProjectController extends Controller
 
         $result = $this->bus->dispatch(DestroyUserProjectCommand::withForm($request));
 
-        if(!empty($result['userProjectDestroy'])){
+        if (! empty($result['userProjectDestroy'])) {
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

@@ -11,12 +11,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency query()
@@ -24,21 +23,21 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Currency extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, CurrencyRelationship;
+    use CurrencyRelationship;
+    use HasFactory;
+    use TransformableTrait;
 
     protected $table = CurrencyEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
-        'name'
+        'name',
     ];
 
-    /**
-     * @return Attribute
-     */
     protected function name(): Attribute
     {
         return Attribute::make(

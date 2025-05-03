@@ -6,12 +6,6 @@ use App\Enums\DefaultContentType;
 
 trait ValidatesAttachmentsTrait
 {
-    /**
-     * @param $attachment
-     * @param $index
-     * @param $validator
-     * @return void
-     */
     private function validateImage($attachment, $index, $validator): void
     {
         $imageRules = ['bail', 'required', 'image', 'mimes:jpeg,jpg,png,gif,bmp,svg,webp', 'max:10240'];
@@ -24,12 +18,6 @@ trait ValidatesAttachmentsTrait
         }
     }
 
-    /**
-     * @param $attachment
-     * @param $index
-     * @param $validator
-     * @return void
-     */
     private function validateImagePath($attachment, $index, $validator): void
     {
         $imageRules = ['bail', 'required', 'string'];
@@ -42,12 +30,6 @@ trait ValidatesAttachmentsTrait
         }
     }
 
-    /**
-     * @param $attachment
-     * @param $index
-     * @param $validator
-     * @return void
-     */
     private function validateUrl($attachment, $index, $validator): void
     {
         $urlRules = ['bail', 'required', 'string'];
@@ -60,12 +42,6 @@ trait ValidatesAttachmentsTrait
         }
     }
 
-    /**
-     * @param $attachment
-     * @param $index
-     * @param $validator
-     * @return void
-     */
     private function validateVideo($attachment, $index, $validator): void
     {
         $videoRules = ['bail', 'required', 'file', 'mimes:mp4,mov,avi,flv,mkv', 'max:51200'];
@@ -78,12 +54,6 @@ trait ValidatesAttachmentsTrait
         }
     }
 
-    /**
-     * @param $attachment
-     * @param $index
-     * @param $validator
-     * @return void
-     */
     private function validateVideoPath($attachment, $index, $validator): void
     {
         $videoRules = ['bail', 'required', 'string'];
@@ -96,41 +66,24 @@ trait ValidatesAttachmentsTrait
         }
     }
 
-    /**
-     * @param $attachment
-     * @param $index
-     * @param $validator
-     * @return void
-     */
     private function validateImageUpdate($attachment, $index, $validator): void
     {
-        if(!empty($attachment['image']) && is_string($attachment['image'])){
+        if (! empty($attachment['image']) && is_string($attachment['image'])) {
             $this->validateImagePath($attachment, $index, $validator);
-        }else{
+        } else {
             $this->validateImage($attachment, $index, $validator);
         }
     }
 
-    /**
-     * @param $attachment
-     * @param $index
-     * @param $validator
-     * @return void
-     */
     private function validateVideoUpdate($attachment, $index, $validator): void
     {
-        if(!empty($attachment['video']) && is_string($attachment['video'])){
+        if (! empty($attachment['video']) && is_string($attachment['video'])) {
             $this->validateVideoPath($attachment, $index, $validator);
-        }else{
+        } else {
             $this->validateVideo($attachment, $index, $validator);
         }
     }
 
-    /**
-     * @param $validator
-     * @param string $routeNameCondition
-     * @return void
-     */
     protected function processWithValidator($validator, string $routeNameCondition): void
     {
         $routeName = request()->route()->getName();
@@ -143,12 +96,11 @@ trait ValidatesAttachmentsTrait
                 foreach ($attachments as $index => $attachment) {
                     $contentTypeId = $attachment['content_type_id'] ?? null;
 
-                    switch ($contentTypeId){
+                    switch ($contentTypeId) {
                         case DefaultContentType::IMAGE->value:
-                            if($routeName == $routeNameCondition)
-                            {
+                            if ($routeName == $routeNameCondition) {
                                 $this->validateImage($attachment, $index, $validator);
-                            }else{
+                            } else {
                                 $this->validateImageUpdate($attachment, $index, $validator);
                             }
                             break;
@@ -158,10 +110,9 @@ trait ValidatesAttachmentsTrait
                             break;
 
                         case DefaultContentType::VIDEO->value:
-                            if($routeName == $routeNameCondition)
-                            {
+                            if ($routeName == $routeNameCondition) {
                                 $this->validateVideo($attachment, $index, $validator);
-                            }else{
+                            } else {
                                 $this->validateVideoUpdate($attachment, $index, $validator);
                             }
                             break;

@@ -18,7 +18,7 @@ class CompanyScaleResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'display' => $this?->display
+            'display' => $this?->display,
         ];
     }
 }

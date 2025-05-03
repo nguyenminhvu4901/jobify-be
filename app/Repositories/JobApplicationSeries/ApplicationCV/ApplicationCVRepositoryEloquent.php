@@ -7,9 +7,6 @@ use App\Repositories\BaseRepository;
 
 class ApplicationCVRepositoryEloquent extends BaseRepository implements ApplicationCVRepository
 {
-    /**
-     * @return string
-     */
     public function model(): string
     {
         return ApplicationCV::class;

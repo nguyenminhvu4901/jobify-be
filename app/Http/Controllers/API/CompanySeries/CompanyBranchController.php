@@ -17,19 +17,11 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class CompanyBranchController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param CompanyBranchRequest $request
-     * @return JsonResponse
-     */
     public function getListCompanyBranch(CompanyBranchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -39,7 +31,7 @@ class CompanyBranchController extends Controller
 
         $result = $this->bus->dispatch(GetListCompanyBranchCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -54,10 +46,6 @@ class CompanyBranchController extends Controller
         );
     }
 
-    /**
-     * @param CompanyBranchRequest $request
-     * @return JsonResponse
-     */
     public function storeCompanyBranch(CompanyBranchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -67,7 +55,7 @@ class CompanyBranchController extends Controller
 
         $result = $this->bus->dispatch(StoreCompanyBranchCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message']
@@ -81,10 +69,6 @@ class CompanyBranchController extends Controller
         );
     }
 
-    /**
-     * @param CompanyBranchRequest $request
-     * @return JsonResponse
-     */
     public function updateCompanyBranch(CompanyBranchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -94,7 +78,7 @@ class CompanyBranchController extends Controller
 
         $result = $this->bus->dispatch(UpdateCompanyBranchCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message']
@@ -108,10 +92,6 @@ class CompanyBranchController extends Controller
         );
     }
 
-    /**
-     * @param CompanyBranchRequest $request
-     * @return JsonResponse
-     */
     public function destroyCompanyBranch(CompanyBranchRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -121,7 +101,7 @@ class CompanyBranchController extends Controller
 
         $result = $this->bus->dispatch(DestroyCompanyBranchCommand::withForm($request));
 
-        if(!empty($result['companyBranchDestroy'])){
+        if (! empty($result['companyBranchDestroy'])) {
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

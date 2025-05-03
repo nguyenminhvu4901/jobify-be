@@ -22,7 +22,7 @@ class UserActivityNoUserDataResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'description' => $this->description,
-            'user_activity_resource' => UserActivityAttachmentResource::collection($this->userActivityResources)
+            'user_activity_resource' => UserActivityAttachmentResource::collection($this->userActivityResources),
         ];
     }
 }

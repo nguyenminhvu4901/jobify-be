@@ -10,6 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class JobPositionRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -27,9 +28,9 @@ class JobPositionRequest extends FormRequest
     {
         $routeName = request()->route()->getName();
 
-        return match ($routeName){
-            PositionEnum::PREFIX->value . PositionEnum::LIST_SECONDARY_POSITION->value => [
-                ...$this->getCommonRules()
+        return match ($routeName) {
+            PositionEnum::PREFIX->value.PositionEnum::LIST_SECONDARY_POSITION->value => [
+                ...$this->getCommonRules(),
             ],
             default => [],
         };
@@ -38,7 +39,7 @@ class JobPositionRequest extends FormRequest
     private function getCommonRules(): array
     {
         return [
-            'main_position_id' => ['bail', 'required', 'integer', 'exists:positions,id']
+            'main_position_id' => ['bail', 'required', 'integer', 'exists:positions,id'],
         ];
     }
 }

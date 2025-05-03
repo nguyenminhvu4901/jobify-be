@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserCertificationHandle
 {
-    /**
-     * @param UserCertificationRepository $userCertificationRepository
-     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetDetailListOfUserCertificationCommand $command
-     * @return array
-     */
     public function handle(GetDetailListOfUserCertificationCommand $command): array
     {
         try {
@@ -30,7 +22,8 @@ class GetDetailListOfUserCertificationHandle
                 generateCacheName(
                     UserCertificationEnum::DETAIL_LIST_USER_CERTIFICATION->value,
                     $command
-                ));
+                )
+            );
 
             $userCertification = Cache::tags([UserCertificationEnum::TAG_NAME->value])
                 ->remember(
@@ -39,27 +32,27 @@ class GetDetailListOfUserCertificationHandle
                         $command
                     ),
                     CacheTTL::REMEMBER->value,
-                    fn() => $this->userCertificationRepository->findWithRelationships(
-                            $command->userCertificationId,
-                            ['user', 'userCertificationResources.contentType']
+                    fn () => $this->userCertificationRepository->findWithRelationships(
+                        $command->userCertificationId,
+                        ['user', 'userCertificationResources.contentType']
                     )
                 );
 
-            if(empty($userCertification)){
+            if (empty($userCertification)) {
                 return [
-                    'message' => __('messages.profile.user_get_profile_error')
+                    'message' => __('messages.profile.user_get_profile_error'),
                 ];
             }
 
             return [
                 'data' => UserCertificationResource::make($userCertification),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

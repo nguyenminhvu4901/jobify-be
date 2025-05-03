@@ -37,12 +37,9 @@ use OpenApi\Annotations as OA;
  */
 class AuthController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
-        protected CommandBusInterface $bus)
-    {
+        protected CommandBusInterface $bus
+    ) {
     }
 
     /**
@@ -51,13 +48,17 @@ class AuthController extends Controller
      *     summary="Process Login User",
      *     description="Log in to your account and return the JWT token.",
      *     tags={"Authentication"},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
+     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={"email", "password"},
+     *
      *                 @OA\Property(property="email", type="string", example="admin@example.com"),
      *                 @OA\Property(property="password", type="string", example="Admin@12"),
      *                 @OA\Property(property="remember", type="boolean", example=true)
@@ -68,25 +69,27 @@ class AuthController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="User login successfully",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="message", type="string", example="User login successfully"),
      *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Wrong account or password",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="message", type="string", example="Wrong account or password"),
      *             @OA\Property(property="status_code", type="integer", example=401)
      *         )
      *     )
      * )
-     *
-     * @param LoginRequest $request
-     * @return JsonResponse
      */
     public function login(LoginRequest $request): JsonResponse
     {
@@ -94,7 +97,7 @@ class AuthController extends Controller
 
         $userData = $this->bus->dispatch(LoginStandardCommand::withForm($request));
 
-        if(!empty($userData['user'])){
+        if (! empty($userData['user'])) {
             return $this->responseSuccess(data: $userData['user'], message: $userData['message']);
         }
 
@@ -109,29 +112,38 @@ class AuthController extends Controller
      *     description="Log out a user by invalidating the JWT token.",
      *     tags={"Authentication"},
      *     security={{"bearerAuth": {}}},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Logout successful",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="message", type="string", example="Người dùng đã đăng xuất"),
      *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
+     *
      *     @OA\Response(
      *           response=401,
      *           description="The user is not logged in",
+     *
      *           @OA\JsonContent(
      *               type="object",
+     *
      *               @OA\Property(property="message", type="string", example="The user is not logged in"),
      *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
+     *
      *     @OA\Response(
      *          response=500,
      *          description="Server Error",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(
      *                  property="message", type="string", example="User logout failure"
      *              ),
@@ -139,7 +151,6 @@ class AuthController extends Controller
      *          )
      *     )
      * )
-     * @return JsonResponse
      */
     public function logout(): JsonResponse
     {
@@ -147,13 +158,12 @@ class AuthController extends Controller
 
         $result = $this->bus->dispatch(new LogoutCommand(request()->bearerToken()));
 
-        if($result['logout']){
+        if ($result['logout']) {
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 
         return $this->responseInternalServerError(message: $result['message'], error: $result['error'] ?? null);
     }
-
 
     /**
      * @OA\Post(
@@ -161,13 +171,17 @@ class AuthController extends Controller
      *     operationId="resigterJobSeeker",
      *     summary="Create New JobSeeker Account",
      *     tags={"Authentication"},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
      *                  type="object",
      *                  required={"full_name", "email", "password", "password_confirmation", "phone_number"},
+     *
      *                  @OA\Property(
      *                      property="full_name",
      *                      type="string",
@@ -201,22 +215,28 @@ class AuthController extends Controller
      *              )
      *          )
      *     ),
+     *
      *     @OA\Response(
      *         response="200",
      *         description="Registration successfully",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="message", type="string", example="Registration successfully"
      *             ),
      *             @OA\Property(property="status_code", type="integer", example=200)
      *         )
      *     ),
+     *
      *     @OA\Response(
      *          response="500",
      *          description="Registration error",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(
      *                  property="message", type="string", example="Registration error"
      *              ),
@@ -224,9 +244,6 @@ class AuthController extends Controller
      *          )
      *      ),
      * )
-     *
-     * @param JobSeekerRegisterRequest $request
-     * @return JsonResponse
      */
     public function jobSeekerRegister(JobSeekerRegisterRequest $request): JsonResponse
     {
@@ -234,7 +251,7 @@ class AuthController extends Controller
 
         $result = $this->bus->dispatch(JobSeekerRegisterCommand::withForm($request));
 
-        if(!empty($result['jobSeeker'])){
+        if (! empty($result['jobSeeker'])) {
             return $this->responseSuccess(data: $result['jobSeeker'], message: $result['message']);
         }
 
@@ -247,16 +264,20 @@ class AuthController extends Controller
      *     operationId="registerRecruiter",
      *     summary="Create new Recruiter Account",
      *     tags={"Authentication"},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
+     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={
      *                      "full_name", "email", "password", "password_confirmation", "phone_number",
      *                      "gender_id", "company_name", "company_scale_id", "tax_code", "province", "district"
      *                  },
+     *
      *                  @OA\Property(
      *                      property="full_name",
      *                      type="string",
@@ -326,22 +347,28 @@ class AuthController extends Controller
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Recruiter Register Successfully",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(
      *                  property="message", type="string", example="Registration successfully"
      *              ),
      *              @OA\Property(property="status_code", type="integer", example=200)
      *          )
      *      ),
+     *
      *      @OA\Response(
      *           response="500",
      *           description="Recruiter Register Error",
+     *
      *           @OA\JsonContent(
      *               type="object",
+     *
      *               @OA\Property(
      *                   property="message", type="string", example="Registration error"
      *               ),
@@ -349,9 +376,6 @@ class AuthController extends Controller
      *           )
      *       ),
      * )
-     *
-     * @param RecruiterRegisterRequest $request
-     * @return JsonResponse
      */
     public function recruiterRegister(RecruiterRegisterRequest $request): JsonResponse
     {
@@ -359,7 +383,7 @@ class AuthController extends Controller
 
         $result = $this->bus->dispatch(RecruiterRegisterCommand::withForm($request));
 
-        if(!empty($result['recruiter'])){
+        if (! empty($result['recruiter'])) {
             return $this->responseSuccess(data: $result['recruiter'], message: $result['message']);
         }
 
@@ -373,15 +397,19 @@ class AuthController extends Controller
      *     summary="Change Password Account",
      *     tags={"Authentication"},
      *     security={{"bearerAuth": {}}},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
+     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={
      *                     "slug", "email", "current_password", "new_password", "new_password_confirmation"
      *                 },
+     *
      *                  @OA\Property(
      *                      property="slug",
      *                      type="string",
@@ -415,31 +443,40 @@ class AuthController extends Controller
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *           response="200",
      *           description="Change Password Successfully",
+     *
      *           @OA\JsonContent(
      *               type="object",
+     *
      *               @OA\Property(
      *                   property="message", type="string", example="User change password successfully"
      *               ),
      *               @OA\Property(property="status_code", type="integer", example=200)
      *           )
      *     ),
+     *
      *     @OA\Response(
      *           response=401,
      *           description="The user is not logged in",
+     *
      *           @OA\JsonContent(
      *               type="object",
+     *
      *               @OA\Property(property="message", type="string", example="The user is not logged in"),
      *               @OA\Property(property="status_code", type="integer", example=401)
      *           )
      *     ),
+     *
      *     @OA\Response(
      *            response="500",
      *            description="Change Password Fail",
+     *
      *            @OA\JsonContent(
      *                type="object",
+     *
      *                @OA\Property(
      *                    property="message", type="string", example="User Change password Fail!"
      *                ),
@@ -447,9 +484,6 @@ class AuthController extends Controller
      *            )
      *      ),
      * )
-     *
-     * @param UserChangePassword $request
-     * @return JsonResponse
      */
     public function changePassword(UserChangePassword $request): JsonResponse
     {
@@ -457,7 +491,7 @@ class AuthController extends Controller
 
         $result = $this->bus->dispatch(UserChangePasswordCommand::withForm($request));
 
-        if(!empty($result['user'])){
+        if (! empty($result['user'])) {
 
             return $this->responseSuccess(data: $result['user'], message: $result['message']);
         }
@@ -471,13 +505,17 @@ class AuthController extends Controller
      *     operationId="forgotPassword",
      *     summary="Send Mail To Get New Password",
      *     tags={"Authentication"},
+     *
      *     @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
      *                  type="object",
      *                  required={"email"},
+     *
      *                  @OA\Property(
      *                      property="email",
      *                      type="string",
@@ -490,25 +528,27 @@ class AuthController extends Controller
      *     @OA\Response(
      *          response=200,
      *         description="Send Email Successfully",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="message", type="string", example="Send Password Successfully"),
      *             @OA\Property(property="status_code", type="integer", example=200)
      *         ),
      *     ),
+     *
      *     @OA\Response(
      *         response=500,
      *         description="Send Email Fail",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="message", type="string", example="Send Email Fail"),
      *             @OA\Property(property="status_code", type="integer", example=500)
      *         )
      *     )
      * )
-     *
-     * @param ForgotPasswordRequest $request
-     * @return JsonResponse
      */
     public function sendForgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
@@ -527,13 +567,17 @@ class AuthController extends Controller
      *     summary="Reset Password",
      *     description="Reset Password",
      *     tags={"Authentication"},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
+     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={"token", "email", "password", "password_confirmation"},
+     *
      *                 @OA\Property(
      *                     property="token",
      *                     type="string",
@@ -559,30 +603,33 @@ class AuthController extends Controller
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Reset Password Successfully",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(
      *                  property="message", type="string", example="Reset Password successfully"
      *              ),
      *              @OA\Property(property="status_code", type="integer", example=200)
      *          )
      *     ),
+     *
      *     @OA\Response(
      *         response=500,
      *         description="Reset Password Fail",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="message", type="string", example="Reset Password Fail"),
      *             @OA\Property(property="status_code", type="integer", example=500)
      *         )
      *     )
      * )
-     *
-     * @param ResetPasswordRequest $request
-     * @return JsonResponse
      */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
@@ -595,24 +642,18 @@ class AuthController extends Controller
             $this->responseError();
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function unauthorized(): JsonResponse
     {
         return $this->responseUnauthorized(__('messages.authentication.user_is_not_logged_in'));
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function refresh(): JsonResponse
     {
         $this->bus->addHandler(RefreshCommand::class, RefreshHandler::class);
 
         $userData = $this->bus->dispatch(new RefreshCommand());
 
-        if(!empty($userData['user'])){
+        if (! empty($userData['user'])) {
             return $this->responseSuccess(data: $userData['user'], message: $userData['message']);
         }
 

@@ -38,7 +38,7 @@ class CompanyProfileResource extends JsonResource
             'company_branches' => CompanyBranchResource::collection($this?->companyBranches),
             'operation_types' => OperationTypeResource::collection($this?->operationTypes),
             'business_sectors' => BusinessSectorResource::collection($this?->businessSectors),
-            'company_benefits' => CompanyBenefitResource::collection($this?->companyBenefits)
+            'company_benefits' => CompanyBenefitResource::collection($this?->companyBenefits),
         ];
     }
 }

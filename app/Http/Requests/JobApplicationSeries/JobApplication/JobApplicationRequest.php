@@ -10,6 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class JobApplicationRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,16 +29,16 @@ class JobApplicationRequest extends FormRequest
         $routeName = request()->route()->getName();
 
         return match ($routeName) {
-            JobApplicationEnum::PREFIX->value . JobApplicationEnum::DETAIL_JOB_APPLICATION_JOB_SEEKER->value => [
+            JobApplicationEnum::PREFIX->value.JobApplicationEnum::DETAIL_JOB_APPLICATION_JOB_SEEKER->value => [
                 'job_application_id' => ['bail', 'required', 'integer', 'exists:job_applications,id'],
                 'user_id' => ['bail', 'required', 'integer', 'exists:users,id'],
-                'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id']
+                'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
             ],
-            JobApplicationEnum::PREFIX->value . JobApplicationEnum::LIST_JOB_APPLICATION_JOB_SEEKER->value => [
+            JobApplicationEnum::PREFIX->value.JobApplicationEnum::LIST_JOB_APPLICATION_JOB_SEEKER->value => [
                 'user_id' => ['bail', 'required', 'integer', 'exists:users,id'],
             ],
-            JobApplicationEnum::PREFIX->value . JobApplicationEnum::LIST_JOB_SEEKER_APPLY_JOB->value => [
-                'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id']
+            JobApplicationEnum::PREFIX->value.JobApplicationEnum::LIST_JOB_SEEKER_APPLY_JOB->value => [
+                'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
             ],
             default => []
         };

@@ -24,7 +24,7 @@ class CompanyBranchResource extends JsonResource
             'province' => ProvinceResource::make($this->province),
             'district' => DistrictResource::make($this->district),
             'ward' => WardResource::make($this->ward),
-            'address' => $this->address
+            'address' => $this->address,
         ];
     }
 }

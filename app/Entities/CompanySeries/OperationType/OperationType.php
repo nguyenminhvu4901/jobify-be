@@ -11,8 +11,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string|null $description
@@ -20,6 +18,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\CompanySeries\Company\Company> $companies
  * @property-read int|null $companies_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OperationType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OperationType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OperationType query()
@@ -28,36 +27,33 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OperationType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OperationType whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OperationType whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class OperationType extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, OperationTypeRelationship;
+    use HasFactory;
+    use OperationTypeRelationship;
+    use TransformableTrait;
 
     protected $table = OperationTypeEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
         'name',
-        'description'
+        'description',
     ];
 
-    /**
-     * @return Attribute
-     */
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => translatable_or_original('data/company_series/operation_types.name', $value)
+            get: fn (string $value) => translatable_or_original('data/company_series/operation_types.name', $value)
         );
     }
 
-    /**
-     * @return Attribute
-     */
     protected function description(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => translatable_or_original('data/company_series/operation_types.description', $value)
+            get: fn (string $value) => translatable_or_original('data/company_series/operation_types.description', $value)
         );
     }
 }

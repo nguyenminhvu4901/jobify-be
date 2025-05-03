@@ -13,6 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class CompanyBranchRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -31,59 +32,53 @@ class CompanyBranchRequest extends FormRequest
         $routeName = request()->route()->getName();
 
         return match ($routeName) {
-            CompanyBranchEnum::PREFIX->value . CompanyBranchEnum::UPDATE_COMPANY_BRANCH->value => [
+            CompanyBranchEnum::PREFIX->value.CompanyBranchEnum::UPDATE_COMPANY_BRANCH->value => [
                 ...$this->getCommonRules(),
-                ...$this->getCommonRulesId()
+                ...$this->getCommonRulesId(),
             ],
-            CompanyBranchEnum::PREFIX->value . CompanyBranchEnum::STORE_COMPANY_BRANCH->value => [
+            CompanyBranchEnum::PREFIX->value.CompanyBranchEnum::STORE_COMPANY_BRANCH->value => [
                 ...$this->getCommonRules(),
                 'company_id' => [
                     'bail',
                     'required',
                     'integer',
-                    'exists:companies,id'
+                    'exists:companies,id',
                 ],
             ],
-            CompanyBranchEnum::PREFIX->value . CompanyBranchEnum::DESTROY_COMPANY_BRANCH->value => [
-                ...$this->getCommonRulesId()
+            CompanyBranchEnum::PREFIX->value.CompanyBranchEnum::DESTROY_COMPANY_BRANCH->value => [
+                ...$this->getCommonRulesId(),
             ],
-            CompanyBranchEnum::PREFIX->value . CompanyBranchEnum::LIST_COMPANY_BRANCH->value => [
+            CompanyBranchEnum::PREFIX->value.CompanyBranchEnum::LIST_COMPANY_BRANCH->value => [
                 'company_id' => [
                     'bail',
                     'required',
                     'integer',
-                    'exists:companies,id'
-                ]
+                    'exists:companies,id',
+                ],
             ],
             default => []
         };
     }
 
-    /**
-     * @return array
-     */
     private function getCommonRules(): array
     {
         return [
             'branch_name' => ['bail', 'required', 'string', 'max:255'],
             'province_id' => [
-                'bail', 'required', 'integer', 'exists:provinces,id'
+                'bail', 'required', 'integer', 'exists:provinces,id',
             ],
             'district_id' => [
                 'bail', 'required', 'integer', 'exists:districts,id',
-                new CheckDistrictByProvinceRule($this->input('province_id'))
+                new CheckDistrictByProvinceRule($this->input('province_id')),
             ],
             'ward_id' => [
                 'bail', 'nullable', 'integer', 'exists:wards,id',
-                new CheckWardByDistrictRule($this->input('district_id'))
+                new CheckWardByDistrictRule($this->input('district_id')),
             ],
-            'address' => ['bail', 'nullable', 'string', 'max:512']
+            'address' => ['bail', 'nullable', 'string', 'max:512'],
         ];
     }
 
-    /**
-     * @return array
-     */
     private function getCommonRulesId(): array
     {
         return [
@@ -91,15 +86,15 @@ class CompanyBranchRequest extends FormRequest
                 'bail',
                 'required',
                 'integer',
-                'exists:company_branches,id'
+                'exists:company_branches,id',
             ],
             'company_id' => [
                 'bail',
                 'required',
                 'integer',
                 'exists:companies,id',
-                new CompanyBelongsToBranchRule($this->input('company_branch_id'))
-            ]
+                new CompanyBelongsToBranchRule($this->input('company_branch_id')),
+            ],
         ];
     }
 }

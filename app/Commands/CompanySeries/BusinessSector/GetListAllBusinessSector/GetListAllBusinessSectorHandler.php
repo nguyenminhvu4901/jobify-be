@@ -12,36 +12,33 @@ class GetListAllBusinessSectorHandler
 {
     public function __construct(
         protected BusinessSectorRepository $businessSectorRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return array
-     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([BusinessSectorEnum::TAG_NAME->value])->has(
-                BusinessSectorEnum::LIST_ALL_BUSINESS_SECTOR->value);
+                BusinessSectorEnum::LIST_ALL_BUSINESS_SECTOR->value
+            );
 
             $businessSectors = Cache::tags([BusinessSectorEnum::TAG_NAME->value])
                 ->remember(
                     BusinessSectorEnum::LIST_ALL_BUSINESS_SECTOR->value,
                     CacheTTL::HARD->value,
-                    fn() => $this->businessSectorRepository->get()
+                    fn () => $this->businessSectorRepository->get()
                 );
 
             return [
                 'data' => BusinessSectorResource::collection($businessSectors),
                 'message' => __('messages.company.company_get_info_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.company.company_get_info_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

@@ -16,7 +16,7 @@ class CompanyWorkingDayResource extends JsonResource
     {
         return [
             'id' => $this?->id,
-            'working_day' => $this?->working_day
+            'working_day' => $this?->working_day,
         ];
     }
 }

@@ -7,7 +7,6 @@ return [
         ['id' => 3, 'type' => 'range'],
         ['id' => 4, 'type' => 'fixed'],
         ['id' => 5, 'type' => 'negotiable'],
-        ['id' => 6, 'type' => 'unpaid']
+        ['id' => 6, 'type' => 'unpaid'],
     ],
 ];
-

@@ -6,9 +6,6 @@ use App\Http\Resources\DefaultSeries\DefaultContentType\DefaultContentTypeResour
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- *
- */
 class UserExperienceAttachmentResource extends JsonResource
 {
     /**
@@ -24,7 +21,7 @@ class UserExperienceAttachmentResource extends JsonResource
             'title' => $this->title,
             'path' => $this->path,
             'description' => $this->description,
-            'content_type' => new DefaultContentTypeResource($this->contentType)
+            'content_type' => new DefaultContentTypeResource($this->contentType),
         ];
     }
 }

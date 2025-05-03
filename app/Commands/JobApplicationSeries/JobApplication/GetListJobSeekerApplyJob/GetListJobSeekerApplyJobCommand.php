@@ -9,10 +9,9 @@ readonly class GetListJobSeekerApplyJobCommand implements CommandInterface
 {
     public function __construct(
         public int $jobListingId,
-        public int|null $limit,
-        public string|null $page
-    )
-    {
+        public ?int $limit,
+        public ?string $page
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface
@@ -20,7 +19,7 @@ readonly class GetListJobSeekerApplyJobCommand implements CommandInterface
         return new self(
             jobListingId: $request->input('job_listing_id'),
             limit: $request->input('limit') ?? null,
-            page:  $request->input('page') ?? null,
+            page: $request->input('page') ?? null,
         );
     }
 }

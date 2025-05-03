@@ -10,62 +10,55 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListActivityCurrentUserHandle
 {
-    /**
-     * @param UserRepository $userRepository
-     */
     public function __construct(
         protected UserRepository $userRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return array
-     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([UserActivityEnum::TAG_NAME->value])->has(
-                UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id);
+                UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value.auth()->user()->id
+            );
 
             $userActivities = Cache::tags([UserActivityEnum::TAG_NAME->value])
                 ->remember(
-                    UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id,
+                    UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value.auth()->user()->id,
                     CacheTTL::REMEMBER->value,
-                    fn() => $this->userRepository->findWithRelationships(
-                            id: auth()->user()->id,
-                            relationship: 'userActivities.userActivityResources.contentType',
-                            relationshipCallbacksToFilter: [
-                                'userActivities' => function ($query) {
-                                    $query->orderByDesc('id')
+                    fn () => $this->userRepository->findWithRelationships(
+                        id: auth()->user()->id,
+                        relationship: 'userActivities.userActivityResources.contentType',
+                        relationshipCallbacksToFilter: [
+                            'userActivities' => function ($query) {
+                                $query->orderByDesc('id')
                                     ->with([
                                         'userActivityResources' => function ($query) {
                                             $query->orderByDesc('id')
-                                            ->with('contentType');
-                                        }
+                                                ->with('contentType');
+                                        },
                                     ]);
-                                }
-                            ]
-                        )
+                            },
+                        ]
+                    )
                 );
 
-
-            if(empty($userActivities)){
+            if (empty($userActivities)) {
                 return [
-                    'message' => __('messages.profile.user_get_profile_error')
+                    'message' => __('messages.profile.user_get_profile_error'),
                 ];
             }
 
             return [
                 'data' => CurrentUserActivityResource::make($userActivities),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

@@ -18,7 +18,7 @@ class JobAgeRangeResource extends JsonResource
             'id' => $this->id,
             'min_age' => $this->min_age,
             'max_age' => $this->max_age,
-            'display' => $this->display
+            'display' => $this->display,
         ];
     }
 }

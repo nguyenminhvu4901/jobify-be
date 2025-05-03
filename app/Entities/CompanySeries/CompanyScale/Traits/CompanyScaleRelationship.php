@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait CompanyScaleRelationship
 {
-    /**
-     * @return HasOne
-     */
     public function company(): HasOne
     {
         return $this->hasOne(Company::class);

@@ -10,20 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserCertificationHandle
 {
-    /**
-     * @param UserCertificationRepository $userCertificationRepository
-     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository
-    )
-    {
+    ) {
     }
 
-
-    /**
-     * @param GetCompleteListOfUserCertificationCommand $command
-     * @return array
-     */
     public function handle(GetCompleteListOfUserCertificationCommand $command): array
     {
         try {
@@ -41,9 +32,9 @@ class GetCompleteListOfUserCertificationHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userCertificationRepository->paginateWithRelationship(
+                fn () => $this->userCertificationRepository->paginateWithRelationship(
                     relationship: ['userCertificationResources.contentType', 'user'],
-                    limit:  $command->limit
+                    limit: $command->limit
                 )
             );
 
@@ -51,12 +42,12 @@ class GetCompleteListOfUserCertificationHandle
                 'data' => UserCertificationResource::collection($userCertifications),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($userCertifications ?? [])
+                'pagination' => formatPaginationData($userCertifications ?? []),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

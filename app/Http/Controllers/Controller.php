@@ -6,8 +6,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
-use OpenApi\Annotations as OA;
 use Illuminate\Routing\Controller as BaseController;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,10 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
  *     description="Thông tin dự án Jobify",
  *     version="1.0.0",
  * )
+ *
  * @OA\Server(
  *      url="http://localhost:8040/api",
  *      description="Local server"
  *  )
+ *
  * @OA\SecurityScheme(
  *      securityScheme="bearerAuth",
  *      type="http",
@@ -30,149 +32,105 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
+    use ValidatesRequests;
 
-
-    /**
-     * @param mixed $data
-     * @param string $message
-     * @param string $statusCode
-     * @param mixed|null $cache
-     * @param mixed $pagination
-     * @return JsonResponse
-     */
     public function responseSuccess(
         mixed $data = [],
         string $message = 'OK',
         string $statusCode = Response::HTTP_OK,
         mixed $cache = null,
         mixed $pagination = []
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $response = [
             'data' => $data,
             'message' => $message,
-            'status_code' => $statusCode
+            'status_code' => $statusCode,
         ];
 
-        if(!empty($pagination)){
+        if (! empty($pagination)) {
             $response['pagination'] = $pagination;
         }
 
-        if(config('app.debug') && !empty($cache)) {
+        if (config('app.debug') && ! empty($cache)) {
             $response['cache'] = $cache;
         }
 
         return response()->json($response, $statusCode);
     }
 
-    /**
-     * @param string $message
-     * @param mixed $error
-     * @param mixed $statusCode
-     * @return JsonResponse
-     */
     public function responseError(
-        string $message = "",
-        mixed $error = "",
+        string $message = '',
+        mixed $error = '',
         mixed $statusCode = null
-    ): JsonResponse
-    {
-        if (!empty($error)) {
+    ): JsonResponse {
+        if (! empty($error)) {
             return response()->json([
                 'message' => $message,
                 'error' => config('app.debug') && is_object($error) && method_exists($error, 'getMessage') ?
                     $error->getMessage() : null,
-                'status_code' => $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR,
             ], $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return response()->json([
             'message' => $message,
-            'status_code' => $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR
+            'status_code' => $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR,
         ], $statusCode ?? Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * @param string $message
-     * @param mixed $error
-     * @return JsonResponse
-     */
     public function responseUnauthorized(string $message = 'Unauthorized', mixed $error = ''): JsonResponse
     {
         return response()->json([
             'message' => __($message),
             'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
-            'status_code' => Response::HTTP_UNAUTHORIZED
+            'status_code' => Response::HTTP_UNAUTHORIZED,
         ], Response::HTTP_UNAUTHORIZED);
     }
 
     /**
-     * @param string $message
-     * @param string $error
-     * @return JsonResponse
+     * @param  string  $error
      */
     public function responseValidation(string $message = 'Validation Error', mixed $error = ''): JsonResponse
     {
         return response()->json([
             'message' => $message,
             'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
-            'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY
+            'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY,
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     * @param string $message
-     * @param mixed $error
-     * @return JsonResponse
-     */
     public function responseNotFound(string $message = 'Not Found', mixed $error = ''): JsonResponse
     {
         return response()->json([
             'message' => $message,
             'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
-            'status_code' => Response::HTTP_NOT_FOUND
+            'status_code' => Response::HTTP_NOT_FOUND,
         ], Response::HTTP_NOT_FOUND);
     }
 
-
-    /**
-     * @param string $message
-     * @param string $statusCode
-     * @return JsonResponse
-     */
     public function responseSuccessWithNoData(
         string $message = 'OK',
         string $statusCode = Response::HTTP_OK
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return response()->json([
             'message' => $message,
-            'status_code' => $statusCode
+            'status_code' => $statusCode,
         ], $statusCode);
     }
 
-    /**
-     * @param string $message
-     * @param mixed $error
-     * @return JsonResponse
-     */
     public function responseInternalServerError(
         string $message = 'Server Error',
         mixed $error = ''
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return response()->json([
             'message' => $message,
             'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
-            'status_code' => Response::HTTP_INTERNAL_SERVER_ERROR
+            'status_code' => Response::HTTP_INTERNAL_SERVER_ERROR,
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * @param mixed $error
-     * @return JsonResponse
-     */
     public function responseException(mixed $error = ''): JsonResponse
     {
         $statusCode = is_object($error) && method_exists($error, 'getCode') ? $error->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
@@ -183,17 +141,12 @@ abstract class Controller extends BaseController
         ], $statusCode);
     }
 
-    /**
-     * @param string $message
-     * @param mixed $error
-     * @return JsonResponse
-     */
     public function responseMethodNotAllowedHttpException(string $message = 'Method Not Allow', mixed $error = ''): JsonResponse
     {
         return response()->json([
             'message' => $message,
             'errors' => is_object($error) && method_exists($error, 'errors') ? $error->errors() : $error,
-            'status_code' => Response::HTTP_METHOD_NOT_ALLOWED
+            'status_code' => Response::HTTP_METHOD_NOT_ALLOWED,
         ], Response::HTTP_METHOD_NOT_ALLOWED);
     }
 }

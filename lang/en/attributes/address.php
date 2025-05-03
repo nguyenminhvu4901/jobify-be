@@ -8,5 +8,5 @@ return [
     'province_id' => 'Province/City',
     'district_id' => 'District',
     'ward_id' => 'Ward',
-    'address' => 'Address'
+    'address' => 'Address',
 ];

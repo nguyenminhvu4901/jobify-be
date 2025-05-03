@@ -10,18 +10,11 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class JobTypeController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function getListJobType(): JsonResponse
     {
         $this->bus->addHandler(
@@ -31,7 +24,7 @@ class JobTypeController extends Controller
 
         $result = $this->bus->dispatch(new GetListJobTypeCommand());
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],

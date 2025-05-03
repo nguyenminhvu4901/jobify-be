@@ -7,19 +7,11 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyJobHandler
 {
-    /**
-     * @param JobListingRepository $jobListingRepository
-     */
     public function __construct(
         protected JobListingRepository $jobListingRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param DestroyJobCommand $command
-     * @return array
-     */
     public function handle(DestroyJobCommand $command): array
     {
         try {
@@ -28,10 +20,10 @@ class DestroyJobHandler
                 $command->jobListingId
             );
 
-            if(!$checkExist){
+            if (! $checkExist) {
                 return [
                     'message' => __('messages.response.resource_not_found'),
-                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND,
                 ];
             }
 
@@ -49,14 +41,14 @@ class DestroyJobHandler
             return [
                 'message' => $result['message'] ?? __('messages.job.job_destroy_profile_error'),
                 'error' => $result['error'] ?? null,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.job.job_destroy_profile_error'),
                 'error' => $e,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
         }
     }

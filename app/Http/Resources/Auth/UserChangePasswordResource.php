@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class UserChangePasswordResource extends JsonResource
 {
     use UserResourceTrait;
+
     /**
      * Transform the resource into an array.
      *

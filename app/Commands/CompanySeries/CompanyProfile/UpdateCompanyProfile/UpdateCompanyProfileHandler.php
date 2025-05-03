@@ -8,19 +8,11 @@ use App\Repositories\CompanySeries\Company\CompanyRepository;
 
 class UpdateCompanyProfileHandler
 {
-    /**
-     * @param CompanyRepository $companyRepository
-     */
     public function __construct(
         protected CompanyRepository $companyRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param UpdateCompanyProfileCommand $command
-     * @return array
-     */
     public function handle(UpdateCompanyProfileCommand $command): array
     {
         try {
@@ -29,11 +21,11 @@ class UpdateCompanyProfileHandler
                 $command->companyId
             );
 
-            if(!$result['success']){
+            if (! $result['success']) {
 
                 return [
                     'message' => __('messages.company.company_update_profile_error'),
-                    'error' => $result['error'] ?? null
+                    'error' => $result['error'] ?? null,
                 ];
             }
 
@@ -41,40 +33,31 @@ class UpdateCompanyProfileHandler
 
             return [
                 'data' => CompanyProfileWithUserDataResource::make($result['data']),
-                'message' => __('messages.company.company_update_profile_success')
+                'message' => __('messages.company.company_update_profile_success'),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.company.company_update_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
 
     }
 
-    /**
-     * @param UpdateCompanyProfileCommand $command
-     * @return array
-     */
     private function prepareCompanyData(UpdateCompanyProfileCommand $command): array
     {
         return [
             'name' => $command->companyName,
             'company_scale_id' => $command->companyScaleId,
             'gender_id' => $command->genderId,
-            'company_working_day_id'=> $command->companyWorkingDayId,
+            'company_working_day_id' => $command->companyWorkingDayId,
             'website' => $command->website,
             'description' => $command->description,
-            'tax_code' => $command->taxCode
+            'tax_code' => $command->taxCode,
         ];
     }
 
-    /**
-     * @param Company $company
-     * @param UpdateCompanyProfileCommand $command
-     * @return void
-     */
     private function syncCompany(Company $company, UpdateCompanyProfileCommand $command): void
     {
         $this->companyRepository->syncOperationTypes($company, $command->operationTypes);

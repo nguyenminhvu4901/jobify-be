@@ -24,26 +24,21 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class UserCourseController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function getListCourseCurrentUser(): JsonResponse
     {
-        $this->bus->addHandler(GetListCourseCurrentUserCommand::class,
-            GetListCourseCurrentUserHandle::class);
+        $this->bus->addHandler(
+            GetListCourseCurrentUserCommand::class,
+            GetListCourseCurrentUserHandle::class
+        );
 
         $result = $this->bus->dispatch(new GetListCourseCurrentUserCommand());
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -58,10 +53,6 @@ class UserCourseController extends Controller
         );
     }
 
-    /**
-     * @param FormRequest $request
-     * @return JsonResponse
-     */
     public function getCompleteListOfUserCourse(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -71,7 +62,7 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(GetCompleteListOfUserCourseCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -88,10 +79,6 @@ class UserCourseController extends Controller
         );
     }
 
-    /**
-     * @param UserCourseRequest $request
-     * @return JsonResponse
-     */
     public function getDetailListOfUserCourse(UserCourseRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -101,7 +88,7 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserCourseCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -117,10 +104,6 @@ class UserCourseController extends Controller
         );
     }
 
-    /**
-     * @param UserCourseRequest $request
-     * @return JsonResponse
-     */
     public function getDetailListOfUserCourseByUserSlug(UserCourseRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -130,7 +113,7 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserCourseByUserSlugCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
 
             return $this->responseSuccess(
                 data: $result['data'],
@@ -146,10 +129,6 @@ class UserCourseController extends Controller
         );
     }
 
-    /**
-     * @param UserCourseRequest $request
-     * @return JsonResponse
-     */
     public function store(UserCourseRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -159,7 +138,7 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(StoreUserCourseCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -170,10 +149,6 @@ class UserCourseController extends Controller
         );
     }
 
-    /**
-     * @param UserCourseRequest $request
-     * @return JsonResponse
-     */
     public function update(UserCourseRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -183,7 +158,7 @@ class UserCourseController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserCourseCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -194,17 +169,13 @@ class UserCourseController extends Controller
         );
     }
 
-    /**
-     * @param UserCourseRequest $request
-     * @return JsonResponse
-     */
     public function destroy(UserCourseRequest $request): JsonResponse
     {
         $this->bus->addHandler(DestroyUserCourseCommand::class, DestroyUserCourseHandle::class);
 
         $result = $this->bus->dispatch(DestroyUserCourseCommand::withForm($request));
 
-        if(!empty($result['userCourseDestroy'])){
+        if (! empty($result['userCourseDestroy'])) {
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

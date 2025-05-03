@@ -11,19 +11,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserCourseHandle
 {
-    /**
-     * @param UserCourseRepository $userCourseRepository
-     */
     public function __construct(
         protected UserCourseRepository $userCourseRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetCompleteListOfUserCourseCommand $command
-     * @return array
-     */
     public function handle(GetCompleteListOfUserCourseCommand $command): array
     {
         try {
@@ -41,7 +33,7 @@ class GetCompleteListOfUserCourseHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userCourseRepository->paginateWithRelationship(
+                fn () => $this->userCourseRepository->paginateWithRelationship(
                     relationship: ['userCourseResources.contentType', 'user'],
                     limit: $command->limit
                 )
@@ -51,12 +43,12 @@ class GetCompleteListOfUserCourseHandle
                 'data' => UserCourseResource::collection($userCourses),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($userCourses ?? [])
+                'pagination' => formatPaginationData($userCourses ?? []),
             ];
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

@@ -7,30 +7,23 @@ use App\Repositories\JobSeries\JobListing\JobListingRepository;
 
 class UpdateJobActiveStatusHandler
 {
-    /**
-     * @param JobListingRepository $jobListingRepository
-     */
     public function __construct(
         protected JobListingRepository $jobListingRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param UpdateJobActiveStatusCommand $command
-     * @return array
-     */
     public function handle(UpdateJobActiveStatusCommand $command): array
     {
         try {
             $jobListing = $this->jobListingRepository->updateDataWithTransaction(
-                $this->prepareJobStatusData($command), $command->jobListingId
+                $this->prepareJobStatusData($command),
+                $command->jobListingId
             );
 
-            if(!$jobListing['success']){
+            if (! $jobListing['success']) {
                 return [
                     'message' => __('messages.job.job_update_profile_error'),
-                    'error' => $result['error'] ?? null
+                    'error' => $result['error'] ?? null,
                 ];
             }
 
@@ -38,23 +31,19 @@ class UpdateJobActiveStatusHandler
                 'data' => JobListingResource::make($jobListing['data']),
                 'message' => __('messages.profile.user_update_profile_success'),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.job.job_update_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }
 
-    /**
-     * @param UpdateJobActiveStatusCommand $command
-     * @return array
-     */
     private function prepareJobStatusData(UpdateJobActiveStatusCommand $command): array
     {
         return [
-            'active_status_id' => $command->activeStatusId
+            'active_status_id' => $command->activeStatusId,
         ];
     }
 }

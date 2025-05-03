@@ -29,16 +29,16 @@ trait ResponseCollectionDefaultTrait
     {
         return [
             'data' => $this->collection,
-            "current_page" => $this->currentPage(),
-            "total" => $this->total(),
-            "per_page" => $this->perPage(),
-            "last_page" => $this->lastPage(),
-            "next_page_url" => $this->nextPageUrl(),
-            "prev_page_url" => $this->previousPageUrl(),
-            "has_more_pages" => $this->hasMorePages(),
-            "count" => $this->count(),
-            "first_item" => $this->firstItem(),
-            "last_item" => $this->lastItem()
+            'current_page' => $this->currentPage(),
+            'total' => $this->total(),
+            'per_page' => $this->perPage(),
+            'last_page' => $this->lastPage(),
+            'next_page_url' => $this->nextPageUrl(),
+            'prev_page_url' => $this->previousPageUrl(),
+            'has_more_pages' => $this->hasMorePages(),
+            'count' => $this->count(),
+            'first_item' => $this->firstItem(),
+            'last_item' => $this->lastItem(),
         ];
     }
 }

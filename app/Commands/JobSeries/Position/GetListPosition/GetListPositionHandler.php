@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListPositionHandler
 {
-    /**
-     * @param PositionRepository $positionRepository
-     */
     public function __construct(
         protected PositionRepository $positionRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetListPositionCommand $command
-     * @return array
-     */
     public function handle(GetListPositionCommand $command): array
     {
         try {
@@ -40,20 +32,20 @@ class GetListPositionHandler
                     $command
                 ),
                 CacheTTL::HARD->value,
-                fn() => $this->positionRepository->getListPositionPaginate($command->limit)
+                fn () => $this->positionRepository->getListPositionPaginate($command->limit)
             );
 
             return [
                 'data' => PositionResource::collection($positions),
                 'message' => __('messages.job.job_get_info_success'),
                 'cache' => $cache,
-                'pagination' => formatCursorPaginationData($positions)
+                'pagination' => formatCursorPaginationData($positions),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

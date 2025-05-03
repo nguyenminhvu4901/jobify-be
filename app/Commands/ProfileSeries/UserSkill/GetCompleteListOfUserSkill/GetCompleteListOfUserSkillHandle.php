@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserSkillHandle
 {
-    /**
-     * @param UserSkillRepository $userSkillRepository
-     */
     public function __construct(
         protected UserSkillRepository $userSkillRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetCompleteListOfUserSkillCommand $command
-     * @return array
-     */
     public function handle(GetCompleteListOfUserSkillCommand $command): array
     {
         try {
@@ -40,9 +32,9 @@ class GetCompleteListOfUserSkillHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userSkillRepository->paginateWithRelationship(
+                fn () => $this->userSkillRepository->paginateWithRelationship(
                     relationship: ['rate', 'user'],
-                    limit:  $command->limit
+                    limit: $command->limit
                 )
             );
 
@@ -50,13 +42,13 @@ class GetCompleteListOfUserSkillHandle
                 'data' => UserSkillResource::collection($userSkills),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($userSkills ?? [])
+                'pagination' => formatPaginationData($userSkills ?? []),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

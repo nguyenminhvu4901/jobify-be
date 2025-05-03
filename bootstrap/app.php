@@ -24,14 +24,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append([
             Language::class,
             SetContextUrl::class,
-            SanitizeInput::class
+            SanitizeInput::class,
         ]);
         $middleware->alias([
             'auth' => Authenticate::class,
-            'guest' => CheckGuest::class
+            'guest' => CheckGuest::class,
         ]);
         $middleware->group('api', [
-            StartSession::class
+            StartSession::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
@@ -39,7 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api/*')) {
                 return response()->json([
                     'message' => 'Too Many Requests',
-                    'status_code' => 429
+                    'status_code' => 429,
                 ], 429);
             }
         });

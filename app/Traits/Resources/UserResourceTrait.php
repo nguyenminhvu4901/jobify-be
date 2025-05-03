@@ -6,9 +6,6 @@ use App\Http\Resources\DefaultSeries\DefaultStatus\DefaultStatusResource;
 
 trait UserResourceTrait
 {
-    /**
-     * @return array
-     */
     protected function userData(): array
     {
         return [

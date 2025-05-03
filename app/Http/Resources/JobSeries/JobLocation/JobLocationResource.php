@@ -24,7 +24,7 @@ class JobLocationResource extends JsonResource
             'province' => ProvinceResource::make($this->province),
             'district' => DistrictDefaultResource::make($this->district),
             'ward' => WardDefaultResource::make($this->ward),
-            'address' => $this->address
+            'address' => $this->address,
         ];
     }
 }

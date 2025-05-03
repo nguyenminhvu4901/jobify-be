@@ -12,8 +12,7 @@ class GetListAllJobHandler
 {
     public function __construct(
         protected JobListingRepository $jobListingRepository
-    )
-    {
+    ) {
     }
 
     public function handle(GetListAllJobCommand $command): array
@@ -33,14 +32,14 @@ class GetListAllJobHandler
                     $command
                 ),
                 CacheTTL::HARD->value,
-                fn() => $this->jobListingRepository->paginateWithRelationship(
+                fn () => $this->jobListingRepository->paginateWithRelationship(
                     relationship: [
                         'companies', 'gender', 'status', 'jobVisibilityStatus', 'jobModerationStatus',
                         'jobListingDetail',
                         'jobSalaries' => fn ($query) => $query->with(['currency', 'jobSalaryType']),
                         'positions', 'jobContact',
                         'jobLocation' => fn ($query) => $query->with(['province', 'district', 'ward']),
-                        'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels'
+                        'jobAgeRanges', 'jobTypes', 'jobLevels', 'jobExperiences', 'jobEducationLevels',
                     ],
                     limit: $command->limit
                 )
@@ -50,14 +49,14 @@ class GetListAllJobHandler
                 'data' => JobListingResource::collection($jobListings),
                 'message' => __('messages.job.job_get_info_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($jobListings)
+                'pagination' => formatPaginationData($jobListings),
             ];
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

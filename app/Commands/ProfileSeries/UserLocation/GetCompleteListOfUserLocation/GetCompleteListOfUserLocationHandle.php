@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserLocationHandle
 {
-    /**
-     * @param UserLocationRepository $userLocationRepository
-     */
     public function __construct(
         protected UserLocationRepository $userLocationRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetCompleteListOfUserLocationCommand $command
-     * @return array
-     */
     public function handle(GetCompleteListOfUserLocationCommand $command): array
     {
         try {
@@ -40,7 +32,7 @@ class GetCompleteListOfUserLocationHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userLocationRepository->paginateWithRelationship(
+                fn () => $this->userLocationRepository->paginateWithRelationship(
                     relationship: ['user', 'province', 'district', 'ward'],
                     limit: $command->limit
                 )
@@ -50,13 +42,13 @@ class GetCompleteListOfUserLocationHandle
                 'data' => UserLocationResource::collection($userLocation),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatPaginationData($userLocation ?? [])
+                'pagination' => formatPaginationData($userLocation ?? []),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

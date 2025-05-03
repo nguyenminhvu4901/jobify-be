@@ -10,55 +10,45 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class JobApplicationRepositoryEloquent extends BaseRepository implements JobApplicationRepository
 {
-    /**
-     * @return string
-     */
     public function model(): string
     {
         return JobApplication::class;
     }
 
-    /**
-     * @param int $jobApplicationId
-     * @param int $userId
-     * @param int $jobListingId
-     * @param array|string $relationships
-     * @return mixed
-     */
     public function findByUserIdAndJobIdWithRelationships(
-        int $jobApplicationId, int $userId, int $jobListingId, array|string $relationships
-    ): mixed
-    {
+        int $jobApplicationId,
+        int $userId,
+        int $jobListingId,
+        array|string $relationships
+    ): mixed {
         return $this->model->with($relationships)
             ->whereUserIdAndJobListingId($userId, $jobListingId)
             ->find($jobApplicationId);
     }
 
     /**
-     * @param int $userId
-     * @param array|string $relationships
-     * @param null $limit
-     * @return LengthAwarePaginator
+     * @param  null  $limit
      */
     public function getByUserIdAndJobIdWithRelationships(
-        int $userId, array|string $relationships, $limit = null,
-    ): LengthAwarePaginator
-    {
+        int $userId,
+        array|string $relationships,
+        $limit = null,
+    ): LengthAwarePaginator {
         return $this->model->with($relationships)
             ->where('user_id', $userId)
             ->latest()
-            ->paginate( $limit ?? PaginateEnum::PAGINATE_DEFAULT->value);
+            ->paginate($limit ?? PaginateEnum::PAGINATE_DEFAULT->value);
     }
 
-    public function getByJobListingIdAndJobIdWithRelationships(int $jobListingId, array|string $relationships, $limit = null,): mixed
+    public function getByJobListingIdAndJobIdWithRelationships(int $jobListingId, array|string $relationships, $limit = null): mixed
     {
         return $this->model->with($relationships)
             ->where('job_listing_id', $jobListingId)
             ->latest()
-            ->paginate( $limit ?? PaginateEnum::PAGINATE_DEFAULT->value);
+            ->paginate($limit ?? PaginateEnum::PAGINATE_DEFAULT->value);
     }
 
-    public function syncJobApplicationStatus(int $jobApplicationId, int|null $applicationStatusId = null)
+    public function syncJobApplicationStatus(int $jobApplicationId, ?int $applicationStatusId = null)
     {
         $jobApplication = $this->model->findOrFail($jobApplicationId);
 

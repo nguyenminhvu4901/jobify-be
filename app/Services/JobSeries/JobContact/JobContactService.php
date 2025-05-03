@@ -4,54 +4,37 @@ namespace App\Services\JobSeries\JobContact;
 
 use App\DataTransferObjects\JobSeries\JobContacts\JobContactData;
 use App\Repositories\JobSeries\JobContact\JobContactRepository;
-use Illuminate\Support\Facades\DB;
 
 class JobContactService
 {
-    /**
-     * @param JobContactRepository $jobContactRepository
-     */
     public function __construct(
         protected JobContactRepository $jobContactRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param JobContactData|array|null $storeJobContactData
-     * @param int $jobListingId
-     * @return array
-     */
     public function storeJobContacts(
         JobContactData|null|array $storeJobContactData,
-        int                       $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         return $this->jobContactRepository->insertTransaction(
             $this->jobContactsArray($storeJobContactData, $jobListingId)
         );
     }
 
-    /**
-     * @param JobContactData|array|null $jobContactData
-     * @param int $jobListingId
-     * @return void
-     */
     public function processUpsertJobContacts(
         JobContactData|null|array $jobContactData,
-        int                       $jobListingId
-    ): void
-    {
+        int $jobListingId
+    ): void {
         $jobContactCollection = collect($jobContactData);
 
         $idsDelete = $this->getJobLocationIdsToDel($jobContactData, $jobListingId);
         $this->destroyJobContacts($idsDelete);
 
-        $jobContactCollection->filter(fn($item) => !empty($item->jobContactId))
-            ->each(fn($contact) => $this->updateJobContact($contact, $jobListingId));
+        $jobContactCollection->filter(fn ($item) => ! empty($item->jobContactId))
+            ->each(fn ($contact) => $this->updateJobContact($contact, $jobListingId));
 
         $jobContactsToInsert = $jobContactCollection
-            ->filter(fn($item) => empty($item->jobContactId))
+            ->filter(fn ($item) => empty($item->jobContactId))
             ->values();
 
         if ($jobContactsToInsert->isNotEmpty()) {
@@ -59,52 +42,35 @@ class JobContactService
         }
     }
 
-    /**
-     * @param JobContactData|array|null $jobContactData
-     * @param int $jobListingId
-     * @return array
-     */
     private function updateJobContact(
         JobContactData|null|array $jobContactData,
-        int                        $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         return $this->jobContactRepository->updateDataWithTransaction(
             $this->jobContacts($jobContactData, $jobListingId),
             $jobContactData->jobContactId
         );
     }
 
-    /**
-     * @param array $jobContactIds
-     * @return array
-     */
     public function destroyJobContacts(
         array $jobContactIds
-    ): array
-    {
+    ): array {
         return $this->jobContactRepository->massDeleteTransaction('id', $jobContactIds);
     }
 
-    /**
-     * @param JobContactData|array|null $storeJobContactData
-     * @param int $jobListingId
-     * @return array
-     */
     private function jobContactsArray(
         JobContactData|array|null $storeJobContactData,
-        int                       $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         $jobContactArray = [];
 
-        if(!empty($storeJobContactData)) {
+        if (! empty($storeJobContactData)) {
 
-            foreach ($storeJobContactData as $data){
+            foreach ($storeJobContactData as $data) {
                 $jobContactArray[] = [
                     ...$this->jobContacts($data, $jobListingId),
                     'created_at' => now(),
-                    'updated_at' => now()
+                    'updated_at' => now(),
                 ];
             }
         }
@@ -112,16 +78,10 @@ class JobContactService
         return $jobContactArray;
     }
 
-    /**
-     * @param JobContactData|array|null $data
-     * @param int $jobListingId
-     * @return array
-     */
     private function jobContacts(
         JobContactData|array|null $data,
-        int                       $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         return [
             'job_listing_id' => $jobListingId,
             'full_name' => $data->fullName,
@@ -130,16 +90,10 @@ class JobContactService
         ];
     }
 
-    /**
-     * @param JobContactData|array|null $jobContactData
-     * @param int $jobListingId
-     * @return array
-     */
     private function getJobLocationIdsToDel(
         JobContactData|null|array $jobContactData,
-        int                        $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         $jobContactIdsRq = collect($jobContactData)->pluck('jobContactId')->filter()->values();
 
         $jobContactIdsDB = $this->jobContactRepository->getJobContactIdsByJobListingId($jobListingId);

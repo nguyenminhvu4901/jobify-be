@@ -13,13 +13,9 @@ class DestroyUserExperienceHandler
         protected UserExperienceRepository $userExperienceRepository,
         protected UserExperienceResourceRepository $userExperienceResourceRepository,
         protected AttachmentResourceService $attachmentResourceService
-    )
-    {}
+    ) {
+    }
 
-    /**
-     * @param DestroyUserExperienceCommand $command
-     * @return array|null
-     */
     public function handle(DestroyUserExperienceCommand $command): ?array
     {
         try {
@@ -29,15 +25,15 @@ class DestroyUserExperienceHandler
                 relationship: 'userExperienceResource'
             );
 
-            if (!$userExperience) {
+            if (! $userExperience) {
                 return [
                     'message' => __('messages.response.resource_not_found'),
-                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND,
                 ];
             }
 
-            if($userExperience?->userExperienceResource->isNotEmpty()){
-                foreach ($userExperience->userExperienceResource as $resource){
+            if ($userExperience?->userExperienceResource->isNotEmpty()) {
+                foreach ($userExperience->userExperienceResource as $resource) {
                     $this->attachmentResourceService->deleteFileAttachment($resource);
                     $this->userExperienceResourceRepository->destroyDataWithTransaction($resource->id);
                 }
@@ -45,25 +41,25 @@ class DestroyUserExperienceHandler
 
             $result = $this->userExperienceRepository->destroyDataWithTransaction($userExperience->id);
 
-            if($result['success']){
+            if ($result['success']) {
                 return [
                     'userExperienceDestroy' => $result['success'],
-                    'message' => __('messages.profile.user_destroy_profile_success')
+                    'message' => __('messages.profile.user_destroy_profile_success'),
                 ];
             }
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $result['error'] ?? null,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $e,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
         }
     }

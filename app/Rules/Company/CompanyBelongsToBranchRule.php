@@ -11,14 +11,13 @@ readonly class CompanyBelongsToBranchRule implements ValidationRule
 {
     public function __construct(
         protected string|int $companyBranchId
-    )
-    {
+    ) {
     }
 
     /**
      * Run the validation rule.
      *
-     * @param Closure(string, ?string=): PotentiallyTranslatedString $fail
+     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -26,7 +25,7 @@ readonly class CompanyBelongsToBranchRule implements ValidationRule
             ->whereCompanyBranchId($this->companyBranchId)
             ->doesntExist();
 
-        if($checkExists){
+        if ($checkExists) {
             $fail(__('validation.custom.company_id_branch_id_mismatch'));
         }
     }

@@ -5,13 +5,11 @@ namespace App\Entities\JobSeries\JobModerationStatusLog;
 use App\Entities\JobSeries\JobModerationStatusLog\Traits\JobModerationStatusLogRelationship;
 use App\Enums\RouteNames\JobSeries\JobModerationStatusLogEnum;
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * 
- *
  * @property int $id
  * @property int $job_listing_id
  * @property int $job_moderation_status_id
@@ -22,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read \App\Entities\JobSeries\JobListing\JobListing $jobListings
  * @property-read \App\Entities\JobSeries\JobModerationStatus\JobModerationStatus $jobModerationStatuses
  * @property-read \App\Models\User|null $users
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobModerationStatusLog newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobModerationStatusLog newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobModerationStatusLog query()
@@ -32,11 +31,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobModerationStatusLog whereJobModerationStatusId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobModerationStatusLog whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobModerationStatusLog whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class JobModerationStatusLog extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, JobModerationStatusLogRelationship;
+    use HasFactory;
+    use JobModerationStatusLogRelationship;
+    use TransformableTrait;
 
     protected $table = JobModerationStatusLogEnum::TABLE->value;
 
@@ -44,6 +46,6 @@ class JobModerationStatusLog extends BaseModel implements Transformable
         'job_listing_id',
         'job_moderation_status_id',
         'note',
-        'created_by'
+        'created_by',
     ];
 }

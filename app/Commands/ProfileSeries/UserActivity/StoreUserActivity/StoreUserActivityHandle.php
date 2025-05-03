@@ -8,21 +8,12 @@ use App\Services\ProfileSeries\UserActivity\UserActivityService;
 
 class StoreUserActivityHandle
 {
-    /**
-     * @param UserActivityRepository $userActivityRepository
-     * @param UserActivityService $userActivityService
-     */
     public function __construct(
         protected UserActivityRepository $userActivityRepository,
         protected UserActivityService $userActivityService
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param StoreUserActivityCommand $command
-     * @return array
-     */
     public function handle(StoreUserActivityCommand $command): array
     {
         try {
@@ -30,23 +21,21 @@ class StoreUserActivityHandle
                 $this->prepareUserActivityData($command)
             );
 
-            if(!$result['success']){
+            if (! $result['success']) {
 
                 return [
                     'message' => __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null
+                    'error' => $result['error'] ?? null,
                 ];
             }
 
-            if(!empty($command->attachments))
-            {
+            if (! empty($command->attachments)) {
                 $attachments = $command->attachments;
 
-                foreach ($attachments as $attachment)
-                {
+                foreach ($attachments as $attachment) {
                     $pathStorage = $this->userActivityService->saveAttachment($attachment);
 
-                    if(!empty($pathStorage)){
+                    if (! empty($pathStorage)) {
                         $this->userActivityService->storeUserActivityResource(
                             attachment: $attachment,
                             userActivityId: $result['data']->id,
@@ -58,21 +47,17 @@ class StoreUserActivityHandle
 
             return [
                 'data' => UserActivityResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_success'),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }
 
-    /**
-     * @param StoreUserActivityCommand $command
-     * @return array
-     */
     private function prepareUserActivityData(StoreUserActivityCommand $command): array
     {
         return [

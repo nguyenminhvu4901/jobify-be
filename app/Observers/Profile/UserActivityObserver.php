@@ -10,6 +10,6 @@ class UserActivityObserver extends BaseObserver
 {
     protected array $cacheTag = [
         UserActivityEnum::TAG_NAME->value,
-        UserProfileEnum::TAG_NAME->value
+        UserProfileEnum::TAG_NAME->value,
     ];
 }

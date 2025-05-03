@@ -10,8 +10,7 @@ readonly class DestroyUserActivityCommand implements CommandInterface
     public function __construct(
         public string $userSlug,
         public string|int $userActivityId
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

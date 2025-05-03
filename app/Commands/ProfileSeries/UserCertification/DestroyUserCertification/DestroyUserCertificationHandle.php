@@ -9,23 +9,13 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserCertificationHandle
 {
-    /**
-     * @param UserCertificationRepository $userCertificationRepository
-     * @param UserCertificationResourceRepository $userCertificationResourceRepository
-     * @param AttachmentResourceService $attachmentResourceService
-     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository,
         protected UserCertificationResourceRepository $userCertificationResourceRepository,
         protected AttachmentResourceService $attachmentResourceService
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param DestroyUserCertificationCommand $command
-     * @return array
-     */
     public function handle(DestroyUserCertificationCommand $command): array
     {
         try {
@@ -35,15 +25,15 @@ class DestroyUserCertificationHandle
                 relationship: 'userCertificationResources'
             );
 
-            if (!$userCertification) {
+            if (! $userCertification) {
                 return [
                     'message' => __('messages.response.resource_not_found'),
-                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND,
                 ];
             }
 
-            if($userCertification->userCertificationResources->isNotEmpty()){
-                foreach ($userCertification->userCertificationResources as $resource){
+            if ($userCertification->userCertificationResources->isNotEmpty()) {
+                foreach ($userCertification->userCertificationResources as $resource) {
                     $this->attachmentResourceService->deleteFileAttachment($resource);
                     $this->userCertificationResourceRepository->destroyDataWithTransaction($resource->id);
                 }
@@ -61,14 +51,14 @@ class DestroyUserCertificationHandle
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $result['error'] ?? null,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $e,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
         }
     }

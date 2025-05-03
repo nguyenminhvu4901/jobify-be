@@ -21,7 +21,7 @@ class JobListingDetailResource extends JsonResource
             'requirement' => $this->requirement,
             'income' => $this->income,
             'benefit' => $this->benefit,
-            'working_hour' => $this->working_hour
+            'working_hour' => $this->working_hour,
         ];
     }
 }

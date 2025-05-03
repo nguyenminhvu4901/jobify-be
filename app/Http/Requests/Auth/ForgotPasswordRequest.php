@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 class ForgotPasswordRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,7 +29,7 @@ class ForgotPasswordRequest extends FormRequest
         return [
             'email' => [
                 'bail', 'required', 'string', 'email',
-                Rule::exists('users', 'email')->whereNull('deleted_at')
+                Rule::exists('users', 'email')->whereNull('deleted_at'),
             ],
         ];
     }

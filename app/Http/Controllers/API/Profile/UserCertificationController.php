@@ -31,17 +31,13 @@ use Symfony\Component\Routing\Attribute\Route;
  * )
  */
 #[
-    Route("/api/profile/user-certification")
+    Route('/api/profile/user-certification')
 ]
 class UserCertificationController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
     /**
@@ -50,37 +46,44 @@ class UserCertificationController extends Controller
      *     summary="Get List Certification Current User",
      *     tags={"UserCertificationEnum"},
      *     security={{"bearAuth": {}}},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Get user info successfully",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="message", type="string", example="Get user info successfully"
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated - Token is invalid or missing",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
+     *
      *     @OA\Response(
      *          response=500,
      *          description="Get user info failed!",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(
      *                  property="message", type="string", example="Get user info failed!"
      *              )
      *          )
      *      )
      * )
-     *
-     * @return JsonResponse
      */
     #[Route('/list-certification-current-user')]
     public function getListCertificationCurrentUser(): JsonResponse
@@ -92,7 +95,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(new GetListCertificationCurrentUserCommand());
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -114,13 +117,17 @@ class UserCertificationController extends Controller
      *     description="Store User Certification",
      *     tags={"UserCertificationEnum"},
      *     security={{"bearerAuth":{}}},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
+     *
      *             @OA\Schema(
      *                 type="object",
      *                 required={"name", "is_no_expiration", "start_date"},
+     *
      *                 @OA\Property(
      *                     property="name",
      *                     type="string",
@@ -157,9 +164,11 @@ class UserCertificationController extends Controller
      *                      property="attachments",
      *                      type="array",
      *                      description="Mảng chứa file",
+     *
      *                      @OA\Items(
      *                          type="object",
      *                          required={"content_type_id"},
+     *
      *                          @OA\Property(
      *                              property="title",
      *                              type="string",
@@ -201,38 +210,44 @@ class UserCertificationController extends Controller
      *             )
      *         )
      *     ),
+     *
      *      @OA\Response(
      *           response="200",
      *           description="Store User Certification Successfully",
+     *
      *           @OA\JsonContent(
      *               type="object",
+     *
      *               @OA\Property(
      *                   property="message", type="string", example="Saved"
      *               )
      *           )
      *     ),
+     *
      *      @OA\Response(
      *              response=401,
      *              description="Unauthenticated - Token is invalid or missing",
+     *
      *              @OA\JsonContent(
      *                  type="object",
+     *
      *                  @OA\Property(property="message", type="string", example="Unauthenticated.")
      *              )
      *       ),
+     *
      *      @OA\Response(
      *            response="500",
      *            description="Store User Certification Fail",
+     *
      *            @OA\JsonContent(
      *                type="object",
+     *
      *                @OA\Property(
      *                    property="message", type="string", example="Fail"
      *                )
      *            )
      *      ),
      * )
-     *
-     * @param UserCertificationRequest $request
-     * @return JsonResponse
      */
     public function store(UserCertificationRequest $request): JsonResponse
     {
@@ -240,7 +255,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(StoreUserCertificationCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message']
@@ -254,11 +269,6 @@ class UserCertificationController extends Controller
         );
     }
 
-
-    /**
-     * @param FormRequest $request
-     * @return JsonResponse
-     */
     public function getCompleteListOfUserCertification(FormRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -268,7 +278,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(GetCompleteListOfUserCertificationCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -280,10 +290,6 @@ class UserCertificationController extends Controller
         return $this->responseError(message: $result['message'], error: $result['error'] ?? null);
     }
 
-    /**
-     * @param UserCertificationRequest $request
-     * @return JsonResponse
-     */
     public function getDetailListOfUserCertification(UserCertificationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -293,7 +299,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserCertificationCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -308,10 +314,6 @@ class UserCertificationController extends Controller
         );
     }
 
-    /**
-     * @param UserCertificationRequest $request
-     * @return JsonResponse
-     */
     public function getDetailListOfUserCertificationByUserSlug(UserCertificationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -321,7 +323,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(GetDetailListOfUserCertificationByUserSlugCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -336,10 +338,6 @@ class UserCertificationController extends Controller
         );
     }
 
-    /**
-     * @param UserCertificationRequest $request
-     * @return JsonResponse
-     */
     public function update(UserCertificationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -349,7 +347,7 @@ class UserCertificationController extends Controller
 
         $result = $this->bus->dispatch(UpdateUserCertificationCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(data: $result['data'], message: $result['message']);
         }
 
@@ -360,20 +358,16 @@ class UserCertificationController extends Controller
         );
     }
 
-    /**
-     * @param UserCertificationRequest $request
-     * @return JsonResponse
-     */
     public function destroy(UserCertificationRequest $request): JsonResponse
     {
         $this->bus->addHandler(
-          DestroyUserCertificationCommand::class,
-          DestroyUserCertificationHandle::class
+            DestroyUserCertificationCommand::class,
+            DestroyUserCertificationHandle::class
         );
 
         $result = $this->bus->dispatch(DestroyUserCertificationCommand::withForm($request));
 
-        if(!empty(!empty($result['userCertificationDestroy']))){
+        if (! empty(! empty($result['userCertificationDestroy']))) {
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

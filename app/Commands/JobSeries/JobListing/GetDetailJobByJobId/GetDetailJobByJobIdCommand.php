@@ -9,8 +9,7 @@ readonly class GetDetailJobByJobIdCommand implements CommandInterface
 {
     public function __construct(
         public int $jobId
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

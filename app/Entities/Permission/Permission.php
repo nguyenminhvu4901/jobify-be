@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $display_name
@@ -21,6 +19,7 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission permission($permissions, $without = false)
@@ -35,6 +34,7 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission withoutRole($roles, $guard = null)
+ *
  * @mixin \Eloquent
  */
 class Permission extends SpatiePermission
@@ -46,7 +46,7 @@ class Permission extends SpatiePermission
     public $timestamps = true;
 
     public const FILLABLE_FIELDS = [
-        'name', 'display_name', 'parent_id'
+        'name', 'display_name', 'parent_id',
     ];
 
     /**

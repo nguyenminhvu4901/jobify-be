@@ -15,4 +15,3 @@ return [
         ['id' => 1000, 'title' => 'other',        'description' => 'other_job_levels_not_classified_above'],
     ],
 ];
-

@@ -11,16 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class CompanyRepositoryEloquent extends BaseRepository implements CompanyRepository
 {
-    /**
-     * @return string
-     */
     public function model(): string
     {
         return Company::class;
     }
 
     /**
-     * @param array $attributes
      * @return LengthAwarePaginator|Collection|mixed|null
      */
     public function create(array $attributes): mixed
@@ -33,18 +29,13 @@ class CompanyRepositoryEloquent extends BaseRepository implements CompanyReposit
             DB::commit();
 
             return $company->refresh();
-        }catch (Exception){
+        } catch (Exception) {
             DB::rollBack();
 
             return null;
         }
     }
 
-    /**
-     * @param $company
-     * @param $operationTypes
-     * @return Company|null
-     */
     public function syncOperationTypes($company, $operationTypes): ?Company
     {
         DB::beginTransaction();
@@ -55,18 +46,13 @@ class CompanyRepositoryEloquent extends BaseRepository implements CompanyReposit
             DB::commit();
 
             return $company->refresh();
-        }catch (Exception){
+        } catch (Exception) {
             DB::rollBack();
 
             return null;
         }
     }
 
-    /**
-     * @param $company
-     * @param $businessSectors
-     * @return Company|null
-     */
     public function syncBusinessSectors($company, $businessSectors): ?Company
     {
         DB::beginTransaction();
@@ -77,7 +63,7 @@ class CompanyRepositoryEloquent extends BaseRepository implements CompanyReposit
             DB::commit();
 
             return $company->refresh();
-        }catch (Exception){
+        } catch (Exception) {
             DB::rollBack();
 
             return null;

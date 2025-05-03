@@ -12,92 +12,76 @@ use Illuminate\Support\Collection;
 
 class UserCourseService
 {
-    use ImageHandler, VideoHandler;
+    use ImageHandler;
+    use VideoHandler;
 
-    /**
-     * @param AttachmentResourceService $attachmentResourceService
-     * @param UserCourseResourceRepository $userCourseResourceRepository
-     */
     public function __construct(
         protected AttachmentResourceService $attachmentResourceService,
         protected UserCourseResourceRepository $userCourseResourceRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param $attachment
-     * @return mixed
-     */
     public function saveAttachment($attachment): mixed
     {
         return $this->attachmentResourceService->saveFileAttachment(
-            attachment: $attachment, lastFolderName: 'courses'
+            attachment: $attachment,
+            lastFolderName: 'courses'
         );
     }
 
     /**
-     * @param array $attachment
-     * @param string|int $userCourseId
-     * @param string|null $pathStorage
      * @return LengthAwarePaginator|Collection|mixed
      */
     public function storeUserCourseResource(
-        array $attachment, string|int $userCourseId, string|null $pathStorage
-    ): mixed
-    {
+        array $attachment,
+        string|int $userCourseId,
+        ?string $pathStorage
+    ): mixed {
         return $this->userCourseResourceRepository->storeDataWithTransaction([
             'user_course_id' => $userCourseId,
             'title' => $attachment['title'],
             'path' => $pathStorage,
             'description' => $attachment['description'],
-            'content_type_id' => $attachment['content_type_id']
+            'content_type_id' => $attachment['content_type_id'],
         ]);
     }
 
     /**
-     * @param array $attachment
-     * @param string|int $userCourseResourceId
-     * @param string|null $pathStorage
      * @return LengthAwarePaginator|Collection|mixed
      */
     private function updateUserCourseResource(
-        array $attachment, string|int $userCourseResourceId, string|null $pathStorage
-    ): mixed
-    {
+        array $attachment,
+        string|int $userCourseResourceId,
+        ?string $pathStorage
+    ): mixed {
         return $this->userCourseResourceRepository->updateDataWithTransaction(
             [
                 'title' => $attachment['title'],
                 'path' => $pathStorage,
                 'description' => $attachment['description'],
-                'content_type_id' => $attachment['content_type_id']
+                'content_type_id' => $attachment['content_type_id'],
             ],
             $userCourseResourceId
         );
     }
 
-
-    /**
-     * @param $attachments
-     * @param $userCourseResource
-     * @param $userCourseId
-     * @return null
-     */
     public function updateResourceAttachment(
-        $attachments, $userCourseResource, $userCourseId
-    ): null
-    {
+        $attachments,
+        $userCourseResource,
+        $userCourseId
+    ): null {
         $this->deleteUserCourseResourceAndAttachment(
-            attachments: $attachments, userCourseResource: $userCourseResource);
+            attachments: $attachments,
+            userCourseResource: $userCourseResource
+        );
 
-        foreach ($attachments as $attachment)
-        {
-            if(!empty($attachment['user_course_resource_id'])){
+        foreach ($attachments as $attachment) {
+            if (! empty($attachment['user_course_resource_id'])) {
                 $this->processUpdateAttachment($attachment);
-            }else{
+            } else {
                 $pathStorage = $this->saveAttachment($attachment);
 
-                 $this->storeUserCourseResource(
+                $this->storeUserCourseResource(
                     attachment: $attachment,
                     userCourseId: $userCourseId,
                     pathStorage: $pathStorage
@@ -108,11 +92,6 @@ class UserCourseService
         return null;
     }
 
-    /**
-     * @param $attachments
-     * @param $userCourseResource
-     * @return mixed
-     */
     private function deleteUserCourseResourceAndAttachment($attachments, $userCourseResource): mixed
     {
         $listDelIds = $this->attachmentResourceService->getListRedundantIdsToDelete(
@@ -124,7 +103,7 @@ class UserCourseService
         $listUserCourseResourceToDelete = $this->userCourseResourceRepository
             ->getByIds($listDelIds);
 
-        if(!empty($listUserCourseResourceToDelete)){
+        if (! empty($listUserCourseResourceToDelete)) {
             return $listUserCourseResourceToDelete->map(function ($eachUserCourseResource) {
 
                 $this->attachmentResourceService->deleteFileAttachment($eachUserCourseResource);
@@ -135,9 +114,7 @@ class UserCourseService
         return null;
     }
 
-
     /**
-     * @param $attachment
      * @return LengthAwarePaginator|Collection|mixed|void|null
      */
     public function processUpdateAttachment($attachment)
@@ -148,9 +125,9 @@ class UserCourseService
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value ||
             $attachment['content_type_id'] == DefaultContentType::VIDEO->value
         ) {
-            if(is_string($attachment['content'])){
-                return ;
-            }else{
+            if (is_string($attachment['content'])) {
+                return;
+            } else {
                 $this->attachmentResourceService->deleteFileAttachment($userCourseResource);
                 $pathStorage = $this->saveAttachment($attachment);
 
@@ -167,7 +144,7 @@ class UserCourseService
                 userCourseResourceId: $userCourseResource->id,
                 pathStorage: $attachment['content']
             );
-        }else {
+        } else {
             return null;
         }
     }

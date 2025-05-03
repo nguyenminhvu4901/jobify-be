@@ -12,49 +12,48 @@ class GetListLocationCurrentUserHandle
 {
     public function __construct(
         protected UserRepository $userRepository
-    )
-    {
+    ) {
     }
 
     public function handle(): array
     {
         try {
             $cache = Cache::tags([UserLocationEnum::TAG_NAME->value])->has(
-                UserLocationEnum::LIST_LOCATION_CURRENT_USER->value . auth()->user()->id
+                UserLocationEnum::LIST_LOCATION_CURRENT_USER->value.auth()->user()->id
             );
 
             $userLocation = Cache::tags([UserLocationEnum::TAG_NAME->value])
                 ->remember(
-                    UserLocationEnum::LIST_LOCATION_CURRENT_USER->value . auth()->user()->id,
+                    UserLocationEnum::LIST_LOCATION_CURRENT_USER->value.auth()->user()->id,
                     CacheTTL::REMEMBER->value,
-                    fn() => $this->userRepository->findWithRelationships(
+                    fn () => $this->userRepository->findWithRelationships(
                         id: auth()->user()->id,
                         relationship: ['userLocations'],
                         relationshipCallbacksToFilter: [
                             'userLocations' => function ($query) {
                                 return $query->orderByDesc('id');
-                            }
+                            },
                         ]
                     )
                 );
 
-            if(empty($userLocation)){
+            if (empty($userLocation)) {
 
                 return [
-                    'message' => __('messages.profile.user_get_profile_error')
+                    'message' => __('messages.profile.user_get_profile_error'),
                 ];
             }
 
             return [
                 'data' => CurrentUserLocationResource::make($userLocation),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

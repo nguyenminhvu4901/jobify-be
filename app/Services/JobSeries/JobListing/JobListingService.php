@@ -9,50 +9,31 @@ use App\Repositories\JobSeries\JobListing\JobListingRepository;
 
 class JobListingService
 {
-    /**
-     * @param JobListingRepository $jobListingRepository
-     */
     public function __construct(
         protected JobListingRepository $jobListingRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param StoreJobCommand $command
-     * @return array
-     */
     public function storeJobListing(
         StoreJobCommand $command
-    ): array
-    {
+    ): array {
         return $this->jobListingRepository->storeDataWithTransaction(
             $this->jobListingTransformer($command)
         );
     }
 
-    /**
-     * @param UpdateJobCommand $command
-     * @return array
-     */
     public function updateJobListing(
         UpdateJobCommand $command
-    ): array
-    {
+    ): array {
         return $this->jobListingRepository->updateDataWithTransaction(
             $this->jobListingTransformer($command),
             $command->jobListingId
         );
     }
 
-    /**
-     * @param StoreJobCommand|UpdateJobCommand $command
-     * @return array
-     */
     private function jobListingTransformer(
         StoreJobCommand|UpdateJobCommand $command
-    ): array
-    {
+    ): array {
         return [
             'company_id' => $command->companyId,
             'title' => $command->title,
@@ -68,7 +49,7 @@ class JobListingService
             'job_age_range_id' => $command->jobAgeRangeId ?? null,
             'job_education_level_id' => $command->jobEducationLevelId ?? null,
             'min_age' => $command->minAge ?? null,
-            'max_age' => $command->maxAge ?? null
+            'max_age' => $command->maxAge ?? null,
         ];
     }
 }

@@ -10,10 +10,10 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 class JobListingDetailBelongsToJobListingRule implements ValidationRule
 {
     public function __construct(
-        protected int|null $jobListingId
-    )
-    {
+        protected ?int $jobListingId
+    ) {
     }
+
     /**
      * Run the validation rule.
      *
@@ -25,7 +25,7 @@ class JobListingDetailBelongsToJobListingRule implements ValidationRule
             ->where('id', $value)
             ->doesntExist();
 
-        if($checkExists){
+        if ($checkExists) {
             $fail(__('validation.custom.job_listing_detail_not_belongs_to_job'));
         }
     }

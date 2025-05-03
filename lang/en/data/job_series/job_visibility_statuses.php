@@ -7,5 +7,5 @@ return [
         'paused' => 'Rejected',
         'expired' => 'Expired',
         'closed' => 'Closed',
-    ]
+    ],
 ];

@@ -7,19 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class GetListCompanyBenefitCommand implements CommandInterface
 {
-    /**
-     * @param string|int $companyId
-     */
     public function __construct(
         public string|int $companyId
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param FormRequest $request
-     * @return CommandInterface
-     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(

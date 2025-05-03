@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserEducationHandle
 {
-    /**
-     * @param UserEducationRepository $userEducationRepository
-     */
     public function __construct(
         protected UserEducationRepository $userEducationRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetDetailListOfUserEducationCommand $command
-     * @return array
-     */
     public function handle(GetDetailListOfUserEducationCommand $command): array
     {
         try {
@@ -39,26 +31,27 @@ class GetDetailListOfUserEducationHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userEducationRepository->findWithRelationships(
+                fn () => $this->userEducationRepository->findWithRelationships(
                     id: $command->userEducationId,
                     relationship: 'user'
-                ));
+                )
+            );
 
-            if(empty($userEducation)){
+            if (empty($userEducation)) {
                 return [
-                    'message' => __('messages.profile.user_get_profile_error')
+                    'message' => __('messages.profile.user_get_profile_error'),
                 ];
             }
 
             return [
                 'data' => UserEducationResource::make($userEducation),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

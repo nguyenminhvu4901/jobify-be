@@ -6,5 +6,5 @@ return [
     'job_application_status_id' => 'Trạng thái tuyển dụng',
     'application_status_id' => 'Trạng thái tuyển dụng',
     'reject_reason' => 'Lý do từ chối',
-    'hired_at' => 'Ngày được ứng tuyển'
+    'hired_at' => 'Ngày được ứng tuyển',
 ];

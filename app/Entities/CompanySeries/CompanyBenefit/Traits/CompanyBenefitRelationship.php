@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait CompanyBenefitRelationship
 {
-    /**
-     * @return BelongsTo
-     */
     public function companies(): BelongsTo
     {
         return $this->belongsTo(Company::class)->withDefault();

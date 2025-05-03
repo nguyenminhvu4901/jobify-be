@@ -3,6 +3,5 @@
 return [
     '<' => 'Less than',
     '=' => 'to',
-    '>' => 'More than'
+    '>' => 'More than',
 ];
-

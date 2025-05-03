@@ -4,11 +4,11 @@ return [
     'statuses' => [
         [
             'id' => 1,
-            'status' => 'active'
+            'status' => 'active',
         ],
         [
             'id' => 2,
-            'status' => 'deactivate'
-        ]
+            'status' => 'deactivate',
+        ],
     ],
 ];

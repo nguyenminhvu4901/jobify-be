@@ -10,18 +10,11 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class JobVisibilityStatusController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function getListJobVisibilityStatus(): JsonResponse
     {
         $this->bus->addHandler(
@@ -31,7 +24,7 @@ class JobVisibilityStatusController extends Controller
 
         $result = $this->bus->dispatch(new GetListJobVisibilityStatusCommand());
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],

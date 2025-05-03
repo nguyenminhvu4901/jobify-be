@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class UserProfileResource extends JsonResource
 {
     use UserResourceTrait;
+
     /**
      * Transform the resource into an array.
      *
@@ -20,7 +21,7 @@ class UserProfileResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'profile' => new ProfileResource($this->userProfile)
+            'profile' => new ProfileResource($this->userProfile),
         ];
     }
 }

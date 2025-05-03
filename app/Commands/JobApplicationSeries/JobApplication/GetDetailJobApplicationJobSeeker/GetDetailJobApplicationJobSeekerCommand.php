@@ -11,8 +11,7 @@ readonly class GetDetailJobApplicationJobSeekerCommand implements CommandInterfa
         public int $jobApplicationId,
         public int $userId,
         public int $jobListingId
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

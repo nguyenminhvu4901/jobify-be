@@ -167,9 +167,9 @@ return [
 
         'the_password_field_is_required_when_type_is_standard' => 'Trường password không được bỏ trống khi trường type là standard.',
         'the_name_field_is_required_when_type_is_standard' => 'Trường name không được bỏ trống khi trường type là standard.',
-        "invalid_content_type_value_please_choose_again" => 'Sai giá trị trường Content type, vui lòng chọn lại.',
-        "invalid_attachment" => 'Sai giá trị trường tài nguyên, vui lòng chọn lại.',
-        "invalid_attachment_duplicate" => 'Giá trị trường tài nguyên đang bị trùng, vui lòng chọn lại.',
+        'invalid_content_type_value_please_choose_again' => 'Sai giá trị trường Content type, vui lòng chọn lại.',
+        'invalid_attachment' => 'Sai giá trị trường tài nguyên, vui lòng chọn lại.',
+        'invalid_attachment_duplicate' => 'Giá trị trường tài nguyên đang bị trùng, vui lòng chọn lại.',
         'invalid_district_in_province' => 'Quận/Huyện được chọn không thuộc tỉnh/thành phố được chọn!',
         'invalid_ward_in_district' => 'Phường/Xã được chọn không thuộc quận/huyện được chọn!',
         'company_id_user_id_mismatch' => 'Mã công ty và mã người dùng không khớp!',
@@ -177,10 +177,10 @@ return [
         'company_id_benefit_id_mismatch' => 'Mã công ty và mã phúc lợi không khớp!',
         'job_position_secondary_conflict' => 'Danh mục nghề phụ không được trùng với Danh mục nghề chính.',
         'salary_not_belongs_to_job' => 'Mức lương được chọn không thuộc về tin tuyển dụng đã chọn.',
-        'location_not_belongs_to_job' => "Địa điểm được chọn không thuộc tin tuyển dụng tương ứng.",
-        'contact_not_belongs_to_job' => "Thông tin liên hệ được chọn không thuộc tin tuyển dụng tương ứng.",
-        'job_listing_detail_not_belongs_to_job' => "Thông tin chi tiết không khớp với tin tuyển dụng tương ứng.",
-        'job_listing_detail_not_belongs_to_company' => "Chi tiết bài đăng tuyển dụng không thuộc về công ty đã chọn.",
+        'location_not_belongs_to_job' => 'Địa điểm được chọn không thuộc tin tuyển dụng tương ứng.',
+        'contact_not_belongs_to_job' => 'Thông tin liên hệ được chọn không thuộc tin tuyển dụng tương ứng.',
+        'job_listing_detail_not_belongs_to_job' => 'Thông tin chi tiết không khớp với tin tuyển dụng tương ứng.',
+        'job_listing_detail_not_belongs_to_company' => 'Chi tiết bài đăng tuyển dụng không thuộc về công ty đã chọn.',
         'job_application_not_found' => 'Không tìm thấy đơn ứng tuyển tương ứng.',
         'job_application_status_not_belongs_to_application' => 'Trạng thái đơn ứng tuyển không thuộc về đơn ứng tuyển đã chọn.',
     ],
@@ -196,7 +196,7 @@ return [
     |
     */
 
-    'attributes' => collect(glob(__DIR__ . '/attributes/*.php'))
+    'attributes' => collect(glob(__DIR__.'/attributes/*.php'))
         ->mapWithKeys(fn ($file) => require $file)
         ->toArray(),
 ];

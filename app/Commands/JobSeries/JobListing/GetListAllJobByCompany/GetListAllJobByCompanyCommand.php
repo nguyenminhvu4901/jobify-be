@@ -9,8 +9,7 @@ readonly class GetListAllJobByCompanyCommand implements CommandInterface
 {
     public function __construct(
         public int $companyId
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

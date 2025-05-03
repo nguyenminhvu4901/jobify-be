@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CurrentUserActivityResource extends JsonResource
 {
     use UserResourceTrait;
+
     /**
      * Transform the resource into an array.
      *
@@ -20,7 +21,7 @@ class CurrentUserActivityResource extends JsonResource
         return [
             ...$this->userData(),
             'roles' => RoleResource::collection($this->roles),
-            'activities' => UserActivityNoUserDataResource::collection($this->userActivities)
+            'activities' => UserActivityNoUserDataResource::collection($this->userActivities),
         ];
     }
 }

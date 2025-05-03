@@ -8,14 +8,13 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int $code
  * @property string $province_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Province newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Province newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Province query()
@@ -25,16 +24,18 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Province whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Province whereProvinceName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Province whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Province extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory;
+    use HasFactory;
+    use TransformableTrait;
 
     protected $table = 'provinces';
 
     public const FILLABLE_FIELDS = [
         'code',
-        'province_name'
+        'province_name',
     ];
 }

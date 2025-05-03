@@ -9,25 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait JobSalaryRelationship
 {
-    /**
-     * @return BelongsTo
-     */
     public function jobListing(): BelongsTo
     {
         return $this->belongsTo(JobListing::class, 'job_listing_id', 'id');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function jobSalaryType(): BelongsTo
     {
         return $this->belongsTo(JobSalaryType::class, 'job_salary_type_id', 'id');

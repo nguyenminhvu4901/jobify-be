@@ -9,6 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class CompanyAvatarRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,7 +27,7 @@ class CompanyAvatarRequest extends FormRequest
     {
         return [
             'company_id' => ['bail', 'required', 'integer', 'exists:companies,id'],
-            'avatar' => ['bail', 'nullable']
+            'avatar' => ['bail', 'nullable'],
         ];
     }
 
@@ -37,7 +38,7 @@ class CompanyAvatarRequest extends FormRequest
         });
 
         $validator->sometimes('avatar', ['string'], function ($input) {
-            return !request()->hasFile('avatar');
+            return ! request()->hasFile('avatar');
         });
     }
 }

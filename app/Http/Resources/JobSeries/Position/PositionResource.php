@@ -17,7 +17,7 @@ class PositionResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'children' => PositionResource::collection($this->children)
+            'children' => PositionResource::collection($this->children),
         ];
     }
 }

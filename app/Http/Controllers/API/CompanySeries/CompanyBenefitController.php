@@ -17,19 +17,11 @@ use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class CompanyBenefitController extends Controller
 {
-    /**
-     * @param CommandBusInterface $bus
-     */
     public function __construct(
         protected CommandBusInterface $bus
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param CompanyBenefitRequest $request
-     * @return JsonResponse
-     */
     public function getListCompanyBenefit(CompanyBenefitRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -39,7 +31,7 @@ class CompanyBenefitController extends Controller
 
         $result = $this->bus->dispatch(GetListCompanyBenefitCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message'],
@@ -54,10 +46,6 @@ class CompanyBenefitController extends Controller
         );
     }
 
-    /**
-     * @param CompanyBenefitRequest $request
-     * @return JsonResponse
-     */
     public function storeCompanyBenefit(CompanyBenefitRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -67,7 +55,7 @@ class CompanyBenefitController extends Controller
 
         $result = $this->bus->dispatch(StoreCompanyBenefitCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message']
@@ -81,10 +69,6 @@ class CompanyBenefitController extends Controller
         );
     }
 
-    /**
-     * @param CompanyBenefitRequest $request
-     * @return JsonResponse
-     */
     public function updateCompanyBenefit(CompanyBenefitRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -94,7 +78,7 @@ class CompanyBenefitController extends Controller
 
         $result = $this->bus->dispatch(UpdateCompanyBenefitCommand::withForm($request));
 
-        if(!empty($result['data'])){
+        if (! empty($result['data'])) {
             return $this->responseSuccess(
                 data: $result['data'],
                 message: $result['message']
@@ -108,10 +92,6 @@ class CompanyBenefitController extends Controller
         );
     }
 
-    /**
-     * @param CompanyBenefitRequest $request
-     * @return JsonResponse
-     */
     public function destroyCompanyBenefit(CompanyBenefitRequest $request): JsonResponse
     {
         $this->bus->addHandler(
@@ -121,7 +101,7 @@ class CompanyBenefitController extends Controller
 
         $result = $this->bus->dispatch(DestroyCompanyBenefitCommand::withForm($request));
 
-        if(!empty($result['companyBenefitDestroy'])){
+        if (! empty($result['companyBenefitDestroy'])) {
             return $this->responseSuccessWithNoData(message: $result['message']);
         }
 

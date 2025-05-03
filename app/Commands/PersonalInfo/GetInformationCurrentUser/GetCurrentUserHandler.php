@@ -10,38 +10,32 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCurrentUserHandler
 {
-    /**
-     * @param UserRepository $userRepository
-     */
     public function __construct(
         protected UserRepository $userRepository
-    )
-    {}
+    ) {
+    }
 
-    /**
-     * @return array
-     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([UserProfileEnum::TAG_NAME->value])
                 ->has(
-                    UserProfileEnum::INFORMATION_CURRENT_USER->value .
+                    UserProfileEnum::INFORMATION_CURRENT_USER->value.
                     auth()?->user()?->id
                 );
 
             $userProfile = Cache::tags([UserProfileEnum::TAG_NAME->value])->remember(
-                UserProfileEnum::INFORMATION_CURRENT_USER->value . auth()?->user()?->id,
+                UserProfileEnum::INFORMATION_CURRENT_USER->value.auth()?->user()?->id,
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userRepository->findWithRelationships(
+                fn () => $this->userRepository->findWithRelationships(
                     auth()?->user()?->id,
                     [
-                        'userProfile.gender', 'status'
+                        'userProfile.gender', 'status',
                     ]
                 )
             );
 
-            if(!empty($userProfile)){
+            if (! empty($userProfile)) {
                 return [
                     'data' => CurrentUserInfoResource::make($userProfile),
                     'message' => __('messages.profile.user_get_profile_success'),
@@ -52,10 +46,10 @@ class GetCurrentUserHandler
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

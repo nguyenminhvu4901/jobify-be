@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserProjectHandle
 {
-    /**
-     * @param UserProjectRepository $userProjectRepository
-     */
     public function __construct(
         protected UserProjectRepository $userProjectRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetCompleteListOfUserProjectCommand $command
-     * @return array
-     */
     public function handle(GetCompleteListOfUserProjectCommand $command): array
     {
         try {
@@ -40,9 +32,9 @@ class GetCompleteListOfUserProjectHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userProjectRepository->cursorPaginateWithRelationship(
+                fn () => $this->userProjectRepository->cursorPaginateWithRelationship(
                     relationship: ['userProjectResources.contentType', 'user'],
-                    limit:  $command->limit
+                    limit: $command->limit
                 )
             );
 
@@ -50,12 +42,12 @@ class GetCompleteListOfUserProjectHandle
                 'data' => UserProjectResource::collection($userProjects),
                 'message' => __('messages.profile.user_get_profile_success'),
                 'cache' => $cache,
-                'pagination' => formatCursorPaginationData($userProjects ?? [])
+                'pagination' => formatCursorPaginationData($userProjects ?? []),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

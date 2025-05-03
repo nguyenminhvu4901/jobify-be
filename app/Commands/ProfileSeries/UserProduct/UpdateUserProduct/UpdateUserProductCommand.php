@@ -14,10 +14,9 @@ readonly class UpdateUserProductCommand implements CommandInterface
         public string $name,
         public string $category,
         public string $finishedDate,
-        public string|null $description,
-        public array|null  $attachments
-    )
-    {
+        public ?string $description,
+        public ?array $attachments
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

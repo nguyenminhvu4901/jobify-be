@@ -3,19 +3,14 @@
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-if (!function_exists('formatDateTime')) {
-    /**
-     *
-     * @param string|null $datetime
-     * @return ?string
-     */
+if (! function_exists('formatDateTime')) {
     function formatDateTime(?string $datetime): ?string
     {
         if (empty($datetime)) {
             return null;
         }
 
-        if (!Carbon::hasFormatWithModifiers($datetime, 'Y-m-d H:i:s')) {
+        if (! Carbon::hasFormatWithModifiers($datetime, 'Y-m-d H:i:s')) {
             return null;
         }
 
@@ -23,12 +18,7 @@ if (!function_exists('formatDateTime')) {
     }
 }
 
-if (!function_exists('formatDate')) {
-    /**
-     *
-     * @param string|null $date
-     * @return ?string
-     */
+if (! function_exists('formatDate')) {
     function formatDate(?string $date): ?string
     {
         if (empty($date)) {
@@ -43,13 +33,9 @@ if (!function_exists('formatDate')) {
     }
 }
 
-
-if (!function_exists('addTimestamps')) {
+if (! function_exists('addTimestamps')) {
     /**
      * Add created_at and updated_at timestamps to an array or collection.
-     *
-     * @param array|Collection $data
-     * @return array
      */
     function addTimestamps(array|Collection $data): array
     {
@@ -61,4 +47,3 @@ if (!function_exists('addTimestamps')) {
         ]), $data);
     }
 }
-

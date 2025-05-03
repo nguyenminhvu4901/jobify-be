@@ -11,8 +11,7 @@ readonly class CheckDistrictByProvinceRule implements ValidationRule
 {
     public function __construct(
         protected string|int|null $provinceId
-    )
-    {
+    ) {
     }
 
     /**
@@ -26,7 +25,7 @@ readonly class CheckDistrictByProvinceRule implements ValidationRule
             ->whereProvinceId($this->provinceId)
             ->doesntExist();
 
-        if($checkDistrict){
+        if ($checkDistrict) {
             $fail(__('validation.custom.invalid_district_in_province'));
         }
     }

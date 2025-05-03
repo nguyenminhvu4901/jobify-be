@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -29,16 +28,15 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone_number');
 
-
             $table->date('applied_at')->comment('Ngày ứng tuyển')->default(now());
             $table->text('cover_letter')->comment('Thư giới thiệu đến nhà tuyển dụng')->nullable();
 
             $table->foreign('user_id')->references('id')
                 ->on('users')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
             $table->foreign('job_listing_id')->references('id')
                 ->on('job_listings')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
             $table->softDeletes();
@@ -69,7 +67,7 @@ return new class extends Migration
 
             $table->foreign('job_application_id')->references('id')
                 ->on('job_applications')
-                 ->nullOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });

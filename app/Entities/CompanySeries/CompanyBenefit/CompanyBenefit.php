@@ -12,8 +12,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $company_id
  * @property string $benefit_name
@@ -21,6 +19,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\CompanySeries\Company\Company|null $companies
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBenefit newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBenefit newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBenefit query()
@@ -34,11 +33,16 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBenefit whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBenefit whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanyBenefit withRelationships(array|string|null $relationships)
+ *
  * @mixin \Eloquent
  */
 class CompanyBenefit extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, CompanyBenefitRelationship, CompanyBenefitScope, BaseScopeTrait;
+    use BaseScopeTrait;
+    use CompanyBenefitRelationship;
+    use CompanyBenefitScope;
+    use HasFactory;
+    use TransformableTrait;
 
     /**
      * @var string
@@ -48,6 +52,6 @@ class CompanyBenefit extends BaseModel implements Transformable
     public const FILLABLE_FIELDS = [
         'company_id',
         'benefit_name',
-        'description'
+        'description',
     ];
 }

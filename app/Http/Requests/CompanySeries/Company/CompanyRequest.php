@@ -11,6 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class CompanyRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -31,7 +32,7 @@ class CompanyRequest extends FormRequest
         $commonRules = $this->getCommonRules();
 
         return match ($routeName) {
-            CompanyProfileEnum::PREFIX->value . CompanyProfileEnum::UPDATE_COMPANY_PROFILE->value => [
+            CompanyProfileEnum::PREFIX->value.CompanyProfileEnum::UPDATE_COMPANY_PROFILE->value => [
                 ...$commonRules,
                 'user_id' => ['bail', 'required', 'integer', 'exists:users,id'],
                 'company_id' => [
@@ -39,7 +40,7 @@ class CompanyRequest extends FormRequest
                     'required',
                     'integer',
                     'exists:companies,id',
-                    new CompanyBelongsToUserRule($this->input('user_id'))
+                    new CompanyBelongsToUserRule($this->input('user_id')),
                 ],
             ],
 

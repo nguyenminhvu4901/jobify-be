@@ -11,8 +11,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên công ty
@@ -25,6 +23,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\ProfileSeries\UserExperienceResource\UserExperienceResource> $userExperienceResource
  * @property-read int|null $user_experience_resource_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperience newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperience newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperience query()
@@ -37,11 +36,15 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperience whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperience whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperience whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class UserExperience extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, UserExperienceRelationship, UserExperienceScope;
+    use HasFactory;
+    use TransformableTrait;
+    use UserExperienceRelationship;
+    use UserExperienceScope;
 
     protected $table = UserExperienceEnum::TABLE->value;
 
@@ -51,6 +54,6 @@ class UserExperience extends BaseModel implements Transformable
         'position',
         'is_working',
         'start_date',
-        'end_date'
+        'end_date',
     ];
 }

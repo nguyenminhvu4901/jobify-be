@@ -42,7 +42,7 @@ return [
         'agriculture_forestry_fisheries' => 'Agriculture, Forestry & Fisheries',
         'finance' => 'Finance',
         'general_trade' => 'General Trade',
-        'other' => 'Other Industries'
+        'other' => 'Other Industries',
     ],
 
     'description' => [
@@ -86,6 +86,6 @@ return [
         'farming_forestry_and_fishing_industries' => 'Farming, forestry, and fishing industries',
         'financial_management_and_investment_services' => 'Financial management and investment services',
         'wholesale_and_distributive_trade' => 'Wholesale and distributive trade',
-        'miscellaneous_and_unclassified_businesses' => 'Miscellaneous and unclassified businesses'
-    ]
+        'miscellaneous_and_unclassified_businesses' => 'Miscellaneous and unclassified businesses',
+    ],
 ];

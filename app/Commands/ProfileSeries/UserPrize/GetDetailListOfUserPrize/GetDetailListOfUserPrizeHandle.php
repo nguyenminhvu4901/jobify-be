@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserPrizeHandle
 {
-    /**
-     * @param UserPrizeRepository $userPrizeRepository
-     */
     public function __construct(
         protected UserPrizeRepository $userPrizeRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param GetDetailListOfUserPrizeCommand $command
-     * @return array
-     */
     public function handle(GetDetailListOfUserPrizeCommand $command): array
     {
         try {
@@ -40,27 +32,27 @@ class GetDetailListOfUserPrizeHandle
                         $command
                     ),
                     CacheTTL::REMEMBER->value,
-                    fn() => $this->userPrizeRepository->findWithRelationships(
+                    fn () => $this->userPrizeRepository->findWithRelationships(
                         $command->userPrizeId,
                         ['user', 'userPrizeResources.contentType']
                     )
                 );
 
-            if(empty($userPrize)){
+            if (empty($userPrize)) {
                 return [
-                    'message' => __('messages.profile.user_get_profile_error')
+                    'message' => __('messages.profile.user_get_profile_error'),
                 ];
             }
 
             return [
                 'data' => UserPrizeResource::make($userPrize),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

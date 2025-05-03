@@ -10,8 +10,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_id
  * @property string $name Tên giải thưởng
@@ -23,6 +21,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\ProfileSeries\UserPrizeResource\UserPrizeResource> $userPrizeResources
  * @property-read int|null $user_prize_resources_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrize newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrize newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrize query()
@@ -34,11 +33,14 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrize whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrize whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPrize whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class UserPrize extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, UserPrizeRelationship;
+    use HasFactory;
+    use TransformableTrait;
+    use UserPrizeRelationship;
 
     protected $table = UserPrizeEnum::TABLE->value;
 
@@ -47,6 +49,6 @@ class UserPrize extends BaseModel implements Transformable
         'name',
         'organization',
         'start_date',
-        'end_date'
+        'end_date',
     ];
 }

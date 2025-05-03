@@ -10,8 +10,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_id
  * @property string $position Chức vụ
@@ -22,6 +20,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\DefaultSeries\DefaultGender\DefaultGender|null $gender
  * @property-read \App\Models\User|null $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile query()
@@ -33,11 +32,14 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile wherePosition($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class UserProfile extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, UserProfileRelationship;
+    use HasFactory;
+    use TransformableTrait;
+    use UserProfileRelationship;
 
     protected $table = UserProfileEnum::TABLE->value;
 
@@ -46,6 +48,6 @@ class UserProfile extends BaseModel implements Transformable
         'position',
         'gender_id',
         'birth_date',
-        'description'
+        'description',
     ];
 }

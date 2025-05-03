@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 class CompanyBenefitRequest extends FormRequest
 {
     use FailedValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,22 +30,22 @@ class CompanyBenefitRequest extends FormRequest
     {
         $routeName = request()->route()->getName();
 
-        return match ($routeName){
-            CompanyBenefitEnum::PREFIX->value . CompanyBenefitEnum::LIST_COMPANY_BENEFIT->value => [
+        return match ($routeName) {
+            CompanyBenefitEnum::PREFIX->value.CompanyBenefitEnum::LIST_COMPANY_BENEFIT->value => [
                 'company_id' => [
                     'bail',
                     'required',
                     'integer',
-                    'exists:companies,id'
-                ]
-            ],
-            CompanyBenefitEnum::PREFIX->value . CompanyBenefitEnum::STORE_COMPANY_BENEFIT->value => [
-                ...$this->getCommonRules(),
-                'benefit_name' => [
-                    'bail', 'required', 'string', 'max:255', 'unique:company_benefits,benefit_name'
+                    'exists:companies,id',
                 ],
             ],
-            CompanyBenefitEnum::PREFIX->value . CompanyBenefitEnum::UPDATE_COMPANY_BENEFIT->value => [
+            CompanyBenefitEnum::PREFIX->value.CompanyBenefitEnum::STORE_COMPANY_BENEFIT->value => [
+                ...$this->getCommonRules(),
+                'benefit_name' => [
+                    'bail', 'required', 'string', 'max:255', 'unique:company_benefits,benefit_name',
+                ],
+            ],
+            CompanyBenefitEnum::PREFIX->value.CompanyBenefitEnum::UPDATE_COMPANY_BENEFIT->value => [
                 ...$this->getCommonRules(),
                 ...$this->getCommonRulesId(),
                 'benefit_name' => [
@@ -54,7 +55,7 @@ class CompanyBenefitRequest extends FormRequest
                     ),
                 ],
             ],
-            CompanyBenefitEnum::PREFIX->value . CompanyBenefitEnum::DESTROY_COMPANY_BENEFIT->value => [
+            CompanyBenefitEnum::PREFIX->value.CompanyBenefitEnum::DESTROY_COMPANY_BENEFIT->value => [
                 ...$this->getCommonRulesId(),
             ],
             default => []
@@ -64,13 +65,10 @@ class CompanyBenefitRequest extends FormRequest
     public function getCommonRules(): array
     {
         return [
-            'benefit_description' => ['bail', 'required', 'string', 'max:512']
+            'benefit_description' => ['bail', 'required', 'string', 'max:512'],
         ];
     }
 
-    /**
-     * @return array
-     */
     private function getCommonRulesId(): array
     {
         return [
@@ -78,15 +76,15 @@ class CompanyBenefitRequest extends FormRequest
                 'bail',
                 'required',
                 'integer',
-                'exists:company_benefits,id'
+                'exists:company_benefits,id',
             ],
             'company_id' => [
                 'bail',
                 'required',
                 'integer',
                 'exists:companies,id',
-                new CompanyBelongsToBenefitRule($this->input('company_benefit_id'))
-            ]
+                new CompanyBelongsToBenefitRule($this->input('company_benefit_id')),
+            ],
         ];
     }
 }

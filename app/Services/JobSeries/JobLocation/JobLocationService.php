@@ -10,35 +10,22 @@ class JobLocationService
 {
     public function __construct(
         protected JobLocationRepository $jobLocationRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param JobLocationData|array|null $storeJobLocationData
-     * @param int $jobListingId
-     * @return array
-     */
     public function storeJobLocations(
         JobLocationData|null|array $storeJobLocationData,
-        int                        $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         return $this->jobLocationRepository->insertTransaction(
             $this->jobLocationsArray($storeJobLocationData, $jobListingId)
         );
     }
 
-    /**
-     * @param JobLocationData|array|null $jobLocationData
-     * @param int $jobListingId
-     * @return void
-     */
     public function processUpsertJobLocations(
         JobLocationData|null|array $jobLocationData,
-        int                        $jobListingId
-    ): void
-    {
+        int $jobListingId
+    ): void {
         DB::beginTransaction();
 
         try {
@@ -47,11 +34,11 @@ class JobLocationService
             $idsDelete = $this->getJobLocationIdsToDel($jobLocationData, $jobListingId);
             $this->destroyJobLocations($idsDelete);
 
-            $jobLocationCollection->filter(fn($item) => !empty($item->jobLocationId))
-                ->each(fn($location) => $this->updateJobLocation($location, $jobListingId));
+            $jobLocationCollection->filter(fn ($item) => ! empty($item->jobLocationId))
+                ->each(fn ($location) => $this->updateJobLocation($location, $jobListingId));
 
             $jobLocationsToInsert = $jobLocationCollection
-                ->filter(fn($item) => empty($item->jobLocationId))
+                ->filter(fn ($item) => empty($item->jobLocationId))
                 ->values();
 
             if ($jobLocationsToInsert->isNotEmpty()) {
@@ -59,57 +46,40 @@ class JobLocationService
             }
 
             DB::commit();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
         }
     }
 
-    /**
-     * @param JobLocationData|array|null $JobLocationData
-     * @param int $jobListingId
-     * @return array
-     */
     private function updateJobLocation(
         JobLocationData|null|array $JobLocationData,
-        int                        $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         return $this->jobLocationRepository->updateDataWithTransaction(
             $this->jobLocations($JobLocationData, $jobListingId),
             $JobLocationData->jobLocationId
         );
     }
 
-    /**
-     * @param array $jobLocationIds
-     * @return array
-     */
     public function destroyJobLocations(
         array $jobLocationIds
-    ): array
-    {
+    ): array {
         return $this->jobLocationRepository->massDeleteTransaction('id', $jobLocationIds);
     }
 
-    /**
-     * @param JobLocationData|array|null $jobLocationData
-     * @param int $jobListingId
-     * @return array
-     */
     private function jobLocationsArray(
         JobLocationData|array|null $jobLocationData,
-        int                        $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         $jobLocationArray = [];
 
-        if(!empty($jobLocationData)){
+        if (! empty($jobLocationData)) {
 
-            foreach ($jobLocationData as $data){
+            foreach ($jobLocationData as $data) {
                 $jobLocationArray[] = [
                     ...$this->jobLocations($data, $jobListingId),
                     'created_at' => now(),
-                    'updated_at' => now()
+                    'updated_at' => now(),
                 ];
             }
         }
@@ -117,16 +87,10 @@ class JobLocationService
         return $jobLocationArray;
     }
 
-    /**
-     * @param JobLocationData|array|null $jobLocationData
-     * @param int $jobListingId
-     * @return array
-     */
     private function jobLocations(
         JobLocationData|array|null $jobLocationData,
-        int                        $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         return [
             'job_listing_id' => $jobListingId,
             'branch_name' => $jobLocationData->branchName,
@@ -137,16 +101,10 @@ class JobLocationService
         ];
     }
 
-    /**
-     * @param JobLocationData|array|null $jobLocationData
-     * @param int $jobListingId
-     * @return array
-     */
     private function getJobLocationIdsToDel(
         JobLocationData|null|array $jobLocationData,
-        int                        $jobListingId
-    ): array
-    {
+        int $jobListingId
+    ): array {
         $jobLocationIdsRq = collect($jobLocationData)->pluck('jobLocationId')->filter()->values();
 
         $jobLocationIdsDB = $this->jobLocationRepository->getJobLocationIdsByJobListingId($jobListingId);

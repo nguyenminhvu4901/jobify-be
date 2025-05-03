@@ -7,19 +7,12 @@ use Illuminate\Support\Str;
 
 trait ImageHandler
 {
-    /**
-     * @param $file
-     * @param $path
-     * @param $user
-     * @return string|null
-     */
-    public function storeImage($file, $path, $user): string|null
+    public function storeImage($file, $path, $user): ?string
     {
-        if($file)
-        {
+        if ($file) {
             $prefixEmail = extractEmailPrefix($user->email);
 
-            $fileName = $prefixEmail . '-' . Str::random(50).'.'.$file->extension();
+            $fileName = $prefixEmail.'-'.Str::random(50).'.'.$file->extension();
 
             $file->storeAs('public/'.$path.'/'.$fileName);
 
@@ -29,13 +22,6 @@ trait ImageHandler
         return null;
     }
 
-    /**
-     * @param $file
-     * @param $path
-     * @param $oldPath
-     * @param $user
-     * @return string|null
-     */
     public function updateImage($file, $path, $oldPath, $user): ?string
     {
         $this->deleteImage($oldPath);
@@ -43,15 +29,11 @@ trait ImageHandler
         return $this->storeImage($file, $path, $user);
     }
 
-    /**
-     * @param $absolutePath
-     * @return bool
-     */
     public function deleteImage($absolutePath): bool
     {
         $urlAvatarDefault = asset(config('constants.default_avatar'));
 
-        if($absolutePath == $urlAvatarDefault) {
+        if ($absolutePath == $urlAvatarDefault) {
             return true;
         }
 

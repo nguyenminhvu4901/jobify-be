@@ -10,13 +10,9 @@ use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserProductByUserSlugHandle
 {
-    /**
-     * @param UserProductRepository $userProductRepository
-     */
     public function __construct(
         protected UserProductRepository $userProductRepository
-    )
-    {
+    ) {
     }
 
     public function handle(GetDetailListOfUserProductByUserSlugCommand $command): array
@@ -35,7 +31,7 @@ class GetDetailListOfUserProductByUserSlugHandle
                     $command
                 ),
                 CacheTTL::REMEMBER->value,
-                fn() => $this->userProductRepository->getByRelationshipUserSlug(
+                fn () => $this->userProductRepository->getByRelationshipUserSlug(
                     $command->userSlug,
                     ['userProductResources.contentType', 'user']
                 )
@@ -44,13 +40,13 @@ class GetDetailListOfUserProductByUserSlugHandle
             return [
                 'data' => UserProductResource::collection($userProduct),
                 'message' => __('messages.profile.user_get_profile_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_get_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

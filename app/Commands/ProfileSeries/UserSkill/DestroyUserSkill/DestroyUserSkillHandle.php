@@ -7,19 +7,11 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserSkillHandle
 {
-    /**
-     * @param UserSkillRepository $userSkillRepository
-     */
     public function __construct(
         protected UserSkillRepository $userSkillRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param DestroyUserSkillCommand $command
-     * @return array
-     */
     public function handle(DestroyUserSkillCommand $command): array
     {
         try {
@@ -28,10 +20,10 @@ class DestroyUserSkillHandle
                 idColumn: $command->userSkillId
             );
 
-            if (!$userSkill) {
+            if (! $userSkill) {
                 return [
                     'message' => __('messages.response.resource_not_found'),
-                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND,
                 ];
             }
 
@@ -40,21 +32,21 @@ class DestroyUserSkillHandle
             if ($result['success']) {
                 return [
                     'userSkillDestroy' => $result['success'],
-                    'message' => __('messages.profile.user_destroy_profile_success')
+                    'message' => __('messages.profile.user_destroy_profile_success'),
                 ];
             }
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $result['error'] ?? null,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $e,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
         }
     }

@@ -32,9 +32,9 @@ use App\Observers\Profile\UserCourseObserver;
 use App\Observers\Profile\UserEducationObserver;
 use App\Observers\Profile\UserExperienceObserver;
 use App\Observers\Profile\UserLocationObserver;
+use App\Observers\Profile\UserObserver;
 use App\Observers\Profile\UserPrizeObserver;
 use App\Observers\Profile\UserProductObserver;
-use App\Observers\Profile\UserObserver;
 use App\Observers\Profile\UserProjectObserver;
 use App\Observers\Profile\UserSkillObserver;
 use Illuminate\Support\ServiceProvider;
@@ -60,7 +60,7 @@ class ObserverServiceProvider extends ServiceProvider
         JobListing::class => JobListingObserver::class,
         JobListingDetail::class => JobListingObserver::class,
         JobApplication::class => JobApplicationObserver::class,
-        JobApplicationStatus::class => JobApplicationObserver::class
+        JobApplicationStatus::class => JobApplicationObserver::class,
     ];
 
     /**

@@ -10,12 +10,11 @@ readonly class StoreUserPrizeCommand implements CommandInterface
 {
     public function __construct(
         public string $name,
-        public string|null $organization,
+        public ?string $organization,
         public string $startDate,
-        public string|null $endDate,
-        public array|null  $attachments
-    )
-    {
+        public ?string $endDate,
+        public ?array $attachments
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

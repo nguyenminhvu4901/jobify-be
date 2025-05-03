@@ -12,9 +12,8 @@ readonly class UpdateUserLocationCommand implements CommandInterface
         public string|int|null $provinceId,
         public string|int|null $districtId,
         public string|int|null $wardId,
-        public string|null $address,
-    )
-    {
+        public ?string $address,
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

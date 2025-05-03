@@ -10,22 +10,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AttachmentResourceService
 {
-    use ImageHandler, VideoHandler;
+    use ImageHandler;
+    use VideoHandler;
 
-    /**
-     * @param FormRequest $request
-     * @param string $idName
-     * @return array
-     */
     public static function handleAttachments(FormRequest $request, string $idName): array
     {
         return collect($request->get('attachments', []))
             ->map(function ($attachment, $key) use ($request, $idName) {
                 switch ($attachment['content_type_id']) {
                     case DefaultContentType::IMAGE->value:
-                        if(!empty($attachment['image']) && is_string($attachment['image'])){
+                        if (! empty($attachment['image']) && is_string($attachment['image'])) {
                             $content = $request->input("attachments.$key.image");
-                        }else{
+                        } else {
                             $content = $request->file("attachments.$key.image");
                         }
 
@@ -35,9 +31,9 @@ class AttachmentResourceService
 
                         break;
                     case DefaultContentType::VIDEO->value:
-                        if(!empty($attachment['video']) && is_string($attachment['video'])){
+                        if (! empty($attachment['video']) && is_string($attachment['video'])) {
                             $content = $request->input("attachments.$key.video");
-                        }else{
+                        } else {
                             $content = $request->file("attachments.$key.video");
                         }
 
@@ -67,25 +63,15 @@ class AttachmentResourceService
             ->toArray();
     }
 
-    /**
-     * @param $attachmentResource
-     * @return void
-     */
     public function deleteFileAttachment($attachmentResource): void
     {
         if ($attachmentResource->content_type_id == DefaultContentType::IMAGE->value) {
             $this->deleteImage($attachmentResource->path);
-        }elseif ($attachmentResource->content_type_id == DefaultContentType::VIDEO->value) {
+        } elseif ($attachmentResource->content_type_id == DefaultContentType::VIDEO->value) {
             $this->deleteVideo($attachmentResource->path);
         }
     }
 
-    /**
-     * @param $attachments
-     * @param $userModelResource
-     * @param $idName
-     * @return array
-     */
     public function getListRedundantIdsToDelete($attachments, $userModelResource, $idName): array
     {
         $attachmentIds = getFilterCollectionIds($attachments, $idName);
@@ -94,10 +80,7 @@ class AttachmentResourceService
         return getElementsNotInFirstCollection($attachmentIds, $userModelResourceIds)->toArray();
     }
 
-
     /**
-     * @param array $attachment
-     * @param string $lastFolderName
      * @return mixed|string|null
      */
     public function saveFileAttachment(array $attachment, string $lastFolderName): mixed
@@ -105,14 +88,14 @@ class AttachmentResourceService
         $user = auth()->user();
 
         if ($attachment['content_type_id'] == DefaultContentType::IMAGE->value) {
-            $path = 'images/profiles/' . extractEmailPrefix($user->email) . '/' . $lastFolderName;
+            $path = 'images/profiles/'.extractEmailPrefix($user->email).'/'.$lastFolderName;
             $pathStorage = $this->storeImage($attachment['content'], $path, $user);
 
         } elseif ($attachment['content_type_id'] == DefaultContentType::URL->value) {
             $pathStorage = $attachment['content'];
 
         } elseif ($attachment['content_type_id'] == DefaultContentType::VIDEO->value) {
-            $path = 'videos/profiles/' . extractEmailPrefix($user->email) . '/' . '/' . $lastFolderName;
+            $path = 'videos/profiles/'.extractEmailPrefix($user->email).'/'.'/'.$lastFolderName;
             $pathStorage = $this->storeVideo($attachment['content'], $path, $user);
 
         } else {

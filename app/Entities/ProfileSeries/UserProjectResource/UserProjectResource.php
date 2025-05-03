@@ -9,8 +9,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_project_id
  * @property string $title Tiêu đề
@@ -21,6 +19,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\DefaultSeries\DefaultContentType\DefaultContentType|null $contentType
  * @property-read \App\Entities\ProfileSeries\UserProject\UserProject|null $userProject
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProjectResource newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProjectResource newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProjectResource query()
@@ -32,11 +31,14 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProjectResource whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProjectResource whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProjectResource whereUserProjectId($value)
+ *
  * @mixin \Eloquent
  */
 class UserProjectResource extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, UserProjectResourceRelationship;
+    use HasFactory;
+    use TransformableTrait;
+    use UserProjectResourceRelationship;
 
     protected $table = 'user_project_resources';
 
@@ -45,6 +47,6 @@ class UserProjectResource extends BaseModel implements Transformable
         'title',
         'path',
         'description',
-        'content_type_id'
+        'content_type_id',
     ];
 }

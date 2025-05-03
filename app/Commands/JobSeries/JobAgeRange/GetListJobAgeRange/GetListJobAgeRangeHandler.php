@@ -10,41 +10,35 @@ use Illuminate\Support\Facades\Cache;
 
 class GetListJobAgeRangeHandler
 {
-    /**
-     * @param JobAgeRangeRepository $jobAgeRangeRepository
-     */
     public function __construct(
         protected JobAgeRangeRepository $jobAgeRangeRepository
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return array
-     */
     public function handle(): array
     {
         try {
             $cache = Cache::tags([JobAgeRangeEnum::TAG_NAME->value])->has(
-                JobAgeRangeEnum::LIST_ALL_JOB_AGE_RANGE->value);
+                JobAgeRangeEnum::LIST_ALL_JOB_AGE_RANGE->value
+            );
 
             $jobAgeRanges = Cache::tags([JobAgeRangeEnum::TAG_NAME->value])
                 ->remember(
                     JobAgeRangeEnum::LIST_ALL_JOB_AGE_RANGE->value,
                     CacheTTL::HARD->value,
-                    fn() => $this->jobAgeRangeRepository->get()
+                    fn () => $this->jobAgeRangeRepository->get()
                 );
 
             return [
                 'data' => JobAgeRangeResource::collection($jobAgeRanges),
                 'message' => __('messages.job.job_get_info_success'),
-                'cache' => $cache
+                'cache' => $cache,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.job.job_get_info_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }

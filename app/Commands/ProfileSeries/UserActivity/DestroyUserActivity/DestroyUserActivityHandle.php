@@ -9,23 +9,13 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class DestroyUserActivityHandle
 {
-    /**
-     * @param UserActivityRepository $userActivityRepository
-     * @param UserActivityResourceRepository $userActivityResourceRepository
-     * @param AttachmentResourceService $attachmentResourceService
-     */
     public function __construct(
         protected UserActivityRepository $userActivityRepository,
         protected UserActivityResourceRepository $userActivityResourceRepository,
         protected AttachmentResourceService $attachmentResourceService
-    )
-    {
+    ) {
     }
 
-    /**
-     * @param DestroyUserActivityCommand $command
-     * @return array
-     */
     public function handle(DestroyUserActivityCommand $command): array
     {
         try {
@@ -35,10 +25,10 @@ class DestroyUserActivityHandle
                 relationship: 'userActivityResources'
             );
 
-            if (!$userActivity) {
+            if (! $userActivity) {
                 return [
                     'message' => __('messages.response.resource_not_found'),
-                    'status_code' => ResponseAlias::HTTP_NOT_FOUND
+                    'status_code' => ResponseAlias::HTTP_NOT_FOUND,
                 ];
             }
 
@@ -61,14 +51,14 @@ class DestroyUserActivityHandle
             return [
                 'message' => $result['message'] ?? __('messages.profile.user_destroy_profile_error'),
                 'error' => $result['error'] ?? null,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_destroy_profile_error'),
                 'error' => $e,
-                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR
+                'status_code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
             ];
         }
     }

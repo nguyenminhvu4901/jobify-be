@@ -9,8 +9,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_experience_id
  * @property string $title Tiêu đề
@@ -21,6 +19,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Entities\DefaultSeries\DefaultContentType\DefaultContentType|null $contentType
  * @property-read \App\Entities\ProfileSeries\UserExperience\UserExperience|null $userExperience
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperienceResource newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperienceResource newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperienceResource query()
@@ -32,11 +31,14 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperienceResource whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperienceResource whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserExperienceResource whereUserExperienceId($value)
+ *
  * @mixin \Eloquent
  */
 class UserExperienceResource extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, UserExperienceResourceRelationship;
+    use HasFactory;
+    use TransformableTrait;
+    use UserExperienceResourceRelationship;
 
     protected $table = 'user_experience_resources';
 
@@ -45,6 +47,6 @@ class UserExperienceResource extends BaseModel implements Transformable
         'title',
         'path',
         'description',
-        'content_type_id'
+        'content_type_id',
     ];
 }

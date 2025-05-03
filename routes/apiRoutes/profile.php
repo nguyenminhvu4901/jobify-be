@@ -28,13 +28,14 @@ Route::group(
     [
         'middleware' => ['api', 'auth', 'throttle:rateLimit'],
         'prefix' => 'profile',
-        'as' => 'profile.'
-    ], function () {
+        'as' => 'profile.',
+    ],
+    function () {
         Route::get('/current-user', [PersonalInfoController::class, 'getInformationCurrentUser'])
-        ->name(UserProfileEnum::INFORMATION_CURRENT_USER->value);
+            ->name(UserProfileEnum::INFORMATION_CURRENT_USER->value);
 
         Route::get('/information-cv-current-user', [PersonalInfoController::class, 'getInformationCVCurrentUser'])
-        ->name(UserProfileEnum::INFORMATION_CV_CURRENT_USER->value);
+            ->name(UserProfileEnum::INFORMATION_CV_CURRENT_USER->value);
 
         Route::post('update-personal-info', [PersonalInfoController::class, 'updateProfile'])
             ->name(UserProfileEnum::UPDATE_PROFILE->value);
@@ -42,7 +43,7 @@ Route::group(
         Route::post('upload-avatar', [PersonalInfoController::class, 'uploadAvatar'])
             ->name(UserProfileEnum::UPLOAD_AVATAR->value);
 
-        Route::group(['prefix' => 'user-experience', 'as' => 'userExperience.'], function() {
+        Route::group(['prefix' => 'user-experience', 'as' => 'userExperience.'], function () {
             Route::post('/', [UserExperienceController::class, 'store'])
                 ->name(UserExperienceEnum::STORE->value);
 
@@ -66,7 +67,7 @@ Route::group(
                 ->name(UserExperienceEnum::DESTROY->value);
         });
 
-        Route::group(['prefix' => 'user-certification', 'as' => 'userCertification.'], function (){
+        Route::group(['prefix' => 'user-certification', 'as' => 'userCertification.'], function () {
             Route::get('/list-certification-current-user', [UserCertificationController::class,
                 'getListCertificationCurrentUser'])
                 ->name(UserCertificationEnum::LIST_CERTIFICATION_CURRENT_USER->value);
@@ -93,7 +94,7 @@ Route::group(
                 ->name(UserCertificationEnum::DESTROY->value);
         });
 
-        Route::group(['prefix' => 'user-education', 'as' => 'userEducation.'], function() {
+        Route::group(['prefix' => 'user-education', 'as' => 'userEducation.'], function () {
             Route::get('/list-education-current-user', [UserEducationController::class,
                 'getListEducationCurrentUser'])->name(UserEducationEnum::LIST_EDUCATION_CURRENT_USER->value);
 
@@ -119,13 +120,13 @@ Route::group(
                 ->name(UserEducationEnum::DESTROY->value);
         });
 
-        Route::group(['prefix' => 'user-skill', 'as' => 'userSkill.'], function() {
+        Route::group(['prefix' => 'user-skill', 'as' => 'userSkill.'], function () {
             Route::get('/list-skill-current-user', [UserSkillController::class,
                 'getListSkillCurrentUser'])
                 ->name(UserSkillEnum::LIST_SKILL_CURRENT_USER->value);
 
-           Route::post('/', [UserSkillController::class, 'store'])
-               ->name(UserSkillEnum::STORE->value);
+            Route::post('/', [UserSkillController::class, 'store'])
+                ->name(UserSkillEnum::STORE->value);
 
             Route::get('/complete-list-user-skill', [UserSkillController::class,
                 'getCompleteListOfUserSkill'])
@@ -167,7 +168,7 @@ Route::group(
             Route::delete('/', [UserCourseController::class, 'destroy'])->name(UserCourseEnum::DESTROY->value);
         });
 
-        Route::group(['prefix' => 'user-project', 'as' => 'userProject.'], function() {
+        Route::group(['prefix' => 'user-project', 'as' => 'userProject.'], function () {
             Route::get('/list-project-current-user', [UserProjectController::class,
                 'getListProjectCurrentUser'])
                 ->name(UserProjectEnum::LIST_PROJECT_CURRENT_USER->value);
@@ -194,7 +195,7 @@ Route::group(
                 ->name(UserProjectEnum::DESTROY->value);
         });
 
-        Route::group(['prefix' => 'user-prize', 'as' => 'userPrize.'], function() {
+        Route::group(['prefix' => 'user-prize', 'as' => 'userPrize.'], function () {
             Route::get('/list-prize-current-user', [UserPrizeController::class,
                 'getListPrizeCurrentUser'])
                 ->name(UserPrizeEnum::LIST_PRIZE_CURRENT_USER->value);
@@ -221,7 +222,7 @@ Route::group(
                 ->name(UserPrizeEnum::DESTROY->value);
         });
 
-        Route::group(['prefix' => 'user-product', 'as' => 'userProduct.'], function() {
+        Route::group(['prefix' => 'user-product', 'as' => 'userProduct.'], function () {
             Route::get('/list-product-current-user', [UserProductController::class,
                 'getListProductCurrentUser'])
                 ->name(UserProductEnum::LIST_PRODUCT_CURRENT_USER->value);
@@ -248,7 +249,7 @@ Route::group(
                 ->name(UserProductEnum::DESTROY->value);
         });
 
-        Route::group(['prefix' => 'user-activity', 'as' => 'userActivity.'], function() {
+        Route::group(['prefix' => 'user-activity', 'as' => 'userActivity.'], function () {
 
             Route::get('/list-activity-current-user', [UserActivityController::class,
                 'getListActivityCurrentUser'])
@@ -276,7 +277,7 @@ Route::group(
                 ->name(UserActivityEnum::DESTROY->value);
         });
 
-        Route::group(['prefix' => 'user-location', 'as' => 'userLocation.'], function(){
+        Route::group(['prefix' => 'user-location', 'as' => 'userLocation.'], function () {
             Route::get('/list-location-current-user', [UserLocationController::class,
                 'getListLocationCurrentUser'])
                 ->name(UserLocationEnum::LIST_LOCATION_CURRENT_USER->value);
@@ -302,6 +303,5 @@ Route::group(
             Route::delete('/', [UserLocationController::class, 'destroy'])
                 ->name(UserLocationEnum::DESTROY->value);
         });
-});
-
-
+    }
+);

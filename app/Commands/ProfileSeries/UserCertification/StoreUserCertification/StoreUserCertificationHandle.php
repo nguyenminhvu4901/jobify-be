@@ -8,20 +8,12 @@ use App\Services\ProfileSeries\UserCertification\UserCertificationService;
 
 class StoreUserCertificationHandle
 {
-    /**
-     * @param UserCertificationRepository $userCertificationRepository
-     * @param UserCertificationService $userCertificationService
-     */
     public function __construct(
         protected UserCertificationRepository $userCertificationRepository,
         protected UserCertificationService $userCertificationService
-    )
-    {}
+    ) {
+    }
 
-    /**
-     * @param StoreUserCertificationCommand $command
-     * @return array
-     */
     public function handle(StoreUserCertificationCommand $command): array
     {
         try {
@@ -29,23 +21,21 @@ class StoreUserCertificationHandle
                 $this->prepareUserActivityData($command)
             );
 
-            if(!$result['success']){
+            if (! $result['success']) {
 
                 return [
                     'message' => __('messages.profile.user_update_profile_error'),
-                    'error' => $result['error'] ?? null
+                    'error' => $result['error'] ?? null,
                 ];
             }
 
-            if(!empty($command->attachments))
-            {
+            if (! empty($command->attachments)) {
                 $attachments = $command->attachments;
 
-                foreach ($attachments as $attachment)
-                {
+                foreach ($attachments as $attachment) {
                     $pathStorage = $this->userCertificationService->saveAttachment($attachment);
 
-                    if(!empty($pathStorage)){
+                    if (! empty($pathStorage)) {
                         $this->userCertificationService->storeUserCertificationResource(
                             attachment: $attachment,
                             userCertificationId: $result['data']->id,
@@ -57,21 +47,17 @@ class StoreUserCertificationHandle
 
             return [
                 'data' => UserCertificationResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success')
+                'message' => __('messages.profile.user_update_profile_success'),
             ];
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return [
                 'message' => __('messages.profile.user_update_profile_error'),
-                'error' => $e
+                'error' => $e,
             ];
         }
     }
 
-    /**
-     * @param StoreUserCertificationCommand $command
-     * @return array
-     */
     private function prepareUserActivityData(StoreUserCertificationCommand $command): array
     {
         return [
@@ -79,8 +65,8 @@ class StoreUserCertificationHandle
             'name' => $command->name,
             'organization' => $command->organization,
             'is_no_expiration' => $command->isNoExpiration,
-            'start_date'=> $command->startDate,
-            'end_date' => $command->endDate
+            'start_date' => $command->startDate,
+            'end_date' => $command->endDate,
         ];
     }
 }

@@ -20,5 +20,5 @@ return [
     'company_benefits' => 'Phúc lợi công ty',
     'benefit_name' => 'Tên phúc lợi',
     'benefit_description' => 'Mô tả phúc lợi',
-    'company_benefit_id' => 'Mã phúc lợi công ty'
+    'company_benefit_id' => 'Mã phúc lợi công ty',
 ];

@@ -7,9 +7,6 @@ use App\Repositories\BaseRepository;
 
 class OperationTypeRepositoryEloquent extends BaseRepository implements OperationTypeRepository
 {
-    /**
-     * @return string
-     */
     public function model(): string
     {
         return OperationType::class;

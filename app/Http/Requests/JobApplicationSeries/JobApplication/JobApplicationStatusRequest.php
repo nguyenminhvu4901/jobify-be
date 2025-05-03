@@ -12,7 +12,9 @@ use Illuminate\Validation\Rule;
 
 class JobApplicationStatusRequest extends FormRequest
 {
-    use FailedValidation, NormalizeDateTrait;
+    use FailedValidation;
+    use NormalizeDateTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -33,24 +35,21 @@ class JobApplicationStatusRequest extends FormRequest
             'application_status_id' => ['bail', 'required', 'integer', 'exists:application_statuses,id'],
             'job_application_status_id' => [
                 'bail', 'required', 'integer', 'exists:job_application_status,id',
-                new JobApplicationBelongsToJobApplicationStatusRule($this->input('job_application_id'))
+                new JobApplicationBelongsToJobApplicationStatusRule($this->input('job_application_id')),
             ],
             'reject_reason' => [
                 'bail',
                 Rule::requiredIf(ApplicationStatusEnum::requiresRejectReason($this->input('application_status_id'))),
-                'nullable', 'string', 'max:512'
+                'nullable', 'string', 'max:512',
             ],
             'hired_at' => [
                 'bail',
                 Rule::requiredIf(ApplicationStatusEnum::requiresHiredAt($this->input('application_status_id'))),
-                'nullable', 'date'
-            ]
+                'nullable', 'date',
+            ],
         ];
     }
 
-    /**
-     * @return void
-     */
     protected function prepareForValidation(): void
     {
         $this->normalizeDateFields(['hired_at']);

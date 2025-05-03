@@ -27,7 +27,7 @@ class UserProjectNoUserDataResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'description' => $this->description,
-            'user_project_resource' => UserProjectAttachmentResource::collection($this->userProjectResources)
+            'user_project_resource' => UserProjectAttachmentResource::collection($this->userProjectResources),
         ];
     }
 }

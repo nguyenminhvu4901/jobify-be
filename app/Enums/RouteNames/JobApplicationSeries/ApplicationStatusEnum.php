@@ -40,11 +40,7 @@ enum ApplicationStatusEnum: string
 
     case REJECTED_AND_NOT_SUITABLE_VALUE = 'update reject_reason';
 
-    /**
-     * @param int|null $applicationStatusId
-     * @return bool
-     */
-    public static function requiresRejectReason(int|null $applicationStatusId): bool
+    public static function requiresRejectReason(?int $applicationStatusId): bool
     {
         return in_array($applicationStatusId, [
             ApplicationStatusEnum::REJECTED->value,
@@ -52,11 +48,7 @@ enum ApplicationStatusEnum: string
         ]);
     }
 
-    /**
-     * @param int|null $applicationStatusId
-     * @return bool
-     */
-    public static function requiresHiredAt(int|null $applicationStatusId): bool
+    public static function requiresHiredAt(?int $applicationStatusId): bool
     {
         return $applicationStatusId == ApplicationStatusEnum::HIRED->value;
     }

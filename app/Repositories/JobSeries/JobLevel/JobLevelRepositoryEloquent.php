@@ -7,9 +7,6 @@ use App\Repositories\BaseRepository;
 
 class JobLevelRepositoryEloquent extends BaseRepository implements JobLevelRepository
 {
-    /**
-     * @return string
-     */
     public function model(): string
     {
         return JobLevel::class;

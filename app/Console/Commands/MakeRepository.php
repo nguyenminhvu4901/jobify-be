@@ -2,22 +2,24 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Exception;
 
 class MakeRepository extends Command
 {
     protected $signature = 'make:repository {name}';
+
     protected $description = 'Create interface and Eloquent class for repository pattern';
 
     public function handle(): void
     {
         try {
-            $name = preg_replace('/[\/\\\\]+/', '/', trim($this->argument('name'), "/\\"));
+            $name = preg_replace('/[\/\\\\]+/', '/', trim($this->argument('name'), '/\\'));
 
-            if (!preg_match('/^[A-Za-z_][A-Za-z0-9_\/\\\\]*$/', $name)) {
+            if (! preg_match('/^[A-Za-z_][A-Za-z0-9_\/\\\\]*$/', $name)) {
                 $this->components->error("Invalid repository name: {$name}");
+
                 return;
             }
 
@@ -25,14 +27,14 @@ class MakeRepository extends Command
             $repositoryPath = app_path("Repositories/{$name}");
             $className = class_basename($name);
 
-            $namespace = "App\\Repositories\\" . str_replace('/', '\\', trim($name, "/\\"));
+            $namespace = 'App\\Repositories\\'.str_replace('/', '\\', trim($name, '/\\'));
 
-            if (!$filesystem->isDirectory($repositoryPath)) {
+            if (! $filesystem->isDirectory($repositoryPath)) {
                 $filesystem->makeDirectory($repositoryPath, 0755, true);
             }
 
             $interfacePath = "{$repositoryPath}/{$className}Repository.php";
-            if (!$filesystem->exists($interfacePath)) {
+            if (! $filesystem->exists($interfacePath)) {
 
                 $interfaceStub = <<<PHP
                 <?php
@@ -51,7 +53,7 @@ class MakeRepository extends Command
             }
 
             $eloquentPath = "{$repositoryPath}/{$className}RepositoryEloquent.php";
-            if (!$filesystem->exists($eloquentPath)) {
+            if (! $filesystem->exists($eloquentPath)) {
 
                 $eloquentStub = <<<PHP
                 <?php
@@ -69,13 +71,13 @@ class MakeRepository extends Command
                 }
                 PHP;
 
-               $filesystem->put($eloquentPath, $eloquentStub);
+                $filesystem->put($eloquentPath, $eloquentStub);
                 $this->components->info("Eloquent Repository [{$eloquentPath}] created successfully.");
             } else {
                 $this->components->error("Eloquent Repository [{$eloquentPath}] already exists.");
             }
         } catch (Exception $e) {
-            $this->components->error("An error occurred: " . $e->getMessage());
+            $this->components->error('An error occurred: '.$e->getMessage());
         }
     }
 }

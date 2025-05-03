@@ -7,28 +7,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class UpdateProfileCommand implements CommandInterface
 {
-    /**
-     * @param string|null $fullName
-     * @param string|null $phoneNumber
-     * @param string|null $position
-     * @param int|string|null $gender
-     * @param string|null $birthDate
-     * @param string|null $description
-     */
     public function __construct(
-        public ?string         $fullName,
-        public ?string         $phoneNumber,
-        public ?string         $position,
+        public ?string $fullName,
+        public ?string $phoneNumber,
+        public ?string $position,
         public int|string|null $gender,
-        public ?string         $birthDate,
-        public string|null     $description
-    )
-    {}
+        public ?string $birthDate,
+        public ?string $description
+    ) {
+    }
 
-    /**
-     * @param FormRequest $request
-     * @return CommandInterface
-     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         return new self(

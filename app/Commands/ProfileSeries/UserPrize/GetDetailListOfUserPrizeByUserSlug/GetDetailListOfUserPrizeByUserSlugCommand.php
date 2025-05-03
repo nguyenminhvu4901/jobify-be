@@ -9,8 +9,7 @@ readonly class GetDetailListOfUserPrizeByUserSlugCommand implements CommandInter
 {
     public function __construct(
         public string $userSlug
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

@@ -10,8 +10,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int|null $job_listing_id
  * @property int|null $currency_id
@@ -23,6 +21,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Entities\JobSeries\Currency\Currency|null $currency
  * @property-read \App\Entities\JobSeries\JobListing\JobListing|null $jobListing
  * @property-read \App\Entities\JobSeries\JobSalaryType\JobSalaryType|null $jobSalaryType
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobSalary newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobSalary newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobSalary query()
@@ -35,11 +34,15 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobSalary whereJobSalaryTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobSalary whereTo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobSalary whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class JobSalary extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory, JobSalaryRelationship, JobSalaryScope;
+    use HasFactory;
+    use JobSalaryRelationship;
+    use JobSalaryScope;
+    use TransformableTrait;
 
     protected $table = 'job_salaries';
 
@@ -48,6 +51,6 @@ class JobSalary extends BaseModel implements Transformable
         'currency_id',
         'job_salary_type_id',
         'from',
-        'to'
+        'to',
     ];
 }

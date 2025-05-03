@@ -9,8 +9,7 @@ readonly class GetDetailListOfUserPrizeCommand implements CommandInterface
 {
     public function __construct(
         public string|int $userPrizeId
-    )
-    {
+    ) {
     }
 
     public static function withForm(FormRequest $request): CommandInterface

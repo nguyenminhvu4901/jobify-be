@@ -8,33 +8,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 readonly class UpdateUserExperienceCommand implements CommandInterface
 {
-    /**
-     * @param string $userSlug
-     * @param int $userExperienceId
-     * @param string $name
-     * @param string $position
-     * @param bool $isWorking
-     * @param string $startDate
-     * @param string|null $endDate
-     * @param array|null $attachments
-     */
     public function __construct(
-        public string      $userSlug,
-        public int         $userExperienceId,
-        public string      $name,
-        public string      $position,
-        public bool        $isWorking,
-        public string      $startDate,
-        public string|null $endDate,
-        public array|null  $attachments
-    )
-    {
+        public string $userSlug,
+        public int $userExperienceId,
+        public string $name,
+        public string $position,
+        public bool $isWorking,
+        public string $startDate,
+        public ?string $endDate,
+        public ?array $attachments
+    ) {
     }
 
-    /**
-     * @param FormRequest $request
-     * @return CommandInterface
-     */
     public static function withForm(FormRequest $request): CommandInterface
     {
         $attachments = AttachmentResourceService::handleAttachments($request, 'user_experience_resource_id');

@@ -18,7 +18,7 @@ class CompanyBenefitResource extends JsonResource
             'id' => $this->id,
             'company_id' => $this->company_id,
             'benefit_name' => $this->benefit_name,
-            'description' => $this->description
+            'description' => $this->description,
         ];
     }
 }

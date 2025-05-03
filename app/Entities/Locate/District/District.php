@@ -10,8 +10,6 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
- *
  * @property int $id
  * @property int $province_id
  * @property int $code
@@ -22,6 +20,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read \App\Entities\Locate\Province\Province|null $province
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Entities\Locate\Ward\Ward> $ward
  * @property-read int|null $ward_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|District newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|District newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|District query()
@@ -32,18 +31,21 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|District whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|District whereProvinceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|District whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class District extends BaseModel implements Transformable
 {
-    use TransformableTrait, HasFactory,
-        DistrictRelationship, DistrictScope;
+    use DistrictRelationship;
+    use DistrictScope;
+    use HasFactory;
+    use TransformableTrait;
 
     protected $table = 'districts';
 
     public const FILLABLE_FIELDS = [
         'province_id',
         'code',
-        'district_name'
+        'district_name',
     ];
 }

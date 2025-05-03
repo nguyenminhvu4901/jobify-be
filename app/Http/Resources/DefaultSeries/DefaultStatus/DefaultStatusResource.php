@@ -16,7 +16,7 @@ class DefaultStatusResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'status' => $this->status
+            'status' => $this->status,
         ];
     }
 }
