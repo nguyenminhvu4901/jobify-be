@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Repositories\User\UserRepository;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
@@ -36,7 +37,7 @@ class ResetPasswordHandler
             $credentials,
             function (User $user, $password) {
                 $user->forceFill([
-                    'password' => bcrypt($password),
+                    'password' => Hash::make($password),
                     'remember_token' => Str::random(60),
                 ])->save();
             }

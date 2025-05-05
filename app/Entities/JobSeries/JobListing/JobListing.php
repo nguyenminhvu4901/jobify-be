@@ -2,6 +2,7 @@
 
 namespace App\Entities\JobSeries\JobListing;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobListings\JobListingSearchableDTO;
 use App\Entities\JobSeries\JobListing\Traits\JobListingRelationship;
 use App\Entities\JobSeries\JobListing\Traits\JobListingScope;
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
@@ -10,12 +11,14 @@ use App\Traits\Scope\BaseScopeTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use JeroenG\Explorer\Application\Explored;
 use Laravel\Scout\Searchable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $company_id
@@ -94,13 +97,13 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|JobListing withoutTrashed()
  * @mixin \Eloquent
  */
-class JobListing extends BaseModel implements Transformable
+class JobListing extends BaseModel implements Transformable, Explored
 {
     use TransformableTrait,
         HasFactory,
         Sluggable,
         JobListingRelationship,
-//        Searchable,
+        Searchable,
         SoftDeletes,
         JobListingScope,
         BaseScopeTrait,
@@ -130,6 +133,9 @@ class JobListing extends BaseModel implements Transformable
         'max_age'
     ];
 
+    protected $with = [];
+
+
     /**
      * @return array[]
      */
@@ -142,12 +148,49 @@ class JobListing extends BaseModel implements Transformable
         ];
     }
 
+    public function searchableAs(): string
+    {
+        return 'job_listings_index';
+    }
+
     public function toSearchableArray(): array
     {
-        $array = $this->toArray();
+        return JobListingSearchableDTO::prepareSearchableToArray($this);
+    }
 
-        $array['id'] = $this->id;
-        $array['title'] = $this->title;
-        return $array;
+    public function mappableAs(): array
+    {
+        return [
+            'id' => 'keyword',
+            'title' => 'text'
+        ];
+    }
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with([
+            'companies' => fn($q) => $q->with(
+                'user', 'gender', 'status', 'companyScale', 'companyBranches',
+                'companyWorkingDay', 'operationTypes', 'businessSectors', 'companyBenefits'
+            ),
+            'jobLocation' => fn($q) => $q->with(['province', 'district', 'ward']),
+            'jobSalaries' => fn($q) => $q->with(['currency', 'jobSalaryType']),
+            'positions',
+            'jobContact',
+            'gender',
+            'status',
+            'jobModerationStatus',
+            'jobModerationStatusLog',
+            'jobVisibilityStatus',
+            'jobTypes',
+            'jobLevels',
+            'jobExperiences',
+            'jobEducationLevels',
+            'jobAgeRanges',
+            'jobListingDetail'
+        ]);
     }
 }

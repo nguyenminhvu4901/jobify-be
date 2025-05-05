@@ -245,7 +245,7 @@ abstract class BaseRepository extends Repository
      */
     private function loadRelationship($relationship): array
     {
-        return is_array($relationship) ? $relationship : [$relationship];
+        return is_string($relationship) ? func_get_args() : $relationship;
     }
 
     /**
@@ -290,7 +290,9 @@ abstract class BaseRepository extends Repository
         DB::beginTransaction();
 
         try {
-            $data = $this->model->with($relationships)->create($attributes);
+            $data = $this->model
+                ->with(is_string($relationships) ? func_get_args() : $relationships)
+                ->create($attributes);
 
             if(!$data){
                 DB::rollBack();
@@ -491,7 +493,9 @@ abstract class BaseRepository extends Repository
         array|string $columns = ['*']
     ): Builder
     {
-        return $this->model->with($relationship)->where($columnName, $operation, $columnValue)->select($columns);
+        return $this->model
+            ->with(is_string($relationship) ? func_get_args() : $relationship)
+            ->where($columnName, $operation, $columnValue)->select($columns);
     }
 
     /**

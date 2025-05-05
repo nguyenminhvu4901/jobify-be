@@ -55,7 +55,6 @@ class JobListingResource extends JsonResource
             'job_levels' => JobLevelResource::make($this->jobLevels),
             'job_experiences' => JobExperienceResource::make($this->jobExperiences),
             'job_education_levels' => JobEducationLevelResource::make($this?->jobEducationLevels),
-
         ];
     }
 }

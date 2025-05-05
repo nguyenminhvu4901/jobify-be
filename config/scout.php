@@ -12,11 +12,11 @@ return [
     | to the search service. You should adjust this based on your needs.
     |
     | Supported: "algolia", "meilisearch", "typesense",
-    |            "database", "collection", "null"
+    |            "database", "collection", "null", "elastic"
     |
     */
 
-    'driver' => env('SCOUT_DRIVER', 'algolia'),
+    'driver' => env('SCOUT_DRIVER', 'elastic'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'soft_delete' => false,
+    'soft_delete' => true,
 
     /*
     |--------------------------------------------------------------------------
