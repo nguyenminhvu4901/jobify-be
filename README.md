@@ -23,7 +23,7 @@ Put laradock and source code directories like below:
 ```sh
 git clone https://github.com/Laradock/laradock.git
 cd laradock
-cp env-example .env
+cp .env.example .env
 ```
 2. sh .env in laradock
 ```sh .env in laradock
