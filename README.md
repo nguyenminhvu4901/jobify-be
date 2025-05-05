@@ -144,7 +144,7 @@ php artisan scout:import "App\Entities\JobSeries\JobListing\JobListing" -v
 
 5. Build and install supervisor (For macos)
 
-Install supervisor into workspace bash (macos)
+    * Install supervisor into workspace bash (macos)
 ```
 cd /
 apt update
@@ -153,7 +153,7 @@ supervisord --version
 nano /etc/supervisor/conf.d/laravel-worker.conf (File để chạy supervisor, có thể không tạo vì dự án đã có sẵn rồi)
 cấu hình file nếu muốn tạo
 ```
-File supervisor example 
+    * File supervisor example 
 ```
 [program:laravel-worker]
 process_name=%(program_name)s_%(process_num)02d
@@ -170,6 +170,8 @@ stderr_logfile=/var/www/storage/logs/worker-error.log
 stopwaitsecs=3600
 ```
 
+    * Config and start supervisor
+```
 tiếp tục thoát file và chạy các câu lệnh 
 cd /etc/supervisor
 
