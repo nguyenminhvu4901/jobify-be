@@ -130,6 +130,7 @@ docker-compose exec workspace bash
 
 4. Build vendor
 ```sh
+pecl install mongodb
 composer install
 npm install
 cp .env.example .env
