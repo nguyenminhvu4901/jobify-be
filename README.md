@@ -216,3 +216,38 @@ php artisan route:clear
 php artisan route:cache
 php artisan view:clear
 php artisan config:cache
+```
+
+### 5. Performance Dashboard Package
+1. laravel/horizon
+```
+http://localhost/horizon
+Giao diện quản lý queue Redis, xem job, retry, failed job, metrics.
+```
+2. laravel/telescope
+```
+http://localhost/telescope/requests
+Giao diện debug toàn hệ thống: request, query, log, event, job...
+```
+3. laravel/pulse
+```
+http://localhost/pulse
+Giao diện thống kê hiệu suất (CPU, memory, queries...)
+```
+4. darkaonline/l5-swagger
+```
+http://localhost/api/documentation
+Swagger UI – tài liệu API tự động
+```
+5. elasticsearch
+```
+http://localhost:9200/
+Elasticsearch
+```
+6. kibana
+```
+http://localhost:5601/app/home#/
+Giao diện Kibana dùng để hiển thị Elasticsearch
+```
+
+
