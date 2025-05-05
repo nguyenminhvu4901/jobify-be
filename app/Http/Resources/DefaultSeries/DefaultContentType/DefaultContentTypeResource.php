@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\DefaultSeries\DefaultContentType;
 
+use App\DataTransferObjects\Searchable\Default\ContentTypeDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,6 @@ class DefaultContentTypeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'content_type' => $this->content_type
-        ];
+        return ContentTypeDTO::formatContentType($this->resource);
     }
 }

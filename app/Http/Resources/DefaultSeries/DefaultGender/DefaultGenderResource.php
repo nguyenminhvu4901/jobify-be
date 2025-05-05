@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\DefaultSeries\DefaultGender;
 
+use App\DataTransferObjects\Searchable\Default\GenderDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,6 @@ class DefaultGenderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'gender' => $this->gender
-        ];
+        return GenderDTO::formatGender($this->resource);
     }
 }

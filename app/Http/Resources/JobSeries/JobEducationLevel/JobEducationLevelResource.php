@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\JobEducationLevel;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobEducationLevels\JobEducationLevelDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,6 @@ class JobEducationLevelResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name
-        ];
+        return JobEducationLevelDTO::formatEducationLevel($this->resource);
     }
 }

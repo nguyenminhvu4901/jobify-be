@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\JobExperience;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobExperiences\JobExperienceDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,6 @@ class JobExperienceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name
-        ];
+        return JobExperienceDTO::formatExperience($this->resource);
     }
 }

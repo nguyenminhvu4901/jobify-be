@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Locate\Ward;
 
+use App\DataTransferObjects\Searchable\Location\LocationDTO;
 use App\Http\Resources\Locate\District\DistrictResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -16,9 +17,7 @@ class WardResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'code' => $this->code,
-            'ward_name' => $this->ward_name,
+            ...LocationDTO::formatWard($this->resource),
             'district' => DistrictResource::make($this?->district)
         ];
     }

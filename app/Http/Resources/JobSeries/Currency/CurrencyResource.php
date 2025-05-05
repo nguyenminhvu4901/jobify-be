@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\Currency;
 
+use App\DataTransferObjects\Searchable\JobSeries\Currencies\CurrencyDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,6 @@ class CurrencyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name
-        ];
+        return CurrencyDTO::formatCurrency($this->resource);
     }
 }

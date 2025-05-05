@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\JobTypes;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobTypes\JobTypeDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,6 @@ class JobTypeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'type' => $this->type
-        ];
+        return JobTypeDTO::formatJobType($this->resource);
     }
 }
