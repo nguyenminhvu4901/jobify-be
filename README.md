@@ -19,16 +19,18 @@ Put laradock and source code directories like below:
     -- jobify-be
 ```
 ### 1. Laradock
+sh
 ```sh
 git clone https://github.com/Laradock/laradock.git
 cd laradock
 cp env-example .env
 ```
-
+sh .env in laradock
 ```sh .env in laradock
-PHP_VERSION=8.3
 APP_CODE_PATH_HOST=../jobify-be
-COMPOSE_PROJECT_NAME=Jobify
+COMPOSE_PROJECT_NAME=jobify
+
+PHP_VERSION=8.3
 
 WORKSPACE_INSTALL_NODE=true
 WORKSPACE_INSTALL_YARN=true
@@ -50,6 +52,13 @@ REDIS_PASSWORD=secret_redis
 MONGODB_PORT=27017
 MONGO_USERNAME=root
 MONGO_PASSWORD=example
+
+ELASTICSEARCH_HOST_HTTP_PORT=9200
+ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
+
+KIBANA_HTTP_PORT=5601
+
+ELK_VERSION=7.17.0
 ```
 
 sh .env in php8.3.ini in php-fpm:
@@ -62,26 +71,64 @@ max_execution_time = 300
 max_input_vars = 3000
 ```
 
+mysql/my.cnf
+```
+# The MySQL  Client configuration file.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+[mysql]
+mysql_native_password=on
+[mysqld]
+sql-mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+character-set-server=utf8
+innodb_use_native_aio=0
+```
+
+mysql/Dockerfile
+```
+ARG MYSQL_VERSION
+FROM mysql:${MYSQL_VERSION}
+
+#####################################
+# Set Timezone
+#####################################
+
+ARG TZ=UTC
+ENV TZ ${TZ}
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && chown -R mysql:root /var/lib/mysql/
+
+COPY my.cnf /etc/mysql/conf.d/my.cnf
+
+RUN chmod 0444 /etc/mysql/conf.d/my.cnf
+
+RUN if [ ${MYSQL_MAJOR} = '8.0' ]; then \
+    echo 'default-authentication-plugin=mysql_native_password' >> /etc/mysql/conf.d/my.cnf; \
+  fi
+
+```
+
 ### 2. Source code:
-Clone code:
+1. Clone code:
 ```sh
 git clone [https://github.com/nguyenminhvu4901/DoAnTotNghiep](https://github.com/nguyenminhvu4901/jobify-be.git)
 cd jobify-be
 cp .env.example .env
 ```
 
-Run docker:
+2. Run docker:
 ```sh
 cd laradock
-docker compose up -d mysql nginx phpmyadmin workspace redis mongo
+docker compose up -d mysql nginx phpmyadmin workspace redis mongo elasticsearch kibana
 ```
 
-Open workspace:
+3. Open workspace:
 ```sh
 docker-compose exec workspace bash
 ```
 
-Build vendor
+4. Build vendor
 ```sh
 composer install
 npm install
@@ -92,17 +139,22 @@ phpunit
 composer dump-autoload
 php artisan storage:link
 php artisan l5-swagger:generate
+php artisan scout:import "App\Entities\JobSeries\JobListing\JobListing" -v
 ```
 
-Build supervisor (For macos)
-```install supervisor into workspace bash (macos)
+5. Build and install supervisor (For macos)
+
+Install supervisor into workspace bash (macos)
+```
 cd /
 apt update
 apt install supervisor
 supervisord --version
 nano /etc/supervisor/conf.d/laravel-worker.conf (File để chạy supervisor, có thể không tạo vì dự án đã có sẵn rồi)
 cấu hình file nếu muốn tạo
-
+```
+File supervisor example 
+```
 [program:laravel-worker]
 process_name=%(program_name)s_%(process_num)02d
 command=php /var/www/artisan queue:work --sleep=3 --tries=3 --max-time=3600
@@ -116,6 +168,7 @@ redirect_stderr=true
 stdout_logfile=/var/www/storage/logs/worker.log
 stderr_logfile=/var/www/storage/logs/worker-error.log
 stopwaitsecs=3600
+```
 
 tiếp tục thoát file và chạy các câu lệnh 
 cd /etc/supervisor
@@ -127,7 +180,7 @@ thêm path file conf để chạy tiến trình, ở cuối file có [include]
 thêm dường dẫn đến file conf
 ví dụ:
 [include]
-files = /etc/supervisor/conf.d/*.conf /var/www/laravel-worker.conf /var/www/laravel-schedule.conf
+files = /etc/supervisor/conf.d/*.conf /var/www/laravel-worker.conf /var/www/laravel-schedule.conf /var/www/laravel-horizon.conf
 
 tiếp tục chạy các câu lệnh
 supervisord -c /etc/supervisor/supervisord.conf
