@@ -132,6 +132,7 @@ docker-compose exec workspace bash
 ```sh
 composer install
 npm install
+cp .env.example .env
 php artisan key:generate
 php artisan jwt:secret
 php artisan migrate --seed
