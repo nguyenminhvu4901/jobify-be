@@ -19,13 +19,13 @@ Put laradock and source code directories like below:
     -- jobify-be
 ```
 ### 1. Laradock
-sh
+1. sh
 ```sh
 git clone https://github.com/Laradock/laradock.git
 cd laradock
 cp env-example .env
 ```
-sh .env in laradock
+2. sh .env in laradock
 ```sh .env in laradock
 APP_CODE_PATH_HOST=../jobify-be
 COMPOSE_PROJECT_NAME=jobify
@@ -61,7 +61,7 @@ KIBANA_HTTP_PORT=5601
 ELK_VERSION=7.17.0
 ```
 
-sh .env in php8.3.ini in php-fpm:
+3. sh .env in php8.3.ini in php-fpm:
 ```sh .env in php8.3.ini in php-fpm
 post_max_size = 500M
 upload_max_filesize = 500M
@@ -71,7 +71,7 @@ max_execution_time = 300
 max_input_vars = 3000
 ```
 
-mysql/my.cnf
+4. mysql/my.cnf
 ```
 # The MySQL  Client configuration file.
 #
@@ -86,7 +86,7 @@ character-set-server=utf8
 innodb_use_native_aio=0
 ```
 
-mysql/Dockerfile
+5. mysql/Dockerfile
 ```
 ARG MYSQL_VERSION
 FROM mysql:${MYSQL_VERSION}
@@ -144,7 +144,7 @@ php artisan scout:import "App\Entities\JobSeries\JobListing\JobListing" -v
 
 5. Build and install supervisor (For macos)
 
-    * Install supervisor into workspace bash (macos)
+* Install supervisor into workspace bash (macos)
 ```
 cd /
 apt update
@@ -153,7 +153,7 @@ supervisord --version
 nano /etc/supervisor/conf.d/laravel-worker.conf (File để chạy supervisor, có thể không tạo vì dự án đã có sẵn rồi)
 cấu hình file nếu muốn tạo
 ```
-    * File supervisor example 
+* File supervisor example 
 ```
 [program:laravel-worker]
 process_name=%(program_name)s_%(process_num)02d
@@ -169,8 +169,7 @@ stdout_logfile=/var/www/storage/logs/worker.log
 stderr_logfile=/var/www/storage/logs/worker-error.log
 stopwaitsecs=3600
 ```
-
-    * Config and start supervisor
+* Config and start supervisor
 ```
 tiếp tục thoát file và chạy các câu lệnh 
 cd /etc/supervisor
@@ -192,11 +191,11 @@ supervisorctl start all
 supervisorctl status
 ```
 
-Notice
+### 3. Notice
 ```
 Mỗi khi chạy seed sẽ chạy hết các lệnh seed đã lưu ở trên
 ```
-Error
+### 4. Error
 ```
 Nếu code có vấn đề, hãy chạy các câu lệnh terminal sau:
 composer install
