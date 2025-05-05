@@ -71,12 +71,12 @@ ELK_VERSION=7.9.1
 
 3. sh .env in php8.3.ini in php-fpm:
 ```sh .env in php8.3.ini in php-fpm
-post_max_size = 500M
-upload_max_filesize = 500M
-memory_limit = 512M
-max_input_time = 300
-max_execution_time = 300
-max_input_vars = 3000
+post_max_size = 8M
+upload_max_filesize = 50M
+memory_limit = 128M
+max_input_time = 60
+max_execution_time = 30
+max_input_vars = 1000
 ```
 
 4. mysql/my.cnf
