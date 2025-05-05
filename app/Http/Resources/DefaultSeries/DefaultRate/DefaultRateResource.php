@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\DefaultSeries\DefaultRate;
 
+use App\DataTransferObjects\Searchable\Default\RateDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,11 +15,6 @@ class DefaultRateResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'rate' => $this->rate,
-            'created_at' => formatDateTime($this->created_at),
-            'updated_at' => formatDateTime($this->updated_at)
-        ];
+        return RateDTO::formatRate($this->resource);
     }
 }

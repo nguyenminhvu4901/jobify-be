@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\JobContact;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobContacts\JobContactDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,12 +15,6 @@ class JobContactResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'job_listing_id' => $this->job_listing_id,
-            'full_name' => $this->full_name,
-            'email' => $this->email,
-            'phone_number' => $this->phone_number
-        ];
+        return JobContactDTO::formatJobContact($this->resource);
     }
 }

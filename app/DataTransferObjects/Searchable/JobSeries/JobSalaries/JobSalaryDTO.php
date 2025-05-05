@@ -2,8 +2,8 @@
 
 namespace App\DataTransferObjects\Searchable\JobSeries\JobSalaries;
 
-use App\Http\Resources\JobSeries\Currency\CurrencyResource;
-use App\Http\Resources\JobSeries\JobSalaryTypes\JobSalaryTypeResource;
+use App\DataTransferObjects\Searchable\JobSeries\Currencies\CurrencyDTO;
+use App\DataTransferObjects\Searchable\JobSeries\JobSalaryTypes\JobSalaryTypeDTO;
 
 readonly class JobSalaryDTO
 {
@@ -16,8 +16,10 @@ readonly class JobSalaryDTO
         return [
             'id' => $jobSalary->id,
             'job_listing_id' => $jobSalary->job_listing_id,
-            'currency' => CurrencyResource::make($jobSalary->currency),
-            'job_salary_type' => JobSalaryTypeResource::make($jobSalary->jobSalaryType),
+            'currency' => optional($jobSalary->currency,
+                fn($currency) => CurrencyDTO::formatCurrency($currency)),
+            'job_salary_type' => optional($jobSalary->jobSalaryType,
+                fn($jobSalaryType) => JobSalaryTypeDTO::formatJobSalaryType($jobSalaryType)),
             'from' => $jobSalary->from,
             'to' => $jobSalary->to
         ];

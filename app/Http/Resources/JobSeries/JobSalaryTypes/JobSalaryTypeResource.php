@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\JobSalaryTypes;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobSalaryTypes\JobSalaryTypeDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,6 @@ class JobSalaryTypeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'type' => $this->type
-        ];
+        return JobSalaryTypeDTO::formatJobSalaryType($this->resource);
     }
 }

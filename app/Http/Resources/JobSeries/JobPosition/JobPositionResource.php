@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\JobPosition;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobPositions\JobPositionDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,10 +15,6 @@ class JobPositionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'priority' => optional($this->pivot)->priority,
-        ];
+        return JobPositionDTO::formatJobPosition($this->resource);
     }
 }

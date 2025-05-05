@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\JobAgeRanges;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobAgeRanges\JobAgeRangeDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,11 +15,6 @@ class JobAgeRangeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'min_age' => $this->min_age,
-            'max_age' => $this->max_age,
-            'display' => $this->display
-        ];
+        return JobAgeRangeDTO::formatJobAgeRange($this->resource);
     }
 }

@@ -133,9 +133,6 @@ class JobListing extends BaseModel implements Transformable, Explored
         'max_age'
     ];
 
-    protected $with = [];
-
-
     /**
      * @return array[]
      */

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\JobSeries\JobVisibilityStatus;
 
+use App\DataTransferObjects\Searchable\JobSeries\JobVisibilityStatuses\JobVisibilityStatusSearchableDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,6 @@ class JobVisibilityStatusResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name
-        ];
+        return JobVisibilityStatusSearchableDTO::formatVisibilityStatus($this->resource);
     }
 }
