@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Observers;
-use Illuminate\Support\Facades\Cache;
 
 abstract class BaseObserver
 {
@@ -65,7 +64,7 @@ abstract class BaseObserver
     {
         if (!empty($this->cacheTag)) {
             foreach ($this->cacheTag as $cache){
-                Cache::tags([$cache])->flush();
+                redisCacheDB()->tags([$cache])->flush();
             }
         }
     }
