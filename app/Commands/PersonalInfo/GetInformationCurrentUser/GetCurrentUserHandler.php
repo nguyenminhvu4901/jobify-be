@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserProfileEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\Auth\CurrentUserInfoResource;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetCurrentUserHandler
 {
@@ -24,13 +23,13 @@ class GetCurrentUserHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserProfileEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserProfileEnum::TAG_NAME->value])
                 ->has(
                     UserProfileEnum::INFORMATION_CURRENT_USER->value .
                     auth()?->user()?->id
                 );
 
-            $userProfile = Cache::tags([UserProfileEnum::TAG_NAME->value])->remember(
+            $userProfile = redisCacheDB()->tags([UserProfileEnum::TAG_NAME->value])->remember(
                 UserProfileEnum::INFORMATION_CURRENT_USER->value . auth()?->user()?->id,
                 CacheTTL::REMEMBER->value,
                 fn() => $this->userRepository->findWithRelationships(

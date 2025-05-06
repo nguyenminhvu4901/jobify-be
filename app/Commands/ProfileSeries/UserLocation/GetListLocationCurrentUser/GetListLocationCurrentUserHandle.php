@@ -19,11 +19,11 @@ class GetListLocationCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserLocationEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserLocationEnum::TAG_NAME->value])->has(
                 UserLocationEnum::LIST_LOCATION_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userLocation = Cache::tags([UserLocationEnum::TAG_NAME->value])
+            $userLocation = redisCacheDB()->tags([UserLocationEnum::TAG_NAME->value])
                 ->remember(
                     UserLocationEnum::LIST_LOCATION_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

@@ -26,7 +26,7 @@ class GetCompleteListOfUserExperienceHandler
     public function handle(GetCompleteListOfUserExperienceCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserExperienceEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserExperienceEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         UserExperienceEnum::COMPLETE_LIST_USER_EXPERIENCE->value,
@@ -34,7 +34,7 @@ class GetCompleteListOfUserExperienceHandler
                     )
                 );
 
-            $userExperiences = Cache::tags([UserExperienceEnum::TAG_NAME->value])->remember(
+            $userExperiences = redisCacheDB()->tags([UserExperienceEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserExperienceEnum::COMPLETE_LIST_USER_EXPERIENCE->value,
                     $command

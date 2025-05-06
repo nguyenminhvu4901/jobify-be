@@ -19,14 +19,14 @@ class DetailListOfUserExperienceHandle
     public function handle(DetailListOfUserExperienceCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserExperienceEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserExperienceEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE->value,
                     $command
                 )
             );
 
-            $userExperience = Cache::tags([UserExperienceEnum::TAG_NAME->value])->remember(
+            $userExperience = redisCacheDB()->tags([UserExperienceEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE->value,
                     $command

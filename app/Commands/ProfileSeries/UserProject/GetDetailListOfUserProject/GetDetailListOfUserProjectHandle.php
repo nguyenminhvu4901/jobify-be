@@ -26,14 +26,14 @@ class GetDetailListOfUserProjectHandle
     public function handle(GetDetailListOfUserProjectCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProjectEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserProjectEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserProjectEnum::DETAIL_LIST_USER_PROJECT->value,
                     $command
                 )
             );
 
-            $userProject = Cache::tags([UserProjectEnum::TAG_NAME->value])
+            $userProject = redisCacheDB()->tags([UserProjectEnum::TAG_NAME->value])
                 ->remember(
                     generateCacheName(
                         UserProjectEnum::DETAIL_LIST_USER_PROJECT->value,

@@ -24,11 +24,11 @@ class GetListExperienceCurrentUserHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserExperienceEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserExperienceEnum::TAG_NAME->value])->has(
                 UserExperienceEnum::LIST_EXPERIENCE_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userExperience = Cache::tags([UserExperienceEnum::TAG_NAME->value])
+            $userExperience = redisCacheDB()->tags([UserExperienceEnum::TAG_NAME->value])
                 ->remember(
                     UserExperienceEnum::LIST_EXPERIENCE_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserActivityEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserActivity\UserActivityResource;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserActivityByUserSlugHandle
 {
@@ -26,13 +25,13 @@ class GetDetailListOfUserActivityByUserSlugHandle
     public function handle(GetDetailListOfUserActivityByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserActivityEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserActivityEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserActivityEnum::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value,
                     $command
                 ));
 
-            $userActivity = Cache::tags([UserActivityEnum::TAG_NAME->value])->remember(
+            $userActivity = redisCacheDB()->tags([UserActivityEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserActivityEnum::DETAIL_LIST_USER_ACTIVITY_BY_USER_SLUG->value,
                     $command

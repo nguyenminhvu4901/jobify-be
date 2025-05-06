@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserActivityEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserActivity\CurrentUserActivityResource;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListActivityCurrentUserHandle
 {
@@ -25,10 +24,10 @@ class GetListActivityCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserActivityEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserActivityEnum::TAG_NAME->value])->has(
                 UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id);
 
-            $userActivities = Cache::tags([UserActivityEnum::TAG_NAME->value])
+            $userActivities = redisCacheDB()->tags([UserActivityEnum::TAG_NAME->value])
                 ->remember(
                     UserActivityEnum::LIST_ACTIVITY_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

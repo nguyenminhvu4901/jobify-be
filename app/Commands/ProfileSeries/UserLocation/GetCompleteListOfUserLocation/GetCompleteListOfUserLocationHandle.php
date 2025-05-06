@@ -26,7 +26,7 @@ class GetCompleteListOfUserLocationHandle
     public function handle(GetCompleteListOfUserLocationCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserLocationEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserLocationEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         UserLocationEnum::COMPLETE_LIST_USER_LOCATION->value,
@@ -34,7 +34,7 @@ class GetCompleteListOfUserLocationHandle
                     )
                 );
 
-            $userLocation = Cache::tags([UserLocationEnum::TAG_NAME->value])->remember(
+            $userLocation = redisCacheDB()->tags([UserLocationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserLocationEnum::COMPLETE_LIST_USER_LOCATION->value,
                     $command

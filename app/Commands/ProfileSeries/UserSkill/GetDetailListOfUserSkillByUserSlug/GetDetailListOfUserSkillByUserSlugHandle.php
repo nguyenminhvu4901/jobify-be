@@ -26,13 +26,13 @@ class GetDetailListOfUserSkillByUserSlugHandle
     public function handle(GetDetailListOfUserSkillByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserSkillEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserSkillEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserSkillEnum::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value,
                     $command
                 ));
 
-            $userSkills = Cache::tags([UserSkillEnum::TAG_NAME->value])
+            $userSkills = redisCacheDB()->tags([UserSkillEnum::TAG_NAME->value])
                 ->remember(
                     generateCacheName(
                         UserSkillEnum::DETAIL_LIST_USER_SKILL_BY_USER_SLUG->value,

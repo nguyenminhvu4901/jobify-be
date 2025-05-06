@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserPrizeEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserPrize\UserPrizeResource;
 use App\Repositories\ProfileSeries\UserPrize\UserPrizeRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserPrizeByUserSlugHandle
 {
@@ -26,14 +25,14 @@ class GetDetailListOfUserPrizeByUserSlugHandle
     public function handle(GetDetailListOfUserPrizeByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserPrizeEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserPrizeEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserPrizeEnum::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value,
                     $command
                 )
             );
 
-            $userPrize = Cache::tags([UserPrizeEnum::TAG_NAME->value])->remember(
+            $userPrize = redisCacheDB()->tags([UserPrizeEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserPrizeEnum::DETAIL_LIST_USER_PRIZE_BY_USER_SLUG->value,
                     $command

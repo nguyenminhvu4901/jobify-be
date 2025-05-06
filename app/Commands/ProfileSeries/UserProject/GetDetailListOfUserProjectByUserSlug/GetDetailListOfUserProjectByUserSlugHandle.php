@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserProjectEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserProject\UserProjectResource;
 use App\Repositories\ProfileSeries\UserProject\UserProjectRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserProjectByUserSlugHandle
 {
@@ -26,13 +25,13 @@ class GetDetailListOfUserProjectByUserSlugHandle
     public function handle(GetDetailListOfUserProjectByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProjectEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserProjectEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
                     $command
                 ));
 
-            $userProject = Cache::tags([UserProjectEnum::TAG_NAME->value])->remember(
+            $userProject = redisCacheDB()->tags([UserProjectEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserProjectEnum::DETAIL_LIST_USER_PROJECT_BY_USER_SLUG->value,
                     $command

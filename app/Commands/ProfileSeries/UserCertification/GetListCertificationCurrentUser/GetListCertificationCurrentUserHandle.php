@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserCertificationEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserCertification\CurrentUserCertificationResource;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListCertificationCurrentUserHandle
 {
@@ -25,11 +24,11 @@ class GetListCertificationCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserCertificationEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserCertificationEnum::TAG_NAME->value])->has(
                 UserCertificationEnum::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userCertification = Cache::tags([UserCertificationEnum::TAG_NAME->value])
+            $userCertification = redisCacheDB()->tags([UserCertificationEnum::TAG_NAME->value])
                 ->remember(
                 UserCertificationEnum::LIST_CERTIFICATION_CURRENT_USER->value . auth()->user()->id,
                 CacheTTL::REMEMBER->value,

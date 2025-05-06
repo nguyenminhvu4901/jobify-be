@@ -25,10 +25,10 @@ class GetListCourseCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserCourseEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserCourseEnum::TAG_NAME->value])->has(
                 UserCourseEnum::LIST_COURSE_CURRENT_USER->value . auth()->user()->id);
 
-            $userCourse = Cache::tags([UserCourseEnum::TAG_NAME->value])
+            $userCourse = redisCacheDB()->tags([UserCourseEnum::TAG_NAME->value])
                 ->remember(
                     UserCourseEnum::LIST_COURSE_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

@@ -26,7 +26,7 @@ class GetCompleteListOfUserEducationHandle
     public function handle(GetCompleteListOfUserEducationCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserEducationEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserEducationEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         UserEducationEnum::COMPLETE_LIST_USER_EDUCATION->value,
@@ -34,7 +34,7 @@ class GetCompleteListOfUserEducationHandle
                     )
                 );
 
-            $userEducation = Cache::tags([UserEducationEnum::TAG_NAME->value])->remember(
+            $userEducation = redisCacheDB()->tags([UserEducationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserEducationEnum::COMPLETE_LIST_USER_EDUCATION->value,
                     $command

@@ -26,14 +26,14 @@ class GetDetailListOfUserActivityHandle
     public function handle(GetDetailListOfUserActivityCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserActivityEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserActivityEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserActivityEnum::DETAIL_LIST_USER_ACTIVITY->value,
                     $command
                 )
             );
 
-            $userActivity = Cache::tags([UserActivityEnum::TAG_NAME->value])->remember(
+            $userActivity = redisCacheDB()->tags([UserActivityEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserActivityEnum::DETAIL_LIST_USER_ACTIVITY->value,
                     $command

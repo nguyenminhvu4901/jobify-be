@@ -25,10 +25,10 @@ class GetListPrizeCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserPrizeEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserPrizeEnum::TAG_NAME->value])->has(
                 UserPrizeEnum::LIST_PRIZE_CURRENT_USER->value . auth()->user()->id);
 
-            $userPrizes = Cache::tags([UserPrizeEnum::TAG_NAME->value])
+            $userPrizes = redisCacheDB()->tags([UserPrizeEnum::TAG_NAME->value])
                 ->remember(
                     UserPrizeEnum::LIST_PRIZE_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

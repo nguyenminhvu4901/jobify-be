@@ -35,7 +35,10 @@ class UserSkillController extends Controller
      */
     public function getListSkillCurrentUser(): JsonResponse
     {
-        $this->bus->addHandler(GetListSkillCurrentUserCommand::class, GetListSkillCurrentUserHandle::class);
+        $this->bus->addHandler(
+            GetListSkillCurrentUserCommand::class,
+            GetListSkillCurrentUserHandle::class
+        );
 
         $result = $this->bus->dispatch(new GetListSkillCurrentUserCommand());
 
