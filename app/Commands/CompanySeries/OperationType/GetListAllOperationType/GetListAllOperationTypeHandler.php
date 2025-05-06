@@ -6,7 +6,6 @@ use App\Enums\RouteNames\CompanySeries\OperationTypeEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\CompanySeries\OperationType\OperationTypeResource;
 use App\Repositories\CompanySeries\OperationType\OperationTypeRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListAllOperationTypeHandler
 {
@@ -22,10 +21,10 @@ class GetListAllOperationTypeHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([OperationTypeEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([OperationTypeEnum::TAG_NAME->value])->has(
                 OperationTypeEnum::LIST_ALL_OPERATION_TYPE->value);
 
-            $operationTypes = Cache::tags([OperationTypeEnum::TAG_NAME->value])
+            $operationTypes = redisHardCacheDB()->tags([OperationTypeEnum::TAG_NAME->value])
                 ->remember(
                     OperationTypeEnum::LIST_ALL_OPERATION_TYPE->value,
                     CacheTTL::HARD->value,

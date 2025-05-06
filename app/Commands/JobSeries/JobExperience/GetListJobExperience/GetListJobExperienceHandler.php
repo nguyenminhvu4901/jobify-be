@@ -6,7 +6,6 @@ use App\Enums\RouteNames\JobSeries\JobExperienceEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobExperience\JobExperienceResource;
 use App\Repositories\JobSeries\JobExperience\JobExperienceRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListJobExperienceHandler
 {
@@ -25,10 +24,10 @@ class GetListJobExperienceHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([JobExperienceEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([JobExperienceEnum::TAG_NAME->value])->has(
                 JobExperienceEnum::LIST_ALL_JOB_EXPERIENCE->value);
 
-            $jobExperiences = Cache::tags([JobExperienceEnum::TAG_NAME->value])
+            $jobExperiences = redisHardCacheDB()->tags([JobExperienceEnum::TAG_NAME->value])
                 ->remember(
                     JobExperienceEnum::LIST_ALL_JOB_EXPERIENCE->value,
                     CacheTTL::HARD->value,

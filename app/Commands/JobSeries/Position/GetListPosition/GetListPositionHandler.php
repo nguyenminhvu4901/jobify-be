@@ -26,7 +26,7 @@ class GetListPositionHandler
     public function handle(GetListPositionCommand $command): array
     {
         try {
-            $cache = Cache::tags([PositionEnum::TAG_NAME->value])
+            $cache = redisHardCacheDB()->tags([PositionEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         PositionEnum::LIST_ALL_POSITION->value,
@@ -34,7 +34,7 @@ class GetListPositionHandler
                     )
                 );
 
-            $positions = Cache::tags([PositionEnum::TAG_NAME->value])->remember(
+            $positions = redisHardCacheDB()->tags([PositionEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     PositionEnum::LIST_ALL_POSITION->value,
                     $command

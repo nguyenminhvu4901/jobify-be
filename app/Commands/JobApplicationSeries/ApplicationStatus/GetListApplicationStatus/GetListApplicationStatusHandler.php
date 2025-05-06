@@ -6,7 +6,6 @@ use App\Enums\RouteNames\JobApplicationSeries\ApplicationStatusEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobApplicationSeries\ApplicationStatus\ApplicationStatusResource;
 use App\Repositories\JobApplicationSeries\ApplicationStatus\ApplicationStatusRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListApplicationStatusHandler
 {
@@ -25,10 +24,10 @@ class GetListApplicationStatusHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([ApplicationStatusEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([ApplicationStatusEnum::TAG_NAME->value])->has(
                 ApplicationStatusEnum::LIST_APPLICATION_STATUS->value);
 
-            $jobExperiences = Cache::tags([ApplicationStatusEnum::TAG_NAME->value])
+            $jobExperiences = redisHardCacheDB()->tags([ApplicationStatusEnum::TAG_NAME->value])
                 ->remember(
                     ApplicationStatusEnum::LIST_APPLICATION_STATUS->value,
                     CacheTTL::HARD->value,

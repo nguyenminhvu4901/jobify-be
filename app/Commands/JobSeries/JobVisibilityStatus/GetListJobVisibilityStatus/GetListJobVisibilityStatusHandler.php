@@ -6,7 +6,6 @@ use App\Enums\RouteNames\JobSeries\JobVisibilityStatusEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobVisibilityStatus\JobVisibilityStatusResource;
 use App\Repositories\JobSeries\JobVisibilityStatus\JobVisibilityStatusRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListJobVisibilityStatusHandler
 {
@@ -25,10 +24,10 @@ class GetListJobVisibilityStatusHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([JobVisibilityStatusEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([JobVisibilityStatusEnum::TAG_NAME->value])->has(
                 JobVisibilityStatusEnum::LIST_ALL_JOB_VISIBILITY_STATUS->value);
 
-            $jobVisibilityStatuses = Cache::tags([JobVisibilityStatusEnum::TAG_NAME->value])
+            $jobVisibilityStatuses = redisHardCacheDB()->tags([JobVisibilityStatusEnum::TAG_NAME->value])
                 ->remember(
                     JobVisibilityStatusEnum::LIST_ALL_JOB_VISIBILITY_STATUS->value,
                     CacheTTL::HARD->value,

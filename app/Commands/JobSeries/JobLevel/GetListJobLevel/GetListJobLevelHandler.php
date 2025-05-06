@@ -6,7 +6,6 @@ use App\Enums\RouteNames\JobSeries\JobLevelEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobLevel\JobLevelResource;
 use App\Repositories\JobSeries\JobLevel\JobLevelRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListJobLevelHandler
 {
@@ -22,10 +21,10 @@ class GetListJobLevelHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([JobLevelEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([JobLevelEnum::TAG_NAME->value])->has(
                 JobLevelEnum::LIST_ALL_JOB_LEVEL->value);
 
-            $jobLevels = Cache::tags([JobLevelEnum::TAG_NAME->value])
+            $jobLevels = redisHardCacheDB()->tags([JobLevelEnum::TAG_NAME->value])
                 ->remember(
                     JobLevelEnum::LIST_ALL_JOB_LEVEL->value,
                     CacheTTL::HARD->value,

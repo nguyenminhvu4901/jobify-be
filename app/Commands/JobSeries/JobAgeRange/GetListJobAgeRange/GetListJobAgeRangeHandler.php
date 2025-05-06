@@ -25,10 +25,10 @@ class GetListJobAgeRangeHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([JobAgeRangeEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([JobAgeRangeEnum::TAG_NAME->value])->has(
                 JobAgeRangeEnum::LIST_ALL_JOB_AGE_RANGE->value);
 
-            $jobAgeRanges = Cache::tags([JobAgeRangeEnum::TAG_NAME->value])
+            $jobAgeRanges = redisHardCacheDB()->tags([JobAgeRangeEnum::TAG_NAME->value])
                 ->remember(
                     JobAgeRangeEnum::LIST_ALL_JOB_AGE_RANGE->value,
                     CacheTTL::HARD->value,

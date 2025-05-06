@@ -6,7 +6,6 @@ use App\Enums\RouteNames\JobSeries\JobModerationStatusEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobModerationStatus\JobModerationStatusResource;
 use App\Repositories\JobSeries\JobModerationStatus\JobModerationStatusRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListJobModerationStatusHandler
 {
@@ -16,13 +15,16 @@ class GetListJobModerationStatusHandler
     {
     }
 
-    public function handle()
+    /**
+     * @return array
+     */
+    public function handle(): array
     {
         try {
-            $cache = Cache::tags([JobModerationStatusEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([JobModerationStatusEnum::TAG_NAME->value])->has(
                 JobModerationStatusEnum::LIST_ALL_JOB_MODERATION_STATUS->value);
 
-            $jobModerationStatuses = Cache::tags([JobModerationStatusEnum::TAG_NAME->value])
+            $jobModerationStatuses = redisHardCacheDB()->tags([JobModerationStatusEnum::TAG_NAME->value])
                 ->remember(
                     JobModerationStatusEnum::LIST_ALL_JOB_MODERATION_STATUS->value,
                     CacheTTL::HARD->value,

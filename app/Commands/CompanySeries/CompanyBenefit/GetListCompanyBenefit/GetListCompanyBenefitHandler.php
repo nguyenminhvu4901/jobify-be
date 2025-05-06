@@ -26,13 +26,13 @@ class GetListCompanyBenefitHandler
     public function handle(GetListCompanyBenefitCommand $command): array
     {
         try {
-            $cache = Cache::tags([CompanyBenefitEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([CompanyBenefitEnum::TAG_NAME->value])->has(
                 CompanyBenefitEnum::LIST_COMPANY_BENEFIT->value.
                 auth()->user()?->id .
                 $command->companyId
             );
 
-            $companyBenefits = Cache::tags([CompanyBenefitEnum::TAG_NAME->value])->remember(
+            $companyBenefits = redisCacheDB()->tags([CompanyBenefitEnum::TAG_NAME->value])->remember(
                 CompanyBenefitEnum::LIST_COMPANY_BENEFIT->value .
                 auth()->user()->id .
                 $command->companyId,

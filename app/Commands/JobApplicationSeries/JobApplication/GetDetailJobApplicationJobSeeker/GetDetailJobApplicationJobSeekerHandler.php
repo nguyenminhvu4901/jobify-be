@@ -19,14 +19,14 @@ class GetDetailJobApplicationJobSeekerHandler
     public function handle(GetDetailJobApplicationJobSeekerCommand $command): array
     {
         try {
-            $cache = Cache::tags([JobApplicationEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([JobApplicationEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     JobApplicationEnum::DETAIL_JOB_APPLICATION_JOB_SEEKER->value,
                     $command
                 )
             );
 
-            $jobApplication = Cache::tags([JobApplicationEnum::TAG_NAME->value])
+            $jobApplication = redisCacheDB()->tags([JobApplicationEnum::TAG_NAME->value])
                 ->remember(
                     generateCacheName(
                         JobApplicationEnum::DETAIL_JOB_APPLICATION_JOB_SEEKER->value,

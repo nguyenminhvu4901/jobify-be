@@ -22,10 +22,10 @@ class GetListJobEducationLevelHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([JobEducationLevelEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([JobEducationLevelEnum::TAG_NAME->value])->has(
                 JobEducationLevelEnum::LIST_ALL_JOB_EDUCATION_LEVEL->value);
 
-            $jobEducationLevels = Cache::tags([JobEducationLevelEnum::TAG_NAME->value])
+            $jobEducationLevels = redisHardCacheDB()->tags([JobEducationLevelEnum::TAG_NAME->value])
                 ->remember(
                     JobEducationLevelEnum::LIST_ALL_JOB_EDUCATION_LEVEL->value,
                     CacheTTL::HARD->value,

@@ -6,7 +6,6 @@ use App\Enums\RouteNames\JobApplicationSeries\JobApplicationEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobApplicationSeries\JobApplication\JobApplicationResource;
 use App\Repositories\JobApplicationSeries\JobApplication\JobApplicationRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListJobSeekerApplyJobHandler
 {
@@ -26,14 +25,14 @@ class GetListJobSeekerApplyJobHandler
     public function handle(GetListJobSeekerApplyJobCommand $command): array
     {
         try {
-            $cache = Cache::tags([JobApplicationEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([JobApplicationEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     JobApplicationEnum::LIST_JOB_SEEKER_APPLY_JOB->value,
                     $command
                 )
             );
 
-            $jobApplication = Cache::tags([JobApplicationEnum::TAG_NAME->value])
+            $jobApplication = redisCacheDB()->tags([JobApplicationEnum::TAG_NAME->value])
                 ->remember(
                     generateCacheName(
                         JobApplicationEnum::LIST_JOB_SEEKER_APPLY_JOB->value,

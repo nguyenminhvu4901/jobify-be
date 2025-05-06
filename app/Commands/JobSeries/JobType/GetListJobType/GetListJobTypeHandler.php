@@ -6,7 +6,6 @@ use App\Enums\RouteNames\JobSeries\JobTypeEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobTypes\JobTypeResource;
 use App\Repositories\JobSeries\JobType\JobTypeRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListJobTypeHandler
 {
@@ -22,10 +21,10 @@ class GetListJobTypeHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([JobTypeEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([JobTypeEnum::TAG_NAME->value])->has(
                 JobTypeEnum::LIST_ALL_JOB_TYPE->value);
 
-            $jobTypes = Cache::tags([JobTypeEnum::TAG_NAME->value])
+            $jobTypes = redisHardCacheDB()->tags([JobTypeEnum::TAG_NAME->value])
                 ->remember(
                     JobTypeEnum::LIST_ALL_JOB_TYPE->value,
                     CacheTTL::HARD->value,
