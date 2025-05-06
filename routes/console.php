@@ -1,6 +1,6 @@
 <?php
 
-use App\Console\Commands\CacheCleanupCommand;
+use App\Console\Commands\Redis\CacheCleanupCommand;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;

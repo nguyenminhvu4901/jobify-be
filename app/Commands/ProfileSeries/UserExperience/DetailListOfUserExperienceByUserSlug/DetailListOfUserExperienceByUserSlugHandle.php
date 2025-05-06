@@ -26,14 +26,14 @@ class DetailListOfUserExperienceByUserSlugHandle
     public function handle(DetailListOfUserExperienceByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserExperienceEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserExperienceEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value,
                     $command
                 )
             );
 
-            $userExperiences = Cache::tags([UserExperienceEnum::TAG_NAME->value])->remember(
+            $userExperiences = redisCacheDB()->tags([UserExperienceEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserExperienceEnum::DETAIL_LIST_USER_EXPERIENCE_BY_USER_SLUG->value,
                     $command

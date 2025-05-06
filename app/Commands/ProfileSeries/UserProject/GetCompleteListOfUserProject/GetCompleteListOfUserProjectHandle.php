@@ -26,7 +26,7 @@ class GetCompleteListOfUserProjectHandle
     public function handle(GetCompleteListOfUserProjectCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProjectEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserProjectEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         UserProjectEnum::COMPLETE_LIST_USER_PROJECT->value,
@@ -34,7 +34,7 @@ class GetCompleteListOfUserProjectHandle
                     )
                 );
 
-            $userProjects = Cache::tags([UserProjectEnum::TAG_NAME->value])->remember(
+            $userProjects = redisCacheDB()->tags([UserProjectEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserProjectEnum::COMPLETE_LIST_USER_PROJECT->value,
                     $command

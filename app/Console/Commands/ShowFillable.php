@@ -14,23 +14,23 @@ class ShowFillable extends Command
         $modelClass = $this->argument('model');
 
         if (!class_exists($modelClass)) {
-            $this->error("Model class {$modelClass} does not exist.");
+            $this->components->error("Model class {$modelClass} does not exist.");
             return 1;
         }
 
         $model = new $modelClass;
 
         if (!method_exists($model, 'getFillable')) {
-            $this->error("Class {$modelClass} is not a valid Eloquent model.");
+            $this->components->error("Class {$modelClass} is not a valid Eloquent model.");
             return 1;
         }
 
         $fillable = $model->getFillable();
 
         if (empty($fillable)) {
-            $this->warn("No fillable fields defined for {$modelClass}.");
+            $this->components->warn("No fillable fields defined for {$modelClass}.");
         } else {
-            $this->info("Fillable fields for {$modelClass}:");
+            $this->components->info("Fillable fields for {$modelClass}:");
             foreach ($fillable as $field) {
                 $this->line("- {$field}");
             }

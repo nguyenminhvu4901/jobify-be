@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserActivityEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobListings\JobListingResource;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserActivityHandle
 {
@@ -27,7 +26,7 @@ class GetCompleteListOfUserActivityHandle
     public function handle(GetCompleteListOfUserActivityCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserActivityEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserActivityEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         UserActivityEnum::COMPLETE_LIST_USER_ACTIVITY->value,
@@ -35,7 +34,7 @@ class GetCompleteListOfUserActivityHandle
                     )
                 );
 
-            $userActivities = Cache::tags([UserActivityEnum::TAG_NAME->value])->remember(
+            $userActivities = redisCacheDB()->tags([UserActivityEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserActivityEnum::COMPLETE_LIST_USER_ACTIVITY->value,
                     $command

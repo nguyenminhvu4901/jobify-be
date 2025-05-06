@@ -25,10 +25,10 @@ class GetListCurrencyHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([CurrencyEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([CurrencyEnum::TAG_NAME->value])->has(
                 CurrencyEnum::LIST_ALL_CURRENCY->value);
 
-            $currencies = Cache::tags([CurrencyEnum::TAG_NAME->value])
+            $currencies = redisHardCacheDB()->tags([CurrencyEnum::TAG_NAME->value])
                 ->remember(
                     CurrencyEnum::LIST_ALL_CURRENCY->value,
                     CacheTTL::HARD->value,

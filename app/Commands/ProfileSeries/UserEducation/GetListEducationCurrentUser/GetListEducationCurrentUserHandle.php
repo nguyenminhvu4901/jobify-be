@@ -25,11 +25,11 @@ class GetListEducationCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserEducationEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserEducationEnum::TAG_NAME->value])->has(
                 UserEducationEnum::LIST_EDUCATION_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userEducation = Cache::tags([UserEducationEnum::TAG_NAME->value])
+            $userEducation = redisCacheDB()->tags([UserEducationEnum::TAG_NAME->value])
                 ->remember(
                     UserEducationEnum::LIST_EDUCATION_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

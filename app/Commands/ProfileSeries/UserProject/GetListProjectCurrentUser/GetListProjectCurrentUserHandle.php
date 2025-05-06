@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserProjectEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserProject\CurrentUserProjectResource;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListProjectCurrentUserHandle
 {
@@ -25,11 +24,11 @@ class GetListProjectCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserProjectEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserProjectEnum::TAG_NAME->value])->has(
                 UserProjectEnum::LIST_PROJECT_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userProjects = Cache::tags([UserProjectEnum::TAG_NAME->value])
+            $userProjects = redisCacheDB()->tags([UserProjectEnum::TAG_NAME->value])
                 ->remember(
                     UserProjectEnum::LIST_PROJECT_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

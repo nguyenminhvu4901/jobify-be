@@ -6,7 +6,6 @@ use App\Enums\RouteNames\JobSeries\JobSalaryTypeEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\JobSeries\JobSalaryTypes\JobSalaryTypeResource;
 use App\Repositories\JobSeries\JobSalaryType\JobSalaryTypeRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListJobSalaryTypeHandler
 {
@@ -25,10 +24,10 @@ class GetListJobSalaryTypeHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([JobSalaryTypeEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([JobSalaryTypeEnum::TAG_NAME->value])->has(
                 JobSalaryTypeEnum::LIST_ALL_JOB_SALARY_TYPE->value);
 
-            $jobSalaryTypes = Cache::tags([JobSalaryTypeEnum::TAG_NAME->value])
+            $jobSalaryTypes = redisHardCacheDB()->tags([JobSalaryTypeEnum::TAG_NAME->value])
                 ->remember(
                     JobSalaryTypeEnum::LIST_ALL_JOB_SALARY_TYPE->value,
                     CacheTTL::HARD->value,

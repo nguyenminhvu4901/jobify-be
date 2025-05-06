@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserCertificationEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserCertification\UserCertificationResource;
 use App\Repositories\ProfileSeries\UserCertification\UserCertificationRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserCertificationHandle
 {
@@ -27,7 +26,7 @@ class GetCompleteListOfUserCertificationHandle
     public function handle(GetCompleteListOfUserCertificationCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserCertificationEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserCertificationEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         UserCertificationEnum::COMPLETE_LIST_USER_CERTIFICATION->value,
@@ -35,7 +34,7 @@ class GetCompleteListOfUserCertificationHandle
                     )
                 );
 
-            $userCertifications = Cache::tags([UserCertificationEnum::TAG_NAME->value])->remember(
+            $userCertifications = redisCacheDB()->tags([UserCertificationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserCertificationEnum::COMPLETE_LIST_USER_CERTIFICATION->value,
                     $command

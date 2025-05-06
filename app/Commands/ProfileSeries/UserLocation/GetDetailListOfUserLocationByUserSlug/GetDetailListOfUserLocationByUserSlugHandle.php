@@ -26,14 +26,14 @@ class GetDetailListOfUserLocationByUserSlugHandle
     public function handle(GetDetailListOfUserLocationByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserLocationEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserLocationEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserLocationEnum::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value,
                     $command
                 )
             );
 
-            $userLocation = Cache::tags([UserLocationEnum::TAG_NAME->value])->remember(
+            $userLocation = redisCacheDB()->tags([UserLocationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserLocationEnum::DETAIL_LIST_USER_LOCATION_BY_USER_SLUG->value,
                     $command

@@ -22,10 +22,10 @@ class GetListAllWorkingDayHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([CompanyWorkingDayEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([CompanyWorkingDayEnum::TAG_NAME->value])->has(
                 CompanyWorkingDayEnum::LIST_ALL_WORKING_DAY->value);
 
-            $companyWorkingDay = Cache::tags([CompanyWorkingDayEnum::TAG_NAME->value])
+            $companyWorkingDay = redisHardCacheDB()->tags([CompanyWorkingDayEnum::TAG_NAME->value])
                 ->remember(
                     CompanyWorkingDayEnum::LIST_ALL_WORKING_DAY->value,
                     CacheTTL::HARD->value,

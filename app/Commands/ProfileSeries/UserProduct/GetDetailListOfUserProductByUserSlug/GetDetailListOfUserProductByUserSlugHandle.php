@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserProductEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserProduct\UserProductResource;
 use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetDetailListOfUserProductByUserSlugHandle
 {
@@ -22,14 +21,14 @@ class GetDetailListOfUserProductByUserSlugHandle
     public function handle(GetDetailListOfUserProductByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProductEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserProductEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserProductEnum::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value,
                     $command
                 )
             );
 
-            $userProduct = Cache::tags([UserProductEnum::TAG_NAME->value])->remember(
+            $userProduct = redisCacheDB()->tags([UserProductEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserProductEnum::DETAIL_LIST_USER_PRODUCT_BY_USER_SLUG->value,
                     $command

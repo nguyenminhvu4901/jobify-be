@@ -6,7 +6,6 @@ use App\Enums\RouteNames\CompanySeries\CompanyScaleEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\CompanySeries\CompanyScale\CompanyScaleResource;
 use App\Repositories\CompanySeries\CompanyScale\CompanyScaleRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListAllCompanyScaleHandler
 {
@@ -25,10 +24,10 @@ class GetListAllCompanyScaleHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([CompanyScaleEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([CompanyScaleEnum::TAG_NAME->value])->has(
                 CompanyScaleEnum::LIST_ALL_COMPANY_SCALE->value);
 
-            $companyScales = Cache::tags([CompanyScaleEnum::TAG_NAME->value])
+            $companyScales = redisHardCacheDB()->tags([CompanyScaleEnum::TAG_NAME->value])
                 ->remember(
                     CompanyScaleEnum::LIST_ALL_COMPANY_SCALE->value,
                     CacheTTL::HARD->value,

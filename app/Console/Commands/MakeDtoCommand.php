@@ -42,6 +42,6 @@ PHP;
 
         File::put($path, $stub);
 
-        $this->info("DTO {$className} created at {$path}");
+        $this->components->info("DTO {$className} created at {$path}");
     }
 }

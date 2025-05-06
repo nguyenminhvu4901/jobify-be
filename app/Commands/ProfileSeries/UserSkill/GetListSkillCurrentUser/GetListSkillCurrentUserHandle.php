@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserSkillEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserSkill\CurrentUserSkillResource;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListSkillCurrentUserHandle
 {
@@ -25,11 +24,11 @@ class GetListSkillCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserSkillEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserSkillEnum::TAG_NAME->value])->has(
                 UserSkillEnum::LIST_SKILL_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userSkills = Cache::tags([UserSkillEnum::TAG_NAME->value])
+            $userSkills = redisCacheDB()->tags([UserSkillEnum::TAG_NAME->value])
                 ->remember(
                     UserSkillEnum::LIST_SKILL_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

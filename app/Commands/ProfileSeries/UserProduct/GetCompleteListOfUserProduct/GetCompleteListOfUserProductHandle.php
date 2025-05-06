@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserProductEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserProduct\UserProductResource;
 use App\Repositories\ProfileSeries\UserProduct\UserProductRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetCompleteListOfUserProductHandle
 {
@@ -26,7 +25,7 @@ class GetCompleteListOfUserProductHandle
     public function handle(GetCompleteListOfUserProductCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserProductEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserProductEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         UserProductEnum::COMPLETE_LIST_USER_PRODUCT->value,
@@ -34,7 +33,7 @@ class GetCompleteListOfUserProductHandle
                     )
                 );
 
-            $userProducts = Cache::tags([UserProductEnum::TAG_NAME->value])->remember(
+            $userProducts = redisCacheDB()->tags([UserProductEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserProductEnum::COMPLETE_LIST_USER_PRODUCT->value,
                     $command

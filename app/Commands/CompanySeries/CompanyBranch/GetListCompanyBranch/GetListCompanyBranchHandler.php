@@ -26,13 +26,13 @@ class GetListCompanyBranchHandler
     public function handle(GetListCompanyBranchCommand $command): array
     {
         try {
-            $cache = Cache::tags([CompanyBranchEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([CompanyBranchEnum::TAG_NAME->value])->has(
                 CompanyBranchEnum::LIST_COMPANY_BRANCH->value .
                 auth()->user()->id .
                 $command->companyId
             );
 
-            $companiesBranch = Cache::tags([CompanyBranchEnum::TAG_NAME->value])->remember(
+            $companiesBranch = redisCacheDB()->tags([CompanyBranchEnum::TAG_NAME->value])->remember(
                 CompanyBranchEnum::LIST_COMPANY_BRANCH->value .
                 auth()->user()->id .
                 $command->companyId,

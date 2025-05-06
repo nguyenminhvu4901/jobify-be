@@ -6,7 +6,6 @@ use App\Enums\RouteNames\CompanySeries\BusinessSectorEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\CompanySeries\BusinessSector\BusinessSectorResource;
 use App\Repositories\CompanySeries\BusinessSector\BusinessSectorRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetListAllBusinessSectorHandler
 {
@@ -22,10 +21,10 @@ class GetListAllBusinessSectorHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([BusinessSectorEnum::TAG_NAME->value])->has(
+            $cache = redisHardCacheDB()->tags([BusinessSectorEnum::TAG_NAME->value])->has(
                 BusinessSectorEnum::LIST_ALL_BUSINESS_SECTOR->value);
 
-            $businessSectors = Cache::tags([BusinessSectorEnum::TAG_NAME->value])
+            $businessSectors = redisHardCacheDB()->tags([BusinessSectorEnum::TAG_NAME->value])
                 ->remember(
                     BusinessSectorEnum::LIST_ALL_BUSINESS_SECTOR->value,
                     CacheTTL::HARD->value,

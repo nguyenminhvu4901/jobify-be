@@ -26,7 +26,7 @@ class GetCompleteListOfUserPrizeHandle
     public function handle(GetCompleteListOfUserPrizeCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserPrizeEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([UserPrizeEnum::TAG_NAME->value])
                 ->has(
                     generateCacheName(
                         UserPrizeEnum::COMPLETE_LIST_USER_PRIZE->value,
@@ -34,7 +34,7 @@ class GetCompleteListOfUserPrizeHandle
                     )
                 );
 
-            $userPrizes = Cache::tags([UserPrizeEnum::TAG_NAME->value])->remember(
+            $userPrizes = redisCacheDB()->tags([UserPrizeEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserPrizeEnum::COMPLETE_LIST_USER_PRIZE->value,
                     $command

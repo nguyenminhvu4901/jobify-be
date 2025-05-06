@@ -6,7 +6,6 @@ use App\Enums\RouteNames\Profile\UserSkillEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\ProfileSeries\UserSkill\UserSkillResource;
 use App\Repositories\ProfileSeries\UserSkill\UserSkillRepository;
-use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class GetDetailListOfUserSkillHandle
@@ -27,14 +26,14 @@ class GetDetailListOfUserSkillHandle
     public function handle(GetDetailListOfUserSkillCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserSkillEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserSkillEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserSkillEnum::DETAIL_LIST_USER_SKILL->value,
                     $command
                 )
             );
 
-            $userSkill = Cache::tags([UserSkillEnum::TAG_NAME->value])
+            $userSkill = redisCacheDB()->tags([UserSkillEnum::TAG_NAME->value])
                 ->remember(
                     generateCacheName(
                         UserSkillEnum::DETAIL_LIST_USER_SKILL->value,

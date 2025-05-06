@@ -26,13 +26,13 @@ class GetDetailListOfUserCourseByUserSlugHandle
     public function handle(GetDetailListOfUserCourseByUserSlugCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserCourseEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserCourseEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserCourseEnum::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value,
                     $command
                 ));
 
-            $userCourses = Cache::tags([UserCourseEnum::TAG_NAME->value])->remember(
+            $userCourses = redisCacheDB()->tags([UserCourseEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserCourseEnum::DETAIL_LIST_USER_COURSE_BY_USER_SLUG->value,
                     $command

@@ -25,11 +25,11 @@ class GetListProductCurrentUserHandle
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([UserProductEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserProductEnum::TAG_NAME->value])->has(
                 UserProductEnum::LIST_PRODUCT_CURRENT_USER->value . auth()->user()->id
             );
 
-            $userProducts = Cache::tags([UserProductEnum::TAG_NAME->value])
+            $userProducts = redisCacheDB()->tags([UserProductEnum::TAG_NAME->value])
                 ->remember(
                     UserProductEnum::LIST_PRODUCT_CURRENT_USER->value . auth()->user()->id,
                     CacheTTL::REMEMBER->value,

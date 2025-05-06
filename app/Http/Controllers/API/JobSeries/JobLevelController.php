@@ -6,7 +6,6 @@ use App\Commands\JobSeries\JobLevel\GetListJobLevel\GetListJobLevelCommand;
 use App\Commands\JobSeries\JobLevel\GetListJobLevel\GetListJobLevelHandler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class JobLevelController extends Controller

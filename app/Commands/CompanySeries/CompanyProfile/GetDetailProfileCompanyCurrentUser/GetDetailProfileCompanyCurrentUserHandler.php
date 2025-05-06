@@ -6,7 +6,6 @@ use App\Enums\RouteNames\CompanySeries\CompanyProfileEnum;
 use App\Enums\TTL\CacheTTL;
 use App\Http\Resources\CompanySeries\CompanyProfile\DetailInformationCompanyCurrentUserResource;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Cache;
 
 class GetDetailProfileCompanyCurrentUserHandler
 {
@@ -17,13 +16,13 @@ class GetDetailProfileCompanyCurrentUserHandler
     public function handle(): array
     {
         try {
-            $cache = Cache::tags([CompanyProfileEnum::TAG_NAME->value])
+            $cache = redisCacheDB()->tags([CompanyProfileEnum::TAG_NAME->value])
                 ->has(
                     CompanyProfileEnum::DETAIL_COMPANY_PROFILE_CURRENT_USER->value .
                     auth()?->user()?->id
                 );
 
-            $companyProfile = Cache::tags([CompanyProfileEnum::TAG_NAME->value])->remember(
+            $companyProfile = redisCacheDB()->tags([CompanyProfileEnum::TAG_NAME->value])->remember(
                 CompanyProfileEnum::DETAIL_COMPANY_PROFILE_CURRENT_USER->value .
                 auth()?->user()?->id,
                 CacheTTL::REMEMBER->value,

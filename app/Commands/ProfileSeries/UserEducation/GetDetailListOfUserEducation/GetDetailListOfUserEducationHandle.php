@@ -26,14 +26,14 @@ class GetDetailListOfUserEducationHandle
     public function handle(GetDetailListOfUserEducationCommand $command): array
     {
         try {
-            $cache = Cache::tags([UserEducationEnum::TAG_NAME->value])->has(
+            $cache = redisCacheDB()->tags([UserEducationEnum::TAG_NAME->value])->has(
                 generateCacheName(
                     UserEducationEnum::DETAIL_LIST_USER_EDUCATION->value,
                     $command
                 )
             );
 
-            $userEducation = Cache::tags([UserEducationEnum::TAG_NAME->value])->remember(
+            $userEducation = redisCacheDB()->tags([UserEducationEnum::TAG_NAME->value])->remember(
                 generateCacheName(
                     UserEducationEnum::DETAIL_LIST_USER_EDUCATION->value,
                     $command

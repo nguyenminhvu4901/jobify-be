@@ -8,7 +8,6 @@ use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
 use App\Entities\JobApplicationSeries\JobApplication\JobApplication;
 use App\Entities\JobApplicationSeries\JobApplicationStatus\JobApplicationStatus;
 use App\Entities\JobSeries\JobListing\JobListing;
-use App\Entities\JobSeries\JobListingDetail\JobListingDetail;
 use App\Entities\ProfileSeries\UserActivity\UserActivity;
 use App\Entities\ProfileSeries\UserCertification\UserCertification;
 use App\Entities\ProfileSeries\UserCourse\UserCourse;
@@ -35,6 +34,7 @@ use App\Observers\Profile\UserLocationObserver;
 use App\Observers\Profile\UserPrizeObserver;
 use App\Observers\Profile\UserProductObserver;
 use App\Observers\Profile\UserObserver;
+use App\Observers\Profile\UserProfileObserver;
 use App\Observers\Profile\UserProjectObserver;
 use App\Observers\Profile\UserSkillObserver;
 use Illuminate\Support\ServiceProvider;
@@ -43,6 +43,7 @@ class ObserverServiceProvider extends ServiceProvider
 {
     protected array $observers = [
         User::class => UserObserver::class,
+
         UserActivity::class => UserActivityObserver::class,
         UserCertification::class => UserCertificationObserver::class,
         UserCourse::class => UserCourseObserver::class,
@@ -53,12 +54,14 @@ class ObserverServiceProvider extends ServiceProvider
         UserProject::class => UserProjectObserver::class,
         UserSkill::class => UserSkillObserver::class,
         UserLocation::class => UserLocationObserver::class,
-        UserProfile::class => UserObserver::class,
+        UserProfile::class => UserProfileObserver::class,
+
         Company::class => CompanyObserver::class,
         CompanyBranch::class => CompanyBranchObserver::class,
         CompanyBenefit::class => CompanyBenefitObserver::class,
+
         JobListing::class => JobListingObserver::class,
-        JobListingDetail::class => JobListingObserver::class,
+
         JobApplication::class => JobApplicationObserver::class,
         JobApplicationStatus::class => JobApplicationObserver::class
     ];

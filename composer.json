@@ -27,14 +27,18 @@
         "predis/predis": "^2.3",
         "prettus/l5-repository": "^2.9",
         "ramsey/uuid": "^4.7",
+        "spatie/fork": "^1.2",
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-data": "^4.15",
         "spatie/laravel-medialibrary": "^11.11",
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-query-builder": "^6.3",
         "staudenmeir/eloquent-has-many-deep": "^1.20",
+        "symfony/http-client": "^7.2",
+        "symfony/mailgun-mailer": "^7.2",
         "tymon/jwt-auth": "^2.1",
-        "zircote/swagger-php": "^4.11"
+        "zircote/swagger-php": "^4.11",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
@@ -57,7 +61,8 @@
             "app/Helpers/Global/AppHelper.php",
             "app/Helpers/Global/TimeZone.php",
             "app/Helpers/Global/CollectionHelper.php",
-            "app/Helpers/Global/PaginationHelper.php"
+            "app/Helpers/Global/PaginationHelper.php",
+            "app/Helpers/Redis/RedisHelper.php"
         ]
     },
     "autoload-dev": {
