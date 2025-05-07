@@ -11,6 +11,7 @@ use App\Services\JobSeries\JobListingDetail\JobListingDetailService;
 use App\Services\JobSeries\JobLocation\JobLocationService;
 use App\Services\JobSeries\JobPosition\JobPositionService;
 use App\Services\JobSeries\JobSalary\JobSalaryService;
+use App\Services\Observer\ObserverFlag;
 
 class StoreJobHandler
 {
@@ -21,7 +22,8 @@ class StoreJobHandler
         protected JobListingDetailService $jobListingDetailService,
         protected JobLocationService $jobLocationService,
         protected JobContactService $jobContactService,
-        protected JobPositionService $jobPositionService
+        protected JobPositionService $jobPositionService,
+        protected ObserverFlag $flag
     )
     {
     }
@@ -60,6 +62,8 @@ class StoreJobHandler
      */
     private function storeJobListingRelationship(StoreJobCommand $command, JobListing $jobListing): void
     {
+        $this->flag->disabled = true;
+
         $this->jobSalaryService->massStoreJobSalary($command->jobSalaries, $jobListing->id);
 
         $this->jobListingDetailService->storeJobListingDetail(
@@ -81,5 +85,7 @@ class StoreJobHandler
         $this->jobContactService->storeJobContacts(
             $command->jobContacts ?? null, $jobListing->id
         );
+
+        $this->flag->disabled = false;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entities\JobSeries\JobLocation\Traits;
 
+use App\Entities\JobSeries\JobListing\JobListing;
 use App\Entities\Locate\District\District;
 use App\Entities\Locate\Province\Province;
 use App\Entities\Locate\Ward\Ward;
@@ -31,5 +32,13 @@ trait JobLocationRelationship
     public function ward(): BelongsTo
     {
         return $this->belongsTo(Ward::class, 'ward_id', 'id')->withDefault();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function jobListing(): BelongsTo
+    {
+        return $this->belongsTo(JobListing::class, 'job_listing_id', 'id');
     }
 }

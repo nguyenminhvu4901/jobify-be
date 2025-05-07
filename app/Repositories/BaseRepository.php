@@ -39,6 +39,11 @@ abstract class BaseRepository extends Repository
         return $this->model->where('id', $userId)->select($columns)->first();
     }
 
+    public function findById($id)
+    {
+        return $this->model->find($id);
+    }
+
     /**
      * @param $userSlug
      * @param array|string $relationship

@@ -23,6 +23,7 @@ use App\Http\Requests\JobSeries\JobListing\JobStatusRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Joselfonseca\LaravelTactician\CommandBusInterface;
+use Laravel\Scout\Searchable;
 
 class JobListingController extends Controller
 {

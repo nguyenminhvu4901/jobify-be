@@ -5,9 +5,17 @@ namespace App\Providers;
 use App\Entities\CompanySeries\Company\Company;
 use App\Entities\CompanySeries\CompanyBenefit\CompanyBenefit;
 use App\Entities\CompanySeries\CompanyBranch\CompanyBranch;
+use App\Entities\CompanySeries\CompanyBusinessSector\CompanyBusinessSector;
+use App\Entities\CompanySeries\CompanyOperationType\CompanyOperationType;
 use App\Entities\JobApplicationSeries\JobApplication\JobApplication;
 use App\Entities\JobApplicationSeries\JobApplicationStatus\JobApplicationStatus;
+use App\Entities\JobSeries\JobContact\JobContact;
 use App\Entities\JobSeries\JobListing\JobListing;
+use App\Entities\JobSeries\JobListingDetail\JobListingDetail;
+use App\Entities\JobSeries\JobLocation\JobLocation;
+use App\Entities\JobSeries\JobModerationStatusLog\JobModerationStatusLog;
+use App\Entities\JobSeries\JobPosition\JobPosition;
+use App\Entities\JobSeries\JobSalary\JobSalary;
 use App\Entities\ProfileSeries\UserActivity\UserActivity;
 use App\Entities\ProfileSeries\UserCertification\UserCertification;
 use App\Entities\ProfileSeries\UserCourse\UserCourse;
@@ -31,12 +39,25 @@ use App\Observers\Profile\UserCourseObserver;
 use App\Observers\Profile\UserEducationObserver;
 use App\Observers\Profile\UserExperienceObserver;
 use App\Observers\Profile\UserLocationObserver;
+use App\Observers\Profile\UserObserver;
 use App\Observers\Profile\UserPrizeObserver;
 use App\Observers\Profile\UserProductObserver;
-use App\Observers\Profile\UserObserver;
 use App\Observers\Profile\UserProfileObserver;
 use App\Observers\Profile\UserProjectObserver;
 use App\Observers\Profile\UserSkillObserver;
+use App\Observers\Searchable\CompanySeries\Company\CompanySyncJobListingObserver;
+use App\Observers\Searchable\CompanySeries\CompanyBenefit\BenefitSyncJobObserver;
+use App\Observers\Searchable\CompanySeries\CompanyBranch\BranchSyncJobObserver;
+use App\Observers\Searchable\CompanySeries\CompanyBusinessSector\BusinessSectorSyncJobObserver;
+use App\Observers\Searchable\CompanySeries\CompanyOperationType\OperationTypeSyncJobObserver;
+use App\Observers\Searchable\JobSeries\JobContact\ContactSyncJobObserver;
+use App\Observers\Searchable\JobSeries\JobListingDetail\JobDetailSyncJobObserver;
+use App\Observers\Searchable\JobSeries\JobLocation\LocationSyncJobObserver;
+use App\Observers\Searchable\JobSeries\JobModerationStatusLog\ModerationStatusLogSyncJobObserver;
+use App\Observers\Searchable\JobSeries\JobPosition\PositionSyncJobObserver;
+use App\Observers\Searchable\JobSeries\JobSalary\SalarySyncJobObserver;
+use App\Services\Observer\ObserverFlag;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class ObserverServiceProvider extends ServiceProvider
@@ -56,14 +77,35 @@ class ObserverServiceProvider extends ServiceProvider
         UserLocation::class => UserLocationObserver::class,
         UserProfile::class => UserProfileObserver::class,
 
-        Company::class => CompanyObserver::class,
-        CompanyBranch::class => CompanyBranchObserver::class,
-        CompanyBenefit::class => CompanyBenefitObserver::class,
+        Company::class => [
+            CompanyObserver::class,
+            CompanySyncJobListingObserver::class
+        ],
+
+        CompanyBranch::class => [
+            CompanyBranchObserver::class,
+            BranchSyncJobObserver::class
+        ],
+
+        CompanyBenefit::class => [
+            CompanyBenefitObserver::class,
+            BenefitSyncJobObserver::class
+        ],
+
+        CompanyOperationType::class => OperationTypeSyncJobObserver::class,
+        CompanyBusinessSector::class => BusinessSectorSyncJobObserver::class,
 
         JobListing::class => JobListingObserver::class,
 
+        JobLocation::class => LocationSyncJobObserver::class,
+        JobSalary::class => SalarySyncJobObserver::class,
+        JobPosition::class => PositionSyncJobObserver::class,
+        JobContact::class => ContactSyncJobObserver::class,
+        JobModerationStatusLog::class => ModerationStatusLogSyncJobObserver::class,
+        JobListingDetail::class => JobDetailSyncJobObserver::class,
+
         JobApplication::class => JobApplicationObserver::class,
-        JobApplicationStatus::class => JobApplicationObserver::class
+        JobApplicationStatus::class => JobApplicationObserver::class,
     ];
 
     /**
@@ -71,8 +113,17 @@ class ObserverServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        foreach ($this->observers as $model => $observer) {
-            $model::observe($observer);
+        foreach ($this->observers as $model => $observers) {
+            foreach (Arr::flatten(Arr::wrap($observers)) as $observer) {
+                $model::observe($observer);
+            }
         }
+    }
+
+    public function register(): void
+    {
+        $this->app->scoped(ObserverFlag::class, function () {
+            return new ObserverFlag();
+        });
     }
 }
