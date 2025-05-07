@@ -10,6 +10,7 @@ use App\Services\JobSeries\JobListingDetail\JobListingDetailService;
 use App\Services\JobSeries\JobLocation\JobLocationService;
 use App\Services\JobSeries\JobPosition\JobPositionService;
 use App\Services\JobSeries\JobSalary\JobSalaryService;
+use App\Services\Observer\ObserverFlag;
 
 class UpdateJobHandler
 {
@@ -20,7 +21,8 @@ class UpdateJobHandler
         protected JobListingDetailService $jobListingDetailService,
         protected JobLocationService $jobLocationService,
         protected JobContactService $jobContactService,
-        protected JobPositionService $jobPositionService
+        protected JobPositionService $jobPositionService,
+        protected ObserverFlag $flag
     )
     {
     }
@@ -57,6 +59,8 @@ class UpdateJobHandler
      */
     private function updateJobListingRelationship(UpdateJobCommand $command): void
     {
+        $this->flag->disabled = true;
+
         $this->jobSalaryService->processUpdateJobSalary(
             $command->jobSalaries, $command->jobListingId
         );
@@ -78,5 +82,7 @@ class UpdateJobHandler
         $this->jobContactService->processUpsertJobContacts(
             $command->jobContacts ?? null, $command->jobListingId
         );
+
+        $this->flag->disabled = false;
     }
 }

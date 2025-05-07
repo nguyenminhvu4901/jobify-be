@@ -56,8 +56,6 @@ use App\Repositories\JobSeries\JobVisibilityStatus\JobVisibilityStatusRepository
 use App\Repositories\JobSeries\JobVisibilityStatus\JobVisibilityStatusRepositoryEloquent;
 use App\Repositories\JobSeries\Position\PositionRepository;
 use App\Repositories\JobSeries\Position\PositionRepositoryEloquent;
-use App\Repositories\JobSeries\Salary\SalaryRepository;
-use App\Repositories\JobSeries\Salary\SalaryRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepository;
 use App\Repositories\ProfileSeries\UserActivity\UserActivityRepositoryEloquent;
 use App\Repositories\ProfileSeries\UserActivityResource\UserActivityResourceRepository;
@@ -143,7 +141,6 @@ class RepositoryServiceProvider extends ServiceProvider
         JobPositionRepository::class => JobPositionRepositoryEloquent::class,
         JobContactRepository::class => JobContactRepositoryEloquent::class,
         JobListingDetailRepository::class => JobListingDetailRepositoryEloquent::class,
-        SalaryRepository::class => SalaryRepositoryEloquent::class,
         JobApplicationRepository::class => JobApplicationRepositoryEloquent::class,
         ApplicationStatusRepository::class => ApplicationStatusRepositoryEloquent::class,
         JobApplicationStatusRepository::class => JobApplicationStatusRepositoryEloquent::class,
