@@ -179,6 +179,13 @@ stdout_logfile=/var/www/storage/logs/worker.log
 stderr_logfile=/var/www/storage/logs/worker-error.log
 stopwaitsecs=3600
 ```
+* Nếu không sử dụng supervisor, chạy các lệnh
+```
+php artisan queue:work
+php artisan schedule:work
+php artisan reverb:start
+php artisan horizon
+```
 * Config and start supervisor
 ```
 tiếp tục thoát file và chạy các câu lệnh 
