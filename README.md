@@ -149,7 +149,7 @@ phpunit
 composer dump-autoload
 php artisan storage:link
 php artisan l5-swagger:generate
-php artisan scout:import "App\Entities\JobSeries\JobListing\JobListing" -v
+php artisan scout:import "App\Entities\JobSeries\JobListing\JobListing" -v || php artisan elastic:update job_listings_index
 ```
 
 5. Build and install supervisor (For macos)
