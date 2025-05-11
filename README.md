@@ -198,7 +198,7 @@ thêm path file conf để chạy tiến trình, ở cuối file có [include]
 thêm dường dẫn đến file conf
 ví dụ:
 [include]
-files = /etc/supervisor/conf.d/*.conf /var/www/laravel-worker.conf /var/www/laravel-schedule.conf /var/www/laravel-horizon.conf
+files = /etc/supervisor/conf.d/*.conf /var/www/laravel-worker.conf /var/www/laravel-schedule.conf /var/www/laravel-horizon.conf /var/www/laravel-reverb.conf
 
 tiếp tục chạy các câu lệnh
 supervisord -c /etc/supervisor/supervisord.conf
