@@ -181,17 +181,17 @@ return [
 
     'defaults' => [
         'supervisor-1' => [
-            'connection' => 'queue',
-            'queue' => ['default'],
-            'balance' => 'auto',
-            'autoScalingStrategy' => 'time',
-            'maxProcesses' => 1,
-            'maxTime' => 0,
-            'maxJobs' => 0,
-            'memory' => 128,
-            'tries' => 1,
-            'timeout' => 60,
-            'nice' => 0,
+            'connection' => 'redis', // Kết nối Redis đã cấu hình ở trên trong config/database.php (sử dụng kết nối Redis mặc định).
+            'queue' => ['default'], // Tên queue mà supervisor sẽ giám sát, phải trùng với tên queue trong cấu hình Redis.
+            'balance' => 'auto', // Cân bằng số tiến trình tự động.
+            'autoScalingStrategy' => 'time', // Cách thức tự động mở rộng số tiến trình dựa trên thời gian.
+            'maxProcesses' => 1, // Số lượng tối đa tiến trình cho supervisor này.
+            'maxTime' => 0, // Thời gian tối đa mà mỗi tiến trình được phép chạy (0 nghĩa là không giới hạn).
+            'maxJobs' => 0, // Số lượng job tối đa mà một tiến trình có thể xử lý (0 nghĩa là không giới hạn).
+            'memory' => 128, // Bộ nhớ tối đa cho mỗi tiến trình (128MB).
+            'tries' => 1, // Số lần thử lại khi job thất bại.
+            'timeout' => 60, // Thời gian timeout cho mỗi job (60 giây).
+            'nice' => 0, // Độ ưu tiên cho tiến trình (có thể tăng hoặc giảm độ ưu tiên).
         ],
     ],
 

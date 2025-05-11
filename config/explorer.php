@@ -54,6 +54,6 @@ return [
      * When set to true, sends all the logs (requests, responses, etc.) from the Elasticsearch PHP SDK
      * to a PSR-3 logger. Disabled by default for performance.
      */
-    'logging' => env('EXPLORER_ELASTIC_LOGGER_ENABLED', false),
-    'logger' => null,
+    'logging' => env('EXPLORER_ELASTIC_LOGGER_ENABLED', true),
+    'logger' => 'daily',
 ];

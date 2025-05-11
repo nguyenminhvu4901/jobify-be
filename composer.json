@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2|^8.3|^8.4",
+        "ext-pdo": "*",
         "babenkoivan/elastic-scout-driver": "^4.0",
         "cviebrock/eloquent-sluggable": "^12.0",
         "darkaonline/l5-swagger": "^8.6",
@@ -17,6 +18,7 @@
         "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^12.10.2",
         "laravel/horizon": "^5.31",
+        "laravel/octane": "^2.9",
         "laravel/pulse": "^1.4",
         "laravel/reverb": "^1.0",
         "laravel/scout": "^10.14",
@@ -37,8 +39,7 @@
         "symfony/http-client": "^7.2",
         "symfony/mailgun-mailer": "^7.2",
         "tymon/jwt-auth": "^2.1",
-        "zircote/swagger-php": "^4.11",
-        "ext-pdo": "*"
+        "zircote/swagger-php": "^4.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
