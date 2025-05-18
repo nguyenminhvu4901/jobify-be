@@ -5,6 +5,10 @@ namespace App\Repositories\JobSeries\JobListing;
 use App\Entities\JobSeries\JobListing\JobListing;
 use App\Enums\RouteNames\JobSeries\JobModerationStatusEnum;
 use App\Repositories\BaseRepository;
+use Illuminate\Database\Eloquent\Builder;
+use JeroenG\Explorer\Domain\Query\QueryProperties\TrackTotalHits;
+use JeroenG\Explorer\Domain\Syntax\Matching;
+use JeroenG\Explorer\Domain\Syntax\Nested;
 
 class JobListingRepositoryEloquent extends BaseRepository implements JobListingRepository
 {
@@ -46,5 +50,16 @@ class JobListingRepositoryEloquent extends BaseRepository implements JobListingR
             $companyId,
             $jobListingId
         );
+    }
+
+    public function searchAndFilterJob(array $data)
+    {
+        $a = $this->model->search($data['search'])
+            ->field('job_listing_detail123.description123')
+            ->property(TrackTotalHits::all())
+
+            ->paginate(100);
+
+        dd($a);
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Touhidurabir\ModelSanitize\Sanitizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -105,7 +106,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         SoftDeletes,
         UserRelationship,
         UserScope,
-        CanResetPassword;
+        CanResetPassword,
+        Sanitizable;
 
     /**
      * The attributes that are mass assignable.
@@ -173,6 +175,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function getJWTCustomClaims(): array
     {
-        return [];
+        return [
+            'user_id' => $this->id,
+            'full_name' => $this->full_name,
+            'email' => $this->email
+        ];
     }
 }

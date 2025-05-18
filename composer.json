@@ -24,6 +24,7 @@
         "laravel/scout": "^10.14",
         "laravel/telescope": "^5.7",
         "laravel/tinker": "^2.9",
+        "mews/purifier": "^3.4",
         "mongodb/laravel-mongodb": "^5.1",
         "pion/laravel-chunk-upload": "^1.5",
         "predis/predis": "^2.3",
@@ -38,6 +39,7 @@
         "staudenmeir/eloquent-has-many-deep": "^1.20",
         "symfony/http-client": "^7.2",
         "symfony/mailgun-mailer": "^7.2",
+        "touhidurabir/laravel-model-sanitize": "^1.1",
         "tymon/jwt-auth": "^2.1",
         "zircote/swagger-php": "^4.11"
     },

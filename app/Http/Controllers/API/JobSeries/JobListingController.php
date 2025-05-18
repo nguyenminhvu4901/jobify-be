@@ -10,6 +10,8 @@ use App\Commands\JobSeries\JobListing\GetListAllJob\GetListAllJobCommand;
 use App\Commands\JobSeries\JobListing\GetListAllJob\GetListAllJobHandler;
 use App\Commands\JobSeries\JobListing\GetListAllJobByCompany\GetListAllJobByCompanyCommand;
 use App\Commands\JobSeries\JobListing\GetListAllJobByCompany\GetListAllJobByCompanyHandler;
+use App\Commands\JobSeries\JobListing\SearchJob\SearchJobCommand;
+use App\Commands\JobSeries\JobListing\SearchJob\SearchJobHandler;
 use App\Commands\JobSeries\JobListing\StoreJob\StoreJobCommand;
 use App\Commands\JobSeries\JobListing\StoreJob\StoreJobHandler;
 use App\Commands\JobSeries\JobListing\UpdateJob\UpdateJobCommand;
@@ -18,6 +20,7 @@ use App\Commands\JobSeries\JobListing\UpdateJobActiveStatus\UpdateJobActiveStatu
 use App\Commands\JobSeries\JobListing\UpdateJobActiveStatus\UpdateJobActiveStatusHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobSeries\JobListing\JobSaveRequest;
+use App\Http\Requests\JobSeries\JobListing\JobGetRequest;
 use App\Http\Requests\JobSeries\JobListing\JobSearchRequest;
 use App\Http\Requests\JobSeries\JobListing\JobStatusRequest;
 use Illuminate\Foundation\Http\FormRequest;
@@ -34,6 +37,29 @@ class JobListingController extends Controller
         protected CommandBusInterface $bus
     )
     {
+    }
+
+    public function searchJob(JobSearchRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(SearchJobCommand::class, SearchJobHandler::class);
+
+        $result = $this->bus->dispatch(SearchJobCommand::withForm($request));
+
+        if(!empty($result['data'])){
+
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message'],
+                cache: $result['cache'] ?? null,
+                pagination: $result['pagination'] ?? null
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null
+        );
     }
 
     /**
@@ -67,10 +93,10 @@ class JobListingController extends Controller
     }
 
     /**
-     * @param JobSearchRequest $request
+     * @param JobGetRequest $request
      * @return JsonResponse
      */
-    public function getListAllJobsByCompany(JobSearchRequest $request): JsonResponse
+    public function getListAllJobsByCompany(JobGetRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetListAllJobByCompanyCommand::class,
@@ -97,10 +123,10 @@ class JobListingController extends Controller
     }
 
     /**
-     * @param JobSearchRequest $request
+     * @param JobGetRequest $request
      * @return JsonResponse
      */
-    public function getDetailJobByJobId(JobSearchRequest $request): JsonResponse
+    public function getDetailJobByJobId(JobGetRequest $request): JsonResponse
     {
         $this->bus->addHandler(
             GetDetailJobByJobIdCommand::class,
