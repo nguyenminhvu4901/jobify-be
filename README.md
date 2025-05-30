@@ -262,7 +262,7 @@ http://localhost:5601/app/home#/
 Giao diện Kibana dùng để hiển thị Elasticsearch
 ```
 
-6. MinIO
+7. MinIO
 ```
 [http://localhost:5601/app/home#/](http://localhost:9001/browser)
 Giao diện MinIO dùng để quản lý file đã lưu
