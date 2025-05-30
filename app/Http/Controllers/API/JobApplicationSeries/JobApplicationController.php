@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\JobApplicationSeries;
 
 use App\Commands\JobApplicationSeries\JobApplication\GetDetailJobApplicationJobSeeker\GetDetailJobApplicationJobSeekerCommand;
 use App\Commands\JobApplicationSeries\JobApplication\GetDetailJobApplicationJobSeeker\GetDetailJobApplicationJobSeekerHandler;
+use App\Commands\JobApplicationSeries\JobApplication\GetJobApplyCount\GetJobApplyCountCommand;
+use App\Commands\JobApplicationSeries\JobApplication\GetJobApplyCount\GetJobApplyCountHandler;
 use App\Commands\JobApplicationSeries\JobApplication\GetListJobApplicationByJobSeeker\GetListJobApplicationByJobSeekerCommand;
 use App\Commands\JobApplicationSeries\JobApplication\GetListJobApplicationByJobSeeker\GetListJobApplicationByJobSeekerHandler;
 use App\Commands\JobApplicationSeries\JobApplication\GetListJobSeekerApplyJob\GetListJobSeekerApplyJobCommand;
@@ -163,6 +165,29 @@ class JobApplicationController extends Controller
                 data: $result['data'],
                 message: $result['message'],
                 cache: $result['cache'] ?? null
+            );
+        }
+
+        return $this->responseError(
+            message: $result['message'],
+            error: $result['error'] ?? null,
+            statusCode: $result['status_code'] ?? null,
+        );
+    }
+
+    public function getJobApplyCount(JobApplicationRequest $request): JsonResponse
+    {
+        $this->bus->addHandler(
+            GetJobApplyCountCommand::class,
+            GetJobApplyCountHandler::class
+        );
+
+        $result = $this->bus->dispatch(GetJobApplyCountCommand::withForm($request));
+
+        if(!empty($result['data'])){
+            return $this->responseSuccess(
+                data: $result['data'],
+                message: $result['message']
             );
         }
 

@@ -183,6 +183,7 @@ return [
         'job_listing_detail_not_belongs_to_company' => "Chi tiết bài đăng tuyển dụng không thuộc về công ty đã chọn.",
         'job_application_not_found' => 'Không tìm thấy đơn ứng tuyển tương ứng.',
         'job_application_status_not_belongs_to_application' => 'Trạng thái đơn ứng tuyển không thuộc về đơn ứng tuyển đã chọn.',
+        'max_job_applies' => 'Bạn đã apply công việc này tối đa :max lần.',
     ],
 
     /*

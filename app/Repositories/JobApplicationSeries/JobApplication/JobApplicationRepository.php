@@ -22,4 +22,6 @@ interface JobApplicationRepository
     ): mixed;
 
     public function syncJobApplicationStatus(int $jobApplicationId, int|null $applicationStatusId = null);
+
+    public function countJobApply(int $jobApplicationId, int $userId): int;
 }

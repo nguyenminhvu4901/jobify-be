@@ -19,4 +19,8 @@ enum JobApplicationEnum: string
     case JOB_SEEKER_APPLY_JOB = 'jobSeekerApplyJob';
 
     case STORE_JOB_SEEKER_APPLY_JOB = 'storeJobSeekerApplyJob';
+
+    case GET_JOB_APPLY_COUNT = 'jobApplyCount';
+
+    case MAX_APPLIES = '3';
 }

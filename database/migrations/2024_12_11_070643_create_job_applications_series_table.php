@@ -32,6 +32,7 @@ return new class extends Migration
 
             $table->date('applied_at')->comment('Ngày ứng tuyển')->default(now());
             $table->text('cover_letter')->comment('Thư giới thiệu đến nhà tuyển dụng')->nullable();
+            $table->unsignedTinyInteger('apply_number')->default(1);
 
             $table->foreign('user_id')->references('id')
                 ->on('users')

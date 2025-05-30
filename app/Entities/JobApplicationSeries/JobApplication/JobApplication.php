@@ -11,7 +11,7 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $user_id Người ứng tuyển
@@ -65,5 +65,7 @@ class JobApplication extends BaseModel implements Transformable
 
         'applied_at',
         'cover_letter',
+
+        'apply_number'
     ];
 }

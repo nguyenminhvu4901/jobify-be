@@ -29,9 +29,9 @@ Route::group(
                 JobApplicationController::class, 'storeJobSeekerApplyJob'
             ])->name(JobApplicationEnum::STORE_JOB_SEEKER_APPLY_JOB->value);
 
-            Route::post('/store-job-seeker-apply-job', [
-                JobApplicationController::class, 'storeJobSeekerApplyJob'
-            ])->name(JobApplicationEnum::STORE_JOB_SEEKER_APPLY_JOB->value);
+            Route::get('/get-job-apply-count', [
+                JobApplicationController::class, 'getJobApplyCount'
+            ])->name(JobApplicationEnum::GET_JOB_APPLY_COUNT->value);
 
             Route::patch('/update-job-application-status', [
                 JobApplicationController::class, 'updateJobApplicationStatus'

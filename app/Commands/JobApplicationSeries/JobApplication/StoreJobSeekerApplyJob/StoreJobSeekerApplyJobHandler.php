@@ -2,6 +2,7 @@
 
 namespace App\Commands\JobApplicationSeries\JobApplication\StoreJobSeekerApplyJob;
 
+use App\Enums\RouteNames\JobApplicationSeries\JobApplicationEnum;
 use App\Http\Resources\JobApplicationSeries\JobApplication\JobApplicationResource;
 use App\Repositories\JobApplicationSeries\JobApplication\JobApplicationRepository;
 use App\Services\JobApplicationSeries\ApplicationCV\ApplicationCVService;
@@ -59,6 +60,16 @@ class StoreJobSeekerApplyJobHandler
      */
     private function prepareJobApplicationData(StoreJobSeekerApplyJobCommand $command): array
     {
+        $maxApplies = JobApplicationEnum::MAX_APPLIES->value;
+
+        $appliedCount = $this->jobApplicationRepository->countJobApply(
+            $command->jobListingId, $command->userId
+        );
+
+        if ($appliedCount >= $maxApplies) {
+            return [];
+        }
+
         return [
             'user_id' => $command->userId,
             'job_listing_id' => $command->jobListingId,
@@ -66,7 +77,8 @@ class StoreJobSeekerApplyJobHandler
             'email' => $command->email,
             'phone_number' => $command->phoneNumber,
             'applied_at' => Carbon::now(),
-            'cover_letter' => $command->coverLetter
+            'cover_letter' => $command->coverLetter,
+            'apply_number' => ($appliedCount + 1)
         ];
     }
 }

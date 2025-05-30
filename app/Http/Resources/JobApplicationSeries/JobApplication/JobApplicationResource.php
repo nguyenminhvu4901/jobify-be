@@ -22,6 +22,7 @@ class JobApplicationResource extends JsonResource
             'user' => UserResource::make($this->users),
             'applied_at' => formatDate($this->applied_at),
             'cover_letter' => $this->cover_letter,
+            'apply_number' => $this->apply_number,
             'application_statuses' => JobApplicationStatusResource::collection($this->applicationStatuses),
             'application_cv' => ApplicationCVResource::make($this->applicationCV),
             'job_listing' => JobListingResource::make($this->jobListings),

@@ -50,6 +50,12 @@ class JobApplicationRepositoryEloquent extends BaseRepository implements JobAppl
             ->paginate( $limit ?? PaginateEnum::PAGINATE_DEFAULT->value);
     }
 
+    /**
+     * @param int $jobListingId
+     * @param array|string $relationships
+     * @param $limit
+     * @return mixed
+     */
     public function getByJobListingIdAndJobIdWithRelationships(int $jobListingId, array|string $relationships, $limit = null,): mixed
     {
         return $this->model->with($relationships)
@@ -58,12 +64,29 @@ class JobApplicationRepositoryEloquent extends BaseRepository implements JobAppl
             ->paginate( $limit ?? PaginateEnum::PAGINATE_DEFAULT->value);
     }
 
-    public function syncJobApplicationStatus(int $jobApplicationId, int|null $applicationStatusId = null)
+    /**
+     * @param int $jobApplicationId
+     * @param int|null $applicationStatusId
+     * @return mixed
+     */
+    public function syncJobApplicationStatus(int $jobApplicationId, int|null $applicationStatusId = null): mixed
     {
         $jobApplication = $this->model->findOrFail($jobApplicationId);
 
         $statusId = $applicationStatusId ?? ApplicationStatusEnum::PENDING->value;
 
         return $jobApplication->applicationStatuses()->sync([$statusId]);
+    }
+
+    /**
+     * @param int $jobListingId
+     * @param int $userId
+     * @return int
+     */
+    public function countJobApply(int $jobListingId, int $userId): int
+    {
+        return $this->model->where('user_id', $userId)
+            ->where('job_listing_id', $jobListingId)
+            ->count('id');
     }
 }

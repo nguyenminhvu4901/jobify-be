@@ -39,6 +39,10 @@ class JobApplicationRequest extends FormRequest
             JobApplicationEnum::PREFIX->value . JobApplicationEnum::LIST_JOB_SEEKER_APPLY_JOB->value => [
                 'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id']
             ],
+            JobApplicationEnum::PREFIX->value . JobApplicationEnum::GET_JOB_APPLY_COUNT->value => [
+                'user_id' => ['bail', 'required', 'integer', 'exists:users,id'],
+                'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id']
+            ],
             default => []
         };
     }
