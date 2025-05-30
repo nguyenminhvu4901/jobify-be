@@ -4,7 +4,7 @@ namespace App\Http\Requests\CompanySeries\Company;
 
 use App\Enums\RouteNames\CompanySeries\CompanyProfileEnum;
 use App\Rules\Company\CompanyBelongsToUserRule;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

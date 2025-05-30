@@ -179,7 +179,7 @@ return [
             'username' => env('REDIS_USERNAME'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '1'),
+            'database' => env('REDIS_DB', '1'),
         ],
 
         'hard_cache' => [
@@ -188,7 +188,7 @@ return [
             'username' => env('REDIS_USERNAME'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '2'),
+            'database' => env('REDIS_DB', '2'),
         ],
 
         'queue' => [
@@ -197,7 +197,7 @@ return [
             'username' => env('REDIS_USERNAME'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '3'),
+            'database' => env('REDIS_DB', '3'),
         ],
 
     ],

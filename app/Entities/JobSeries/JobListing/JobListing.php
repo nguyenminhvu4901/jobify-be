@@ -109,6 +109,7 @@ class JobListing extends BaseModel implements Transformable, Explored
         BaseScopeTrait,
         SoftDeletes;
 
+
     protected $table = JobListingEnum::TABLE->value;
 
     public const FILLABLE_FIELDS = [
@@ -157,10 +158,7 @@ class JobListing extends BaseModel implements Transformable, Explored
 
     public function mappableAs(): array
     {
-        return [
-            'id' => 'keyword',
-            'title' => 'text'
-        ];
+        return JobListingSearchableDTO::prepareMappableAs();
     }
 
     /**

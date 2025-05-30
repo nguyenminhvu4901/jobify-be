@@ -5,7 +5,7 @@ namespace App\Http\Requests\Auth;
 use App\Rules\Location\CheckDistrictByProvinceRule;
 use App\Rules\PasswordRule;
 use App\Rules\PhoneNumberRule;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

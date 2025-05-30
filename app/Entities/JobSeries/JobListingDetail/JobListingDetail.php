@@ -5,11 +5,12 @@ namespace App\Entities\JobSeries\JobListingDetail;
 use App\Entities\JobSeries\JobListingDetail\Traits\JobListingDetailScope;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Mews\Purifier\Casts\CleanHtml;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $job_listing_id
@@ -48,5 +49,13 @@ class JobListingDetail extends BaseModel implements Transformable
         'income',
         'benefit',
         'working_hour'
+    ];
+
+    protected $casts = [
+        'description' => CleanHtml::class,
+        'requirement' => CleanHtml::class,
+        'income' => CleanHtml::class,
+        'benefit' => CleanHtml::class,
+        'working_hour' => CleanHtml::class
     ];
 }

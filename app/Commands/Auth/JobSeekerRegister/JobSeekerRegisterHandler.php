@@ -4,10 +4,8 @@ namespace App\Commands\Auth\JobSeekerRegister;
 
 use App\Enums\DefaultRole;
 use App\Http\Resources\Auth\JobSeekerRegisterResource;
-use App\Mail\Auth\Register\JobSeekerRegisterMail;
 use App\Notifications\UserRegisteredNotification;
 use App\Repositories\User\UserRepository;
-use Illuminate\Support\Facades\Mail;
 
 class JobSeekerRegisterHandler
 {

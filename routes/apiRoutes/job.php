@@ -100,6 +100,9 @@ Route::group(
         });
 
         Route::group(['prefix' => 'job-listing', 'as' => 'jobListing.'], function () {
+            Route::get('/search-job', [JobListingController::class, 'searchJob'])
+            ->name(JobListingEnum::SEARCH_JOB->value);
+
             Route::get('/list-all-jobs', [
                 JobListingController::class, 'getListAllJobs'
             ])->name(JobListingEnum::LIST_ALL_JOBS->value);

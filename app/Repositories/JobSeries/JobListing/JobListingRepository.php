@@ -28,4 +28,6 @@ interface JobListingRepository
     public function getJobListingsByCompanyId(int $companyId, array $relationships = []): mixed;
 
     public function checkExistsByCompanyIdAndJobListingId(int $companyId, int $jobListingId);
+
+    public function searchAndFilterJob(array $data);
 }

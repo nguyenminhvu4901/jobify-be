@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckGuest;
+use App\Http\Middleware\EnsureIdempotency;
 use App\Http\Middleware\Language;
 use App\Http\Middleware\SanitizeInput;
 use App\Http\Middleware\SetContextUrl;
@@ -28,7 +29,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->alias([
             'auth' => Authenticate::class,
-            'guest' => CheckGuest::class
+            'guest' => CheckGuest::class,
+            'idempotency' => EnsureIdempotency::class
         ]);
         $middleware->group('api', [
             StartSession::class

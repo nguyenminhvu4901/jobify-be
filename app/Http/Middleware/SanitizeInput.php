@@ -30,7 +30,7 @@ class SanitizeInput
     private function sanitizeData(mixed $data): mixed
     {
         if (is_string($data)) {
-            return trim(strip_tags($data));
+            return trim($data);
         } elseif (is_numeric($data)) {
             return $data + 0;
         } elseif (is_array($data)) {

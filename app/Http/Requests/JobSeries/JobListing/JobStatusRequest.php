@@ -4,7 +4,7 @@ namespace App\Http\Requests\JobSeries\JobListing;
 
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
 use App\Rules\JobSeries\JobListing\CompanyBelongsToJobListingRule;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

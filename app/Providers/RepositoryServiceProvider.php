@@ -98,7 +98,7 @@ use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
-    public $singletons = [
+    public array $repositories = [
         UserRepository::class => UserRepositoryEloquent::class,
         CompanyRepository::class => CompanyRepositoryEloquent::class,
         CompanyBranchRepository::class => CompanyBranchRepositoryEloquent::class,
@@ -146,4 +146,16 @@ class RepositoryServiceProvider extends ServiceProvider
         JobApplicationStatusRepository::class => JobApplicationStatusRepositoryEloquent::class,
         ApplicationCVRepository::class => ApplicationCVRepositoryEloquent::class
     ];
+
+    /**
+     * @return void
+     */
+    public function register(): void
+    {
+        $repositoriesRegister = $this->repositories;
+
+        foreach ($repositoriesRegister as $abstract => $concrete) {
+            $this->app->scoped($abstract, $concrete);
+        }
+    }
 }

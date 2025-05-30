@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Profile\Avatar;
 
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

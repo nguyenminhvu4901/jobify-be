@@ -75,4 +75,194 @@ class JobListingSearchableDTO
             'company' => optional($jobListing->companies, fn($company) => CompanySearchableDTO::formatCompany($company)),
         ];
     }
+
+    public static function prepareMappableAs(): array
+    {
+        return [
+            'id' => 'keyword',
+            'title' => 'text',
+            'slug' => 'keyword',
+            'quantity_recruitment' => 'integer',
+            'publish_date' => 'date',
+            'expiry_date' => 'date',
+
+            'gender' => [
+                'id' => 'keyword',
+                'gender' => 'keyword',
+            ],
+
+            'active_status' => [
+                'id' => 'keyword',
+                'status' => 'keyword',
+            ],
+
+            'job_visibility_status' => [
+                'id' => 'keyword',
+                'name' => 'keyword',
+            ],
+
+            'job_moderation_status' => [
+                'id' => 'keyword',
+                'name' => 'keyword',
+            ],
+
+            'job_listing_detail' => [
+                'id' => 'keyword',
+                'job_listing_id' => 'integer',
+                'description' => 'text',
+                'requirement' => 'text',
+                'income' => 'text',
+                'benefit' => 'text',
+                'working_hour' => 'text',
+            ],
+
+            'job_salaries' => [
+                'id' => 'keyword',
+                'job_listing_id' => 'integer',
+                'currency' => [
+                    'id' => 'keyword',
+                    'name' => 'keyword',
+                ],
+                'job_salary_type' => [
+                    'id' => 'keyword',
+                    'name' => 'keyword',
+                ],
+                'from' => 'float',
+                'to' => 'float'
+            ],
+
+            'job_positions' => [
+                'id' => 'keyword',
+                'name' => 'text',
+                'priority' => 'integer',
+            ],
+
+            'job_contact' => [
+                'id' => 'keyword',
+                'job_listing_id' => 'integer',
+                'full_name' => 'text',
+                'email' => 'text',
+                'phone_number' => 'text'
+            ],
+
+            'job_locations' => [
+                'id' => 'keyword',
+                'job_listing_id' => 'integer',
+                'branch_name' => 'text',
+                'province' => [
+                    'id' => 'keyword',
+                    'code' => 'text'
+                ],
+                'district' => [
+                    'id' => 'keyword',
+                    'code' => 'text',
+                ],
+                'ward' => [
+                    'id' => 'keyword',
+                    'code' => 'text',
+                ],
+                'address' => 'text'
+            ],
+
+            'job_age_ranges' => [
+                'id' => 'keyword',
+                'min_age' => 'integer',
+                'max_age' => 'integer',
+                'display' => 'text'
+            ],
+
+            'job_types' => [
+                'id' => 'keyword',
+                'type' => 'text',
+            ],
+
+            'job_levels' => [
+                'id' => 'keyword',
+                'title' => 'text',
+                'description' => 'text'
+            ],
+
+            'job_experiences' => [
+                'id' => 'keyword',
+                'name' => 'text',
+            ],
+
+            'job_education_levels' => [
+                'id' => 'keyword',
+                'name' => 'text',
+            ],
+
+            'company' => [
+                'id' => 'keyword',
+                'user_id' => 'keyword',
+                'name' => 'text',
+                'slug' => 'keyword',
+                'tax_code' => 'text',
+
+                'company_scale' => [
+                    'id' => 'keyword',
+                    'name' => 'text',
+                    'description' => 'text',
+                    'display' => 'text'
+                ],
+
+                'gender' => [
+                    'id' => 'keyword',
+                    'gender' => 'keyword',
+                ],
+
+                'company_status' => [
+                    'id' => 'keyword',
+                    'status' => 'keyword',
+                ],
+
+                'company_working_day' => [
+                    'id' => 'keyword',
+                    'working_day' => 'keyword',
+                ],
+
+                'website' => 'text',
+                'description' => 'text',
+                'avatar' => 'text',
+
+                'company_branches' => [
+                    'id' => 'keyword',
+                    'company_id' => 'integer',
+                    'branch_name' => 'text',
+                    'province' => [
+                        'id' => 'keyword',
+                        'code' => 'text'
+                    ],
+                    'district' => [
+                        'id' => 'keyword',
+                        'code' => 'text',
+                    ],
+                    'ward' => [
+                        'id' => 'keyword',
+                        'code' => 'text',
+                    ],
+                    'address' => 'text'
+                ],
+
+                'operation_types' => [
+                    'id' => 'keyword',
+                    'name' => 'text',
+                    'description' => 'text'
+                ],
+
+                'business_sectors' => [
+                    'id' => 'keyword',
+                    'name' => 'text',
+                    'description' => 'text'
+                ],
+
+                'company_benefits' => [
+                    'id' => 'keyword',
+                    'company_id' => 'keyword',
+                    'benefit_name' => 'text',
+                    'description' => 'text'
+                ]
+            ]
+        ];
+    }
 }

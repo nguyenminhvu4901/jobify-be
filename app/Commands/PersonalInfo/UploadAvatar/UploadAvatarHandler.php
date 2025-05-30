@@ -2,9 +2,10 @@
 
 namespace App\Commands\PersonalInfo\UploadAvatar;
 
+use App\Enums\Storage\PathStorageEnum;
 use App\Http\Resources\ProfileSeries\UserProfile\UserProfileResource;
 use App\Repositories\User\UserRepository;
-use App\Traits\ImageHandler;
+use App\Traits\MediaResources\ImageHandler;
 
 class UploadAvatarHandler
 {
@@ -28,15 +29,15 @@ class UploadAvatarHandler
 
             if(!empty($command->avatar)){
                 if(is_string($command->avatar)){
-                    if($command->avatar == $user->avatar){
-                        $userInfo = $this->userRepository->find($user->id);
+                    if($command->avatar == $user?->avatar){
+                        $userInfo = $this->userRepository->find($user?->id);
                     }else{
                         $userInfo = $this->processAvatarDefault($user);
                     }
                 }else{
-                    $path = config('constants.path_avatar');
+                    $path = PathStorageEnum::PATH_AVATAR->value;
 
-                    $pathStorage = $this->storeImage($command->avatar, $path, $user);
+                    $pathStorage = $this->updateImage($command->avatar, $path, $user->avatar, $user);
 
                     $userInfo = $this->userRepository->update([
                         'avatar' => $pathStorage

@@ -5,8 +5,8 @@ namespace App\Services\ProfileSeries\UserPrize;
 use App\Enums\DefaultContentType;
 use App\Repositories\ProfileSeries\UserPrizeResource\UserPrizeResourceRepository;
 use App\Services\ProfileSeries\AttachmentResource\AttachmentResourceService;
-use App\Traits\ImageHandler;
-use App\Traits\VideoHandler;
+use App\Traits\MediaResources\ImageHandler;
+use App\Traits\MediaResources\VideoHandler;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 

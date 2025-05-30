@@ -12,6 +12,8 @@ enum JobListingEnum: string
 
     case LIST_ALL_JOBS = 'listAllJobs';
 
+    case SEARCH_JOB = 'searchJob';
+
     case LIST_ALL_JOBS_BY_COMPANY = 'listAllJobsByCompany';
 
     case DETAIL_JOB_BY_JOB_ID = 'detailJobByJobId';

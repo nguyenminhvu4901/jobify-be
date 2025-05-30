@@ -65,11 +65,11 @@ return [
 
         'redis' => [
             'driver' => 'redis',
-            'connection' => env('REDIS_QUEUE_CONNECTION', 'queue'),
-            'queue' => env('REDIS_QUEUE', 'default'),
-            'retry_after' => (int) env('REDIS_QUEUE_RETRY_AFTER', 900),
-            'block_for' => null,
-            'after_commit' => false,
+            'connection' => env('REDIS_QUEUE_CONNECTION', 'queue'), // Lấy tên kết nối Redis từ .env hoặc mặc định là 'queue'. Kết nối này sẽ trỏ đến cấu hình Redis trong config/database.php.
+            'queue' => env('REDIS_QUEUE', 'default'), // Tên queue sẽ được sử dụng (mặc định là 'default'), tên này sẽ khớp với queue trong Redis.
+            'retry_after' => (int) env('REDIS_QUEUE_RETRY_AFTER', 900), // Thời gian retry job sau khi không thành công, tính bằng giây (mặc định 900s).
+            'block_for' => null, // Cài đặt thời gian block cho việc lấy job, nếu null thì không chặn.
+            'after_commit' => false, // Đảm bảo job không được xử lý cho đến khi commit giao dịch cơ sở dữ liệu.
         ],
 
     ],
