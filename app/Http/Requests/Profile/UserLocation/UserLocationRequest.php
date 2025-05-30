@@ -5,7 +5,7 @@ namespace App\Http\Requests\Profile\UserLocation;
 use App\Enums\RouteNames\Profile\UserLocationEnum;
 use App\Rules\Location\CheckDistrictByProvinceRule;
 use App\Rules\Location\CheckWardByDistrictRule;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

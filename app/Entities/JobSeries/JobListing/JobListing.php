@@ -158,10 +158,7 @@ class JobListing extends BaseModel implements Transformable, Explored
 
     public function mappableAs(): array
     {
-        return [
-            'job_listing_detail.description' => 'text'
-        ];
-//        return JobListingSearchableDTO::prepareMappableAs();
+        return JobListingSearchableDTO::prepareMappableAs();
     }
 
     /**

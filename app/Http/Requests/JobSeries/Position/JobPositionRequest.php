@@ -3,7 +3,7 @@
 namespace App\Http\Requests\JobSeries\Position;
 
 use App\Enums\RouteNames\JobSeries\PositionEnum;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

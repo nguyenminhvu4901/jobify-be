@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\ValidationResponse;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Response;

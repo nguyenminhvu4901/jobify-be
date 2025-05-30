@@ -4,7 +4,7 @@ namespace App\Http\Requests\JobSeries\JobListing;
 
 use App\Enums\RouteNames\JobSeries\JobListingEnum;
 use App\Traits\CustomDate\NormalizeDateTrait;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

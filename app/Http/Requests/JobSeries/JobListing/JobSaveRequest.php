@@ -12,7 +12,7 @@ use App\Rules\JobSeries\JobSalary\SalaryBelongsToJobListingRule;
 use App\Rules\JobSeries\JobSalary\SalaryRangeRule;
 use App\Rules\PhoneNumberRule;
 use App\Traits\CustomDate\NormalizeDateTrait;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

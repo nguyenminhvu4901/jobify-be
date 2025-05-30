@@ -24,6 +24,7 @@
         "laravel/scout": "^10.14",
         "laravel/telescope": "^5.7",
         "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.29",
         "mews/purifier": "^3.4",
         "mongodb/laravel-mongodb": "^5.1",
         "pion/laravel-chunk-upload": "^1.5",
@@ -65,7 +66,9 @@
             "app/Helpers/Global/TimeZone.php",
             "app/Helpers/Global/CollectionHelper.php",
             "app/Helpers/Global/PaginationHelper.php",
-            "app/Helpers/Redis/RedisHelper.php"
+            "app/Helpers/Redis/RedisHelper.php",
+            "app/Helpers/Storage/StorageHelper.php",
+            "app/Helpers/Global/RelationshipHelper.php"
         ]
     },
     "autoload-dev": {
@@ -76,7 +79,10 @@
             "app/Helpers/Global/AppHelper.php",
             "app/Helpers/Global/TimeZone.php",
             "app/Helpers/Global/CollectionHelper.php",
-            "app/Helpers/Global/PaginationHelper.php"
+            "app/Helpers/Global/PaginationHelper.php",
+            "app/Helpers/Redis/RedisHelper.php",
+            "app/Helpers/Storage/StorageHelper.php",
+            "app/Helpers/Global/RelationshipHelper.php"
         ]
     },
     "scripts": {

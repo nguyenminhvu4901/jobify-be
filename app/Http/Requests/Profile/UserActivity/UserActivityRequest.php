@@ -7,7 +7,7 @@ use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -41,7 +41,7 @@ class UserActivityRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_activity_id' => ['bail', 'required', 'integer', 'exists:user_activities,id'],
                 'attachments.*.user_activity_resource_id' => [
-                    'bail', 'nullable', 'integer', 'exists:user_activity_resources,id',
+                    'bail', 'nullable', 'integer', 'exists:user_activity_resources,id', 'distinct',
                     new UniqueArrayValues('attachments.*.user_activity_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_activity_id'),

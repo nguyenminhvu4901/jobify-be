@@ -55,7 +55,9 @@ class StoreUserCourseHandle
             }
 
             return [
-                'data' => UserCourseResource::make($result['data']),
+                'data' => UserCourseResource::make(
+                    refreshWithRelations($result['data'], ['userCourseResources'])
+                ),
                 'message' => __('messages.profile.user_update_profile_success'),
             ];
         }catch (\Exception $e){

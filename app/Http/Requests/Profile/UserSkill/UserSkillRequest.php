@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Profile\UserSkill;
 
 use App\Enums\RouteNames\Profile\UserSkillEnum;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

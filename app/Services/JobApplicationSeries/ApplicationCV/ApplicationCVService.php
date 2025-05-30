@@ -3,15 +3,16 @@
 namespace App\Services\JobApplicationSeries\ApplicationCV;
 
 use App\Entities\JobApplicationSeries\JobApplication\JobApplication;
+use App\Enums\Storage\PathStorageEnum;
 use App\Repositories\JobApplicationSeries\ApplicationCV\ApplicationCVRepository;
 use App\Repositories\User\UserRepository;
-use App\Traits\ImageHandler;
+use App\Traits\MediaResources\FileHandler;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 class ApplicationCVService
 {
-    use ImageHandler;
+    use FileHandler;
 
     /**
      * @param ApplicationCVRepository $applicationCVRepository
@@ -52,13 +53,16 @@ class ApplicationCVService
     {
         $user = $this->userRepository->find($jobApplication->user_id);
 
+        $dateTime = 'cv_' . now()->format('Ymd_His');
+
         $path = sprintf(
-            'files/cv/%s/%s',
+            PathStorageEnum::PATH_CSV->value,
             $jobApplication?->jobListings?->slug,
-            extractEmailPrefix($user->email)
+            extractEmailPrefix($user->email),
+            $dateTime
         );
 
-        return $this->storeImage($uploadedFile, $path, $user);
+        return $this->storeFile($uploadedFile, $path);
     }
 
     /**

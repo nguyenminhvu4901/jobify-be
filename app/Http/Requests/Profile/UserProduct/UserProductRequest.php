@@ -7,7 +7,7 @@ use App\Rules\Resource\ExistsInResourceRelation;
 use App\Rules\Resource\UniqueArrayValues;
 use App\Traits\CustomDate\NormalizeDateTrait;
 use App\Traits\CustomValidatorAfter\ValidatesAttachmentsTrait;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -46,7 +46,7 @@ class UserProductRequest extends FormRequest
                 'user_slug' => ['bail', 'required', 'string', 'exists:users,slug'],
                 'user_product_id' => ['bail', 'required', 'integer', 'exists:user_products,id'],
                 'attachments.*.user_product_resource_id' => [
-                    'bail', 'nullable', 'integer', 'exists:user_product_resources,id',
+                    'bail', 'nullable', 'integer', 'exists:user_product_resources,id', 'distinct',
                     new UniqueArrayValues('attachments.*.user_product_resource_id'),
                     new ExistsInResourceRelation(
                         $this->input('user_product_id'),

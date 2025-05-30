@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\MediaResources;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 trait ImageHandler
@@ -19,11 +18,11 @@ trait ImageHandler
         {
             $prefixEmail = extractEmailPrefix($user->email);
 
-            $fileName = $prefixEmail . '-' . Str::random(50).'.'.$file->extension();
+            $fileName = $prefixEmail . '_' . now()->format('Ymd_His') . '_' . Str::random(8) . '.' . $file->extension();
 
-            $file->storeAs('public/'.$path.'/'.$fileName);
+            storageMinIO()->putFileAs($path, $file, $fileName);
 
-            return asset('storage/'.$path.'/'.$fileName);
+            return storageMinIO()->url($path . '/' . $fileName);
         }
 
         return null;
@@ -57,11 +56,11 @@ trait ImageHandler
 
         $path = parse_url($absolutePath, PHP_URL_PATH);
 
-        $path = ltrim($path, '/storage');
+        $path = Str::replaceFirst('/' . bucketMinIO() . '/', '', $path);
 
-        if (Storage::disk('public')->exists($path)) {
+        if (storageMinIO()->exists($path)) {
 
-            return Storage::disk('public')->delete($path);
+            return storageMinIO()->delete($path);
         } else {
 
             return false;

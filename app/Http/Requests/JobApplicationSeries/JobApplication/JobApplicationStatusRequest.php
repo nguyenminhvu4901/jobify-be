@@ -5,7 +5,7 @@ namespace App\Http\Requests\JobApplicationSeries\JobApplication;
 use App\Enums\RouteNames\JobApplicationSeries\ApplicationStatusEnum;
 use App\Rules\JobApplicationSeries\JobApplicationStatus\JobApplicationBelongsToJobApplicationStatusRule;
 use App\Traits\CustomDate\NormalizeDateTrait;
-use App\Traits\FailedValidation;
+use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

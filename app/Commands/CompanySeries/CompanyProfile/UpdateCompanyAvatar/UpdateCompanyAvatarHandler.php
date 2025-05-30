@@ -2,9 +2,10 @@
 
 namespace App\Commands\CompanySeries\CompanyProfile\UpdateCompanyAvatar;
 
+use App\Enums\Storage\PathStorageEnum;
 use App\Http\Resources\CompanySeries\CompanyProfile\CompanyProfileResource;
 use App\Repositories\CompanySeries\Company\CompanyRepository;
-use App\Traits\ImageHandler;
+use App\Traits\MediaResources\ImageHandler;
 
 class UpdateCompanyAvatarHandler
 {
@@ -36,9 +37,9 @@ class UpdateCompanyAvatarHandler
                         $companyInfo = $this->processAvatarDefault($company);
                     }
                 }else{
-                    $path = config('constants.path_company_avatar');
+                    $path = PathStorageEnum::PATH_COMPANY_AVATAR->value;
 
-                    $pathStorage = $this->storeImage($command->avatar, $path, $user);
+                    $pathStorage = $this->updateImage($command->avatar, $path, $company->avatar, $user);
 
                     $companyInfo =  $this->companyRepository->updateDataWithTransaction([
                         'avatar' => $pathStorage
