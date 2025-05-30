@@ -3,6 +3,7 @@
 namespace App\Http\Requests\JobApplicationSeries\JobApplication;
 
 use App\Enums\RouteNames\JobApplicationSeries\JobApplicationEnum;
+use App\Rules\JobApplicationSeries\JobApplication\MaxJobAppliesRule;
 use App\Rules\PhoneNumberRule;
 use App\Traits\ValidationResponse\FailedValidation;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -30,7 +31,7 @@ class SaveJobApplicationRequest extends FormRequest
 
         return match ($routeName) {
             JobApplicationEnum::PREFIX->value . JobApplicationEnum::STORE_JOB_SEEKER_APPLY_JOB->value => [
-                'user_id' => ['bail', 'required', 'integer', 'exists:users,id'],
+                'user_id' => ['bail', 'required', 'integer', 'exists:users,id', new MaxJobAppliesRule($this->input('job_listing_id'))],
                 'job_listing_id' => ['bail', 'required', 'integer', 'exists:job_listings,id'],
                 'full_name' => ['bail', 'required', 'string'],
                 'email' => ['bail', 'required', 'email', 'string'],
