@@ -67,6 +67,11 @@ ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
 KIBANA_HTTP_PORT=5601
 
 ELK_VERSION=7.9.1
+
+MINIO_PORT=9000
+MINIO_CONSOLE_PORT=9001
+MINIO_ROOT_USER=laradock
+MINIO_ROOT_PASSWORD=laradock
 ```
 
 3. sh .env in php8.3.ini in php-fpm:
@@ -128,7 +133,7 @@ cp .env.example .env
 2. Run docker:
 ```sh
 cd laradock
-docker compose up -d mysql nginx phpmyadmin workspace redis mongo elasticsearch kibana
+docker compose up -d mysql nginx phpmyadmin workspace redis mongo elasticsearch kibana minio
 ```
 
 3. Open workspace:
@@ -255,6 +260,12 @@ Elasticsearch
 ```
 http://localhost:5601/app/home#/
 Giao diện Kibana dùng để hiển thị Elasticsearch
+```
+
+6. MinIO
+```
+[http://localhost:5601/app/home#/](http://localhost:9001/browser)
+Giao diện MinIO dùng để quản lý file đã lưu
 ```
 
 
