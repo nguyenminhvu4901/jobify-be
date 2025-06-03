@@ -24,6 +24,14 @@ class StoreJobSeekerApplyJobHandler
     public function handle(StoreJobSeekerApplyJobCommand $command): array
     {
         try {
+            $saveData = $this->prepareJobApplicationData($command);
+
+            if(empty($saveData)){
+                return [
+                    'message' => __('messages.job-application.job_application_max'),
+                ];
+            }
+
             $result = $this->jobApplicationRepository->storeDataWithTransaction(
                 $this->prepareJobApplicationData($command)
             );
@@ -31,7 +39,7 @@ class StoreJobSeekerApplyJobHandler
             if(empty($result['data'])){
 
                 return [
-                    'message' => __('messages.company.company_update_profile_error'),
+                    'message' => __('messages.job-application.job_application_update_profile_error'),
                     'error' => $result['error'] ?? null
                 ];
             }
@@ -42,13 +50,13 @@ class StoreJobSeekerApplyJobHandler
 
             return [
                 'data' => JobApplicationResource::make($result['data']),
-                'message' => __('messages.profile.user_update_profile_success'),
+                'message' => __('messages.profile.job_application_update_profile_success'),
             ];
 
         }catch (\Exception $e){
 
             return [
-                'message' => __('messages.company.company_update_profile_error'),
+                'message' => __('messages.job-application.job_application_update_profile_error'),
                 'error' => $e
             ];
         }

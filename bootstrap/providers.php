@@ -10,9 +10,10 @@ return [
     App\Providers\RelationshipServiceProvider::class,
     App\Providers\RepositoryServiceProvider::class,
     App\Providers\TelescopeServiceProvider::class,
+    App\Providers\ViewServiceProvider::class,
     Joselfonseca\LaravelTactician\Providers\LaravelTacticianServiceProvider::class,
+    Mews\Purifier\PurifierServiceProvider::class,
     Prettus\Repository\Providers\RepositoryServiceProvider::class,
     Spatie\Permission\PermissionServiceProvider::class,
     Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-    Mews\Purifier\PurifierServiceProvider::class,
 ];
