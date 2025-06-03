@@ -49,6 +49,7 @@ return [
         'job_application_update_profile_error' => 'Lưu thất bại',
         'job_application_destroy_profile_success' => 'Xóa thành công',
         'job_application_destroy_profile_error' => 'Xóa thất bại',
+        'job_application_max' => 'Ứng tuyển không thành công vì đã hết số lần được phép ứng tuyển công việc này.'
     ],
 
     'account_is_not_registered' => 'Tài khoản chưa được đăng ký',

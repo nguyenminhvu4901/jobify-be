@@ -49,6 +49,7 @@ return [
         'job_application_update_profile_error' => 'Failed to save',
         'job_application_destroy_profile_success' => 'Deleted successfully',
         'job_application_destroy_profile_error' => 'Failed to delete',
+        'job_application_max' => 'Job application failed because you have reached the maximum number of applications allowed for this job.'
     ],
 
     'account_is_not_registered' => 'User is not registered',
