@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Macros\CollectionMacros;
+use App\Macros\StrMacros;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,8 +22,7 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Collection::macro('toUpper', function () {
-            return $this->map(fn($value) => strtoupper($value));
-        });
+        StrMacros::register();
+        CollectionMacros::register();
     }
 }
