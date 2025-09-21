@@ -6,6 +6,7 @@ return [
     App\Providers\HorizonServiceProvider::class,
     App\Providers\MacroServiceProvider::class,
     App\Providers\ObserverServiceProvider::class,
+    App\Providers\OctaneServiceProvider::class,
     App\Providers\RateLimitServiceProvider::class,
     App\Providers\RelationshipServiceProvider::class,
     App\Providers\RepositoryServiceProvider::class,
